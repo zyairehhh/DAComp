@@ -33,10 +33,18 @@ model_config = {
         "api_key": os.getenv("CUSTOM_MODEL_API_KEY", "YOUR_API_KEY"),
         "generate_kwargs": {"max_tokens": 2048, "temperature": 0},
     },
+    "deepseek-v3.2": {
+        "provider": "http",
+        "model_name": "deepseek-v3.2",
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "api_key": os.getenv("BAILIAN_API_KEY", "YOUR_API_KEY"),
+        "generate_kwargs": {"max_tokens": 16384, "temperature": 0},
+    },
 }
 
 VISION_CAPABLE_MODEL_CONFIGS = {
     "gemini-2.5-flash",
     "gpt-4.1-2025-04-14",
     "example_vision_model",
+    "deepseek-v3.2"
 }

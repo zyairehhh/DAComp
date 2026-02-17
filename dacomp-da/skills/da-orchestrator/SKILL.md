@@ -22,6 +22,11 @@ Guide an agent to select and sequence DA skills based solely on the user questio
 - Use composition recipes in `references/composition-recipes.md`.
 - Keep the sequence short but complete (definition → computation → analysis → conclusion).
 
+### 4. Read Skills When Needed
+- Skills live under `/workspace/dacomp-da/skills/<skill-name>/SKILL.md`.
+- When you decide to use a skill, **read its `SKILL.md` and any needed files in `references/`**.
+- If you are unsure about method details or output format, consult the relevant skill before proceeding.
+
 ### 4. Enforce Evidence and Reproducibility
 - Require at least one table/KPI per requirement.
 - If a claim is made, tie it to a number or table.

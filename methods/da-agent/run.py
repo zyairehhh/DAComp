@@ -121,10 +121,11 @@ def filter_task_configs(task_configs: List[Dict], args: argparse.Namespace) -> L
 def build_stage_task_config(stage_label: str, task_config: Dict, source_dir: Path, instance_root: Path) -> Dict:
     config = copy.deepcopy(task_config)
     task_data_dir = source_dir / task_config["instance_id"]
+    skills_dir = (source_dir.parent / "skills").resolve()
     config_steps = [
         {
             "type": "copy_all_subfiles",
-            "parameters": {"dirs": [str(task_data_dir)]},
+            "parameters": {"dirs": [str(task_data_dir), str(skills_dir)]},
         }
     ]
     config["config"] = config_steps

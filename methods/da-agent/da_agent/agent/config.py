@@ -135,6 +135,13 @@ model_config = {
         "base_url": default_http_base,
         "api_key_env": "ARK_AUTH_TOKEN",
     },
+    "deepseek-v3.2": {
+        "provider": "http",
+        "base_url_env": "DASHSCOPE_API_URL",
+        # Use full OpenAI-compatible chat completions endpoint
+        "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1/chat/completions",
+        "api_key_env": "BAILIAN_API_KEY",
+    },
     "Doubao-Seed-1.6-thinking": {
         "provider": "http",
         "base_url_env": "ARK_API_URL",
