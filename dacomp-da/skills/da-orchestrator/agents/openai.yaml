@@ -1,0 +1,4 @@
+interface:
+  display_name: "DA Orchestrator"
+  short_description: "Route questions to DA skills without rubrics"
+  default_prompt: "Decompose the question into requirements, map each to an archetype, select a minimal skill sequence, and output an execution plan with required artifacts."

@@ -1,0 +1,1838 @@
+{
+  "counts": {
+    "1.1.A": 207,
+    "1.2.A": 165,
+    "1.3.A": 69,
+    "1.4.A": 25,
+    "1.5.A": 16,
+    "2.1.A": 180,
+    "2.2.A": 154,
+    "2.3.A": 71,
+    "2.4.A": 18,
+    "2.5.A": 9,
+    "2.5.B": 5,
+    "2.5.C": 2,
+    "3.1.A": 134,
+    "3.2.A": 105,
+    "1.1.B": 104,
+    "1.1.C": 43,
+    "2.1.B": 127,
+    "2.1.C": 51,
+    "3.2.B": 70,
+    "1.2.B": 92,
+    "1.3.B": 28,
+    "1.3.C": 8,
+    "1.6.A": 4,
+    "1.6.B": 2,
+    "1.7.A": 4,
+    "2.2.B": 96,
+    "2.3.B": 38,
+    "1.4.B": 8,
+    "3.3.A": 37,
+    "4.1.A": 98,
+    "4.1.B": 72,
+    "1.1.D": 13,
+    "2.1.D": 14,
+    "1.2.C": 37,
+    "1.2.D": 8,
+    "1.2.E": 4,
+    "1.2.F": 2,
+    "1.1.E": 9,
+    "2.1.E": 8,
+    "2.2.C": 29,
+    "2.2.D": 6,
+    "2.2.E": 4,
+    "2.2.F": 4,
+    "3.1.B": 88,
+    "3.1.C": 29,
+    "1.1.F": 2,
+    "3.1.D": 4,
+    "2.6.A": 2,
+    "2.7.A": 2,
+    "2.7.B": 2,
+    "2.8.A": 2,
+    "2.9.A": 2,
+    "2.9.B": 2,
+    "2.10.A": 2,
+    "2.10.B": 2,
+    "3.1.E": 2,
+    "3.1.F": 2,
+    "1.4.C": 4,
+    "2.3.C": 9,
+    "3.2.C": 11,
+    "4.2.A": 66,
+    "4.2.B": 50,
+    "4.2.C": 6,
+    "5.1.A": 56,
+    "5.2.A": 33,
+    "1.3.D": 4,
+    "2.1.F": 2,
+    "2.1.G": 2,
+    "2.3.D": 2,
+    "1.5.B": 2,
+    "4.1.C": 14,
+    "5.1.B": 37,
+    "5.1.C": 8,
+    "2.4.B": 2,
+    "2.4.C": 1,
+    "3.2.D": 1,
+    "3.4.A": 2,
+    "3.3.B": 11,
+    "5.2.B": 15,
+    "3.3.C": 2,
+    "4.3.A": 8,
+    "4.3.B": 2,
+    "6.1.A": 15,
+    "6.1.B": 10,
+    "6.2.A": 2,
+    "6.2.B": 2,
+    "5.3.A": 2
+  },
+  "examples": {
+    "1.1.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  ",
+          "  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  ",
+          "  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  ",
+          "  Sco"
+        ]
+      },
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "-  Sub-criterion 1.1.A.1 [1 point | Completeness]: Group all data by Sales Month and Major Category Name, then compute the total Sales Amount for each Major Category.",
+          "-  Sub-criterion 1.1.A.2 [1 point | Completeness]: Compute the total Sales Amount for every Major Category. If only some major categories are selected and calculated after sampling, this item receives no points.",
+          "- Sub-criterion 1.1."
+        ]
+      },
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 1.1.A.1 [2 points | Completeness]: From the tables, filter all data where Region Name is \"China\" and use Per capita GDP (yuan/person) to represent the level of economic development. For each year, divide Industrial Water Consumption (100 million m³) by the corresponding Total Water Consumption (100 million m³) to obtain that year’s industrial water share. Finally, compute the corre"
+        ]
+      }
+    ],
+    "1.2.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  ",
+          "  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  ",
+          "  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective fa"
+        ]
+      },
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "- Sub-criterion 1.2.A.1 [1 point | Completeness]: Compute monthly Sales Amount and month-over-month indicators for all major categories, and provide a specific summary of the growth trend.",
+          "- Sub-criterion 1.2.A.2 [2 points | Accuracy]: Accurately compute the month-over-month growth amount or month-over-month growth rate for each category in different months. Either the growth amount or rate can b"
+        ]
+      },
+      {
+        "case": "dacomp-005",
+        "snippet": [
+          "- Sub-criterion 1.2.A.1 [1 point | Completeness]: Include at least one sales-scale-related feature such as `Sales Quantity` or `Total Logistics Revenue` in the comparison between low-margin orders and normal orders.",
+          "- Sub-criterion 1.2.A.2 [2 points | Accuracy]: When citing reference numbers, allow a fluctuation up to 0.005% around the documented values.  Low-margin orders average 6.727 in `Sales"
+        ]
+      }
+    ],
+    "1.3.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 1.3.A.1 [1 point | Completeness] PD mapping and calibration plan  ",
+          "  Requirements: Provide a monotonic S→PD function (logistic or equivalent), initial parameter sources, and a calibration plan (samples, window, evaluation metrics).  ",
+          "  Scoring conditions: Function form and parameter meanings are clear; calibration steps are executable (data sources, evaluation methods).",
+          "- Sub-crit"
+        ]
+      },
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.3.A.1 [1 point | Completeness]: Group by product category and compute each category’s Profit contribution and volatility metrics (e.g., coefficient of variation, standard deviation, etc.).",
+          "- Sub-criterion 1.3.A.2 [2 points | Accuracy]: Volatility calculations are accurate and identify high-volatility product categories.",
+          "  Coefficient of variation reference data:",
+          "  Bedding Sets ("
+        ]
+      },
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 1.3.A.1 [1 point | Completeness] Visualization and elements  ",
+          "  - Key points: Overall histogram (indicate binning method/width) + per-type boxplots (median/IQR/whiskers/outliers); or provide equivalent statistical substitutes.  ",
+          "  - Scoring: Both visualization types (or equivalent substitutes) provided → 1 point; otherwise 0 points.",
+          "- Sub-criterion 1.3.A.2 [1 point | Accuracy] IQR"
+        ]
+      }
+    ],
+    "1.4.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 1.4.A.1 [1 point | Completeness] Bucket boundaries  ",
+          "  Requirements: Define boundaries (or equivalent thresholds) for A/B/C/D buckets based on PD, with formulas/SQL snippets attached.  ",
+          "  Scoring conditions: Boundaries are clear and executable; sample checks confirm correct bucket assignment.",
+          "- Sub-criterion 1.4.A.2 [1 point | Accuracy] Regulatory parameter mapping  ",
+          "  Requirement"
+        ]
+      },
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.4.A.1 [1 point | Completeness]: Group by province to analyze each province in South China for Profit contribution and volatility (e.g., coefficient of variation, standard deviation, etc.).",
+          "- Sub-criterion 1.4.A.2 [1 point | Accuracy]: Identify high-volatility provinces (e.g., Hainan Province, Hubei Province—smaller markets) and stable provinces (e.g., Guangdong Province).",
+          "  Refe"
+        ]
+      },
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 1.4.A.1 [1 point | Completeness] Method selection rationale  ",
+          "  - Key points: First perform normality (Shapiro/QQ) and homogeneity (Levene); if assumptions hold, use ANOVA + Tukey; otherwise use Kruskal–Wallis + Dunn.  ",
+          "  - Scoring: All four steps described → 1 point; otherwise 0 points.",
+          "- Sub-criterion 1.4.A.2 [1 point | Accuracy] Test statistics and effect size  ",
+          "  - Key points:"
+        ]
+      }
+    ],
+    "1.5.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 1.5.A.1 [1 point | Completeness] Churn function and parameter explanations  ",
+          "  Requirements: Provide an interpretable Churn function (or equivalent response model), define exogenous variables such as r_alt and Cut, and their measurement scope.  ",
+          "  Scoring conditions: Function structure, variable sources, and definitions are consistent and reusable.",
+          "- Sub-criterion 1.5.A.2 [1 point"
+        ]
+      },
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.5.A.1 [1 point | Accuracy]: Profit Margin is correlated with discount rate = -0.8253; discount rate is correlated with Average Order Value (AOV) = -0.8948, and with revenue = -0.67. Increasing discounts significantly depresses AOV and revenue, thereby amplifying profit volatility.",
+          "- Sub-criterion 1.5.A.2 [1 point | Conclusiveness]: A higher discount rate significantly depresses"
+        ]
+      },
+      {
+        "case": "dacomp-014",
+        "snippet": [
+          "- Sub-standard 1.5.A.1 [1 point | Completeness]: Study `Creator Followers` distribution and link it to `Video Category` or compare follower distributions across categories.",
+          "---",
+          "## Requirement 2: Provide concrete suggestions to improve video creation (Max 12 points)",
+          "### Standard 2.1: Synthesize analysis and give positive recommendations [Max 3 points]",
+          "#### Path 2.1.A [3 points | Recommendations ba"
+        ]
+      }
+    ],
+    "2.1.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.1.A.1 [1 point | Completeness] Pricing formula consistency  ",
+          "  Requirements: r = CoF + OpEx + PD×LGD + K×ROE_min + Margin (or equivalent mapping), with clear parameter definitions and sources.  ",
+          "  Scoring conditions: Each term’s meaning is clear and complete; aligned with regulatory/internal parameters.",
+          "- Sub-criterion 2.1.A.2 [1 point | Accuracy] Bucket anchor checks  ",
+          "  Requir"
+        ]
+      },
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "- Sub-criterion 2.1.A.1 [1 point | Completeness]: Group the data by Sales Month and Major Category Name, and compute the Sales Amount share of each Major Category.",
+          "- Sub-criterion 2.1.A.2 [2 points | Accuracy]: The Sales Amount share is calculated correctly; verification baseline values are as follows. Note: applying round half up, alternative rounding rules used in Chinese practice (e.g., “five"
+        ]
+      },
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 2.1.A.1 [2 points | Completeness]: For each province, compute the correlation coefficient between the industrial water share and Per capita GDP (yuan/person) over 2000–2018. Then categorize provinces by strong positive correlation, strong negative correlation, weak positive correlation, and weak negative correlation. Note: You do not need to strictly divide into four categories—you"
+        ]
+      }
+    ],
+    "2.2.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.2.A.1 [1 point | Completeness] Limit chain  ",
+          "  Requirements: Define L_base, L_init, f, L and their definitions aligned with 1.4 (including revenue constraints, concentration coefficients, etc.).  ",
+          "  Scoring conditions: Chain variable definitions are clear; connected to risk parameters.",
+          "- Sub-criterion 2.2.A.2 [1 point | Accuracy] Invariants and execution order  ",
+          "  Requirements:"
+        ]
+      },
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "- Sub-criterion 2.2.A.1 [1 point | Completeness]: Based on the Sales Amount share data, analyze changes in customer purchasing preferences, and provide **detailed elaboration** and a summary of preference shifts across different stages, such as shifts from “stock-up” to “immediate freshness,” product type preferences, and price sensitivity.",
+          "- Sub-criterion 2.2.A.2 [1 point | Completeness]: Analyz"
+        ]
+      },
+      {
+        "case": "dacomp-007",
+        "snippet": [
+          "- Sub-criterion 2.2.A.1 [1 point | Completeness]: Analyze promotion intervals (YearsSinceLastPromotion) across departments",
+          "- Sub-criterion 2.2.A.2 [1 point | Completeness]: Analyze TrainingTimesLastYear",
+          "- Sub-criterion 2.2.A.3 [2 points | Accuracy]: Provide accurate career development data (error ≤ 10%); reference ranges:",
+          "  - YearsSinceLastPromotion: R&D ≈ 2.127 ± 0.2 years, Sales ≈ 2.358 ± 0.2 y"
+        ]
+      }
+    ],
+    "2.3.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.3.A.1 [1 point | Completeness] Bucket parameters and sources  ",
+          "  Requirements: Initial parameters for A/B/C/D buckets—L¯, utilization U, average Churn¯—with sources noted (historical/model/assumptions).  ",
+          "  Scoring conditions: Parameters are complete; sources are credible.",
+          "- Sub-criterion 2.3.A.2 [1 point | Accuracy] EAD estimation  ",
+          "  Requirements: Compute EAD_b = L¯ × (1 - Chu"
+        ]
+      },
+      {
+        "case": "dacomp-007",
+        "snippet": [
+          "- Sub-criterion 2.3.A.1 [1 point | Completeness]: Stratify by JobLevel, SalarySlab, etc., and compare attrition rates across departments",
+          "- Sub-criterion 2.3.A.2 [2 points | Accuracy]: Provide accurate stratified attrition rate data (error ≤ 2%); reference ranges:",
+          "  - Level 1 attrition rate: R&D ≈ 23.22%, Sales ≈ 41.56%, HR ≈ 30.30%",
+          "  - Attrition rate for SalarySlab 'Upto 5k' (salary < 5k): R&D ≈"
+        ]
+      },
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 2.3.A.1 [1 point | Completeness] Model specification and diagnostics  ",
+          "  - Key points: Model includes `Team Size, Customer Satisfaction, Risk Level (can be ordinal-coded), C(Project Type)`; output coefficients, SE, t, p, R²/Adj.R²; at least one diagnostic (residuals/heteroskedasticity or robust loss/VIF).  ",
+          "  - Scoring: Specification + table + diagnostics → 1 point; otherwise 0 po"
+        ]
+      }
+    ],
+    "2.4.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.4.A.1 [1 point | Completeness] Action order and constraints  ",
+          "  Requirements: Define the action sequence when Churn is high (e.g., increase limit → reduce price → RAROC floor check) and constraint conditions (limit caps, price redlines).  ",
+          "  Scoring conditions: Order, conditions, exceptions are clear; aligned with pricing/limit definitions.",
+          "- Sub-criterion 2.4.A.2 [1 point | Acc"
+        ]
+      },
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 2.4.A.1 [1 point | Completeness] Coverage of four blocks  ",
+          "  - Key points: Must cover 1) Project Type differences; 2) Team Size impact (including thresholds/segmentation); 3) Risk Level differences (mean or variability/outliers); 4) Customer Satisfaction relationship.  ",
+          "  - Scoring: All four complete → 1 point; otherwise 0 points.",
+          "- Sub-criterion 2.4.A.2 [1 point | Conclusiveness]"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 2.4.A.1 [1 point | Completeness]: Analyze the proportion of top employees who live in company accommodation/dormitory.",
+          "- Sub-criterion 2.4.A.2 [1 point | Completeness]: Analyze the proportion of all employees (or non-top employees) who live in company accommodation/dormitory; compare with top employees to derive accommodation-dimension characteristics.",
+          "- Sub-criterion 2.4.A.3 [1 p"
+        ]
+      }
+    ],
+    "2.5.A": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.5.A.1 [1 point | Completeness] Scenario setup  ",
+          "  Requirements: Parameter assumptions and run methods for optimistic/base/pessimistic/sensitivity scenarios (Monte Carlo or equivalent).  ",
+          "  Scoring conditions: Parameters are self-consistent; cover key drivers (PD/LGD/Churn/interest rates, etc.).",
+          "- Sub-criterion 2.5.A.2 [1 point | Accuracy] Robustness assessment  ",
+          "  Requirements:"
+        ]
+      },
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 2.5.A.1 [1 pt | Completeness]: Summarize the root causes across cost, SKU structure, product performance, pricing, and operations.",
+          "- Sub-criterion 2.5.A.2 [1 pt | Accuracy]: Conclusions must align with the quantified findings above, e.g.:",
+          "  - Cost: Shipping costs did not rise, so the cost channel is not the pressure source.",
+          "  - SKU structure: High-margin tier share fell in 2024 (≈"
+        ]
+      },
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.5.A.1 [1 point | Completeness]: Parse supply JSON (power, medical, shelter, etc.), combine with hub utilization and turnover metrics, and compute `score_material = w1·norm(turnover) + w2·norm(rationality) - λ·norm(warehousing cost)`.",
+          "- Sub-criterion 2.5.A.2 [2 points | Accuracy]: Anchors within ±6%: hub utilization mean 47±8%, inventory accuracy 92±6%, allocation standards (medi"
+        ]
+      }
+    ],
+    "2.5.B": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.5.B.1 [1 point | Completeness] Stress scenarios  ",
+          "  Requirements: At least three types of macro shocks (e.g., interest rates, macro growth, industry defaults) and their impact scope.  ",
+          "  Scoring conditions: Scenario coverage is broad; parameters are executable.",
+          "- Sub-criterion 2.5.B.2 [1 point | Accuracy] Sensitivity coefficients  ",
+          "  Requirements: Apply ± changes to key paramete"
+        ]
+      },
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.5.B.1 [1 point | Completeness]: Interpret supply JSON and compute basic statistics (e.g., average reserves, allocation shares).",
+          "- Sub-criterion 2.5.B.2 [1 point | Accuracy]: Ensure computed statistics are correct.",
+          "- Sub-criterion 2.5.B.3 [1 point | Conclusion]: Offer a summary evaluation of material resource efficiency.",
+          "### Standard 2.6 [maximum 4 points]: Warehousing and distri"
+        ]
+      }
+    ],
+    "2.5.C": [
+      {
+        "case": "dacomp-001",
+        "snippet": [
+          "- Sub-criterion 2.5.C.1 [1 point | Completeness] Internal redline definitions  ",
+          "  Requirements: At least three internal constraints (single customer/group, industry concentration, high-risk share, etc.) with a formal statement.  ",
+          "  Scoring conditions: Redlines are clear; aligned with risk appetite.",
+          "- Sub-criterion 2.5.C.2 [1 point | Accuracy] Redline verification calculations  ",
+          "  Requirements: Pr"
+        ]
+      }
+    ],
+    "3.1.A": [
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "- Sub-criterion 3.1.A.1 [1 point | Completeness]: Provide specific directions for product category/structure adjustments for all 15 Major Categories.",
+          "- Sub-criterion 3.1.A.2 [1 point | Conclusiveness]: Provide specific directions for product category/structure adjustments, such as adding new categories, reducing/eliminating old categories, keeping unchanged, or giving detailed category adjustment"
+        ]
+      },
+      {
+        "case": "dacomp-004",
+        "snippet": [
+          "- Sub-criterion 3.1.A.1 [1 point | completeness]: Clear and reasonable definition. Clearly articulate the adopted formula and definition for the repurchase rate, including its measurement basis (e.g., among customers who purchased the product, the proportion of customers with purchase count > 1; or within a specified time window, the proportion of customers with a second or more purchase; other c"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 3.1.A.1 [1 point | Completeness]: Compute the mean Away-from-Station Count of top employees (or another meaningful statistic).",
+          "- Sub-criterion 3.1.A.2 [1 point | Completeness]: Compute the mean Away-from-Station Count of all employees (or non-top employees) and compare to derive characteristics of away counts for top employees.",
+          "- Sub-criterion 3.1.A.3 [1 point | Completeness]: Com"
+        ]
+      }
+    ],
+    "3.2.A": [
+      {
+        "case": "dacomp-002",
+        "snippet": [
+          "- Sub-criterion 3.2.A.1 [1 point | Completeness]: Formulate a comprehensive inventory management strategy that covers multiple different management states.",
+          "- Sub-criterion 3.2.A.2 [1 point | Conclusiveness]: Provide reasonable and actionable inventory management strategies beyond inventory quantity control and inventory structure adjustment (e.g., raise inventory levels, maintain healthy inventor"
+        ]
+      },
+      {
+        "case": "dacomp-004",
+        "snippet": [
+          "- Sub-criterion 3.2.A.1 [1 point | completeness]:  Complete analysis scope. Data used to compute the correlation must cover all top-selling products.",
+          "- Sub-criterion 3.2.A.2 [2 points | accuracy]: Accurate computation of core metric. Correctly compute the Pearson correlation coefficient between Total Sales Amount and repurchase rate across all top-selling products. The Pearson correlation coeffic"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 3.2.A.1 [1 point | Completeness]: Compute the mean count of Disciplinary Issue incidents for top employees (or another meaningful statistic).",
+          "- Sub-criterion 3.2.A.2 [1 point | Completeness]: Compute the mean count of Disciplinary Issue incidents for all employees (or non-top employees) and compare to derive disciplinary-dimension characteristics for top employees.",
+          "- Sub-criterion"
+        ]
+      }
+    ],
+    "1.1.B": [
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 1.1.B.1 [1 point | Completeness]: Same overall approach as Path 1.1.A, but only select a subset of years for computation. For example, compute the correlation coefficient between Per capita GDP and the industrial water share using data from 2000–2010.",
+          "- Subcriterion 1.1.B.2 [2 points | Accuracy]: According to the correlation coefficient formula, accurately compute the correlation b"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 1.1.B.1 [1 point | Completeness]: Use at least two key indicators to sort and filter (e.g., sort by Units Produced, filter by Pass Rate).",
+          "- Sub-criterion 1.1.B.2 [1 point | Accuracy]: Correctly perform sorting or filtering operations and list the top employee roster. Code validation logic as follows:",
+          "  ```Pseudo-code: validate simplified ranking",
+          "  1. Sort by “Units Produced” in de"
+        ]
+      },
+      {
+        "case": "dacomp-011",
+        "snippet": [
+          "- Sub-criterion 1.1.B.1 [1 point | Completeness]: Group reasonably by parents' education level (must be consistent with the grouping in Path 1.1.A) and compute the average academic performance for each group; no grouping errors.",
+          "- Sub-criterion 1.1.B.2 [1 point | Accuracy]: Average academic performance calculations are accurate and consistent with the reference data:",
+          "  ① Bachelor group ≈ 70.69 po"
+        ]
+      }
+    ],
+    "1.1.C": [
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 1.1.C.1 [1 point | Completeness]: Separately analyze, for 2000–2018, the changes in Per capita GDP (yuan/person) and the changes in the industrial water share. Compare whether the trends of these indicators are consistent, and draw a conclusion.",
+          "- Subcriterion 1.1.C.2 [2 points | Accuracy]: Accurately compute the changes in Per capita GDP and the industrial water share; no calculat"
+        ]
+      },
+      {
+        "case": "dacomp-011",
+        "snippet": [
+          "- Sub-criterion 1.1.C.1 [1 point | Completeness]: Use multiple regression analysis to determine specific group differences; present the complete grouping for parents' education level (e.g., Master, Bachelor, High School—no omission/merging).",
+          "- Sub-criterion 1.1.C.2 [2 points | Accuracy]: Compute the incremental explanatory power ΔR² of “parents' education level” ≈ 0",
+          "#### Path 1.1.D [3 points | AN"
+        ]
+      },
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 1.1.C.1 [1 point | Completeness]: Analyze the trend changes of the three risk metrics for imported and joint-venture (JV) drugs (e.g., increasing backlog), compare whether changes are consistent, and draw conclusions.",
+          "- Sub-criterion 1.1.C.2 [2 points | Accuracy]: Accurately compute change data (e.g., imported backlog increases by 0.15, JV risk of quality issues decreases by 1.2),"
+        ]
+      }
+    ],
+    "2.1.B": [
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 2.1.B.1 [1 point | Completeness]: Select some typical provinces and compute the correlation coefficient between the industrial water share and Per capita GDP (yuan/person), then categorize provinces by strong positive correlation, strong negative correlation, weak positive correlation, and weak negative correlation. Alternatively, select some typical years such that, for each provi"
+        ]
+      },
+      {
+        "case": "dacomp-004",
+        "snippet": [
+          "- Sub-criterion 2.1.B.1 [1 point | completeness]: Reasonable case selection. Select at least two top-selling products whose performance patterns are notably different (e.g., one product is only high-selling in its champion month, another remains consistently popular) as cases for analysis.",
+          "- Sub-criterion 2.1.B.2 [2 points | accuracy]: Correct case analysis process. For each selected case product"
+        ]
+      },
+      {
+        "case": "dacomp-005",
+        "snippet": [
+          "- Sub-criterion 2.1.B.1 [1 point | Completeness]: Offer general low-margin order remedies that are not necessarily tied to the above analysis.",
+          "- Sub-criterion 2.1.B.2 [1 point | Conclusion]: Ensure the remedies are reasonable and actionable."
+        ]
+      }
+    ],
+    "2.1.C": [
+      {
+        "case": "dacomp-003",
+        "snippet": [
+          "- Subcriterion 2.1.C.1 [1 point | Completeness]: Choose at least one year’s data. Analyze the absolute or relative levels of Per capita GDP (yuan/person) and the industrial water share for each province. Based on combinations of the two indicators’ trend changes, group provinces and summarize the differences between industrial water use and economic development across provinces.",
+          "- Subcriterion 2."
+        ]
+      },
+      {
+        "case": "dacomp-012",
+        "snippet": [
+          "- Standard 2.1.C.1 [2 points | Completeness]: Only list the price distributions (e.g., price ranges, means) for the levels of **Cut, Color, Clarity**, without performing quantitative comparisons (e.g., premium rates, price differences) or an importance ranking.",
+          "",
+          "#### Path 2.1.D [3 points]: Regression analysis path",
+          "- Standard 2.1.D.1 [1 point | Completeness]: Perform a regression analysis of price"
+        ]
+      },
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 2.1.C.1 [1 point | Completeness]: Choose at least one risk perspective, analyze the absolute/relative risk levels across categories or Manufacturers, group by trend changes, and summarize differences.",
+          "- Sub-criterion 2.1.C.2 [2 points | Accuracy]: Accurately compute change data (e.g., high backlog accompanies high interruption), with reasonable grouping and validated by code.",
+          "- Su"
+        ]
+      }
+    ],
+    "3.2.B": [
+      {
+        "case": "dacomp-004",
+        "snippet": [
+          "- Sub-criterion 3.2.B.1 [1 point | completeness]: Analyze the association between repurchase rate and Sales Amount using sales and repurchase data or propose another classification approach (e.g., construct four quadrants with thresholds at average Total Sales Amount and average repurchase rate).",
+          "- Sub-criterion 3.2.B.2 [1 point | completeness]: The classification or analysis must cover all top-s"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 3.2.B.1 [1 point | Completeness]: Compute the proportion of top employees with any Disciplinary Issue record.",
+          "- Sub-criterion 3.2.B.2 [1 point | Completeness]: Compute the proportion of all employees (or non-top employees) with any Disciplinary Issue record and compare to derive disciplinary-dimension characteristics for top employees.",
+          "- Sub-criterion 3.2.B.3 [1 point | Accuracy]:"
+        ]
+      },
+      {
+        "case": "dacomp-027",
+        "snippet": [
+          "- Example (Python pseudo code):",
+          "  ```python",
+          "  run_daily('06:00', tasks=[",
+          "  compute_kpis(), # Aggregate KPIs",
+          "  check_thresholds(), # Compare against red/yellow/green",
+          "  create_tickets_if_needed(), # Create tasks and push to command system"
+        ]
+      }
+    ],
+    "1.2.B": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.2.B.1 [1 point | Completeness]: Compute the monthly order count in South China.",
+          "- Sub-criterion 1.2.B.2 [1 point | Accuracy]: Use charts or data comparisons to show the trend of order count changes or month-over-month changes.",
+          "- Sub-criterion 1.2.B.3 [1 point | Conclusiveness]: Based on observations, draw a qualitative conclusion about the relationship between order count and pr"
+        ]
+      },
+      {
+        "case": "dacomp-007",
+        "snippet": [
+          "- Sub-criterion 1.2.B.1 [2 points | Conclusiveness]: Clearly judge significance based on the numerical gap, e.g., \"a 6–7 percentage point difference, clearly distinct\"",
+          "---",
+          "## Requirement 2: Analyze the reasons causing this difference in attrition rates (This requirement can earn up to 14 points)",
+          "### Criterion 2.1: Conclusion 1 — Compensation is not the decisive factor; intrinsic motivation matter"
+        ]
+      },
+      {
+        "case": "dacomp-013",
+        "snippet": [
+          "- 1.2.B.1（1 point｜Completeness）：  ",
+          "  Clarify the Task Difficulty Coefficient (discrete bands or continuous ranges, e.g., 0.9–1.1 / 0.8–1.2), its sources (function points/complexity/impact scope, etc.), and objective rules; provide the formula `Adjusted Score = Original Score × Task Difficulty Coefficient` and upper/lower bounds.  ",
+          "- 1.2.B.2（1 point｜Accuracy）：  ",
+          "  Before/after comparison for ≥ 2 t"
+        ]
+      }
+    ],
+    "1.3.B": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.3.B.1 [1 point | Completeness]: Group by product category and compute each category’s order count and volatility metrics (e.g., coefficient of variation, standard deviation, etc.).",
+          "- Sub-criterion 1.3.A.2 [1 point | Accuracy]: Volatility calculations are accurate and identify high-volatility product categories.",
+          "  Coefficient of variation reference data:",
+          "  Office Furniture: 23.11"
+        ]
+      },
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 1.3.B.1 [1 point | Completeness] Use two statistics among min|max|median|mean|std to describe the distribution shape",
+          "",
+          "### Criterion 1.4: Significance and ranking across types (Max 3 points)",
+          "#### Path 1.4.A [3 points | Normality/homoscedasticity tests + main test + post-hoc comparison]",
+          "- Sub-criterion 1.4.A.1 [1 point | Completeness] Method selection rationale  ",
+          "  - Key points: Fir"
+        ]
+      },
+      {
+        "case": "dacomp-030",
+        "snippet": [
+          "- Sub-standard 1.3.B.1 [1 point | Completeness]: Build a model to analyze Sales drivers, identify key variables affecting Sales by Outlet Type (Promotional Impact, Seasonality Flag, competitive landscape, economic environment, changing consumer preferences, etc.), develop a Sales forecasting model, and analyze the sustainability and risk factors of Sales growth.",
+          "- Sub-standard 1.3.B.2 [1 point |"
+        ]
+      }
+    ],
+    "1.3.C": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.3.C.1 [1 point | Accuracy]: Only tally basic counts or amounts by product category, without deep analysis.",
+          "---",
+          "### Criterion 1.4 [maximum 3 points]: Geographical region impact analysis",
+          "#### Path 1.4.A [3 points]: Province volatility analysis method",
+          "- Sub-criterion 1.4.A.1 [1 point | Completeness]: Group by province to analyze each province in South China for Profit contribution"
+        ]
+      },
+      {
+        "case": "dacomp-030",
+        "snippet": [
+          "- Sub-standard 1.3.C.1 [1 point | Completeness]: Build a Sales analysis framework: compute average Sales and average MoM or average YoY Growth Rate by Outlet Type.",
+          "- Sub-standard 1.3.C.2 [1 point | Accuracy]: Anchor validation (error ≤2%): Reference average MoM Growth Rate for Sales",
+          "   ('Department Store', 44232)",
+          "   ('Supermarket', 37756)",
+          "   ('Specialty store', 36538)",
+          "   ('Shopping Center', 35778"
+        ]
+      },
+      {
+        "case": "dacomp-045",
+        "snippet": [
+          "- Sub-criterion 1.3.C.1 [1 point | Completeness]: Define Search quality metrics: Input Duration, Autocomplete usage rate, Search Result Page Count, Viewed Result Count, Clicked Result Count, Search Conversion Rate, No-result rate, Correction rate.",
+          "- Sub-criterion 1.3.C.2 [2 points | Accuracy]: Compute Search quality metrics and validate key values (error ≤ ±0.5s or ±1%):",
+          "Reference anchors: high-v"
+        ]
+      }
+    ],
+    "1.6.A": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.6.A.1 [1 point | Completeness]: Compute the volatility (e.g., coefficient of variation, standard deviation, month-over-month change rate, etc.) of Freight Cost, Warehousing Cost, and other costs. Alternatively, compute the volatility of the monthly total cost (e.g., coefficient of variation, standard deviation, month-over-month change rate, etc.).",
+          "- Sub-criterion 1.6.A.2 [1 poin"
+        ]
+      },
+      {
+        "case": "dacomp-018",
+        "snippet": [
+          "- Sub-standard 1.6.A.1 [1 point | Completeness]: Combine at least **3 or more** dimensions (for example: Region, age group, gender, Customer Segment, etc.) for cross-analysis to locate more precise, more specific high-value user groups.",
+          "- Sub-standard 1.6.A.2 [1 point | Accuracy]: Cross-analysis computations must be accurate. For example, identify the highest profit-contributing detailed user pro"
+        ]
+      }
+    ],
+    "1.6.B": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.6.B.1 [1 point | Completeness]: Compute the shares of Freight Cost, Warehousing Cost, and other costs and their relationship with Profit Margin. You may also use other cost dimensions to compute the relationship with Profit.",
+          "- Sub-criterion 1.6.B.2 [1 point | Accuracy]: Below are Pearson coefficients computed at the monthly level for the shares of Freight Cost, Warehousing Cost,"
+        ]
+      }
+    ],
+    "1.7.A": [
+      {
+        "case": "dacomp-006",
+        "snippet": [
+          "- Sub-criterion 1.7.A.1 [1 point | Completeness]: Compute the volatility (e.g., coefficient of variation, standard deviation, month-over-month change rate, etc.) of monthly Total Logistics Revenue or monthly List Price Revenue.",
+          "- Sub-criterion 1.7.A.2 [1 point | Accuracy]: Below is the reference coefficient of variation; if the model computes standard deviation, month-over-month change rate, etc."
+        ]
+      },
+      {
+        "case": "dacomp-018",
+        "snippet": [
+          "- Sub-standard 1.7.A.1 [1 point | Completeness]: Provide a comprehensive and vivid feature description of the distilled core user profile (e.g., \"Female ordinary consumers aged 25–34 living in the Central region\") to make it easy to understand.",
+          "- Sub-standard 1.7.A.2 [1 point | Conclusiveness]: For this core profile, propose **at least 2** specific, commercially feasible operational recommendatio"
+        ]
+      }
+    ],
+    "2.2.B": [
+      {
+        "case": "dacomp-007",
+        "snippet": [
+          "- Sub-criterion 2.2.B.1 [1 point | Completeness]: Analyze each department’s JobLevel distribution and the proportion of specialized technical roles",
+          "- Sub-criterion 2.2.B.2 [1 point | Completeness]: Analyze differences in attrition costs between specialized technical roles and general roles",
+          "- Sub-criterion 2.2.B.3 [2 points | Accuracy]: Provide accurate job level structure data (error ≤ 3%); refer"
+        ]
+      },
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 2.2.B.1 [1 point | Completeness]: Perform age binning for all employees, and compute the proportion of top employees in each age band.",
+          "- Sub-criterion 2.2.B.2 [1 point | Completeness]: Compute the proportion of all employees (or non-top employees) in each age band; compare to derive age-dimension characteristics.",
+          "- Sub-criterion 2.2.B.3 [1 point | Accuracy]: Partial code logic is"
+        ]
+      },
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 2.2.B.1 [1 pt | Completeness]: For every Home & Furniture product, calculate 2024−2023 changes in profit, net unit price, net profit margin, and quantity (or an explicit proxy). If `Quantity` is unusable, declare the constraint and use `Net Sales ÷ number of orders` as the unit-price proxy, noting the limitation.",
+          "- Sub-criterion 2.2.B.2 [1 pt | Accuracy]: Calculations for the key"
+        ]
+      }
+    ],
+    "2.3.B": [
+      {
+        "case": "dacomp-007",
+        "snippet": [
+          "- Sub-criterion 2.3.B.1 [1 point | Completeness]: Analyze OverTime prevalence across departments",
+          "- Sub-criterion 2.3.B.2 [1 point | Completeness]: Analyze EnvironmentSatisfaction",
+          "- Sub-criterion 2.3.B.3 [2 points | Accuracy]: Pseudo-code constraint — compute each department’s mean WorkLifeBalance and the proportion of OverTime='Yes'; perform grouped statistical analysis and output each department"
+        ]
+      },
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.3.B.1 [1 point | Completeness]: Report basic statistics (e.g., median/mean budgets, utilization rates, component costs, fund status distribution).",
+          "- Sub-criterion 2.3.B.2 [1 point | Accuracy]: Ensure the statistics are correctly computed.",
+          "- Sub-criterion 2.3.B.3 [1 point | Conclusion]: Based on the statistics, provide a high-level evaluation of financial resource efficiency.",
+          "###"
+        ]
+      },
+      {
+        "case": "dacomp-038",
+        "snippet": [
+          "- Sub-criterion 2.3.B.1 [1 point | Completeness]: By Secondary Category, provide the optimal \"strategy type × version\" combination.",
+          "- Sub-criterion 2.3.B.2 [1 point | Precision]: Combination recommendations align with the category ROI results from Path 1.4.",
+          "- Sub-criterion 2.3.B.3 [1 point | Conclusiveness]: Combination recommendations are implementable (e.g., \"configure delivery based on categor"
+        ]
+      }
+    ],
+    "1.4.B": [
+      {
+        "case": "dacomp-008",
+        "snippet": [
+          "- Sub-criterion 1.4.B.1 [1 point | Completeness] Provide qualitative comparison of average deviation or distribution characteristics across different Project Types, supported by corresponding numbers such as mean or median",
+          "",
+          "",
+          "## Requirement 2: Links between cost deviation and Team Size/Risk Level/Customer Satisfaction (Max 15 points)",
+          "",
+          "### Criterion 2.1: Correlation and direction consistency (Max 5"
+        ]
+      },
+      {
+        "case": "dacomp-030",
+        "snippet": [
+          "- Sub-standard 1.4.B.1 [1 point | Completeness]: Establish a promotion and pricing analysis framework: analyze promotion frequency, discount depth, price elasticity, and promotion ROI by Outlet Type; build a price sensitivity model; analyze the differentiated effects of promotion strategies across Outlet Types.",
+          "- Sub-standard 1.4.B.2 [1 point | Accuracy]: Pseudocode constraints — compute price el"
+        ]
+      },
+      {
+        "case": "dacomp-038",
+        "snippet": [
+          "- Sub-criterion 1.4.B.1 [1 point | Completeness]: For each strategy type, calculate the new strategy’s ROI across each Secondary Category.",
+          "- Sub-criterion 1.4.B.2 [1 point | Precision]: Category ROI values are logically self-consistent.",
+          "#### Path 1.4.C [2 points]: Calculate ROI by Primary Category",
+          "- Sub-criterion 1.4.C.1 [1 point | Completeness]: For each strategy type, calculate the new strategy"
+        ]
+      }
+    ],
+    "3.3.A": [
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 3.3.A.1 [1 point | Completeness]: Compute the proportion of top employees in each group.",
+          "- Sub-criterion 3.3.A.2 [1 point | Completeness]: Compute the proportion of all employees (or non-top employees) in each group; after comparison, derive group-dimension characteristics of top employees.",
+          "- Sub-criterion 3.3.A.3 [1 point | Accuracy]: Among all employees, 24 are in Group 1, 22 in"
+        ]
+      },
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 3.3.A.1 [1 pt | Completeness]: Compare core vs. non-core customers on the same driver identified in Requirement 2 (e.g., share of high-margin tier or profit swings of the negative SKUs). Provide at least one quantitative contrast (difference, Δpp, standard deviation, etc.).",
+          "- Sub-criterion 3.3.A.2 [1 pt | Accuracy]: Quantities must reconcile with the segmentation and driver defini"
+        ]
+      },
+      {
+        "case": "dacomp-041",
+        "snippet": [
+          "- Sub-criterion 3.3.A.1 [1 point | Completeness]: Design the evaluation: before–after/phased incremental/AB pilots (e.g., “capacity limiting + fresh air” vs “routine” controls), and explain stratification and pairing criteria (Exhibition Hall type/material sensitivity/traffic quantiles).",
+          "- Sub-criterion 3.3.A.2 [1 point | Precision]: Provide statistical evaluation methods (e.g., differencing, qua"
+        ]
+      }
+    ],
+    "4.1.A": [
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 4.1.A.1 [1 point | Conclusiveness]: Based on the absolute and relative characteristics derived from the comparative analyses in Requirements 2 & 3, clearly provide the recommended employee characteristics and rationale for each sub-dimension, aligned to the on-the-job employee profile.",
+          "- Sub-criterion 4.1.A.2 [3 points | Accuracy]: For each demographic dimension (Requirement 2), s"
+        ]
+      },
+      {
+        "case": "dacomp-024",
+        "snippet": [
+          "- Sub-criterion 4.1.A.1 [2 points | conclusion]: Based on the comprehensive evidence from Requirements 1–3, develop a comprehensive strategic recommendation that must include the following 5 aspects; otherwise, no points:",
+          "  1) Business portfolio positioning: Provide the priority and role positioning (penetration-driven/profit-driven/balanced/defensive) for 2–3 \"region–segment\" combinations;",
+          "  2)"
+        ]
+      },
+      {
+        "case": "dacomp-042",
+        "snippet": [
+          "- Sub-criterion 4.1.A.1 [1 point | Completeness]: For young adults/middle-aged/older adults, propose ≥2 intervention plans each aligned with their primary barriers, and describe the hypothesized mechanism \"barrier → behavior → improvement\" and implementation prerequisites (digital accessibility, caregiver involvement, affordability, etc.).",
+          "- Sub-criterion 4.1.A.2 [1 point | Precision]: Set SMART"
+        ]
+      }
+    ],
+    "4.1.B": [
+      {
+        "case": "dacomp-009",
+        "snippet": [
+          "- Sub-criterion 4.1.B.1 [1 point | Conclusiveness]: (Strictly per the absolute characteristics in each dimension from Requirements 2 & 3) Clearly provide the recommended employee characteristics and rationale for each dimension, aligned to the on-the-job employee profile.",
+          "- Sub-criterion 4.1.B.2 [2 points | Accuracy]: For each demographic dimension (Requirement 2), stay broadly consistent with th"
+        ]
+      },
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 4.1.B.1 [1 point | Completeness]: Build an OLS model `close_days = β0 + β1*delay_days + ε`, and describe modeling assumptions.",
+          "- Sub-criterion 4.1.B.2 [1 point | Accuracy]: Coefficient tolerances ±0.05, R² ±0.03: `β1 ≈ 1.037`, `β0 ≈ 3.76`, `R² ≈ 0.984`.",
+          "- Sub-criterion 4.1.B.3 [1 point | Conclusiveness]: Emphasize that delay nearly fully explains completion duration, with the rema"
+        ]
+      },
+      {
+        "case": "dacomp-054",
+        "snippet": [
+          "- **Standard 4.1.B.1 [1 Point | Completeness]**: Building on the matrix, define rules: e.g., `sales_to_support_days>30 ∧ velocity ∈ {Declining, Stagnant} ∧ risk ∈ {High, High Activity Risk, Critical} ∧ health<70` triggers a red alert, and add secondary conditions like Zendesk status.",
+          "- **Standard 4.1.B.2 [4 Points | Accuracy]**: Validate that the rule covers **54 members (5.63%)**, with an averag"
+        ]
+      }
+    ],
+    "1.1.D": [
+      {
+        "case": "dacomp-011",
+        "snippet": [
+          "- Sub-criterion 1.1.D.1 [1 point | Completeness]: Use ANOVA to determine specific group differences; present the complete grouping for parents' education level (e.g., Master, Bachelor, High School—no omission/merging).",
+          "- Sub-criterion 1.1.D.2 [2 points | Accuracy]: Statistical computations are accurate and consistent with the reference data:",
+          "  ① F statistic ≈ 1.65;",
+          "  ② p-value ≈ 0.19.",
+          "### Criteri"
+        ]
+      },
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 1.1.D.1 [1 point | Completeness]: Filter imported/joint-venture (JV) drugs, compute the three risk metrics (e.g., backlog: Qualified Quantity > threshold), and rank TOP N for each risk perspective (at least TOP5-10).",
+          "- Sub-criterion 1.1.D.2 [3 points | Accuracy]: The rankings are accurate (e.g., wzq43524 backlog 3239/510 = high risk), validated by SQL queries, with no data errors."
+        ]
+      },
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 1.1.D.1 [1 point | Completeness]: Apply the Pool Adjacent Violators Algorithm (PAVA) with an isotonic regression function, perform the Jonckheere-Terpstra trend test, and report JT statistic and p-value.",
+          "- Sub-criterion 1.1.D.2 [2 points | Accuracy]: Provide a pseudo workflow:",
+          "  1) Run PAVA on (`Mental health score`, `Exam score`);",
+          "  2) Compute JT statistic = ΣΣU_ij for pairwise g"
+        ]
+      }
+    ],
+    "2.1.D": [
+      {
+        "case": "dacomp-012",
+        "snippet": [
+          "- Standard 2.1.D.1 [1 point | Completeness]: Perform a regression analysis of price combining dimensions such as Cut, Color, and Clarity.",
+          "- Standard 2.1.D.2 [1 point | Accuracy]: Accurately compute the R^2 value for each dimension; the overall R^2 must be greater than 0.9. This part requires carefully validating code logic and correctness.",
+          "- Standard 2.1.D.3 [1 point | Conclusion]: Explicitly pro"
+        ]
+      },
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 2.1.D.1 [1 point | Completeness]: Based on TOP N risk drugs, compute Manufacturer distribution (e.g., in backlog TOP10, Shiyao appears 3 times), and analyze correlations with Cold-chain or GSP fields.",
+          "- Sub-criterion 2.1.D.2 [3 points | Accuracy]: Distribution counts are accurate (e.g., in supply interruption TOP10, Cold-chain 9/10), correlation calculation logic is coherent and v"
+        ]
+      },
+      {
+        "case": "dacomp-024",
+        "snippet": [
+          "- Sub-criterion 2.1.D.1 [1 point | completeness]: Provide three-year totals (2015–2017) of key indicators at the region–segment or region level, including at least total sales and total profit, and rank the four regions by a key indicator (e.g., sales).",
+          "- Sub-criterion 2.1.D.2 [1 point | completeness]: Provide year-by-year (2015–2017) region–segment level key indicators (e.g., sales share/penetra"
+        ]
+      }
+    ],
+    "1.2.C": [
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 1.2.C.1 [1 pt | Completeness]: Compute the coefficient of variation for each category, show the formula `CV = standard deviation ÷ mean × 100%`, state the unit (%) and note that CV captures relative volatility.",
+          "- Sub-criterion 1.2.C.2 [1 pt | Accuracy]: Reference values:",
+          "  - Home & Furniture: **0.73%**",
+          "  - Electronic: **0.30%**",
+          "  - Auto & Accessories: **0.22%**",
+          "  - Fashion: **0.08"
+        ]
+      },
+      {
+        "case": "dacomp-024",
+        "snippet": [
+          "- Sub-criterion 1.2.C.1 [1 point | completeness]: Compute margins by year and rank each year; define robustness: a combination enters the TOP3 in ≥2/3 of the years.",
+          "- Sub-criterion 1.2.C.2 [1 point | accuracy]: Compute hit_count and robust_top correctly and consistently with the year-by-year results.",
+          "- Sub-criterion 1.2.C.3 [1 point | conclusion]: Based on the consistency analysis, derive at leas"
+        ]
+      },
+      {
+        "case": "dacomp-030",
+        "snippet": [
+          "- Sub-standard 1.2.C.1 [1 point | Completeness]: Build a refined analysis framework for appeal reasons: Using the \"Appeal Reason\" field in the appeal_record_table, analyze the distribution of primary appeal reasons by Outlet Type, establish an appeal reason–Outlet Type association matrix, and identify core appeal pain points for different Outlet Types.",
+          "- Sub-standard 1.2.C.2 [1 point | Accuracy]:"
+        ]
+      }
+    ],
+    "1.2.D": [
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 1.2.D.1 [1 pt | Completeness]: Compute the mean absolute deviation of the three-year margins for each category, provide the formula, cite the unit (pp), and mention that MAD is more robust to outliers than standard deviation.",
+          "- Sub-criterion 1.2.D.2 [1 pt | Accuracy]: Reference values (pp): Home & Furniture **0.29**, Electronic **0.12**, Auto & Accessories **0.09**, Fashion **0.04"
+        ]
+      },
+      {
+        "case": "dacomp-030",
+        "snippet": [
+          "- Sub-standard 1.2.D.1 [1 point | Completeness]: Compute total complaints by Outlet Type.",
+          "- Sub-standard 1.2.D.2 [1 point | Accuracy]: ",
+          "   Department Store: 33 times",
+          "   Food Store: 32 times",
+          "   Restaurant: 31 times",
+          "   Shopping Center: 29 times"
+        ]
+      },
+      {
+        "case": "dacomp-044",
+        "snippet": [
+          "- **Sub-criterion 1.2.D.1 (1 point | Completeness)**: Using the weighting method, group separately by “Campaign Format” and “Key Locations”, compute average weighted total scores and sample sizes; produce two ranking tables.",
+          "- **Sub-criterion 1.2.D.2 (2 points | Accuracy)**: Grouped weighted totals must be computed correctly (see the reference tables below).  ",
+          "  (Note: Scoring rules are the same"
+        ]
+      }
+    ],
+    "1.2.E": [
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 1.2.E.1 [1 pt | Completeness]: Compute the robust MAD for each category, explain how it differs from MAD/standard deviation and when it is preferred.",
+          "- Sub-criterion 1.2.E.2 [1 pt | Accuracy]: Reference values (pp): Home & Furniture **0.34**, Electronic **0.03**, Auto & Accessories **0.09**, Fashion **0.03**.",
+          "#### Path 1.2.F [5 pts | Additional fluctuation measures]",
+          "- Sub-criterio"
+        ]
+      },
+      {
+        "case": "dacomp-044",
+        "snippet": [
+          "- **Sub-criterion 1.2.E.1 (1 point | Completeness)**: Binarize “Effectiveness Tracking” and “Behavioral Change Assessment” as Significant = 1, others = 0, and generate two indicator variables for each record.",
+          "- **Sub-criterion 1.2.E.2 (1 point | Completeness)**: Group by “**Campaign Format × Key Locations**”, separately compute the two **Significant rates** (within-group means), and output each g"
+        ]
+      }
+    ],
+    "1.2.F": [
+      {
+        "case": "dacomp-017",
+        "snippet": [
+          "- Sub-criterion 1.2.F.1 [1 pt | Completeness]: Interquartile Range (IQR = Q3 − Q1) focuses on the middle 50% span and downweights tail noise.",
+          "- Sub-criterion 1.2.F.2 [1 pt | Completeness]: Dynamic | Mean Absolute Change (MAC = mean(|Δ|)) measures the magnitude of adjacent-year swings, highlighting “jitter.”",
+          "- Sub-criterion 1.2.F.3 [1 pt | Completeness]: Dynamic | Standard deviation of differences"
+        ]
+      }
+    ],
+    "1.1.E": [
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 1.1.E.1 [1 point | Completeness]: Query database table structures and fields (e.g., \"basic_drug_information\", \"inventory_management\"), confirm related columns (e.g., \"Quality tier\"), but do not perform filtering or calculations.",
+          "- Sub-criterion 1.1.E.2 [1 point | Accuracy]: Table-structure queries are accurate and match database fields (e.g., \"Qualified Quantity\").",
+          "- Sub-criterion"
+        ]
+      },
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 1.1.E.1 [1 point | Completeness]: Identify and explain any data preprocessing issues (e.g., misencoded categorical variables, sample loss from missing-value removal, inconsistent variable encoding) and propose sensible remedies.",
+          "### Standard 1.2: Trend conclusion (maximum 1 point)",
+          "#### Path 1.2.A [1 point | Conclusion]",
+          "- Sub-criterion 1.2.A.1 [1 point | Conclusion]: **Final answer"
+        ]
+      },
+      {
+        "case": "dacomp-024",
+        "snippet": [
+          "- Sub-criterion 1.1.E.1 [1 point | completeness]: Clearly define the metric as \"distinct customer count by region–segment\" and compute annual values for 2015–2017.",
+          "- Sub-criterion 1.1.E.2 [1 point | accuracy]: Provide the annual distinct customer counts used to support subsequent conclusions, consistent with the definition.",
+          "- Sub-criterion 1.1.E.3 [1 point | conclusion]: Based on the computed dis"
+        ]
+      }
+    ],
+    "2.1.E": [
+      {
+        "case": "dacomp-019",
+        "snippet": [
+          "- Sub-criterion 2.1.E.1 [1 point | Completeness]: Query database table structures and fields, confirm related columns (e.g., \"Drug Category Code\"), but do not compute risk metrics.",
+          "- Sub-criterion 2.1.E.2 [1 point | Accuracy]: Table-structure queries are accurate and match database fields.",
+          "- Sub-criterion 2.1.E.3 [1 point | Conclusiveness]: Based on structure, provide a preliminary assessment of"
+        ]
+      },
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 2.1.E.1 [2 pts | Completeness]: Provide a type-mapping dictionary, scope = only P1 complaints, and map abnormal categories to \"Other\". **(Scoring note: if the column is already standardized, explicitly state “dictionary = identity mapping”.)**",
+          "- Sub-criterion 2.1.E.2 [4 pts | Accuracy]: **(Scoring note: SQL/pseudo-code/equivalent code are all acceptable. Output may be the full dis"
+        ]
+      },
+      {
+        "case": "dacomp-047",
+        "snippet": [
+          "- Sub-standard 2.1.E.1 [1 point | Completeness]: Based on historical sales data or sales performance, select best-selling/stable items to construct combinations.",
+          "- Sub-standard 2.1.E.2 [1 point | Conclusiveness]: Must provide ≥ 5 specific sales data points (e.g., \"Broccoli July sales 1163 kg, ranked 1st\", \"Yunnan Lettuce 738 kg ranked 2nd\"), and clearly explain the selection logic (Top sales/stab"
+        ]
+      }
+    ],
+    "2.2.C": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 2.2.C.1 [1 point | Completeness]: Specify either quantile regression (multiple quantiles τ ∈ {0.25, 0.5, 0.75}) with corresponding β estimates, or describe an IV strategy and exclusion restrictions.",
+          "- Sub-criterion 2.2.C.2 [2 points | Accuracy]: Provide a pseudo workflow:",
+          "  1) For quantile regression, estimate β_X(τ), SE, and p for each τ;",
+          "  2) For IV, describe instrument source,"
+        ]
+      },
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 2.2.C.1 [2 pts | Completeness]: Aggregate by `Ticket handling agent ID`; weights = ticket counts per agent; specify how to handle agents with extreme low volume (e.g., n < 3).",
+          "- Sub-criterion 2.2.C.2 [4 pts | Accuracy]:",
+          "  ```",
+          "  INPUT: same W1 from Path 2.2.A STEP1",
+          "  STEP1: S = GroupBy(W1, Ticket handling agent ID).Agg(",
+          "            s_mean = mean(Ticket customer satisfaction score),"
+        ]
+      },
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 2.2.C.1 [1 point | Completeness]: Group independently by each categorical symptoms field and compute the death/recovery proportions within each group.",
+          "- Sub-standard 2.2.C.2 [1 point | Completeness]: For numeric fields, perform interval binning first, then group independently and compute death/recovery proportions, or directly compare means (or similar statistics).",
+          "- Sub-standard 2"
+        ]
+      }
+    ],
+    "2.2.D": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 2.2.D.1 [1 point | Completeness]: Implement robust estimation (e.g., Huber or Tukey M-estimator), report the robust coefficient and standard error, and compute diagnostics such as Cook’s distance and DFBETAS.",
+          "- Sub-criterion 2.2.D.2 [2 points | Accuracy]: Provide a pseudo workflow:",
+          "  1) Re-estimate Y~C+X with robust methods;",
+          "  2) Compare OLS and robust β for `Mental health score`"
+        ]
+      },
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 2.2.D.1 [2 pts | Completeness]: Provide a mapping of ticket types (e.g., inquiry / failure / cancellation / other), scope = only P1 tickets.",
+          "- Sub-criterion 2.2.D.2 [4 pts | Accuracy]:",
+          "  ```",
+          "  INPUT: W1 (with Ticket Type)",
+          "  STEP1: W1.Type = Map(W1.Ticket Type, dictionary) default=\"Other\"",
+          "  STEP2: T = GroupBy(W1, Type).Agg("
+        ]
+      },
+      {
+        "case": "dacomp-048",
+        "snippet": [
+          "- 2.2.D.1 [1 point | Completeness]: For each factor, analyze its correlation with starting salary.",
+          "- 2.2.D.2 [2 points | Accuracy]: Each factor’s correlation analysis is correct; computation logic is checked using the **code validation method**.",
+          "- 2.2.D.3 [1 point | Conclusion]: Provide clear improvement suggestions (e.g., “injection molding and similar hard skills > soft skills,” based on result"
+        ]
+      }
+    ],
+    "2.2.E": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 2.2.E.1 [1 point | Completeness]: Identify any technical problems in estimating the marginal effect (e.g., NaN coefficients, abnormal standard errors, high multicollinearity) and explain their causes.",
+          "- Sub-criterion 2.2.E.2 [1 point | Conclusion]: Based on alternative evidence (e.g., descriptive or correlational patterns), answer Requirement 2: despite technical hurdles, `Mental"
+        ]
+      },
+      {
+        "case": "dacomp-048",
+        "snippet": [
+          "- 2.2.E.1 [1 point | Completeness]: For each factor, calculate mean starting salary and rank; select top N (count not required) to display.",
+          "- 2.2.E.2 [1 point | Accuracy]: Each factor’s mean starting salary is calculated correctly, validated by checking the code. (Requires prior processing of the salary column to be correct; otherwise no points.)",
+          "- 2.2.E.3 [1 point | Conclusion]: Provide clear im"
+        ]
+      }
+    ],
+    "2.2.F": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 2.2.F.1 [1 point | Completeness]: Define grouping rules, report group means, and use an F-statistic to test significance.",
+          "- Sub-criterion 2.2.F.2 [1 point | Conclusion]: Answer Requirement 2 by stating that `Mental health score` significantly affects `Exam score` (high F-statistic).",
+          "### Standard 2.3: Final conclusion on marginal impact (maximum 1 point)",
+          "#### Path 2.3.A [1 point |"
+        ]
+      },
+      {
+        "case": "dacomp-048",
+        "snippet": [
+          "- 2.2.F.1 [1 point | Completeness]: Filter out high-paying positions and count mention frequencies of qualities/skills among them.",
+          "- 2.2.F.2 [1 point | Accuracy]: Correctly filter high-paying positions (top 25%); count mentions of each quality/skill; computation logic is checked using the **code validation method**.",
+          "- 2.2.F.3 [1 point | Conclusion]: Provide clear improvement suggestions (e.g., “i"
+        ]
+      }
+    ],
+    "3.1.B": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 3.1.B.1 [1 point | Completeness]: Stratify by selected Z variables (e.g., high/low attendance, regular/irregular review) while keeping controls constant.",
+          "- Sub-criterion 3.1.B.2 [2 points | Accuracy]: Provide a pseudo workflow:",
+          "  1) Fit Y~C+X within each stratum;",
+          "  2) Test coefficient differences using z = (β1−β2)/SE_diff or include interactions in a pooled model;",
+          "  3) Report test"
+        ]
+      },
+      {
+        "case": "dacomp-025",
+        "snippet": [
+          "- Sub-criterion 3.1.B.1 [2 points | Completeness] Provide a clear formula (for example, Risk = (-required adjustment amount or ratio) x (1 + alpha * loss-making rate) or weighted rank sum), and declare parameters/weights (alpha or w).",
+          "- Sub-criterion 3.1.B.2 [2 points | Accuracy] Compute the risk score per the stated formula; parameters are documented and reproducible (Code validation method).",
+          "-"
+        ]
+      },
+      {
+        "case": "dacomp-027",
+        "snippet": [
+          "- Example (can be adopted directly):",
+          "  ```sql",
+          "  -- Share of WQI<50 (weekly)",
+          "  SELECT level, week,",
+          "  SUM(CASE WHEN wqi < 50 THEN 1 ELSE 0 END)*1.0/COUNT(*) AS wqi_low_share",
+          "  FROM water_quality"
+        ]
+      }
+    ],
+    "3.1.C": [
+      {
+        "case": "dacomp-020",
+        "snippet": [
+          "- Sub-criterion 3.1.C.1 [1 point | Completeness]: Clearly report that interaction tests were conducted but no significant moderators (p≥0.05) were found, and answer Requirement 3 by stating that within the presented data, `Mental health score`’s effect size does not significantly interact with other variables."
+        ]
+      },
+      {
+        "case": "dacomp-025",
+        "snippet": [
+          "- Sub-criterion 3.1.C.1 [1 point | Completeness] Define and compute U = mu + z*sigma or upper-bound measures such as Q90/Q95, and define loss-making rate.",
+          "- Sub-criterion 3.1.C.2 [1 point | Completeness] Define and compute loss-making rate.",
+          "- Sub-criterion 3.1.C.3 [2 points | Accuracy] Correctly compute mu/sigma/U (or quantiles) and loss-making rate (Code validation method).",
+          "- Sub-criterion 3.1.C"
+        ]
+      },
+      {
+        "case": "dacomp-027",
+        "snippet": [
+          "- Substandard 3.1.C.1【1 point｜completeness】: Describe dashboard contents, update frequency, key KPIs",
+          "- Substandard 3.1.C.2【1 point｜precision】: Provide PPI-driven numeric values",
+          "### Standard 3.2【maximum 2 points】: data pipeline and trigger automation (OR) (each path's score must be an integer)",
+          "#### Path 3.2.A【2 points | triggers and task flow (pseudo algorithm)】",
+          "- Substandard 3.2.A.1【1 point｜preci"
+        ]
+      }
+    ],
+    "1.1.F": [
+      {
+        "case": "dacomp-024",
+        "snippet": [
+          "- Sub-criterion 1.1.F.1 [1 point | completeness]: Clearly define the penetration metric as \"the share of this region–segment’s sales in the year’s total sales\", and compute annual values for 2015–2017.",
+          "- Sub-criterion 1.1.F.2 [1 point | accuracy]: Use code-based validation; when the code meets the completeness requirement in 1.1.F.1, award 1 point.",
+          "- Sub-criterion 1.1.F.3 [1 point | conclusion]:"
+        ]
+      }
+    ],
+    "3.1.D": [
+      {
+        "case": "dacomp-025",
+        "snippet": [
+          "- Sub-criterion 3.1.D.1 [1 point | Completeness]: Compute 2023-06-30 product Sales volume or June average daily Sales volume; compute previous years' 7/1 product Sales volume or July average daily Sales volume. Using 2022 June data is also acceptable.",
+          "- Sub-criterion 3.1.D.2 [1 point | Completeness]: Compare the differences between the two sets of Sales volume data.",
+          "- Sub-criterion 3.1.D.3 [1 poi"
+        ]
+      },
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 3.1.D.1 [2 pts | Completeness]: Define `SHI = 0.4*Z(complaint satisfaction) - 0.3*Z(ticket hours) - 0.3*Z(complaint speed_ts)`; conduct ±10% weight sensitivity tests.",
+          "- Sub-criterion 3.1.D.2 [3 pts | Accuracy]:",
+          "  ```",
+          "  INPUT: Metric matrix (P1 or overall)",
+          "  STEP1: Standardize the three indicators via Z-score",
+          "  STEP2: Compute SHI_base"
+        ]
+      }
+    ],
+    "2.6.A": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.6.A.1 [1 point | Completeness]: Analyze hub layout, compute utilization optimization, cold storage efficiency, and inventory accuracy.",
+          "- Sub-criterion 2.6.A.2 [2 points | Accuracy]: Pseudo code: calculate delivery_time, utilization_rate, inventory_turnover; identify top 20% hubs; regress to quantify factor contributions (R²>0.6); compute improvement potential Δefficiency = (opti"
+        ]
+      }
+    ],
+    "2.7.A": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.7.A.1 [1 point | Completeness]: Assess coordination among trucks, helicopters, and vessels, and compute metrics such as transport throughput (2587.5±1393.4 tons), delivery success (84.9±8.6%), average delivery hours (36.9±20.1h), and failure rates.",
+          "- Sub-criterion 2.7.A.2 [2 points | Accuracy]: Anchors within ±10%: average fleet 102.5±10 vehicles, delivery success 84.9±8%, avera"
+        ]
+      }
+    ],
+    "2.7.B": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.7.B.1 [1 point | Completeness]: Present basic transport stats (e.g., average fleets, delivery hours, success, failure, status distributions).",
+          "- Sub-criterion 2.7.B.2 [1 point | Accuracy]: Ensure computations are correct.",
+          "- Sub-criterion 2.7.B.3 [1 point | Conclusion]: Provide an overall transport efficiency assessment.",
+          "### Standard 2.8 [maximum 4 points]: Transportation reliabil"
+        ]
+      }
+    ],
+    "2.8.A": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.8.A.1 [1 point | Completeness]: Assess reliability factors such as maintenance status, breakdown rate, and end-delivery performance.",
+          "- Sub-criterion 2.8.A.2 [2 points | Accuracy]: Pseudo code: build reliability index `RI = w1·(1-failure_rate) + w2·maintenance_score + w3·(1-delay_rate)`; conduct factor analysis (loading >0.4), compute weights, and output matrix {transport_id, rel"
+        ]
+      }
+    ],
+    "2.9.A": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.9.A.1 [1 point | Completeness]: Build standardized effectiveness index over human/financial/material/transport dimensions per demand unit (per 10k affected population, per 1k injured) using equal-weighted aggregation within [0,1].",
+          "- Sub-criterion 2.9.A.2 [2 points | Accuracy]: Anchors ±5%: Level 5 index median 0.503±0.025, quartiles p25=0.441±0.02 and p75=0.562±0.02; Type differ"
+        ]
+      }
+    ],
+    "2.9.B": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.9.B.1 [1 point | Completeness]: Present base statistics for disaster scale and efficiency by dimension.",
+          "- Sub-criterion 2.9.B.2 [1 point | Accuracy]: Provide correct computations.",
+          "- Sub-criterion 2.9.B.3 [1 point | Conclusion]: Summarize the overall resource effectiveness, identifying strengths, weaknesses, and improvement directions.",
+          "### Standard 2.10 [maximum 4 points]: Crossd"
+        ]
+      }
+    ],
+    "2.10.A": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.10.A.1 [1 point | Completeness]: Establish a bottleneck identification mechanism that scores all four dimensions for each Level 5 event, counts bottlenecks (human 55, transport 50, financial 50, material 47), and analyzes root causes and improvement paths.",
+          "- Sub-criterion 2.10.A.2 [2 points | Accuracy]: Pseudo code: compute normalized scores, detect min-dimension per event, aggr"
+        ]
+      }
+    ],
+    "2.10.B": [
+      {
+        "case": "dacomp-026",
+        "snippet": [
+          "- Sub-criterion 2.10.B.1 [1 point | Completeness/Accuracy]: Using prior stats, correctly identify at least two dimension weaknesses (e.g., low utilization, training gap).",
+          "- Sub-criterion 2.10.B.2 [1 point | Conclusion]: Offer high-level improvement suggestions for those weaknesses."
+        ]
+      }
+    ],
+    "3.1.E": [
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 3.1.E.1 [2 pts | Completeness]: Aggregate by **week** with ≥6 periods for complaint speed_ts, complaint satisfaction, ticket hours, and ticket satisfaction.",
+          "- Sub-criterion 3.1.E.2 [3 pts | Accuracy]:",
+          "  ```",
+          "  INPUT: Time-stamped records",
+          "  STEP1: Week = ToWeek(timestamp)",
+          "  STEP2: Aggregate weekly to obtain four time series (P1 and overall each set)"
+        ]
+      }
+    ],
+    "3.1.F": [
+      {
+        "case": "dacomp-032",
+        "snippet": [
+          "- Sub-criterion 3.1.F.1 [2 pts | Completeness]: Segment P1 vs. overall by industry/size/region; ensure each segment has ≥30 samples (merge smaller ones into “Other”).",
+          "- Sub-criterion 3.1.F.2 [3 pts | Accuracy]:",
+          "  ```",
+          "  INPUT: Customer-dimension table + joined indicators",
+          "  STEP1: Segment labels = Map(industry/size/region)",
+          "  STEP2: For each segment, compute (P1, overall) means and differences / rel"
+        ]
+      }
+    ],
+    "1.4.C": [
+      {
+        "case": "dacomp-038",
+        "snippet": [
+          "- Sub-criterion 1.4.C.1 [1 point | Completeness]: For each strategy type, calculate the new strategy’s ROI across each Primary Category.",
+          "- Sub-criterion 1.4.C.2 [1 point | Precision]: Category ROI values are logically self-consistent.",
+          "",
+          "### Criterion 1.5 [2 points]: Calculate ROI by channel dimension",
+          "#### Path 1.5.A [2 points]: Calculate ROI by channel dimension",
+          "- Sub-criterion 1.5.A.1 [1 point |"
+        ]
+      },
+      {
+        "case": "dacomp-046",
+        "snippet": [
+          "- Sub-criterion 1.4.C.1 [1 point | Completeness]: Infer feedback ratings indirectly using Device count or other reasonable dimensions",
+          "- Sub-criterion 1.4.C.2 [1 point | Accuracy]: The following are reference averages of device counts by age segment (allowing a 1% data difference). If the model uses other reasonable dimensions, these values are not directly comparable; score using the code verific"
+        ]
+      }
+    ],
+    "2.3.C": [
+      {
+        "case": "dacomp-038",
+        "snippet": [
+          "- Sub-criterion 2.3.C.1 [1 point | Completeness]: By Primary Category, provide the optimal \"strategy type × version\" combination.",
+          "- Sub-criterion 2.3.C.2 [1 point | Precision]: Combination recommendations align with the category ROI results from Path 1.4.",
+          "- Sub-criterion 2.3.C.3 [1 point | Conclusiveness]: Combination recommendations are implementable (e.g., \"configure delivery based on category–"
+        ]
+      },
+      {
+        "case": "dacomp-048",
+        "snippet": [
+          "- 2.3.C.1 [1 point | Completeness]: Determine significance for each factor strictly based on its correlation with salary.",
+          "- 2.3.C.2 [1 point | Conclusion]: List factors that significantly lift salary and provide actionable recommendations and risk warnings without exaggeration.",
+          " ",
+          "#### Path 2.3.D [3 points | Conclusions from salary distribution]",
+          "- 2.3.D.1 [1 point | Completeness]: Sort average sal"
+        ]
+      },
+      {
+        "case": "dacomp-074",
+        "snippet": [
+          "- Sub-standard 2.3.C.1 [1 point | Completeness]: If Expense is missing, must explain that Expense + Cost of Revenue can be used as total cost for comparison with revenue.",
+          "- Sub-standard 2.3.C.2 [2 points | Accuracy]: Must provide the calculation logic and verify that under the event window, the same `divergence` threshold `share_div_gt15` is still ≈0.29 (tolerance ±0.02). If the difference is >5p"
+        ]
+      }
+    ],
+    "3.2.C": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 3.2.C.1 [1 point | Completeness]: Group independently for each selected prevention/control field; if numeric (e.g., frequency/area), first bin then group, computing death/recovery proportions within each group, or directly compare means (or similar statistics).",
+          "- Sub-standard 3.2.C.2 [1 point | Accuracy]: Within-group death/recovery proportion calculations for each field are correc"
+        ]
+      },
+      {
+        "case": "dacomp-073",
+        "snippet": [
+          "- Sub-standard 3.2.C.1 [1 Point | Completeness] Set a uniform scenario (e.g., +15% for two consecutive months) and explain its business context (conservative expansion or a target scenario).",
+          "- Sub-standard 3.2.C.2 [4 Points | Accuracy] Calculate based on the scenario factor: Frye-Zavala's current pending=1 → after two months ≈1.32, pressure≈1.32; Arnold Ltd's open_opp=20 → outstanding_2m≈26.45, p"
+        ]
+      },
+      {
+        "case": "dacomp-078",
+        "snippet": [
+          "- Sub-criterion 3.2.C.1 [1 point | Completeness]: Propose a simplified time-series method: build a linear trend from the past two months (`minutes_delta`), or use a 30-day moving average.",
+          "- Sub-criterion 3.2.C.2 [1 point | Accuracy]: Validate the `R²` of direct extrapolation using `last_month_minutes`: `W1`=-0.586, `W2`=-0.314, `W3`=0.233, `W4`=-0.449, `W5`=-1.521, `W6`=-7.80.",
+          "- Sub-criterion 3.2"
+        ]
+      }
+    ],
+    "4.2.A": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 4.2.A.1 [1 point | Completeness]: For each selected treatment field, select and compute an appropriate correlation coefficient or a specific correlation test method, and provide the basis and rationale for selection.",
+          "- Sub-standard 4.2.A.2 [1 point | Accuracy]: The choice of test method is appropriate and reasonable; reference rules are as follows:",
+          "  - Binary variables → Fisher’s e"
+        ]
+      },
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 4.2.A.1 [1 point | Completeness]: Aggregate by completion month: `completed_tasks`, `avg_hours_assigned_to_completion`, `avg_days`, `overdue_rate (delay>0)`, `pct_completed_by_flagged`.",
+          "- Sub-criterion 4.2.A.2 [1 point | Accuracy]: Anchor tolerances: hours ±30h, days ±1d, overdue rate ±5pp, flagged share ±2pp, e.g., `2024-04 → 102.67h / 4.28d / 20.63% / 11.64%`; `2024-08 → 244.72h"
+        ]
+      },
+      {
+        "case": "dacomp-057",
+        "snippet": [
+          "- Sub-criterion 4.2.A.1 [1 Point | Completeness]: Formulate a quantitative migration plan (e.g., decrease allocation for CMP_ACC_ECOM_002_004 by 40%; reduce budgets for CMP_ACC_FIN_001_007/008 by 30%/20% respectively; while reserving 10% of the budget for low-risk campaigns with `scale_opportunity=1`).",
+          "- Sub-criterion 4.2.A.2 [4 Points | Accuracy]: Provide evidence of recipient campaigns: e.g., l"
+        ]
+      }
+    ],
+    "4.2.B": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 4.2.B.1 [1 point | Completeness]: Group by patient outcome (Deceased/Cured), and compute within-group proportions for each categorical treatment field in each group. For numeric fields, first perform interval binning, then compute within-group proportions for the two groups; or directly compare means (or similar statistics).",
+          "- Sub-standard 4.2.B.2 [2 points | Accuracy]: Within-grou"
+        ]
+      },
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 4.2.B.1 [1 point | Completeness]: Build a 3-month moving average (MA3) to identify trend inflection points.",
+          "- Sub-criterion 4.2.B.2 [1 point | Accuracy]: Key node tolerances ±5%: `MA3(2024-08) ≈ 186.5h`, `MA3(2024-10) ≈ 323.9h`.",
+          "- Sub-criterion 4.2.B.3 [1 point | Conclusiveness]: Identify 2024-08 and 2024-10 as clear inflection points, and note the need to adjust resources in line"
+        ]
+      },
+      {
+        "case": "dacomp-057",
+        "snippet": [
+          "- Sub-criterion 4.2.B.1 [1 Point | Completeness]: Define weekly monitoring metrics: `CAC_growth`, `LTV/CAC_change`, `CPC_change`, `CTR_change`, `risk_score`, `retention_risk`, `scale_opportunity`; and set red flag thresholds (e.g., `CAC_growth≥50%` or `LTV/CAC_decline≥30%`).",
+          "- Sub-criterion 4.2.B.2 [4 Points | Accuracy]: Example: The three current campaigns all exceed the thresholds. If the thres"
+        ]
+      }
+    ],
+    "4.2.C": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 4.2.C.1 [1 point | Completeness]: Group independently by each categorical treatment field; for numeric fields, first perform interval binning, then group or directly compare means (or similar statistics); compute death/recovery proportions independently for each field.",
+          "- Sub-standard 4.2.C.2 [1 point | Accuracy]: Within-group death/recovery proportion calculations for each field ar"
+        ]
+      },
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 4.2.C.1 [1 point | Completeness]: Compare quarterly metrics such as `avg_hours` and `overdue_rate`.",
+          "- Sub-criterion 4.2.C.2 [1 point | Accuracy]: Tolerances ±7%: `2024-Q2 → 156.61h / 26.36%`, `2024-Q3 → 239.95h / 35.06%` (+53%/+8.7pp), `2024-Q4 → 754.40h / 62.38%`.",
+          "- Sub-criterion 4.2.C.3 [1 point | Conclusiveness]: Propose plausible hypotheses for external shocks based on stage c"
+        ]
+      },
+      {
+        "case": "dacomp-071",
+        "snippet": [
+          "- Sub-criterion 4.2.C.1 [1 point | Completeness]: Lists the Top 3 `archive_reason` values from all records in the bottleneck stages (including non-final ones).",
+          "- Sub-criterion 4.2.C.2 [4 points | Accuracy]: Technical Assessment: 'Failed technical assessment'≈758, 'Technical skills insufficient'≈440, 'Coding challenge failed'≈128; Final Interview: 'Cultural fit concerns'≈148, 'Interview performan"
+        ]
+      }
+    ],
+    "5.1.A": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 5.1.A.1 [1 point | Completeness]: Produce structured conclusion outputs that include field, direction/comparison, statistic/effect size, p-value, significance marker, and dimensional attribution.",
+          "- Sub-standard 5.1.A.2 [1 point | Conclusion soundness]: Statistics in the conclusions correspond one-to-one with the aforementioned test results and are non-contradictory; provide only “s"
+        ]
+      },
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 5.1.A.1 [1 point | Completeness]: Attribute across direct factors (correlation between delay and completion duration 0.9919), intermediate factors (mismatch 59.2%, activity rate 1.43 vs 1.81), and external factors (team bottlenecks, time trends).",
+          "- Sub-criterion 5.1.A.2 [1 point | Accuracy]: Recommendations must be anchored in data: delay remediation (build SLA alerts and blockage"
+        ]
+      },
+      {
+        "case": "dacomp-053",
+        "snippet": [
+          "##### Sub-standard 5.1.A.1 (1 point | Completeness) Propose a VHS structure: `VHS = 0.4*Z(completion_rate_per_day) + 0.3*MinMax(time_management_score) + 0.2*ROI_rank (by intra-group quantile) + 0.1*(1 - overrun_flag_elapsed)`; set up alerts `HHLV Alert: overall_health_score≥80 ∧ ROI_rank≤P25 ∧ overrun_flag_elapsed=1`, `LHHV Opportunity: overall_health_score<60 ∧ completion_rate_per_day≥P75_in_gro"
+        ]
+      }
+    ],
+    "5.2.A": [
+      {
+        "case": "dacomp-043",
+        "snippet": [
+          "- Sub-standard 5.2.A.1 [1 point | Completeness]: Conduct causal logic analysis for significantly associated variables, analyze whether variables are true lethal triggers, and require analysis with reasons; include causal logic analysis and avoid survivorship bias.",
+          "- Sub-standard 5.2.A.2 [2 points | Conclusion soundness]: Clearly identify variables that may be lethal proximate causes/triggers, whi"
+        ]
+      },
+      {
+        "case": "dacomp-058",
+        "snippet": [
+          "- Sub-criterion 5.2.A.1 [1 point | Completeness]: Deliver a comprehensive report framework including health scores, risk levels, campaign type/strategy/industry comparison tables, trend and seasonality tables, inefficient geo/device segments, and competitive metric diagnosis.",
+          "- Sub-criterion 5.2.A.2 [1 point | Accuracy]: Ensure all tables are verifiable (field definitions match the aforementioned"
+        ]
+      },
+      {
+        "case": "dacomp-062",
+        "snippet": [
+          "- Sub-standard 5.2.A.1 [1 pt｜Completeness]: Proposes at least 3 recommendations covering operational governance and data infrastructure, e.g., ① Set a warning threshold for external links (≥18) in high-complexity projects and assign high-DNC members as integration leads; ② Develop collaboration quality metrics (response time, blocker resolution time, decision closure rate) and incorporate `engag"
+        ]
+      }
+    ],
+    "1.3.D": [
+      {
+        "case": "dacomp-045",
+        "snippet": [
+          "- Sub-criterion 1.3.D.1 [1 point | Completeness]: Compute Category shares across different time segments (e.g., four quadrants) and provide Top Categories by cohort.",
+          "- Sub-criterion 1.3.D.2 [2 points | Accuracy]: Verify using the pseudo-process:",
+          "```",
+          "Build a time segment × Category × cohort 3D pivot table",
+          "FOR each time segment AND each Category:",
+          "Compute high-value users’ share for the Category wit"
+        ]
+      },
+      {
+        "case": "dacomp-046",
+        "snippet": [
+          "- Sub-criterion 1.3.D.1 [1 point | Completeness]: Using Marketing SMS subscription status as the core potential feature, compute the subscription rate by age segment",
+          "- Sub-criterion 1.3.D.2 [1 point | Accuracy]: The following are reference subscription rates, allowing a 1% data difference.",
+          "| Age group | Marketing subscription rate | ",
+          "| :---- | -------: | ",
+          "| <25 | 57.14% | ",
+          "| 25–35 | 57.97% | "
+        ]
+      }
+    ],
+    "2.1.F": [
+      {
+        "case": "dacomp-047",
+        "snippet": [
+          "- Sub-standard 2.1.F.1 [1 point | Completeness]: Based on Loss Rate (%) data analysis, prioritize low-loss varieties to construct combinations, and provide loss-rate control strategies.",
+          "- Sub-standard 2.1.F.2 [2 points | Accuracy]: Must provide ≥ 6 specific Loss Rate (%) data points (e.g., \"Wuhu Green Pepper loss 5.70%\", \"Enoki Mushrooms (box) loss 0.45%\"), calculate overall combination Loss Rate"
+        ]
+      }
+    ],
+    "2.1.G": [
+      {
+        "case": "dacomp-047",
+        "snippet": [
+          "- Sub-standard 2.1.G.1 [1 point | Completeness]: Must clearly provide at least 3 differentiated fruit-and-vegetable combinations, and each combination must cover \"core strategic directions\" (e.g., sales-led, seasonal fit, low loss), while including specific Item Names within the combination and their Category Name. Failure to meet any element yields no points.",
+          "- Sub-standard 2.1.G.2 [2 points | A"
+        ]
+      }
+    ],
+    "2.3.D": [
+      {
+        "case": "dacomp-048",
+        "snippet": [
+          "- 2.3.D.1 [1 point | Completeness]: Sort average salaries corresponding to each quality and present them in the analysis results.",
+          "- 2.3.D.2 [1 point | Conclusion]: Based on the calculations, provide conclusions about which key qualities raise starting salaries.",
+          " ",
+          " ",
+          "## Supplementary Notes",
+          "### How to use the reference answer"
+        ]
+      }
+    ],
+    "1.5.B": [
+      {
+        "case": "dacomp-050",
+        "snippet": [
+          "- Sub-criterion 1.5.B.1 [2 points | Conclusion]: Provide a comprehensive conclusion. Combine the key indicators across the three dimensions for students who have had suicidal thoughts to provide a corresponding high–suicidal ideation risk profile.",
+          "---",
+          "## Requirement 2: Develop feature-based relapse prevention strategies (this requirement can earn up to 9 points)",
+          "### Criterion 2.1: Strategy formul"
+        ]
+      }
+    ],
+    "4.1.C": [
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 4.1.C.1 [1 point | Completeness]: Controlling for `delay_days`, compute partial correlations or residual correlations between `close_days` and activity rate/complexity.",
+          "- Sub-criterion 4.1.C.2 [1 point | Accuracy]: Partial correlation tolerances ±0.05: `partial_corr(close, activity | delay) ≈ -0.306`, `partial_corr(close, complexity | delay) ≈ 0.058`.",
+          "- Sub-criterion 4.1.C.3 [1 po"
+        ]
+      },
+      {
+        "case": "dacomp-055",
+        "snippet": [
+          "- Sub-standard 4.1.C.1 [1 Point | Completeness]: Creates team size bins `Small ≤10 / Medium 11-50` and combines with `Exec/NonExec` level (for combos with sample ≥15).",
+          "- Sub-standard 4.1.C.2 [4 Points | Accuracy]: Provides ROI values:",
+          "  - `Small+Exec`: Mismatched `7.66` vs Non-mismatched `8.66`.",
+          "  - `Small+NonExec`: `8.55` vs `9.67`.",
+          "  - `Medium+Exec`: `14.63` vs `14.96`.",
+          "  - `Medium+NonExec`: `1"
+        ]
+      },
+      {
+        "case": "dacomp-056",
+        "snippet": [
+          "- Standard 4.1.C.1 [1 Point | Completeness]: Tally the distributions for `lifecycle_stage` and `recommended_engagement_model` separately and combine them into a matrix.",
+          "- Standard 4.1.C.2 [4 Points | Accuracy]: Provide the distributions (tolerance ±1 person): HV: Retention=46, Dormant=45, Growth=6, Maturity=5, Activation=1. SMB: Dormant=4119, Retention=584, Growth=127, Maturity=28, Activation=17"
+        ]
+      }
+    ],
+    "5.1.B": [
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 5.1.B.1 [1 point | Completeness]: Build an OKR system covering delay, matching, and collaboration.",
+          "- Sub-criterion 5.1.B.2 [1 point | Accuracy]: Bind key results to data (tolerances ±10%): `KR1: delay_days mean from 4.86 → ≤4.0`; `KR2: mismatch from 59.2% → ≤50%`; `KR3: completion_rate +8pp for low-completion teams`.",
+          "- Sub-criterion 5.1.B.3 [1 point | Conclusiveness]: Explain the"
+        ]
+      },
+      {
+        "case": "dacomp-053",
+        "snippet": [
+          "##### Sub-standard 5.1.B.1 (0.5 points | Completeness) Develop an action matrix:  ",
+          "HHLV: `overall_health_score≥80 ∧ overrun_flag_elapsed=1 ∧ ROI<Q1_grade` → Trigger scope freeze + dedicated re-planning (target to reduce overrun to <30% within 2 weeks);  ",
+          "LHHV: `overall_health_score<60 ∧ completion_rate_per_day≥P75` → Trigger resource focus & risk reassessment, set a target to increase completion"
+        ]
+      },
+      {
+        "case": "dacomp-055",
+        "snippet": [
+          "- Sub-standard 5.1.B.1 [1 Point | Completeness]: Defines `alignment = corr(feature, investment_priority) × corr(feature, composite)` and screens for features with negative alignment.",
+          "- Sub-standard 5.1.B.2 [4 Points | Accuracy]: Provides examples:",
+          "  - `customer_onboarding_score`: `corr_ip = -0.017`, `corr_perf = 0.314`, alignment `≈-0.0053`.",
+          "  - `team_size`: `corr_ip = 0.018`, `corr_perf = 0.316`"
+        ]
+      }
+    ],
+    "5.1.C": [
+      {
+        "case": "dacomp-051",
+        "snippet": [
+          "- Sub-criterion 5.1.C.1 [1 point | Completeness]: Construct at least two scenarios (e.g., surge in demand, departure of key members) and corresponding mitigation measures.",
+          "- Sub-criterion 5.1.C.2 [1 point | Accuracy]: Explain the estimation logic in pseudocode or tabular form, allowing ±10% variation; reference current baselines (e.g., `avg_hours`, `flagged_share`).",
+          "- Sub-criterion 5.1.C.3 [1 poi"
+        ]
+      },
+      {
+        "case": "dacomp-055",
+        "snippet": [
+          "- Sub-standard 5.1.C.1 [1 Point | Completeness]: Proposes at least 6 recommendations covering model calibration, stage-based thresholds, industry differentiation, onboarding/support processes, and monitoring.",
+          "- Sub-standard 5.1.C.2 [4 Points | Accuracy]: Each recommendation is tied to a quantitative target, for example:",
+          "  1. \"For Education/Tech Startup customers, raise the onboarding score to ≥3."
+        ]
+      },
+      {
+        "case": "dacomp-056",
+        "snippet": [
+          "- Standard 5.1.C.1 [1 Point | Completeness]: Propose an efficiency-tiered process centered on `marketing_to_sales_days` and `sales_to_support_days`. If fields are missing, note this and use `ltv_velocity` and `inactivity_ratio` as substitutes.",
+          "- Standard 5.1.C.2 [4 Points | Accuracy]: Provide threshold recommendations: if original fields exist, HV should be ≤45/≤30 days, SMB ≤30/≤14 days. If fie"
+        ]
+      }
+    ],
+    "3.4.A": [
+      {
+        "case": "dacomp-058",
+        "snippet": [
+          "- Sub-criterion 3.4.A.1 [1 point | Completeness]: Compare the quality score, impression share, CTR, average position, and keyword metrics between problematic and non-problematic campaigns to identify shortcomings.",
+          "- Sub-criterion 3.4.A.2 [1 point | Accuracy]: Must cite specific differences: flagged quality score=5.193, impression share=0.383, CTR=0.0110, cost-weighted avg position=0.745 (higher i"
+        ]
+      }
+    ],
+    "3.3.B": [
+      {
+        "case": "dacomp-061",
+        "snippet": [
+          "- Criterion 3.3.B.1 [1 Point | Completeness] Within the fast group (2 projects), divides them by stability ≥60% and compares key metrics.",
+          "- Criterion 3.3.B.2 [2 Points | Accuracy] Describes the differences: bug_rate 18.6% (low-stability) vs 15.5% (high-stability); avg_consistency 56.79 vs 75.08; churn_risk_share 0.333 vs 0.200; open_ratio 0.092 vs 0.125. If a test is performed, it must be noted t"
+        ]
+      },
+      {
+        "case": "dacomp-064",
+        "snippet": [
+          "- 3.3.B.1 [1 Point | Completeness] Create a profile using a combination of `stakeholder_archetype`, `influence_level`, and `out/in_ratio>1.5`.",
+          "- 3.3.B.2 [4 Points | Precision] Verify: Contradiction set `avg_out/in=1.608±0.01`, percentage `>1.5 =56.66%±0.2pp`; Non-contradiction set `avg_out/in=1.167±0.01`, percentage `>1.5 =14.39%±0.2pp`. Provide the `AVG` / `CASE` calculation framework and explai"
+        ]
+      },
+      {
+        "case": "dacomp-078",
+        "snippet": [
+          "- Sub-criterion 3.3.B.1 [1 point | Completeness]: Output a list of visitors with `prob>=0.8` (observed 10 people, e.g., `VIS0000000199` with probability 0.904), including key driving features (e.g., past minutes < 10 but with a sharp drop ≥ 80%).",
+          "- Sub-criterion 3.3.B.2 [1 point | Conclusion]: Define clear actions: the goal is to improve the retention of these accounts over the next 3 months. Mea"
+        ]
+      }
+    ],
+    "5.2.B": [
+      {
+        "case": "dacomp-062",
+        "snippet": [
+          "- Sub-standard 5.2.B.1 [1 pt｜Completeness]: Plans a monitoring system (collaboration quality dashboard, complexity × collaboration heatmap, external link alerts) and proposes a periodic review mechanism.",
+          "- Sub-standard 5.2.B.2 [4 pts｜Precision]: Provides specific metrics and thresholds: e.g., `total_external_links>18` triggers governance; `high-complexity×high-links` success rate of ≈0.791 as a"
+        ]
+      },
+      {
+        "case": "dacomp-064",
+        "snippet": [
+          "- 5.2.B.1 [1 Point | Completeness] Formulate a pilot plan: select the 403 Exec/Senior members of the contradiction set as the pilot group, with the 493 non-contradiction members at the same level as the control group, over a 6-week period.",
+          "- 5.2.B.2 [4 Points | Precision] Define clear evaluation metrics: alert trigger rate, `avg_close_time_days`, `assign/report`, `total_comments_authored`. Explai"
+        ]
+      },
+      {
+        "case": "dacomp-074",
+        "snippet": [
+          "- Sub-standard 5.2.B.1 [1 point | Completeness]: Must recommend including features like `rev_vol_roll3_ge2`, `div_gt15`, `wado_gt40`, `overdue_up_recent3`, RuleA/B/C hits, and the slope of `net_cash_flow` into a cash flow risk prediction model.",
+          "- Sub-standard 5.2.B.2 [1 point | Accuracy]: Must propose a validation plan: use the first 'High' event as positive samples and test the 2-3 month advance"
+        ]
+      }
+    ],
+    "3.3.C": [
+      {
+        "case": "dacomp-065",
+        "snippet": [
+          "- Sub-standard 3.3.C.1 [Completeness | 1 point] Uses predicted values `p_hat` from the 2.2.A Logit model to calculate residuals `stage_hired - p_hat`. Computes the average residual for each company background group and also calculates `AIR = min(group_hire_rate) / max(group_hire_rate)`.",
+          "- Sub-standard 3.3.C.2 [Precision | 2 points] Replicates: Average residuals (FAANG=+2.89e-18, BigTech=−3.04e-1"
+        ]
+      }
+    ],
+    "4.3.A": [
+      {
+        "case": "dacomp-066",
+        "snippet": [
+          "- Sub-criterion 4.3.A.1 [1 point | Completeness] Specify the model: `interview_rate ~ interviews_per_candidate + scorecards_per_interview + manager_tenure_months + interview_completion_rate + avg_interview_score + log_apps + C(role_group) + C(quarter)`. Where `manager_tenure_months = days_since_created/30`.",
+          "- Sub-criterion 4.3.A.2 [3 points | Accuracy] (tolerance ±10%) Key coefficients: `intervi"
+        ]
+      },
+      {
+        "case": "dacomp-083",
+        "snippet": [
+          "- Sub-criterion 4.3.A.1｜Conclusion: The strategic plan must explicitly align with the previously identified insights (T1 compensation risk, Early-New Hire and Senior-Veteran bimodal risk, QA/HR/Customer Ops hotspots, higher union eligibility in the HV group, etc.) and include a reminder not to use gender/age as hard thresholds, but only for trend analysis."
+        ]
+      },
+      {
+        "case": "dacomp-090",
+        "snippet": [
+          "---",
+          "## Requirement 5: Estimate potential loss for the next 6 months and establish a risk warning system (Max 7 points for this requirement)",
+          "### Standard 5.1: Potential loss estimation (Max 5 points)",
+          "#### Path 5.1.A [5 points | Scenario method using revenue × collection rate]",
+          "- Sub-standard 5.1.A.1 [1 point | Completeness] Uses the last 12-month average revenue of 5,641,018.82 as a baseline and s"
+        ]
+      }
+    ],
+    "4.3.B": [
+      {
+        "case": "dacomp-066",
+        "snippet": [
+          "- Sub-criterion 4.3.B.1 [1 point | Completeness] Augment the model to include `C(hiring_managers)` fixed effects.",
+          "- Sub-criterion 4.3.B.2 [3 points | Accuracy] (tolerance ±10%) Coefficients: `interviews_per_candidate` ≈ +62.40 (p≈3.0e-31); `scorecards_per_interview` ≈ -1.19 (p≈0.117); `manager_tenure_months` ≈ +0.301 (p≈0.0019); `log_apps` ≈ +0.444 (p≈0.089); R²≈0.988. Manager FE (relative to a"
+        ]
+      }
+    ],
+    "6.1.A": [
+      {
+        "case": "dacomp-072",
+        "snippet": [
+          "- Sub-criterion 6.1.A.1 [1 Point | Completeness] Simultaneously complete the following: ① Calculate the Pearson correlation between `total_requisitions_owned` and `total_score`. ② Identify the borderline case of a manager in the \"Good\" tier who meets all three thresholds but has a score < 80. ③ Output at least three data-driven action recommendations covering feedback, experience/cycle, and opera"
+        ]
+      },
+      {
+        "case": "dacomp-075",
+        "snippet": [
+          "- Sub-criterion 6.1.A.1 [1 point | Completeness]: The report must cover core risks, priority actions, ROI ranking, governance cadence, and key KPIs (e.g., number of high-risk vendors, expected loss, contract window, capital employed).",
+          "- Sub-criterion 6.1.A.2 [4 points | Accuracy]: Cite key data: contract ≤12 months=91, `spend_concentration_ratio≥0.4`=74, Dormant=80, High-risk (hazard≥95)=7, TierA"
+        ]
+      },
+      {
+        "case": "dacomp-076",
+        "snippet": [
+          "- Sub-standard 6.1.A.1 [1 point | Completeness] Proposes a segmentation framework: Profitability Segment × (Transaction Stability: `txn_consistency_error`, `transaction_value_volatility`) × (Seasonality: `seasonality_std/imbalance/CV` + quarterly thresholds) × (Lifecycle: At Risk/Growth/Mature).",
+          "- Sub-standard 6.1.A.2 [1 point | Accuracy] Links clusters and anomalies to actions:",
+          "  - Cluster 1 (Se"
+        ]
+      }
+    ],
+    "6.1.B": [
+      {
+        "case": "dacomp-072",
+        "snippet": [
+          "- Sub-criterion 6.1.B.1 [1 Point | Completeness] Conduct additional analysis segmented by department, access role, or workload, and propose at least three action recommendations based on the results.",
+          "- Sub-criterion 6.1.B.2 [4 Points | Accuracy] Provide a clear process: deduplicate data → segment → calculate averages/proportions → compare. Recommendations must be supported by corresponding data."
+        ]
+      },
+      {
+        "case": "dacomp-076",
+        "snippet": [
+          "- Sub-standard 6.1.B.1 [1 point | Completeness] Proposes off-season promotions for peak-type customers, VIP maintenance for high-value unstable customers, and enhanced lifecycle touchpoints for At Risk customers.",
+          "- Sub-standard 6.1.B.2 [1 point | Accuracy] Anchors targets with data points: e.g., the 33 Q4 Peak anomalies, 12 At Risk anomalies, 15 anomalies with `volatility>0.7`, etc.",
+          "- Sub-standar"
+        ]
+      },
+      {
+        "case": "dacomp-082",
+        "snippet": [
+          "- Sub-standard 6.1.B.1 [1 Point | Completeness]: Must include at least channel positioning, category strategy, user value strategy, and budget adjustment direction.",
+          "- Sub-standard 6.1.B.2 [2 Points | Accuracy]: Each recommendation must be supported by data (e.g., email share in `research` is 65.03%, sms share in `evaluation` is 41.93%, high cohort email share is 58.47%).",
+          "- Sub-standard 6.1.B.3 [2"
+        ]
+      }
+    ],
+    "6.2.A": [
+      {
+        "case": "dacomp-082",
+        "snippet": [
+          "- Sub-standard 6.2.A.1 [1 Point | Completeness]: List at least three risks/assumptions (e.g., lack of survey mapping for `mobile`, `contact` data does not cover web/social, subjective weight settings).",
+          "- Sub-standard 6.2.A.2 [2 Points | Accuracy]: Propose mitigation measures for each risk (supplement attribution, phased pilots, weight sensitivity comparison) and show an example of how ROI would b"
+        ]
+      }
+    ],
+    "6.2.B": [
+      {
+        "case": "dacomp-082",
+        "snippet": [
+          "- Sub-standard 6.2.B.1 [1 Point | Completeness]: Define a set of monitoring metrics (completion rate, `efficiency_score`, category_mix, cohort value, ROI index, etc.) and a review frequency.",
+          "- Sub-standard 6.2.B.2 [2 Points | Accuracy]: Explain the monitoring method and thresholds (e.g., if `ROI_mult` falls outside the 95% confidence interval, adjustments are needed; if marginal ROI < 0 → claw ba"
+        ]
+      }
+    ],
+    "5.3.A": [
+      {
+        "case": "dacomp-090",
+        "snippet": [
+          "---",
+          "## Requirement 6: Propose tiered customer management and risk control strategies (Max 3 points for this requirement)",
+          "### Standard 6.1: Strategy design and execution loop (Max 3 points)",
+          "#### Path 6.1.A [3 points | Tiered strategy + quantitative targets]",
+          "- Sub-standard 6.1.A.1 [1 point | Completeness] Clearly defines four tiers based on risk score/receivables size (≥70, 60–69, 50–59, <50) and"
+        ]
+      }
+    ]
+  }
+}

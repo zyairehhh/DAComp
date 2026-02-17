@@ -1,0 +1,847 @@
+Path category counts
+- group_aggregate: 1037
+- metric_definition_kpi: 991
+- trend_time: 830
+- recommendation: 785
+- scoring_weighted: 644
+- segmentation_ranking: 642
+- correlation_test: 513
+- retention_conversion: 386
+- regression_effect: 280
+- volatility_anomaly: 261
+- visualization: 88
+- other: 14
+
+Examples
+
+## metric_definition_kpi
+
+[dacomp-001 1.1.A]
+#### Path 1.1.A (Field mapping + aggregation definitions + templates + audit trail)
+- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  
+  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  
+  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  
+  Scoring conditions: Mappings cover core input domains (revenue, stability, dependency, existing Credit Rating/alternatives); transformation logic is clear and traceable back to source fields.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy] Core aggregation definitions and sample re-computation  
+  Requirements: Clarify the calculation definitions for “enterprise-level” aggregation (e.g., time window, de-duplication rules, inclusive/exclusive of tax definitions), and demonstrate at least one “sample chain” from raw rows → statistics recalculation.  
+  Acceptable evidence: Calculation formulas + example SQL/reconciliations from detail → aggregation → result tables/screenshots.  
+  Scoring conditions: Formulas align with implementation; the sample chain is closed-loop (inputs, calculations, outputs consistent); key definitions (time, whether to exclude red-letter reversals/voided or canceled records, etc.) are explained.
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness] Recomputable templates and intermediate quantities  
+  Requirements: Provide repeatable templates (SQL/scripts/Excel workflows) whose outputs include key intermediate quantities (e.g., monthly flows, CV, Top1/HHI).  
+  Scoring conditions: Running the same inputs multiple times yields consistent results; templates run independently (dependencies and parameters are well-documented); key intermediate quantities are visible in outputs.
+
+[dacomp-001 1.2.A]
+#### Path 1.2.A (Weighted aggregation and validation)
+- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  
+  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  
+  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective factors is clear.
+- Sub-criterion 1.2.A.2 [1 point | Accuracy] Monotonicity validation  
+  Requirements: Using boundary examples/unit tests, show that when a risk factor worsens (or a protective factor declines), S rises rather than falls; and vice versa.  
+  Scoring conditions: Provide at least one example each for two factor types (risk/protective) proving S’s response direction is correct; when conflicts arise, provide fixes (e.g., truncation/Winsorization/log transformations).
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness] S intervals and human consistency  
+  Requirements: Define good/medium/weak S intervals or quantile thresholds; sample and compare consistency against human judgment or existing Credit Ratings.  
+  Scoring conditions: Interval segmentation has justification (distributions, business thresholds); provide sampling methods and conclusions (e.g., consistency ratio or explanations of typical mismatches).
+- Sub-criterion 1.2.A.4 [1 point | Accuracy] Stability/drift tests  
+  Requirements: Compare S distributions over rolling periods (or KS/PSI/equivalent statistics); when anomalies appear, provide causes and corrections (e.g., re-calibration, definition harmonization).  
+
+[dacomp-001 1.3.A]
+#### Path 1.3.A (Logistic function + LGD coverage)
+- Sub-criterion 1.3.A.1 [1 point | Completeness] PD mapping and calibration plan  
+  Requirements: Provide a monotonic S→PD function (logistic or equivalent), initial parameter sources, and a calibration plan (samples, window, evaluation metrics).  
+  Scoring conditions: Function form and parameter meanings are clear; calibration steps are executable (data sources, evaluation methods).
+- Sub-criterion 1.3.A.2 [1 point | Accuracy] Multi-point anchor check  
+  Requirements: At least three S values with PD calculations align with expected direction (higher S → higher PD), with calculation steps attached.  
+  Scoring conditions: Numbers align with the curve; anchor deviations are within acceptable ranges; reasons for deviations and subsequent fine-tuning are explained.
+- Sub-criterion 1.3.A.3 [1 point | Conclusiveness] S–PD curve and intervals  
+  Requirements: Provide the curve or a discrete table; annotate applicable ranges, monotonicity, and extrapolation/truncation strategies.  
+  Scoring conditions: Monotonicity is explicit; intervals match business scenarios; extrapolation strategies are reasonable.
+- Sub-criterion 1.3.A.4 [1 point | Completeness] LGD tiers and default strategies  
+  Requirements: Define LGD tiers (secured by real estate/movable collateral/unsecured/unknown, etc.), note value ranges and mapping rules; provide defaults for unknown/anomalies.  
+
+[dacomp-001 1.4.A]
+#### Path 1.4.A (Bucketing and mapping)
+- Sub-criterion 1.4.A.1 [1 point | Completeness] Bucket boundaries  
+  Requirements: Define boundaries (or equivalent thresholds) for A/B/C/D buckets based on PD, with formulas/SQL snippets attached.  
+  Scoring conditions: Boundaries are clear and executable; sample checks confirm correct bucket assignment.
+- Sub-criterion 1.4.A.2 [1 point | Accuracy] Regulatory parameter mapping  
+  Requirements: Map buckets to K/m/U (or internal equivalent parameters), with parameter tables and version notes.  
+  Scoring conditions: Parameters are monotonically consistent across buckets; sources and versions are traceable.
+- Sub-criterion 1.4.A.3 [1 point | Conclusiveness] Concentration and cap examples  
+  Requirements: Provide rules for concentration/single-customer caps (may include Top1, revenue share, etc.) and one complete sample calculation chain.  
+  Scoring conditions: Sample calculations are consistent end-to-end; ordering across multiple constraints is clear.
+- Sub-criterion 1.4.A.4 [1 point | Accuracy] Boundary point tests and monotonicity  
+  Requirements: Select several PD boundary points to verify relationships such as K↑, m↓, U↓; explain exception handling.  
+
+[dacomp-001 1.5.A]
+#### Path 1.5.A (Functions + checks)
+- Sub-criterion 1.5.A.1 [1 point | Completeness] Churn function and parameter explanations  
+  Requirements: Provide an interpretable Churn function (or equivalent response model), define exogenous variables such as r_alt and Cut, and their measurement scope.  
+  Scoring conditions: Function structure, variable sources, and definitions are consistent and reusable.
+- Sub-criterion 1.5.A.2 [1 point | Accuracy] Churn anchor validation  
+  Requirements: At least two worked examples of Δr/Cut changes → Churn responses, with calculation steps or code.  
+  Scoring conditions: Direction of change is correct and magnitudes reasonable; does not conflict with historical/industry knowledge.
+- Sub-criterion 1.5.A.3 [1 point | Conclusiveness] Single-customer RAROC definition  
+  Requirements: Provide RAROC% = (r - CoF - OpEx - PD×LGD) / K (or equivalent decomposition) and field sources and alignment.  
+  Scoring conditions: Definitions align with 1.4; field values are traceable.
+- Sub-criterion 1.5.A.4 [1 point | Accuracy] RAROC sample re-computation  
+  Requirements: Provide the RAROC calculation steps and result for a given set of parameters, with clear reconciliation.  
+
+## segmentation_ranking
+
+[dacomp-001 1.1.A]
+#### Path 1.1.A (Field mapping + aggregation definitions + templates + audit trail)
+- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  
+  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  
+  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  
+  Scoring conditions: Mappings cover core input domains (revenue, stability, dependency, existing Credit Rating/alternatives); transformation logic is clear and traceable back to source fields.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy] Core aggregation definitions and sample re-computation  
+  Requirements: Clarify the calculation definitions for “enterprise-level” aggregation (e.g., time window, de-duplication rules, inclusive/exclusive of tax definitions), and demonstrate at least one “sample chain” from raw rows → statistics recalculation.  
+  Acceptable evidence: Calculation formulas + example SQL/reconciliations from detail → aggregation → result tables/screenshots.  
+  Scoring conditions: Formulas align with implementation; the sample chain is closed-loop (inputs, calculations, outputs consistent); key definitions (time, whether to exclude red-letter reversals/voided or canceled records, etc.) are explained.
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness] Recomputable templates and intermediate quantities  
+  Requirements: Provide repeatable templates (SQL/scripts/Excel workflows) whose outputs include key intermediate quantities (e.g., monthly flows, CV, Top1/HHI).  
+  Scoring conditions: Running the same inputs multiple times yields consistent results; templates run independently (dependencies and parameters are well-documented); key intermediate quantities are visible in outputs.
+
+[dacomp-001 1.2.A]
+#### Path 1.2.A (Weighted aggregation and validation)
+- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  
+  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  
+  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective factors is clear.
+- Sub-criterion 1.2.A.2 [1 point | Accuracy] Monotonicity validation  
+  Requirements: Using boundary examples/unit tests, show that when a risk factor worsens (or a protective factor declines), S rises rather than falls; and vice versa.  
+  Scoring conditions: Provide at least one example each for two factor types (risk/protective) proving S’s response direction is correct; when conflicts arise, provide fixes (e.g., truncation/Winsorization/log transformations).
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness] S intervals and human consistency  
+  Requirements: Define good/medium/weak S intervals or quantile thresholds; sample and compare consistency against human judgment or existing Credit Ratings.  
+  Scoring conditions: Interval segmentation has justification (distributions, business thresholds); provide sampling methods and conclusions (e.g., consistency ratio or explanations of typical mismatches).
+- Sub-criterion 1.2.A.4 [1 point | Accuracy] Stability/drift tests  
+  Requirements: Compare S distributions over rolling periods (or KS/PSI/equivalent statistics); when anomalies appear, provide causes and corrections (e.g., re-calibration, definition harmonization).  
+
+[dacomp-001 1.4.A]
+#### Path 1.4.A (Bucketing and mapping)
+- Sub-criterion 1.4.A.1 [1 point | Completeness] Bucket boundaries  
+  Requirements: Define boundaries (or equivalent thresholds) for A/B/C/D buckets based on PD, with formulas/SQL snippets attached.  
+  Scoring conditions: Boundaries are clear and executable; sample checks confirm correct bucket assignment.
+- Sub-criterion 1.4.A.2 [1 point | Accuracy] Regulatory parameter mapping  
+  Requirements: Map buckets to K/m/U (or internal equivalent parameters), with parameter tables and version notes.  
+  Scoring conditions: Parameters are monotonically consistent across buckets; sources and versions are traceable.
+- Sub-criterion 1.4.A.3 [1 point | Conclusiveness] Concentration and cap examples  
+  Requirements: Provide rules for concentration/single-customer caps (may include Top1, revenue share, etc.) and one complete sample calculation chain.  
+  Scoring conditions: Sample calculations are consistent end-to-end; ordering across multiple constraints is clear.
+- Sub-criterion 1.4.A.4 [1 point | Accuracy] Boundary point tests and monotonicity  
+  Requirements: Select several PD boundary points to verify relationships such as K↑, m↓, U↓; explain exception handling.  
+
+[dacomp-001 2.2.A]
+#### Path 2.2.A (Limit chain + verification)
+- Sub-criterion 2.2.A.1 [1 point | Completeness] Limit chain  
+  Requirements: Define L_base, L_init, f, L and their definitions aligned with 1.4 (including revenue constraints, concentration coefficients, etc.).  
+  Scoring conditions: Chain variable definitions are clear; connected to risk parameters.
+- Sub-criterion 2.2.A.2 [1 point | Accuracy] Invariants and execution order  
+  Requirements: Clarify invariants such as PD↑/Top1↑ → L↓; when Churn > threshold, the sequence of “increase limit/reduce price,” with a RAROC floor constraint.  
+  Scoring conditions: Order and boundaries are clear; when conflicts exist, provide “priority/rollback” logic.
+- Sub-criterion 2.2.A.3 [1 point | Conclusiveness] Sample anchor re-computation  
+  Requirements: Given a set of conditions, output intermediate quantities and the final limit L, with transparent steps.  
+  Scoring conditions: Formula chain is consistent; results can be re-computed by a third party.
+- Sub-criterion 2.2.A.4 [1 point | Accuracy] Boundary/extreme tests  
+  Requirements: Test scenarios of high PD, extremely small scale, extremely high concentration, etc., verifying L decreases and does not exceed caps.  
+
+[dacomp-001 2.3.A]
+#### Path 2.3.A (Quota iteration)
+- Sub-criterion 2.3.A.1 [1 point | Completeness] Bucket parameters and sources  
+  Requirements: Initial parameters for A/B/C/D buckets—L¯, utilization U, average Churn¯—with sources noted (historical/model/assumptions).  
+  Scoring conditions: Parameters are complete; sources are credible.
+- Sub-criterion 2.3.A.2 [1 point | Accuracy] EAD estimation  
+  Requirements: Compute EAD_b = L¯ × (1 - Churn¯) × U and provide example summaries.  
+  Scoring conditions: Definitions are consistent; calculation steps are verifiable.
+- Sub-criterion 2.3.A.3 [1 point | Conclusiveness] Iterative scaling pseudocode  
+  Requirements: Provide the limit equalization algorithm (scaling factor updates, convergence criteria, stopping conditions), supporting single-customer caps and reallocation.  
+  Scoring conditions: Logic is self-consistent; anomalies (e.g., everyone hits caps) are handled.
+- Sub-criterion 2.3.A.4 [1 point | Accuracy] Convergence logs  
+  Requirements: Output iterations, factor evolution, ΣEAD sequence, and stopping conditions; provide final error.  
+
+## trend_time
+
+[dacomp-001 1.1.A]
+#### Path 1.1.A (Field mapping + aggregation definitions + templates + audit trail)
+- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  
+  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  
+  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  
+  Scoring conditions: Mappings cover core input domains (revenue, stability, dependency, existing Credit Rating/alternatives); transformation logic is clear and traceable back to source fields.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy] Core aggregation definitions and sample re-computation  
+  Requirements: Clarify the calculation definitions for “enterprise-level” aggregation (e.g., time window, de-duplication rules, inclusive/exclusive of tax definitions), and demonstrate at least one “sample chain” from raw rows → statistics recalculation.  
+  Acceptable evidence: Calculation formulas + example SQL/reconciliations from detail → aggregation → result tables/screenshots.  
+  Scoring conditions: Formulas align with implementation; the sample chain is closed-loop (inputs, calculations, outputs consistent); key definitions (time, whether to exclude red-letter reversals/voided or canceled records, etc.) are explained.
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness] Recomputable templates and intermediate quantities  
+  Requirements: Provide repeatable templates (SQL/scripts/Excel workflows) whose outputs include key intermediate quantities (e.g., monthly flows, CV, Top1/HHI).  
+  Scoring conditions: Running the same inputs multiple times yields consistent results; templates run independently (dependencies and parameters are well-documented); key intermediate quantities are visible in outputs.
+
+[dacomp-001 2.5.B]
+#### Path 2.5.B (Stress testing + sensitivity)
+- Sub-criterion 2.5.B.1 [1 point | Completeness] Stress scenarios  
+  Requirements: At least three types of macro shocks (e.g., interest rates, macro growth, industry defaults) and their impact scope.  
+  Scoring conditions: Scenario coverage is broad; parameters are executable.
+- Sub-criterion 2.5.B.2 [1 point | Accuracy] Sensitivity coefficients  
+  Requirements: Apply ± changes to key parameters and provide sensitivity coefficients and directions for EAD/RAROC.  
+  Scoring conditions: Directions are reasonable; values are verifiable.
+- Sub-criterion 2.5.B.3 [1 point | Conclusiveness] Result interpretation and management advice  
+  Requirements: Identify dominant risk factors, propose adjustments to exposures/capital/limits, and explain expected impacts.  
+  Scoring conditions: Explanations are adequate; recommendations are actionable.
+- Sub-criterion 2.5.B.4 [1 point | Accuracy] Audit traceability  
+  Requirements: Save inputs, versions, run times, and result summaries; repeat three times with small deviations.  
+
+[dacomp-002 1.1.A]
+#### Path 1.1.A [4 points]: Comprehensive data processing and analysis 
+-  Sub-criterion 1.1.A.1 [1 point | Completeness]: Group all data by Sales Month and Major Category Name, then compute the total Sales Amount for each Major Category.
+-  Sub-criterion 1.1.A.2 [1 point | Completeness]: Compute the total Sales Amount for every Major Category. If only some major categories are selected and calculated after sampling, this item receives no points.
+- Sub-criterion 1.1.A.3 [2 points | Accuracy]: Sales Amount calculations are correct; verification reference values are shown in the table below. All data must match the table for full accuracy credit. Note: applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+Summary of Sales Amount by Major Category for January–April (unit: yuan):
+| Major Category Name | January | February | March | April |
+| --- | --- | --- | --- | --- |
+| Leisure Foods | 18653.38 | 25434.27 | 14775.93 | 15803.62 |
+| Drink Mixes | 3235.60 | 6193.30 | 2305.40 | 2356.70 |
+| Home Goods | 1491.10 | 1972.40 | 1725.60 | 1416.00 |
+| Home Appliances | 430.90 | 183.90 | 209.40 | 29.70 |
+| Cultural & Sports Goods | 702.50 | 597.70 | 368.60 | 322.50 |
+
+[dacomp-002 1.2.A]
+#### Path 1.2.A [6 points]: Summarize the growth trend for each Major Category in the final analysis 
+- Sub-criterion 1.2.A.1 [1 point | Completeness]: Compute monthly Sales Amount and month-over-month indicators for all major categories, and provide a specific summary of the growth trend.
+- Sub-criterion 1.2.A.2 [2 points | Accuracy]: Accurately compute the month-over-month growth amount or month-over-month growth rate for each category in different months. Either the growth amount or rate can be used. The data must be correct and consistent with the table below; applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+| Major Category Name | February month-over-month growth amount | March month-over-month growth amount | April month-over-month growth amount | February month-over-month growth rate | March month-over-month growth rate | April month-over-month growth rate |
+|----------|-------|-------|------|------|--------|------|
+| Leisure Foods | 6780.89 | -10658.34 | 1027.69 | 36.35% | -41.91% | 6.96% |
+| Drink Mixes | 2957.7 | -3887.9 | 51.3 | 91.41% | -62.78% | 2.23% |
+| Home Goods | 481.3 | -246.8 | -309.6 | 32.28% | -12.51% | -17.94% |
+| Home Appliances | -247 | 25.5 | -179.7 | -57.32% | 13.87% | -85.82% |
+| Cultural & Sports Goods | -104.8 | -229.1 | -46.1 | -14.92% | -38.33% | -12.51% |
+| Daily Fresh Products | 4035.04 | -7501.56 | 4196.06 | 19.89% | -30.85% | 24.95% |
+| Aquatic Products | 273.61 | -130.3 | 747.25 | 69.11% | -19.46% | 138.59% |
+
+[dacomp-002 2.1.A]
+#### Path 2.1.A [4 points]: Comprehensive share analysis 
+- Sub-criterion 2.1.A.1 [1 point | Completeness]: Group the data by Sales Month and Major Category Name, and compute the Sales Amount share of each Major Category.
+- Sub-criterion 2.1.A.2 [2 points | Accuracy]: The Sales Amount share is calculated correctly; verification baseline values are as follows. Note: applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+| Major Category Name | January share | February share | March share | April share |
+| -------- | -------- | -------- | -------- | -------- |
+| Leisure Foods | 15.85% | 18.03% | 15.57% | 15.24% |
+| Drink Mixes | 2.75% | 4.39% | 2.43% | 2.27% |
+| Home Goods | 1.27% | 1.40% | 1.82% | 1.37% |
+| Home Appliances | 0.37% | 0.13% | 0.22% | 0.03% |
+| Cultural & Sports Goods | 0.60% | 0.42% | 0.39% | 0.31% |
+| Daily Fresh Products | 17.23% | 17.24% | 17.72% | 20.26% |
+| Aquatic Products | 0.34% | 0.47% | 0.57% | 1.24% |
+
+## volatility_anomaly
+
+[dacomp-001 1.1.A]
+#### Path 1.1.A (Field mapping + aggregation definitions + templates + audit trail)
+- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  
+  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  
+  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  
+  Scoring conditions: Mappings cover core input domains (revenue, stability, dependency, existing Credit Rating/alternatives); transformation logic is clear and traceable back to source fields.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy] Core aggregation definitions and sample re-computation  
+  Requirements: Clarify the calculation definitions for “enterprise-level” aggregation (e.g., time window, de-duplication rules, inclusive/exclusive of tax definitions), and demonstrate at least one “sample chain” from raw rows → statistics recalculation.  
+  Acceptable evidence: Calculation formulas + example SQL/reconciliations from detail → aggregation → result tables/screenshots.  
+  Scoring conditions: Formulas align with implementation; the sample chain is closed-loop (inputs, calculations, outputs consistent); key definitions (time, whether to exclude red-letter reversals/voided or canceled records, etc.) are explained.
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness] Recomputable templates and intermediate quantities  
+  Requirements: Provide repeatable templates (SQL/scripts/Excel workflows) whose outputs include key intermediate quantities (e.g., monthly flows, CV, Top1/HHI).  
+  Scoring conditions: Running the same inputs multiple times yields consistent results; templates run independently (dependencies and parameters are well-documented); key intermediate quantities are visible in outputs.
+
+[dacomp-001 2.5.A]
+#### Path 2.5.A (Scenario simulation + checks)
+- Sub-criterion 2.5.A.1 [1 point | Completeness] Scenario setup  
+  Requirements: Parameter assumptions and run methods for optimistic/base/pessimistic/sensitivity scenarios (Monte Carlo or equivalent).  
+  Scoring conditions: Parameters are self-consistent; cover key drivers (PD/LGD/Churn/interest rates, etc.).
+- Sub-criterion 2.5.A.2 [1 point | Accuracy] Robustness assessment  
+  Requirements: Separately compute quota/revenue volatility and CV; if thresholds are exceeded, provide adjustments (weights, caps) and recheck.  
+  Scoring conditions: Calculations are verifiable; before/after comparisons are clear.
+- Sub-criterion 2.5.A.3 [1 point | Conclusiveness] EL redline check  
+  Requirements: Re-computation table for Σ(PD×LGD×EAD)/annual interest and a pass/fail conclusion.  
+  Scoring conditions: Definitions are consistent; conclusions are clear.
+- Sub-criterion 2.5.A.4 [1 point | Accuracy] Price compliance spot-check  
+  Requirements: Spot-check several customers where r ≤ policy/regulatory cap or peer average + threshold; provide remediation and recheck for non-compliance.  
+
+[dacomp-006 1.1.A]
+#### Path 1.1.A [3 points]: Comprehensive preprocessing method
+- Sub-criterion 1.1.A.1 [1 point | Completeness]: Correctly filter the South China data.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy]: Compute the monthly total Profit in South China, with accurate calculations. Validation baseline (deviation must not exceed 1%): 
+    2023-01: approximately 753,000 yuan, 2023-02: approximately 638,000 yuan, 2023-03: approximately 756,000 yuan
+    2023-04: approximately 684,000 yuan, 2023-05: approximately 713,000 yuan, 2023-06: approximately 675,000 yuan
+    2023-07: approximately 773,000 yuan, 2023-08: approximately 774,000 yuan, 2023-09: approximately 769,000 yuan
+    2023-10: approximately 764,000 yuan, 2023-11: approximately 744,000 yuan, 2023-12: approximately 790,000 yuan
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness]: Based on the actual computed results, describe the profit volatility phenomenon and confirm the instability.
+---
+### Criterion 1.2 [maximum 4 points]: Impact analysis of order count fluctuations
+#### Path 1.2.A [4 points]: Correlation analysis method
+- Sub-criterion 1.2.A.1 [1 point | Completeness]: Compute the monthly order count in South China and analyze the relationship between order count and Profit.
+
+[dacomp-006 1.2.B]
+#### Path 1.2.B [3 points]: Descriptive analysis method
+- Sub-criterion 1.2.B.1 [1 point | Completeness]: Compute the monthly order count in South China.
+- Sub-criterion 1.2.B.2 [1 point | Accuracy]: Use charts or data comparisons to show the trend of order count changes or month-over-month changes.
+- Sub-criterion 1.2.B.3 [1 point | Conclusiveness]: Based on observations, draw a qualitative conclusion about the relationship between order count and profit.
+---
+### Criterion 1.3 [maximum 4 points]: Product category impact analysis
+#### Path 1.3.A [4 points]: Profit volatility analysis method
+- Sub-criterion 1.3.A.1 [1 point | Completeness]: Group by product category and compute each category’s Profit contribution and volatility metrics (e.g., coefficient of variation, standard deviation, etc.).
+- Sub-criterion 1.3.A.2 [2 points | Accuracy]: Volatility calculations are accurate and identify high-volatility product categories.
+  Coefficient of variation reference data:
+  Bedding Sets (19.32% share): 1.71 million yuan profit, volatility 9.79% 
+  Bathroom supplies (14.92% share): 1.32 million yuan profit, volatility 14.42%
+
+[dacomp-006 1.3.A]
+#### Path 1.3.A [4 points]: Profit volatility analysis method
+- Sub-criterion 1.3.A.1 [1 point | Completeness]: Group by product category and compute each category’s Profit contribution and volatility metrics (e.g., coefficient of variation, standard deviation, etc.).
+- Sub-criterion 1.3.A.2 [2 points | Accuracy]: Volatility calculations are accurate and identify high-volatility product categories.
+  Coefficient of variation reference data:
+  Bedding Sets (19.32% share): 1.71 million yuan profit, volatility 9.79% 
+  Bathroom supplies (14.92% share): 1.32 million yuan profit, volatility 14.42%
+  Auto Parts (14.60% share): 1.29 million yuan profit, volatility 12.05%
+  Home Decorations (13.33% share): 1.18 million yuan profit, volatility 12.81%
+  Kitchen Appliances (12.55% share): 1.11 million yuan profit, volatility 21.41% High volatility
+  Bedroom Furniture (11.90% share): 1.05 million yuan profit, volatility 16.08%
+  Computer hardware (11.62% share): 1.03 million yuan profit, volatility 15.57%
+  Office Furniture (1.76% share): 0.16 million yuan profit, volatility 42.69% Most unstable
+
+## retention_conversion
+
+[dacomp-001 1.1.A]
+#### Path 1.1.A (Field mapping + aggregation definitions + templates + audit trail)
+- Sub-criterion 1.1.A.1 [1 point | Completeness] Field mapping and transformation notes  
+  Requirements: Provide source table/source field → standard field mappings, noting units, types, and cleansing/derivation rules (e.g., missing handling, outlier treatment, currency/tax rate conversions).  
+  Acceptable evidence: Field dictionary tables, annotated SQL/code blocks, data flow diagrams.  
+  Scoring conditions: Mappings cover core input domains (revenue, stability, dependency, existing Credit Rating/alternatives); transformation logic is clear and traceable back to source fields.
+- Sub-criterion 1.1.A.2 [1 point | Accuracy] Core aggregation definitions and sample re-computation  
+  Requirements: Clarify the calculation definitions for “enterprise-level” aggregation (e.g., time window, de-duplication rules, inclusive/exclusive of tax definitions), and demonstrate at least one “sample chain” from raw rows → statistics recalculation.  
+  Acceptable evidence: Calculation formulas + example SQL/reconciliations from detail → aggregation → result tables/screenshots.  
+  Scoring conditions: Formulas align with implementation; the sample chain is closed-loop (inputs, calculations, outputs consistent); key definitions (time, whether to exclude red-letter reversals/voided or canceled records, etc.) are explained.
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness] Recomputable templates and intermediate quantities  
+  Requirements: Provide repeatable templates (SQL/scripts/Excel workflows) whose outputs include key intermediate quantities (e.g., monthly flows, CV, Top1/HHI).  
+  Scoring conditions: Running the same inputs multiple times yields consistent results; templates run independently (dependencies and parameters are well-documented); key intermediate quantities are visible in outputs.
+
+[dacomp-001 1.5.A]
+#### Path 1.5.A (Functions + checks)
+- Sub-criterion 1.5.A.1 [1 point | Completeness] Churn function and parameter explanations  
+  Requirements: Provide an interpretable Churn function (or equivalent response model), define exogenous variables such as r_alt and Cut, and their measurement scope.  
+  Scoring conditions: Function structure, variable sources, and definitions are consistent and reusable.
+- Sub-criterion 1.5.A.2 [1 point | Accuracy] Churn anchor validation  
+  Requirements: At least two worked examples of Δr/Cut changes → Churn responses, with calculation steps or code.  
+  Scoring conditions: Direction of change is correct and magnitudes reasonable; does not conflict with historical/industry knowledge.
+- Sub-criterion 1.5.A.3 [1 point | Conclusiveness] Single-customer RAROC definition  
+  Requirements: Provide RAROC% = (r - CoF - OpEx - PD×LGD) / K (or equivalent decomposition) and field sources and alignment.  
+  Scoring conditions: Definitions align with 1.4; field values are traceable.
+- Sub-criterion 1.5.A.4 [1 point | Accuracy] RAROC sample re-computation  
+  Requirements: Provide the RAROC calculation steps and result for a given set of parameters, with clear reconciliation.  
+
+[dacomp-001 2.1.A]
+#### Path 2.1.A (Pricing formula + curves)
+- Sub-criterion 2.1.A.1 [1 point | Completeness] Pricing formula consistency  
+  Requirements: r = CoF + OpEx + PD×LGD + K×ROE_min + Margin (or equivalent mapping), with clear parameter definitions and sources.  
+  Scoring conditions: Each term’s meaning is clear and complete; aligned with regulatory/internal parameters.
+- Sub-criterion 2.1.A.2 [1 point | Accuracy] Bucket anchor checks  
+  Requirements: For each bucket, provide several customers, reverse-engineer r from input parameters, and keep the deviation from submitted spreads within reasonable bp.  
+  Scoring conditions: Include intermediate quantities and bp differences; error explanations are reasonable.
+- Sub-criterion 2.1.A.3 [1 point | Conclusiveness] Annual interest rate–churn curves and interpolation  
+  Requirements: For A/B/C tiers, provide ≥ several (r, Churn) points, state sources (historical/model/competitors), and fitting/interpolation (linear/spline).  
+  Scoring conditions: Curves are reasonably monotonic; interpolation methods and uses (quote landing) are clear.
+- Sub-criterion 2.1.A.4 [1 point | Accuracy] “Steep-rise threshold” identification and avoidance  
+  Requirements: Identify abrupt Churn rise thresholds per tier and provide pricing/allocation avoidance rules (e.g., cap within 50 bp before the threshold).  
+
+[dacomp-001 2.2.A]
+#### Path 2.2.A (Limit chain + verification)
+- Sub-criterion 2.2.A.1 [1 point | Completeness] Limit chain  
+  Requirements: Define L_base, L_init, f, L and their definitions aligned with 1.4 (including revenue constraints, concentration coefficients, etc.).  
+  Scoring conditions: Chain variable definitions are clear; connected to risk parameters.
+- Sub-criterion 2.2.A.2 [1 point | Accuracy] Invariants and execution order  
+  Requirements: Clarify invariants such as PD↑/Top1↑ → L↓; when Churn > threshold, the sequence of “increase limit/reduce price,” with a RAROC floor constraint.  
+  Scoring conditions: Order and boundaries are clear; when conflicts exist, provide “priority/rollback” logic.
+- Sub-criterion 2.2.A.3 [1 point | Conclusiveness] Sample anchor re-computation  
+  Requirements: Given a set of conditions, output intermediate quantities and the final limit L, with transparent steps.  
+  Scoring conditions: Formula chain is consistent; results can be re-computed by a third party.
+- Sub-criterion 2.2.A.4 [1 point | Accuracy] Boundary/extreme tests  
+  Requirements: Test scenarios of high PD, extremely small scale, extremely high concentration, etc., verifying L decreases and does not exceed caps.  
+
+[dacomp-001 2.3.A]
+#### Path 2.3.A (Quota iteration)
+- Sub-criterion 2.3.A.1 [1 point | Completeness] Bucket parameters and sources  
+  Requirements: Initial parameters for A/B/C/D buckets—L¯, utilization U, average Churn¯—with sources noted (historical/model/assumptions).  
+  Scoring conditions: Parameters are complete; sources are credible.
+- Sub-criterion 2.3.A.2 [1 point | Accuracy] EAD estimation  
+  Requirements: Compute EAD_b = L¯ × (1 - Churn¯) × U and provide example summaries.  
+  Scoring conditions: Definitions are consistent; calculation steps are verifiable.
+- Sub-criterion 2.3.A.3 [1 point | Conclusiveness] Iterative scaling pseudocode  
+  Requirements: Provide the limit equalization algorithm (scaling factor updates, convergence criteria, stopping conditions), supporting single-customer caps and reallocation.  
+  Scoring conditions: Logic is self-consistent; anomalies (e.g., everyone hits caps) are handled.
+- Sub-criterion 2.3.A.4 [1 point | Accuracy] Convergence logs  
+  Requirements: Output iterations, factor evolution, ΣEAD sequence, and stopping conditions; provide final error.  
+
+## group_aggregate
+
+[dacomp-001 1.2.A]
+#### Path 1.2.A (Weighted aggregation and validation)
+- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  
+  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  
+  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective factors is clear.
+- Sub-criterion 1.2.A.2 [1 point | Accuracy] Monotonicity validation  
+  Requirements: Using boundary examples/unit tests, show that when a risk factor worsens (or a protective factor declines), S rises rather than falls; and vice versa.  
+  Scoring conditions: Provide at least one example each for two factor types (risk/protective) proving S’s response direction is correct; when conflicts arise, provide fixes (e.g., truncation/Winsorization/log transformations).
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness] S intervals and human consistency  
+  Requirements: Define good/medium/weak S intervals or quantile thresholds; sample and compare consistency against human judgment or existing Credit Ratings.  
+  Scoring conditions: Interval segmentation has justification (distributions, business thresholds); provide sampling methods and conclusions (e.g., consistency ratio or explanations of typical mismatches).
+- Sub-criterion 1.2.A.4 [1 point | Accuracy] Stability/drift tests  
+  Requirements: Compare S distributions over rolling periods (or KS/PSI/equivalent statistics); when anomalies appear, provide causes and corrections (e.g., re-calibration, definition harmonization).  
+
+[dacomp-001 1.3.A]
+#### Path 1.3.A (Logistic function + LGD coverage)
+- Sub-criterion 1.3.A.1 [1 point | Completeness] PD mapping and calibration plan  
+  Requirements: Provide a monotonic S→PD function (logistic or equivalent), initial parameter sources, and a calibration plan (samples, window, evaluation metrics).  
+  Scoring conditions: Function form and parameter meanings are clear; calibration steps are executable (data sources, evaluation methods).
+- Sub-criterion 1.3.A.2 [1 point | Accuracy] Multi-point anchor check  
+  Requirements: At least three S values with PD calculations align with expected direction (higher S → higher PD), with calculation steps attached.  
+  Scoring conditions: Numbers align with the curve; anchor deviations are within acceptable ranges; reasons for deviations and subsequent fine-tuning are explained.
+- Sub-criterion 1.3.A.3 [1 point | Conclusiveness] S–PD curve and intervals  
+  Requirements: Provide the curve or a discrete table; annotate applicable ranges, monotonicity, and extrapolation/truncation strategies.  
+  Scoring conditions: Monotonicity is explicit; intervals match business scenarios; extrapolation strategies are reasonable.
+- Sub-criterion 1.3.A.4 [1 point | Completeness] LGD tiers and default strategies  
+  Requirements: Define LGD tiers (secured by real estate/movable collateral/unsecured/unknown, etc.), note value ranges and mapping rules; provide defaults for unknown/anomalies.  
+
+[dacomp-001 2.1.A]
+#### Path 2.1.A (Pricing formula + curves)
+- Sub-criterion 2.1.A.1 [1 point | Completeness] Pricing formula consistency  
+  Requirements: r = CoF + OpEx + PD×LGD + K×ROE_min + Margin (or equivalent mapping), with clear parameter definitions and sources.  
+  Scoring conditions: Each term’s meaning is clear and complete; aligned with regulatory/internal parameters.
+- Sub-criterion 2.1.A.2 [1 point | Accuracy] Bucket anchor checks  
+  Requirements: For each bucket, provide several customers, reverse-engineer r from input parameters, and keep the deviation from submitted spreads within reasonable bp.  
+  Scoring conditions: Include intermediate quantities and bp differences; error explanations are reasonable.
+- Sub-criterion 2.1.A.3 [1 point | Conclusiveness] Annual interest rate–churn curves and interpolation  
+  Requirements: For A/B/C tiers, provide ≥ several (r, Churn) points, state sources (historical/model/competitors), and fitting/interpolation (linear/spline).  
+  Scoring conditions: Curves are reasonably monotonic; interpolation methods and uses (quote landing) are clear.
+- Sub-criterion 2.1.A.4 [1 point | Accuracy] “Steep-rise threshold” identification and avoidance  
+  Requirements: Identify abrupt Churn rise thresholds per tier and provide pricing/allocation avoidance rules (e.g., cap within 50 bp before the threshold).  
+
+[dacomp-001 2.3.A]
+#### Path 2.3.A (Quota iteration)
+- Sub-criterion 2.3.A.1 [1 point | Completeness] Bucket parameters and sources  
+  Requirements: Initial parameters for A/B/C/D buckets—L¯, utilization U, average Churn¯—with sources noted (historical/model/assumptions).  
+  Scoring conditions: Parameters are complete; sources are credible.
+- Sub-criterion 2.3.A.2 [1 point | Accuracy] EAD estimation  
+  Requirements: Compute EAD_b = L¯ × (1 - Churn¯) × U and provide example summaries.  
+  Scoring conditions: Definitions are consistent; calculation steps are verifiable.
+- Sub-criterion 2.3.A.3 [1 point | Conclusiveness] Iterative scaling pseudocode  
+  Requirements: Provide the limit equalization algorithm (scaling factor updates, convergence criteria, stopping conditions), supporting single-customer caps and reallocation.  
+  Scoring conditions: Logic is self-consistent; anomalies (e.g., everyone hits caps) are handled.
+- Sub-criterion 2.3.A.4 [1 point | Accuracy] Convergence logs  
+  Requirements: Output iterations, factor evolution, ΣEAD sequence, and stopping conditions; provide final error.  
+
+[dacomp-001 2.5.A]
+#### Path 2.5.A (Scenario simulation + checks)
+- Sub-criterion 2.5.A.1 [1 point | Completeness] Scenario setup  
+  Requirements: Parameter assumptions and run methods for optimistic/base/pessimistic/sensitivity scenarios (Monte Carlo or equivalent).  
+  Scoring conditions: Parameters are self-consistent; cover key drivers (PD/LGD/Churn/interest rates, etc.).
+- Sub-criterion 2.5.A.2 [1 point | Accuracy] Robustness assessment  
+  Requirements: Separately compute quota/revenue volatility and CV; if thresholds are exceeded, provide adjustments (weights, caps) and recheck.  
+  Scoring conditions: Calculations are verifiable; before/after comparisons are clear.
+- Sub-criterion 2.5.A.3 [1 point | Conclusiveness] EL redline check  
+  Requirements: Re-computation table for Σ(PD×LGD×EAD)/annual interest and a pass/fail conclusion.  
+  Scoring conditions: Definitions are consistent; conclusions are clear.
+- Sub-criterion 2.5.A.4 [1 point | Accuracy] Price compliance spot-check  
+  Requirements: Spot-check several customers where r ≤ policy/regulatory cap or peer average + threshold; provide remediation and recheck for non-compliance.  
+
+## scoring_weighted
+
+[dacomp-001 1.2.A]
+#### Path 1.2.A (Weighted aggregation and validation)
+- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  
+  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  
+  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective factors is clear.
+- Sub-criterion 1.2.A.2 [1 point | Accuracy] Monotonicity validation  
+  Requirements: Using boundary examples/unit tests, show that when a risk factor worsens (or a protective factor declines), S rises rather than falls; and vice versa.  
+  Scoring conditions: Provide at least one example each for two factor types (risk/protective) proving S’s response direction is correct; when conflicts arise, provide fixes (e.g., truncation/Winsorization/log transformations).
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness] S intervals and human consistency  
+  Requirements: Define good/medium/weak S intervals or quantile thresholds; sample and compare consistency against human judgment or existing Credit Ratings.  
+  Scoring conditions: Interval segmentation has justification (distributions, business thresholds); provide sampling methods and conclusions (e.g., consistency ratio or explanations of typical mismatches).
+- Sub-criterion 1.2.A.4 [1 point | Accuracy] Stability/drift tests  
+  Requirements: Compare S distributions over rolling periods (or KS/PSI/equivalent statistics); when anomalies appear, provide causes and corrections (e.g., re-calibration, definition harmonization).  
+
+[dacomp-007 2.3.A]
+#### Path 2.3.A [4 points | Layered comparative analysis]
+- Sub-criterion 2.3.A.1 [1 point | Completeness]: Stratify by JobLevel, SalarySlab, etc., and compare attrition rates across departments
+- Sub-criterion 2.3.A.2 [2 points | Accuracy]: Provide accurate stratified attrition rate data (error ≤ 2%); reference ranges:
+  - Level 1 attrition rate: R&D ≈ 23.22%, Sales ≈ 41.56%, HR ≈ 30.30%
+  - Attrition rate for SalarySlab 'Upto 5k' (salary < 5k): R&D ≈ 19.82%, Sales ≈ 26.54%, HR ≈ 27.78%; if the assistant’s salary definition differs, judge by verifying the correctness of the code
+  - OverTime attrition rate: R&D ≈ 27.21%, Sales ≈ 37.98%, HR ≈ 29.41%
+- Sub-criterion 2.3.A.3 [1 point | Conclusiveness]: Derive the core insight: "Under comparable profiles, the R&D department has a lower propensity to leave."
+#### Path 2.3.B [4 points | Work–life balance and environment advantage analysis]
+- Sub-criterion 2.3.B.1 [1 point | Completeness]: Analyze OverTime prevalence across departments
+- Sub-criterion 2.3.B.2 [1 point | Completeness]: Analyze EnvironmentSatisfaction
+- Sub-criterion 2.3.B.3 [2 points | Accuracy]: Pseudo-code constraint — compute each department’s mean WorkLifeBalance and the proportion of OverTime='Yes'; perform grouped statistical analysis and output each department’s mean WorkLifeBalance score and the proportion of employees working OverTime
+- Sub-criterion 2.3.B.4 [1 point | Conclusiveness]: Derive the insight: "High environment fit and good pressure–reward balance."
+
+[dacomp-007 2.3.B]
+#### Path 2.3.B [4 points | Work–life balance and environment advantage analysis]
+- Sub-criterion 2.3.B.1 [1 point | Completeness]: Analyze OverTime prevalence across departments
+- Sub-criterion 2.3.B.2 [1 point | Completeness]: Analyze EnvironmentSatisfaction
+- Sub-criterion 2.3.B.3 [2 points | Accuracy]: Pseudo-code constraint — compute each department’s mean WorkLifeBalance and the proportion of OverTime='Yes'; perform grouped statistical analysis and output each department’s mean WorkLifeBalance score and the proportion of employees working OverTime
+- Sub-criterion 2.3.B.4 [1 point | Conclusiveness]: Derive the insight: "High environment fit and good pressure–reward balance."
+
+[dacomp-009 1.1.A]
+#### Path 1.1.A [7 points | Comprehensive weighted ranking]
+- Sub-criterion 1.1.A.1 [2 points | Completeness]: Clearly state that a weighted composite scoring method is used, and list the indicators used (at least including Effective Working Hours, Units Produced, Pass Rate) and their weights (e.g., Effective Working Hours weight 0.4, Units Produced weight 0.4, Pass Rate weight 0.2).
+- Sub-criterion 1.1.A.2 [3 points | Accuracy]: (Total employee count is 68; no points if incorrect) Correctly compute each employee’s composite score and accurately select the top 20% (7%–30% acceptable) as top employees. Code validation logic as follows:
+  ```Pseudo-code: validate composite scoring
+  1. Compute each employee’s “Effective Working Hours” = 8 hours − Total Time Away (converted to hours), then take the average (or another reasonable statistic)
+  2. Each employee’s average (or median or other reasonable statistic) “Pass Rate” should be weighted by Units Produced; a simple mean is also acceptable
+  3. Standardize “Effective Working Hours,” “Units Produced,” and “Pass Rate” (e.g., Z-score)
+  4. Apply the weights to compute the weighted composite score
+  5. Sort by score and take the top 20% (7%–30% acceptable) as top employees
+  ```
+- Sub-criterion 1.1.A.3 [1 point | Conclusiveness]: Clearly state the number of top employees (e.g., 20%, 13 people), or list their Employee ID and Name.
+- Sub-criterion 1.1.A.4 [1 point | Conclusiveness]: Clearly explain the selection logic of the indicators included in the comprehensive weighted scoring and the rationale for each weight (must be realistic).
+
+[dacomp-009 2.3.A]
+#### Path 2.3.A [3 points | Proportion analysis]
+- Sub-criterion 2.3.A.1 [1 point | Completeness]: Analyze the proportion of each education level among top employees.
+- Sub-criterion 2.3.A.2 [1 point | Completeness]: Analyze the proportions of each education level for all employees (or non-top employees) and compare with top employees to derive education-dimension characteristics.
+- Sub-criterion 2.3.A.3 [1 point | Accuracy]: Under the scope of “Comprehensive weighted Top 20%,” the proportions of High School and Junior college among top employees should both be 38%, with a ±2% tolerance. If the statistical scope for top employees differs, the values are not referenceable and must be validated via code logic and correctness. The counts and proportions by education level for all employees must match the answer exactly; if proportions for non-top employees are computed, those values are not referenceable and must be validated via code logic and correctness (aggregate/dedupe by Employee ID first, then compute). Conclude that High School and Junior college have larger shares as absolute characteristics, and the relative characteristic is that Junior college is higher relative to overall. Answer:
+
+| Education Level | Count | Percentage    |
+|-----------------|-------|---------------|
+| High School     | 31    | 45.588235     |
+| Technical secondary school | 19 | 27.941176 |
+| Junior college  | 12    | 17.647059     |
+| Junior high school | 6  | 8.823529      |
+
+
+## recommendation
+
+[dacomp-001 1.2.A]
+#### Path 1.2.A (Weighted aggregation and validation)
+- Sub-criterion 1.2.A.1 [1 point | Completeness] Dimensions, weights, and directionality  
+  Requirements: List the S indicators, weights (sum = 100%), and directionality (risk/protective factors; protective factors use reverse scoring or deductions).  
+  Scoring conditions: Each indicator’s contribution direction aligns with business meaning; total weights are correct; treatment of protective factors is clear.
+- Sub-criterion 1.2.A.2 [1 point | Accuracy] Monotonicity validation  
+  Requirements: Using boundary examples/unit tests, show that when a risk factor worsens (or a protective factor declines), S rises rather than falls; and vice versa.  
+  Scoring conditions: Provide at least one example each for two factor types (risk/protective) proving S’s response direction is correct; when conflicts arise, provide fixes (e.g., truncation/Winsorization/log transformations).
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness] S intervals and human consistency  
+  Requirements: Define good/medium/weak S intervals or quantile thresholds; sample and compare consistency against human judgment or existing Credit Ratings.  
+  Scoring conditions: Interval segmentation has justification (distributions, business thresholds); provide sampling methods and conclusions (e.g., consistency ratio or explanations of typical mismatches).
+- Sub-criterion 1.2.A.4 [1 point | Accuracy] Stability/drift tests  
+  Requirements: Compare S distributions over rolling periods (or KS/PSI/equivalent statistics); when anomalies appear, provide causes and corrections (e.g., re-calibration, definition harmonization).  
+
+[dacomp-001 1.3.A]
+#### Path 1.3.A (Logistic function + LGD coverage)
+- Sub-criterion 1.3.A.1 [1 point | Completeness] PD mapping and calibration plan  
+  Requirements: Provide a monotonic S→PD function (logistic or equivalent), initial parameter sources, and a calibration plan (samples, window, evaluation metrics).  
+  Scoring conditions: Function form and parameter meanings are clear; calibration steps are executable (data sources, evaluation methods).
+- Sub-criterion 1.3.A.2 [1 point | Accuracy] Multi-point anchor check  
+  Requirements: At least three S values with PD calculations align with expected direction (higher S → higher PD), with calculation steps attached.  
+  Scoring conditions: Numbers align with the curve; anchor deviations are within acceptable ranges; reasons for deviations and subsequent fine-tuning are explained.
+- Sub-criterion 1.3.A.3 [1 point | Conclusiveness] S–PD curve and intervals  
+  Requirements: Provide the curve or a discrete table; annotate applicable ranges, monotonicity, and extrapolation/truncation strategies.  
+  Scoring conditions: Monotonicity is explicit; intervals match business scenarios; extrapolation strategies are reasonable.
+- Sub-criterion 1.3.A.4 [1 point | Completeness] LGD tiers and default strategies  
+  Requirements: Define LGD tiers (secured by real estate/movable collateral/unsecured/unknown, etc.), note value ranges and mapping rules; provide defaults for unknown/anomalies.  
+
+[dacomp-001 1.5.A]
+#### Path 1.5.A (Functions + checks)
+- Sub-criterion 1.5.A.1 [1 point | Completeness] Churn function and parameter explanations  
+  Requirements: Provide an interpretable Churn function (or equivalent response model), define exogenous variables such as r_alt and Cut, and their measurement scope.  
+  Scoring conditions: Function structure, variable sources, and definitions are consistent and reusable.
+- Sub-criterion 1.5.A.2 [1 point | Accuracy] Churn anchor validation  
+  Requirements: At least two worked examples of Δr/Cut changes → Churn responses, with calculation steps or code.  
+  Scoring conditions: Direction of change is correct and magnitudes reasonable; does not conflict with historical/industry knowledge.
+- Sub-criterion 1.5.A.3 [1 point | Conclusiveness] Single-customer RAROC definition  
+  Requirements: Provide RAROC% = (r - CoF - OpEx - PD×LGD) / K (or equivalent decomposition) and field sources and alignment.  
+  Scoring conditions: Definitions align with 1.4; field values are traceable.
+- Sub-criterion 1.5.A.4 [1 point | Accuracy] RAROC sample re-computation  
+  Requirements: Provide the RAROC calculation steps and result for a given set of parameters, with clear reconciliation.  
+
+[dacomp-001 2.1.A]
+#### Path 2.1.A (Pricing formula + curves)
+- Sub-criterion 2.1.A.1 [1 point | Completeness] Pricing formula consistency  
+  Requirements: r = CoF + OpEx + PD×LGD + K×ROE_min + Margin (or equivalent mapping), with clear parameter definitions and sources.  
+  Scoring conditions: Each term’s meaning is clear and complete; aligned with regulatory/internal parameters.
+- Sub-criterion 2.1.A.2 [1 point | Accuracy] Bucket anchor checks  
+  Requirements: For each bucket, provide several customers, reverse-engineer r from input parameters, and keep the deviation from submitted spreads within reasonable bp.  
+  Scoring conditions: Include intermediate quantities and bp differences; error explanations are reasonable.
+- Sub-criterion 2.1.A.3 [1 point | Conclusiveness] Annual interest rate–churn curves and interpolation  
+  Requirements: For A/B/C tiers, provide ≥ several (r, Churn) points, state sources (historical/model/competitors), and fitting/interpolation (linear/spline).  
+  Scoring conditions: Curves are reasonably monotonic; interpolation methods and uses (quote landing) are clear.
+- Sub-criterion 2.1.A.4 [1 point | Accuracy] “Steep-rise threshold” identification and avoidance  
+  Requirements: Identify abrupt Churn rise thresholds per tier and provide pricing/allocation avoidance rules (e.g., cap within 50 bp before the threshold).  
+
+[dacomp-001 2.4.A]
+#### Path 2.4.A (Action order + examples + credit enhancement)
+- Sub-criterion 2.4.A.1 [1 point | Completeness] Action order and constraints  
+  Requirements: Define the action sequence when Churn is high (e.g., increase limit → reduce price → RAROC floor check) and constraint conditions (limit caps, price redlines).  
+  Scoring conditions: Order, conditions, exceptions are clear; aligned with pricing/limit definitions.
+- Sub-criterion 2.4.A.2 [1 point | Accuracy] Numerical example  
+  Requirements: Specify a customer in a given tier and provide the calculation chain for r, L, EAD, RAROC before and after intervention.  
+  Scoring conditions: Formulas are correct; improvements are reasonable in direction.
+- Sub-criterion 2.4.A.3 [1 point | Conclusiveness] Credit enhancement/exit path and closed loop  
+  Requirements: If RAROC < floor, first enhance credit (adjust LGD/collateral/pledges); if still insufficient, reduce limits/exit; retain approval form fields (conditions → actions → responsibilities → deadlines → status).  
+  Scoring conditions: Closed loop is complete; fields are comprehensive.
+- Sub-criterion 2.4.A.4 [1 point | Accuracy] Post-enhancement example  
+  Requirements: Recompute RAROC when LGD decreases, etc., and compare with pre-intervention.  
+
+## correlation_test
+
+[dacomp-002 1.1.A]
+#### Path 1.1.A [4 points]: Comprehensive data processing and analysis 
+-  Sub-criterion 1.1.A.1 [1 point | Completeness]: Group all data by Sales Month and Major Category Name, then compute the total Sales Amount for each Major Category.
+-  Sub-criterion 1.1.A.2 [1 point | Completeness]: Compute the total Sales Amount for every Major Category. If only some major categories are selected and calculated after sampling, this item receives no points.
+- Sub-criterion 1.1.A.3 [2 points | Accuracy]: Sales Amount calculations are correct; verification reference values are shown in the table below. All data must match the table for full accuracy credit. Note: applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+Summary of Sales Amount by Major Category for January–April (unit: yuan):
+| Major Category Name | January | February | March | April |
+| --- | --- | --- | --- | --- |
+| Leisure Foods | 18653.38 | 25434.27 | 14775.93 | 15803.62 |
+| Drink Mixes | 3235.60 | 6193.30 | 2305.40 | 2356.70 |
+| Home Goods | 1491.10 | 1972.40 | 1725.60 | 1416.00 |
+| Home Appliances | 430.90 | 183.90 | 209.40 | 29.70 |
+| Cultural & Sports Goods | 702.50 | 597.70 | 368.60 | 322.50 |
+
+[dacomp-002 1.2.A]
+#### Path 1.2.A [6 points]: Summarize the growth trend for each Major Category in the final analysis 
+- Sub-criterion 1.2.A.1 [1 point | Completeness]: Compute monthly Sales Amount and month-over-month indicators for all major categories, and provide a specific summary of the growth trend.
+- Sub-criterion 1.2.A.2 [2 points | Accuracy]: Accurately compute the month-over-month growth amount or month-over-month growth rate for each category in different months. Either the growth amount or rate can be used. The data must be correct and consistent with the table below; applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+| Major Category Name | February month-over-month growth amount | March month-over-month growth amount | April month-over-month growth amount | February month-over-month growth rate | March month-over-month growth rate | April month-over-month growth rate |
+|----------|-------|-------|------|------|--------|------|
+| Leisure Foods | 6780.89 | -10658.34 | 1027.69 | 36.35% | -41.91% | 6.96% |
+| Drink Mixes | 2957.7 | -3887.9 | 51.3 | 91.41% | -62.78% | 2.23% |
+| Home Goods | 481.3 | -246.8 | -309.6 | 32.28% | -12.51% | -17.94% |
+| Home Appliances | -247 | 25.5 | -179.7 | -57.32% | 13.87% | -85.82% |
+| Cultural & Sports Goods | -104.8 | -229.1 | -46.1 | -14.92% | -38.33% | -12.51% |
+| Daily Fresh Products | 4035.04 | -7501.56 | 4196.06 | 19.89% | -30.85% | 24.95% |
+| Aquatic Products | 273.61 | -130.3 | 747.25 | 69.11% | -19.46% | 138.59% |
+
+[dacomp-002 2.1.A]
+#### Path 2.1.A [4 points]: Comprehensive share analysis 
+- Sub-criterion 2.1.A.1 [1 point | Completeness]: Group the data by Sales Month and Major Category Name, and compute the Sales Amount share of each Major Category.
+- Sub-criterion 2.1.A.2 [2 points | Accuracy]: The Sales Amount share is calculated correctly; verification baseline values are as follows. Note: applying round half up, alternative rounding rules used in Chinese practice (e.g., “five down six up,” “four down six up”), integer rounding, or retaining different numbers of decimal places is also considered correct. No points deducted if April Bakery data is missing.
+| Major Category Name | January share | February share | March share | April share |
+| -------- | -------- | -------- | -------- | -------- |
+| Leisure Foods | 15.85% | 18.03% | 15.57% | 15.24% |
+| Drink Mixes | 2.75% | 4.39% | 2.43% | 2.27% |
+| Home Goods | 1.27% | 1.40% | 1.82% | 1.37% |
+| Home Appliances | 0.37% | 0.13% | 0.22% | 0.03% |
+| Cultural & Sports Goods | 0.60% | 0.42% | 0.39% | 0.31% |
+| Daily Fresh Products | 17.23% | 17.24% | 17.72% | 20.26% |
+| Aquatic Products | 0.34% | 0.47% | 0.57% | 1.24% |
+
+[dacomp-002 2.2.A]
+#### Path 2.2.A [4 points]: Detailed preference analysis 
+- Sub-criterion 2.2.A.1 [1 point | Completeness]: Based on the Sales Amount share data, analyze changes in customer purchasing preferences, and provide **detailed elaboration** and a summary of preference shifts across different stages, such as shifts from “stock-up” to “immediate freshness,” product type preferences, and price sensitivity.
+- Sub-criterion 2.2.A.2 [1 point | Completeness]: Analyze changes in customer purchasing preferences from multiple perspectives.
+- Sub-criterion 2.2.A.3 [1 point | Conclusiveness]: The preference analysis is reasonable, with detailed explanations of the reasons for changes tied to actual data; reasons must be strongly associated with the observed changes, with no logical gaps and no hallucinated data. Reference dimensions:
+* Perspective 1: Analyze metrics changes for a single category from January–April. For example, based on Sales Volume share across months, customer preferences are clearly influenced by seasons and holidays. Alcohol & Beverages show a significant increase in February during the Spring Festival period.
+* Perspective 2: Cross-compare consumption shares across different categories. For example, in the overall share, Leisure Foods, Daily Fresh Products, and Vegetables and Fruits are daily consumer goods whose overall shares consistently remain at higher levels; Home Goods and Home Appliances have lower consumption frequency, so their overall shares are consistently low.
+- Sub-criterion 2.2.A.4 [1 point | Conclusiveness]: If the analysis conclusions include multiple perspectives and provide conclusions, this item can earn points.
+
+---
+## Requirement 3: Recommendations for product category and inventory adjustments for May–August, and inventory management strategy (This requirement can earn up to 4 points)
+### Criterion 3.1 [Up to 2 points]: Identify Major Categories to focus on for adjustments
+#### Path 3.1.A [2 points]: Comprehensive adjustment analysis 
+
+[dacomp-002 3.1.A]
+#### Path 3.1.A [2 points]: Comprehensive adjustment analysis 
+- Sub-criterion 3.1.A.1 [1 point | Completeness]: Provide specific directions for product category/structure adjustments for all 15 Major Categories.
+- Sub-criterion 3.1.A.2 [1 point | Conclusiveness]: Provide specific directions for product category/structure adjustments, such as adding new categories, reducing/eliminating old categories, keeping unchanged, or giving detailed category adjustment content for selected major categories (e.g., “add beer, chilled beverages” or “reduce nuts, roasted goods”). Recommendations must be reasonable and feasible, and strongly related to summer consumption demand and the trends identified in the prior analysis.
+### Criterion 3.2 [Up to 2 points]: Formulate an inventory management strategy
+#### Path 3.2.A [2 points]: Comprehensive inventory strategy 
+- Sub-criterion 3.2.A.1 [1 point | Completeness]: Formulate a comprehensive inventory management strategy that covers multiple different management states.
+- Sub-criterion 3.2.A.2 [1 point | Conclusiveness]: Provide reasonable and actionable inventory management strategies beyond inventory quantity control and inventory structure adjustment (e.g., raise inventory levels, maintain healthy inventory, reduce and clear inventory, strengthen cold chain management, implement dynamic monitoring, and other aspects directly related to inventory management), and explain in detail the adjustment methods and expected effects to ensure strong linkage between strategy and outcomes.
+
+## regression_effect
+
+[dacomp-002 3.1.A]
+#### Path 3.1.A [2 points]: Comprehensive adjustment analysis 
+- Sub-criterion 3.1.A.1 [1 point | Completeness]: Provide specific directions for product category/structure adjustments for all 15 Major Categories.
+- Sub-criterion 3.1.A.2 [1 point | Conclusiveness]: Provide specific directions for product category/structure adjustments, such as adding new categories, reducing/eliminating old categories, keeping unchanged, or giving detailed category adjustment content for selected major categories (e.g., “add beer, chilled beverages” or “reduce nuts, roasted goods”). Recommendations must be reasonable and feasible, and strongly related to summer consumption demand and the trends identified in the prior analysis.
+### Criterion 3.2 [Up to 2 points]: Formulate an inventory management strategy
+#### Path 3.2.A [2 points]: Comprehensive inventory strategy 
+- Sub-criterion 3.2.A.1 [1 point | Completeness]: Formulate a comprehensive inventory management strategy that covers multiple different management states.
+- Sub-criterion 3.2.A.2 [1 point | Conclusiveness]: Provide reasonable and actionable inventory management strategies beyond inventory quantity control and inventory structure adjustment (e.g., raise inventory levels, maintain healthy inventory, reduce and clear inventory, strengthen cold chain management, implement dynamic monitoring, and other aspects directly related to inventory management), and explain in detail the adjustment methods and expected effects to ensure strong linkage between strategy and outcomes.
+
+[dacomp-002 3.2.A]
+#### Path 3.2.A [2 points]: Comprehensive inventory strategy 
+- Sub-criterion 3.2.A.1 [1 point | Completeness]: Formulate a comprehensive inventory management strategy that covers multiple different management states.
+- Sub-criterion 3.2.A.2 [1 point | Conclusiveness]: Provide reasonable and actionable inventory management strategies beyond inventory quantity control and inventory structure adjustment (e.g., raise inventory levels, maintain healthy inventory, reduce and clear inventory, strengthen cold chain management, implement dynamic monitoring, and other aspects directly related to inventory management), and explain in detail the adjustment methods and expected effects to ensure strong linkage between strategy and outcomes.
+
+[dacomp-005 2.1.A]
+#### Path 2.1.A [4 points | Targeted remedies based on characteristics]
+- Sub-criterion 2.1.A.1 [2 points | Completeness]: Propose remedies tailored to the identified low-margin characteristics, covering both cost-control tactics (cost reduction) and revenue/profit enhancement tactics (efficiency or price improvement).
+- Sub-criterion 2.1.A.2 [2 points | Conclusion]: Ensure the remedies are logically coherent, grounded in the data, and do not contradict the dataset.
+#### Path 2.1.B [2 points | General remedy suggestions]
+- Sub-criterion 2.1.B.1 [1 point | Completeness]: Offer general low-margin order remedies that are not necessarily tied to the above analysis.
+- Sub-criterion 2.1.B.2 [1 point | Conclusion]: Ensure the remedies are reasonable and actionable.
+
+[dacomp-008 2.3.A]
+#### Path 2.3.A [3 points | Linear/robust/quantile regression (choose one)]
+- Sub-criterion 2.3.A.1 [1 point | Completeness] Model specification and diagnostics  
+  - Key points: Model includes `Team Size, Customer Satisfaction, Risk Level (can be ordinal-coded), C(Project Type)`; output coefficients, SE, t, p, R²/Adj.R²; at least one diagnostic (residuals/heteroskedasticity or robust loss/VIF).  
+  - Scoring: Specification + table + diagnostics → 1 point; otherwise 0 points.
+- Sub-criterion 2.3.A.2 [1 point | Accuracy] Directional consistency  
+  - Key points: Directions for core variables are consistent with 2.1, and ≥1 core variable is significant (p<0.05).  
+  - Scoring: Met → 1 point; otherwise 0 points.
+- Sub-criterion 2.3.A.3 [1 point | Conclusiveness] Template-style conclusions  
+  - Key points: Choose one or more from "size positive effect/satisfaction negative effect/risk positive effect/multiple factors significant/all not significant (with explanation)", with β/SE/p (or robust equivalents) in parentheses.  
+  - Scoring: Conclusion + evidence → 1 point; otherwise 0 points.
+
+### Criterion 2.4: From statistics to business statements (Max 2 points)
+
+[dacomp-011 1.1.A]
+#### Path 1.1.A [3 points | One-way ANOVA]
+- Sub-criterion 1.1.A.1 [1 point | Completeness]: Group reasonably by parents' education level (Bachelor group, High School group, Master group), and a None group may additionally appear. The Bachelor, High School, and Master groups must not be missing
+- Sub-criterion 1.1.A.2 [2 points | Accuracy]: Compute the one-way ANOVA effect size (eta-squared) ≈ 0.0033 (a 5% tolerance is allowed; answering 0.00 is also acceptable)
+#### Path 1.1.B [2 points | Group mean comparison]
+- Sub-criterion 1.1.B.1 [1 point | Completeness]: Group reasonably by parents' education level (must be consistent with the grouping in Path 1.1.A) and compute the average academic performance for each group; no grouping errors.
+- Sub-criterion 1.1.B.2 [1 point | Accuracy]: Average academic performance calculations are accurate and consistent with the reference data:
+  ① Bachelor group ≈ 70.69 points;
+  ② High School group ≈ 69.26 points;
+  ③ Master group ≈ 67.9 points;
+  Deviations within 1% due to calculation precision can be waived.
+#### Path 1.1.C [3 points | Multiple regression analysis]
+- Sub-criterion 1.1.C.1 [1 point | Completeness]: Use multiple regression analysis to determine specific group differences; present the complete grouping for parents' education level (e.g., Master, Bachelor, High School—no omission/merging).
+
+## visualization
+
+[dacomp-005 1.2.A]
+#### Path 1.2.A [15 points | Multi-dimensional analysis]
+- Sub-criterion 1.2.A.1 [1 point | Completeness]: Include at least one sales-scale-related feature such as `Sales Quantity` or `Total Logistics Revenue` in the comparison between low-margin orders and normal orders.
+- Sub-criterion 1.2.A.2 [2 points | Accuracy]: When citing reference numbers, allow a fluctuation up to 0.005% around the documented values.  Low-margin orders average 6.727 in `Sales Quantity` versus 53.18 for normal orders (an 87.4% difference), with totals of 8,355 and 904,493 items respectively.  `Total Logistics Revenue` averages 98.19 for low-margin orders and 1,482.09 for normal orders.  Reporting either averages or totals (or both) is acceptable.
+- Sub-criterion 1.2.A.3 [1 point | Conclusion]: Conclude that low-margin orders exhibit very low sales volume and revenue scale.
+- Sub-criterion 1.2.A.4 [1 point | Completeness]: Address discount-related features by analyzing at least `Discount Amount` or `Discount Rate` (calculated as `Discount Amount` divided by `List Price Revenue`) and comparing against normal orders.
+- Sub-criterion 1.2.A.5 [2 points | Accuracy]: Provide either the discount amount or the discount rate while keeping values aligned with reference numbers (tolerating standard rounding).  Low-margin orders show an average `Discount Amount` of 10.14 and `Discount Rate` of 0.2167; normal orders show 9.986 and 0.0141; the overall population shows 9.9964 and 0.02789.
+- Sub-criterion 1.2.A.6 [1 point | Conclusion]: Conclude that the deep discounts on low-margin orders are materially eroding profit.
+- Sub-criterion 1.2.A.7 [1 point | Completeness]: Analyze at least one cost-related field (e.g., `Total Logistics Cost`, `Freight Cost`, `Warehousing Cost`, `Other Operating Costs`) for low-margin orders versus normal or all orders.
+- Sub-criterion 1.2.A.8 [2 points | Accuracy]: Mention one or more of the documented cost figures, keeping them consistent with the source data (allowing typical rounding).  According to reference data, low-margin orders average `Total Logistics Cost` 104.20, `Other Operating Costs` 11.217, `Warehousing Cost` 29.699, and `Freight Cost` 63.279 (approximately 16% higher than normal orders, a gap near 8.89).  Low-margin orders' total cost-to-revenue ratio is 166.83% per order and 106.11% overall, while normal orders have a total cost-to-revenue ratio of 6.273%.  The full dataset averages `Total Logistics Cost` 93.73, `Other Operating Costs` 11.044, `Warehousing Cost` 27.695, and `Freight Cost` 54.995 with an overall total cost-to-revenue ratio of 6.754%.
+- Sub-criterion 1.2.A.9 [1 point | Conclusion]: State that low-margin orders cannot cover their costs, resulting in an anomalously high cost-to-revenue ratio.
+- Sub-criterion 1.2.A.10 [1 point | Completeness]: Include region-related feature analysis by either showing the share of low-margin orders within each geographic region or the distribution of regions inside low-margin orders.
+- Sub-criterion 1.2.A.11 [2 points | Accuracy]: If showing low-margin share within regions, highlight that Southwest has the highest share (7.14%) or provide province-level breakdowns.  If showing composition within low-margin orders, point out that South China contributes the largest portion (36.15%) or provide equivalent provincial data.
+
+[dacomp-006 1.2.A]
+#### Path 1.2.A [4 points]: Correlation analysis method
+- Sub-criterion 1.2.A.1 [1 point | Completeness]: Compute the monthly order count in South China and analyze the relationship between order count and Profit.
+- Sub-criterion 1.2.A.2 [2 points | Accuracy]: Use correlation coefficients and other statistical methods to quantify the strength of the relationship between order count and Profit. Code validation: check whether the code logic for computing the correlation coefficient is correct.
+  Reference data:
+  Correlation between order count and total Profit (Pearson correlation coefficient formula): 0.802 (strong positive correlation)
+  Coefficient of variation of order count (standard deviation / mean): 5.5%
+- Sub-criterion 1.2.A.3 [1 point | Conclusiveness]: Based on the computed results, conclude how order count fluctuations affect profit, for example, that order count fluctuations are the primary driver of profit instability.
+#### Path 1.2.B [3 points]: Descriptive analysis method
+- Sub-criterion 1.2.B.1 [1 point | Completeness]: Compute the monthly order count in South China.
+- Sub-criterion 1.2.B.2 [1 point | Accuracy]: Use charts or data comparisons to show the trend of order count changes or month-over-month changes.
+- Sub-criterion 1.2.B.3 [1 point | Conclusiveness]: Based on observations, draw a qualitative conclusion about the relationship between order count and profit.
+---
+
+[dacomp-006 1.2.B]
+#### Path 1.2.B [3 points]: Descriptive analysis method
+- Sub-criterion 1.2.B.1 [1 point | Completeness]: Compute the monthly order count in South China.
+- Sub-criterion 1.2.B.2 [1 point | Accuracy]: Use charts or data comparisons to show the trend of order count changes or month-over-month changes.
+- Sub-criterion 1.2.B.3 [1 point | Conclusiveness]: Based on observations, draw a qualitative conclusion about the relationship between order count and profit.
+---
+### Criterion 1.3 [maximum 4 points]: Product category impact analysis
+#### Path 1.3.A [4 points]: Profit volatility analysis method
+- Sub-criterion 1.3.A.1 [1 point | Completeness]: Group by product category and compute each category’s Profit contribution and volatility metrics (e.g., coefficient of variation, standard deviation, etc.).
+- Sub-criterion 1.3.A.2 [2 points | Accuracy]: Volatility calculations are accurate and identify high-volatility product categories.
+  Coefficient of variation reference data:
+  Bedding Sets (19.32% share): 1.71 million yuan profit, volatility 9.79% 
+  Bathroom supplies (14.92% share): 1.32 million yuan profit, volatility 14.42%
+
+[dacomp-006 1.3.C]
+#### Path 1.3.C [1 point]: Simple categorical statistics method
+- Sub-criterion 1.3.C.1 [1 point | Accuracy]: Only tally basic counts or amounts by product category, without deep analysis.
+---
+### Criterion 1.4 [maximum 3 points]: Geographical region impact analysis
+#### Path 1.4.A [3 points]: Province volatility analysis method
+- Sub-criterion 1.4.A.1 [1 point | Completeness]: Group by province to analyze each province in South China for Profit contribution and volatility (e.g., coefficient of variation, standard deviation, etc.).
+- Sub-criterion 1.4.A.2 [1 point | Accuracy]: Identify high-volatility provinces (e.g., Hainan Province, Hubei Province—smaller markets) and stable provinces (e.g., Guangdong Province).
+  Reference data:
+  Guangdong Province (42.71% share): 3.77 million yuan profit,, volatility 8.9% 
+  Guangxi (25.79% share): 2.28 million yuan profit, volatility 9.76%
+  Henan Province (11.72% share): 1.04 million yuan profit, volatility 17.35%
+  Hainan Province (7.77% share): 0.69 million yuan profit, volatility 20.87% ⚠️ High volatility
+
+[dacomp-006 1.4.A]
+#### Path 1.4.A [3 points]: Province volatility analysis method
+- Sub-criterion 1.4.A.1 [1 point | Completeness]: Group by province to analyze each province in South China for Profit contribution and volatility (e.g., coefficient of variation, standard deviation, etc.).
+- Sub-criterion 1.4.A.2 [1 point | Accuracy]: Identify high-volatility provinces (e.g., Hainan Province, Hubei Province—smaller markets) and stable provinces (e.g., Guangdong Province).
+  Reference data:
+  Guangdong Province (42.71% share): 3.77 million yuan profit,, volatility 8.9% 
+  Guangxi (25.79% share): 2.28 million yuan profit, volatility 9.76%
+  Henan Province (11.72% share): 1.04 million yuan profit, volatility 17.35%
+  Hainan Province (7.77% share): 0.69 million yuan profit, volatility 20.87% ⚠️ High volatility
+  Hubei Province (6.50% share): 0.57 million yuan profit, volatility 23.91% ⚠️ High volatility
+  Hunan Province (5.52% share): 0.49 million yuan profit, volatility 20.07%
+  You can support with other data, such as standard deviation; reasonable is acceptable.
+- Sub-criterion 1.4.A.3 [1 point | Conclusiveness]: Based on the province analysis results, explain how geographical distribution affects overall profit stability, for example:
+
+## other
+
+[dacomp-007 2.2.B]
+#### Path 2.2.B [5 points | Job structure and professional attributes analysis]
+- Sub-criterion 2.2.B.1 [1 point | Completeness]: Analyze each department’s JobLevel distribution and the proportion of specialized technical roles
+- Sub-criterion 2.2.B.2 [1 point | Completeness]: Analyze differences in attrition costs between specialized technical roles and general roles
+- Sub-criterion 2.2.B.3 [2 points | Accuracy]: Provide accurate job level structure data (error ≤ 3%); reference ranges:
+  - Management tier proportion (JobLevel 3+): R&D ≈ 25.54%, Sales ≈ 29.33%, HR ≈ 26.98%
+  - Level 1 junior proportion: R&D ≈ 44.98%, Sales ≈ 17.11%, HR ≈ 52.38%
+- Sub-criterion 2.2.B.4 [1 point | Conclusiveness]: Derive the insight: "Specialized technical roles have a high cost of attrition."
+### Criterion 2.3: Conclusion 3 — Lower attrition propensity under comparable profiles (deep mechanism analysis) (up to 4 points)
+#### Path 2.3.A [4 points | Layered comparative analysis]
+- Sub-criterion 2.3.A.1 [1 point | Completeness]: Stratify by JobLevel, SalarySlab, etc., and compare attrition rates across departments
+- Sub-criterion 2.3.A.2 [2 points | Accuracy]: Provide accurate stratified attrition rate data (error ≤ 2%); reference ranges:
+  - Level 1 attrition rate: R&D ≈ 23.22%, Sales ≈ 41.56%, HR ≈ 30.30%
+
+[dacomp-023 1.3.A]
+#### Path 1.3.A [3 points | Champion identification based on YoY]
+- Sub-criterion 1.3.A.1 [1 point | Completeness]: For each year y∈{2016, 2017, 2018}, compute each category's `YoY_y`, and take `argmax(YoY_y)` as the champion for that year; if tied (difference ≤ **0.1pct**), display as a tie. Categories with YoY = NA are skipped for that year's determination.
+  Provide an "Annual Champions" table: `{year, champion_category, YoY%}`.
+  Table is complete.
+- Sub-criterion 1.3.A.2 [1 point | Accuracy]: Consistency verification
+  Pseudoflow:
+  ```
+  FOR year IN {2016, 2017, 2018}:
+      recompute YoY from annual_pivot
+      assert champion == argmax(YoY among non-NA)
+  ```
+  Assertions for all three years pass; if a category's sales are 0 in a base year → YoY=NA → remove from candidate set, and add a footnote below the table.
+
+[dacomp-032 1.1.A]
+#### Path 1.1.A [2 pts | precise identification]
+- Sub-criterion 1.1.A.1 [2 pts | Accuracy | Allowed error = 0]: In `customer_contact_table`, filter `Contact priority = 1`, extract and **deduplicate by `Customer ID`**; verification value: **deduplicated Customer ID count = 105**.
+  ```
+  INPUT: customer_contact_table Contact(Customer ID, Contact priority, …)
+  STEP1: F = Filter(Contact, Contact priority == 1)
+  STEP2: U = Unique(F.Customer ID)        # Deduplicate by Customer ID
+  STEP3: n = Count(U)
+  ASSERT n == 105                         # Allowed error = 0 (sample data); for live data, report actual n and explain
+  OUTPUT: U, n
+  ```
+---
+## Requirement 2: Quantify customer complaint and service ticket handling indicators (maximum 12 points)
+
+[dacomp-036 1.1.A]
+#### Path 1.1.A [3 points | Detailed success rate analysis]
+- Sub-standard 1.1.A.1 [1 point | Completeness]: For each Login Method, separately tally success and failure counts, and compute success/failure rates.
+- Sub-standard 1.1.A.2 [2 points | Accuracy]: Verify against the baseline values below (deviation must not exceed 1%)
+  | Login Method | Success Count | Failure Count | Success Rate | Failure Rate |
+  |--------------|---------------|---------------|--------------|--------------|
+  | Password Login | 20 | 24 | 45.45% | 54.55% |
+  | SMS verification code login | 21 | 24 | 46.67% | 53.33% |
+  | Scan Code Login | 25 | 21 | 54.35% | 45.65% |
+  | Fingerprint authentication | 19 | 23 | 45.24% | 54.76% |
+#### Path 1.1.B [2 points | Success rate comparative analysis]
+- Sub-standard 1.1.B.1 [1 point | Completeness]: Compare success rates across multiple Login Methods, and identify which methods have higher and lower success rates.
+- Sub-standard 1.1.B.2 [1 point | Accuracy]: The comparative success rate analysis is correct; the identified methods with high and low success rates match actual conditions (use the baseline values in Path 1.1.A as reference; comparative result deviation must not exceed 1%).
+
+[dacomp-036 1.1.B]
+#### Path 1.1.B [2 points | Success rate comparative analysis]
+- Sub-standard 1.1.B.1 [1 point | Completeness]: Compare success rates across multiple Login Methods, and identify which methods have higher and lower success rates.
+- Sub-standard 1.1.B.2 [1 point | Accuracy]: The comparative success rate analysis is correct; the identified methods with high and low success rates match actual conditions (use the baseline values in Path 1.1.A as reference; comparative result deviation must not exceed 1%).
+---
+### Standard 1.2 [Maximum 3 points]: Two-Factor Authentication analysis
+### Must be data-based analysis of Two-Factor Authentication; if no conclusion is reached, then all points under Standard 1.2 will be forfeited.
+#### Path 1.2.A [3 points | Comprehensive Two-Factor Authentication analysis]
+- Sub-standard 1.2.A.1 [1 point | Completeness]: For each Two-Factor Authentication Method, compute the enablement proportion, analyze how enablement rate impacts security, and compare success rates between enabled and not enabled Two-Factor Authentication.
+- Sub-standard 1.2.A.2 [2 points | Accuracy]: Verify against the baseline values below (deviation must not exceed 1%)
+  | Two-Factor Authentication Method | Enabled Proportion |
+  |-------------|---------|
+  | APP verification code | 41% |
