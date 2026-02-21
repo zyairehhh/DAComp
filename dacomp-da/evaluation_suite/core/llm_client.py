@@ -160,7 +160,7 @@ def _http_completion(
                 base_url,
                 headers=headers,
                 json=payload,
-                timeout=60,
+                timeout=300,
             )
         except requests.RequestException as exc:
             logger.error("Failed to call model {}: {}", model_name, exc)

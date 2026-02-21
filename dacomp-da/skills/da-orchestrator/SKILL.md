@@ -10,31 +10,40 @@ Guide an agent to select and sequence DA skills based solely on the user questio
 
 ## Workflow
 
-### 1. Decompose the Question
-- Split the question into 1-3 Requirements (what must be answered).
-- For each requirement, identify target metric(s), population, time window, and comparison dimension.
+### 1. Build a Task Contract
+- Split the question into 1-3 requirements.
+- For each requirement, explicitly lock: metric, formula, unit, population/filter, time window, comparison dimension, output artifact.
+- If the question specifies thresholds/weights/boundaries, copy them verbatim into the contract.
+- Capture quantifiers explicitly: `all`, `each`, `every`, `by month/year`, `top-k`.
 
-### 2. Classify Each Requirement
-- Map each requirement to one or more **archetypes** (see `references/archetype-catalog.md`).
-- Choose the minimal sequence of skills that can satisfy the requirement end-to-end.
+### 2. Route by Task Mode
+- `Deterministic Mode`: use when the question asks for scoring, tiering, thresholds, simulation, decomposition, correlation, top-k, or strict formulas.
+- `Exploratory Mode`: use when the question emphasizes open diagnosis, patterns, or strategy without strict numeric rules.
+- Default to `Deterministic Mode` when uncertain.
 
 ### 3. Compose a Skill Sequence
+- Map each requirement to one or more archetypes (see `references/archetype-catalog.md`).
 - Use composition recipes in `references/composition-recipes.md`.
-- Keep the sequence short but complete (definition → computation → analysis → conclusion).
+- Keep sequence minimal but complete: definition -> computation -> validation -> conclusion.
 
-### 4. Read Skills When Needed
+### 4. Read Skills on Demand
 - Skills live under `/workspace/dacomp-da/skills/<skill-name>/SKILL.md`.
-- When you decide to use a skill, **read its `SKILL.md` and any needed files in `references/`**.
-- If you are unsure about method details or output format, consult the relevant skill before proceeding.
+- Read only selected skills and the specific references needed for the chosen mode.
 
-### 4. Enforce Evidence and Reproducibility
-- Require at least one table/KPI per requirement.
-- If a claim is made, tie it to a number or table.
-- Prefer SQL/pseudo-code to make steps reproducible.
+### 5. Enforce Evidence and Reproducibility
+- Require one KPI table or equivalent numeric artifact per requirement.
+- Tie every key claim to a number.
+- Prefer SQL or reproducible pseudo-code for calculations.
 
-### 5. Produce a Structured Output Plan
-- Output the chosen skills and their execution order.
-- Identify expected artifacts (tables/figures) before running analysis.
+### 6. Run a Pre-Submit Quality Gate
+- `Completeness gate`: all requirements answered.
+- `Accuracy gate`: formula, thresholds, units, and boundaries match the task contract.
+- `Conclusion gate`: each recommendation cites numeric evidence.
+
+## Requirement Coverage Matrix (Required)
+- Before final output, build a compact matrix with one row per requirement:
+  `requirement | required outputs | produced outputs | missing items | pass/fail`.
+- If any row fails, fix missing items first and only then finalize the report.
 
 ## Rubric-Aligned Heuristics (Rubric-Absent)
 - Always define metrics explicitly before analysis.
@@ -42,8 +51,23 @@ Guide an agent to select and sequence DA skills based solely on the user questio
 - Provide conclusions for each requirement and tie them to evidence.
 - If multiple methods are plausible, choose one and state assumptions.
 
+## Hard Constraints
+- Do not invent new metric weights, threshold values, or score formulas in `Deterministic Mode`.
+- Do not drop required counts/percentages for threshold tasks.
+- If assumptions are required, state them briefly and keep the original task contract unchanged.
+
 ## References
 - Use `references/archetype-catalog.md` to map questions to analysis types.
 - Use `references/decision-tree.md` to route to skills.
 - Use `references/composition-recipes.md` to sequence skills.
-- Use `references/output-contract.md` to standardize final report structure.
+- Use `references/output-contract.md` to standardize final report structure and align with the Delivery Checklist.
+
+## Delivery Checklist (Generic, High-Score Friendly)
+- Restate the question as measurable targets: metrics, population, time window, and comparison dimension.
+- Define each metric explicitly with units and threshold direction (higher/lower is better if applicable).
+- Report the filtered sample size (`n`) after applying criteria.
+- Provide at least one KPI table per requirement; cite key numbers in the narrative.
+- If ranking/segmentation is used, include top/bottom examples and min/max values.
+- If thresholds are used, report counts **and** percentages for each class.
+- If a formula/composite score is used, show the exact formula and one worked example.
+- Tie each conclusion to a numeric anchor; avoid introducing new metrics unless the task requires it.

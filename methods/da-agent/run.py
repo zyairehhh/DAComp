@@ -72,6 +72,12 @@ def config() -> argparse.Namespace:
     parser.add_argument("--plan", action="store_true")
     parser.add_argument("--dbt_only", action="store_true", default=True)
     parser.add_argument("--language", choices=["zh", "en"], default="en")
+    parser.add_argument(
+        "--skills_dir",
+        type=str,
+        default="",
+        help="Optional override for skills directory to copy into /workspace. Defaults to <test_path_parent>/../skills.",
+    )
 
     parser.add_argument(
         "--type",
@@ -118,10 +124,21 @@ def filter_task_configs(task_configs: List[Dict], args: argparse.Namespace) -> L
     return task_configs
 
 
-def build_stage_task_config(stage_label: str, task_config: Dict, source_dir: Path, instance_root: Path) -> Dict:
+def build_stage_task_config(
+    stage_label: str,
+    task_config: Dict,
+    source_dir: Path,
+    instance_root: Path,
+    skills_dir_override: str,
+) -> Dict:
     config = copy.deepcopy(task_config)
     task_data_dir = source_dir / task_config["instance_id"]
-    skills_dir = (source_dir.parent / "skills").resolve()
+    if skills_dir_override:
+        skills_dir = Path(skills_dir_override).expanduser().resolve()
+    else:
+        skills_dir = (source_dir.parent / "skills").resolve()
+    if not skills_dir.exists():
+        raise FileNotFoundError(f"Skills directory not found: {skills_dir}")
     config_steps = [
         {
             "type": "copy_all_subfiles",
@@ -164,7 +181,13 @@ def run_stage(
             "language": args.language,
         }
     }
-    stage_task_config = build_stage_task_config(stage_label, task_config, source_dir, instance_root)
+    stage_task_config = build_stage_task_config(
+        stage_label,
+        task_config,
+        source_dir,
+        instance_root,
+        args.skills_dir,
+    )
     env = DAAgentEnv(
         env_config=env_config,
         task_config=stage_task_config,
