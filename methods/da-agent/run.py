@@ -17,6 +17,10 @@ from da_agent.agent.prompts import (
     DACOMP_STAGE3_SYSTEM_PROMPT_EN,
     DACOMP_STAGE3_SYSTEM_PROMPT_ZH,
 )
+from da_agent.agent.prompts_baseline import (
+    DACOMP_STAGE3_SYSTEM_PROMPT_EN as DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE,
+    DACOMP_STAGE3_SYSTEM_PROMPT_ZH as DACOMP_STAGE3_SYSTEM_PROMPT_ZH_BASELINE,
+)
 
 
 VISUAL_EXTENSIONS = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".svg", ".pdf"}
@@ -72,6 +76,25 @@ def config() -> argparse.Namespace:
     parser.add_argument("--plan", action="store_true")
     parser.add_argument("--dbt_only", action="store_true", default=True)
     parser.add_argument("--language", choices=["zh", "en"], default="en")
+    parser.add_argument(
+        "--mode",
+        type=str,
+        choices=["baseline", "skill"],
+        default="baseline",
+        help="Run mode: baseline (same prompts/design as main) or skill (skills + experience enabled).",
+    )
+    parser.add_argument(
+        "--skills_dir",
+        type=str,
+        default="",
+        help="Optional override for skills directory (used only in --mode skill). Defaults to <test_path_parent>/../skills.",
+    )
+    parser.add_argument(
+        "--experience_dir",
+        type=str,
+        default="",
+        help="Optional override for experience cards directory (used only in --mode skill). Defaults to <test_path_parent>/../experience_cards.",
+    )
 
     parser.add_argument(
         "--type",
@@ -118,13 +141,47 @@ def filter_task_configs(task_configs: List[Dict], args: argparse.Namespace) -> L
     return task_configs
 
 
-def build_stage_task_config(stage_label: str, task_config: Dict, source_dir: Path, instance_root: Path) -> Dict:
+def build_stage_task_config(
+    stage_label: str,
+    task_config: Dict,
+    source_dir: Path,
+    instance_root: Path,
+    mode: str,
+    skills_dir_override: str,
+    experience_dir_override: str,
+) -> Dict:
     config = copy.deepcopy(task_config)
     task_data_dir = source_dir / task_config["instance_id"]
+    if mode == "baseline":
+        config_steps = [
+            {
+                "type": "copy_all_subfiles",
+                "parameters": {"dirs": [str(task_data_dir)]},
+            }
+        ]
+        config["config"] = config_steps
+        return config
+
+    if skills_dir_override:
+        skills_dir = Path(skills_dir_override).expanduser().resolve()
+    else:
+        skills_dir = (source_dir.parent / "skills").resolve()
+    if not skills_dir.exists():
+        raise FileNotFoundError(f"Skills directory not found: {skills_dir}")
+    if experience_dir_override:
+        experience_dir = Path(experience_dir_override).expanduser().resolve()
+    else:
+        experience_dir = (source_dir.parent / "experience_cards").resolve()
+
+    copy_dirs = [str(task_data_dir), str(skills_dir)]
+    if experience_dir.exists():
+        copy_dirs.append(str(experience_dir))
+    else:
+        logger.warning("Experience directory not found, skipping: %s", experience_dir)
     config_steps = [
         {
             "type": "copy_all_subfiles",
-            "parameters": {"dirs": [str(task_data_dir)]},
+            "parameters": {"dirs": copy_dirs},
         }
     ]
     config["config"] = config_steps
@@ -163,7 +220,15 @@ def run_stage(
             "language": args.language,
         }
     }
-    stage_task_config = build_stage_task_config(stage_label, task_config, source_dir, instance_root)
+    stage_task_config = build_stage_task_config(
+        stage_label,
+        task_config,
+        source_dir,
+        instance_root,
+        args.mode,
+        args.skills_dir,
+        args.experience_dir,
+    )
     env = DAAgentEnv(
         env_config=env_config,
         task_config=stage_task_config,
@@ -181,6 +246,7 @@ def run_stage(
         use_plan=args.plan,
         use_image_prompt=use_image_prompt,
         language=args.language,
+        prompt_mode=args.mode,
     )
     agent.set_env_and_task(env)
     logger.info("[%s] Starting stage %s", task_config["instance_id"], stage_label)
@@ -264,7 +330,13 @@ def collect_stage2_images(
     return metadata
 
 
-def get_stage3_system_prompt(language: str) -> str:
+def get_stage3_system_prompt(language: str, mode: str) -> str:
+    if mode == "baseline":
+        return (
+            DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE
+            if language == "en"
+            else DACOMP_STAGE3_SYSTEM_PROMPT_ZH_BASELINE
+        )
     return DACOMP_STAGE3_SYSTEM_PROMPT_EN if language == "en" else DACOMP_STAGE3_SYSTEM_PROMPT_ZH
 
 
@@ -311,7 +383,7 @@ def synthesize_final_report(
         else "No images captured during stage2."
     )
 
-    system_prompt = get_stage3_system_prompt(args.language)
+    system_prompt = get_stage3_system_prompt(args.language, args.mode)
     stage3_instruction = (
         "Use Stage1 as the backbone, insert the listed images with English captions, and return the final_result.md strictly in English."
         if args.language == "en"

@@ -9,12 +9,13 @@ from http import HTTPStatus
 from io import BytesIO
 from typing import Dict, List, Optional, Tuple, Any, TypedDict
 
-from da_agent.agent.prompts import (
-    DACOMP_SYSTEM_DESIGN,
-    DACOMP_SYSTEM_DESIGN_EN,
-    DACOMP_SYSTEM_DESIGN_IMAGE,
-    DACOMP_SYSTEM_DESIGN_IMAGE_EN,
+from da_agent.agent.prompts_baseline import (
+    DACOMP_SYSTEM_DESIGN as DACOMP_SYSTEM_DESIGN_BASELINE,
+    DACOMP_SYSTEM_DESIGN_EN as DACOMP_SYSTEM_DESIGN_EN_BASELINE,
+    DACOMP_SYSTEM_DESIGN_IMAGE as DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE,
+    DACOMP_SYSTEM_DESIGN_IMAGE_EN as DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE,
 )
+from da_agent.agent.experience import build_experience_snippet
 from da_agent.agent.action import (
     Action,
     Bash,
@@ -43,7 +44,8 @@ class PromptAgent:
         max_steps=15,
         use_plan=False,
         use_image_prompt: bool = False,
-        language: str = "zh"
+        language: str = "zh",
+        prompt_mode: str = "baseline",
     ):
         
         self.model = model
@@ -65,6 +67,7 @@ class PromptAgent:
         self.use_plan = use_plan
         self.use_image_prompt = use_image_prompt
         self.language = language.lower() if language else "zh"
+        self.prompt_mode = (prompt_mode or "baseline").lower()
         self._last_repetition_signature = None
         
     def set_env_and_task(self, env: DAAgentEnv):
@@ -106,25 +109,79 @@ class PromptAgent:
         # elif self.env.task_config['type'] == 'design':
         #     self.system_message = DACOMP_SYSTEM_DESIGN.format(work_dir=self.work_dir, action_space=action_space, task=self.instruction, max_steps=self.max_steps)
 
-        if self.use_image_prompt:
-            prompt_template = DACOMP_SYSTEM_DESIGN_IMAGE_EN if self.language == "en" else DACOMP_SYSTEM_DESIGN_IMAGE
-            stage1_report = getattr(self.env, "stage1_report", "")
-            stage1_result = getattr(self.env, "stage1_result_plain", "")
-            self.system_message = prompt_template.format(
-                work_dir=self.work_dir,
-                action_space=action_space,
-                task=self.instruction,
-                max_steps=self.max_steps,
-                stage1_report=stage1_report,
-            )
+        if self.prompt_mode == "baseline":
+            if self.use_image_prompt:
+                prompt_template = (
+                    DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE
+                    if self.language == "en"
+                    else DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE
+                )
+                stage1_report = getattr(self.env, "stage1_report", "")
+                self.system_message = prompt_template.format(
+                    work_dir=self.work_dir,
+                    action_space=action_space,
+                    task=self.instruction,
+                    max_steps=self.max_steps,
+                    stage1_report=stage1_report,
+                )
+            else:
+                prompt_template = (
+                    DACOMP_SYSTEM_DESIGN_EN_BASELINE
+                    if self.language == "en"
+                    else DACOMP_SYSTEM_DESIGN_BASELINE
+                )
+                self.system_message = prompt_template.format(
+                    work_dir=self.work_dir,
+                    action_space=action_space,
+                    task=self.instruction,
+                    max_steps=self.max_steps,
+                )
         else:
-            prompt_template = DACOMP_SYSTEM_DESIGN_EN if self.language == "en" else DACOMP_SYSTEM_DESIGN
-            self.system_message = prompt_template.format(
-                work_dir=self.work_dir,
-                action_space=action_space,
-                task=self.instruction,
-                max_steps=self.max_steps,
-            )
+            experience_snippet = build_experience_snippet(self.instruction)
+            if self.use_image_prompt:
+                prompt_template = (
+                    DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE
+                    if self.language == "en"
+                    else DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE
+                )
+                stage1_report = getattr(self.env, "stage1_report", "")
+                base_message = prompt_template.format(
+                    work_dir=self.work_dir,
+                    action_space=action_space,
+                    task=self.instruction,
+                    max_steps=self.max_steps,
+                    stage1_report=stage1_report,
+                )
+                skill_appendix = (
+                    "\n\n## Skills Mode (Progressive Disclosure)\n"
+                    "You may use DA skills under `/workspace/dacomp-da/skills/` on demand.\n"
+                    "Start from `da-orchestrator/SKILL.md`, then only read selected skill files.\n"
+                    "Use skill templates only when they help satisfy the current requirement.\n\n"
+                    "## Retrieved Experience Cards\n"
+                    f"{experience_snippet}\n"
+                )
+                self.system_message = base_message + skill_appendix
+            else:
+                prompt_template = (
+                    DACOMP_SYSTEM_DESIGN_EN_BASELINE
+                    if self.language == "en"
+                    else DACOMP_SYSTEM_DESIGN_BASELINE
+                )
+                base_message = prompt_template.format(
+                    work_dir=self.work_dir,
+                    action_space=action_space,
+                    task=self.instruction,
+                    max_steps=self.max_steps,
+                )
+                skill_appendix = (
+                    "\n\n## Skills Mode (Progressive Disclosure)\n"
+                    "You may use DA skills under `/workspace/dacomp-da/skills/` on demand.\n"
+                    "Start from `da-orchestrator/SKILL.md`, then only read selected skill files.\n"
+                    "Do not load every skill; read only what the current subtask needs.\n\n"
+                    "## Retrieved Experience Cards\n"
+                    f"{experience_snippet}\n"
+                )
+                self.system_message = base_message + skill_appendix
         
 
         self.history_messages.append({
