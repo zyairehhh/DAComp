@@ -1,0 +1,416 @@
+{
+  "version": "1.0",
+  "cards": [
+    {
+      "id": "exp-da-001",
+      "title": "Requirement Coverage Matrix",
+      "path": "cards/exp-da-001-requirement-coverage.md",
+      "when_to_use": "Task has multiple explicit deliverables and you need full requirement coverage.",
+      "tags": [
+        "coverage",
+        "requirement",
+        "completeness",
+        "report"
+      ],
+      "keywords": [
+        "comprehensive",
+        "analyze and recommend",
+        "for each",
+        "requirement",
+        "deliverable",
+        "diagnosis"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-002",
+      "title": "Metric Contract and Threshold Lock",
+      "path": "cards/exp-da-002-metric-contract.md",
+      "when_to_use": "Prompt defines thresholds/formulas or target-group filtering rules.",
+      "tags": [
+        "metric",
+        "threshold",
+        "filter",
+        "kpi",
+        "accuracy"
+      ],
+      "keywords": [
+        "top 25%",
+        "cost >",
+        "roi <",
+        "threshold",
+        "screening",
+        "high-risk",
+        "coefficient of variation"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-003",
+      "title": "Segmentation Triad",
+      "path": "cards/exp-da-003-segmentation-triad.md",
+      "when_to_use": "Need to explain mismatch or performance gap with subgroup comparisons.",
+      "tags": [
+        "segmentation",
+        "quartile",
+        "target_vs_control",
+        "diagnosis"
+      ],
+      "keywords": [
+        "mismatch",
+        "high ctr low cvr",
+        "stratification",
+        "cohort",
+        "segment",
+        "group comparison"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-004",
+      "title": "Driver Ranking with Consistency Checks",
+      "path": "cards/exp-da-004-driver-ranking.md",
+      "when_to_use": "Need root-cause ranking among multiple candidate factors.",
+      "tags": [
+        "correlation",
+        "regression",
+        "driver",
+        "insight"
+      ],
+      "keywords": [
+        "root cause",
+        "key driver",
+        "impact factors",
+        "relationship",
+        "non-linear",
+        "explain why"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-005",
+      "title": "Quantified Recommendation Card",
+      "path": "cards/exp-da-005-quantified-recommendation.md",
+      "when_to_use": "Task requests optimization strategy or action plan.",
+      "tags": [
+        "recommendation",
+        "target",
+        "action_plan",
+        "conclusion"
+      ],
+      "keywords": [
+        "optimization",
+        "strategy",
+        "recommendation",
+        "improve",
+        "reduce cost",
+        "governance"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-006",
+      "title": "Sensitivity and Robustness Mini-Test",
+      "path": "cards/exp-da-006-sensitivity-robustness.md",
+      "when_to_use": "Decisions depend on assumptions (allocation, pricing, budget, scoring model).",
+      "tags": [
+        "robustness",
+        "scenario",
+        "sensitivity",
+        "risk"
+      ],
+      "keywords": [
+        "allocation",
+        "budget",
+        "pricing",
+        "model",
+        "stress test",
+        "scenario"
+      ],
+      "priority": 3
+    },
+    {
+      "id": "exp-da-007",
+      "title": "Data Availability and Fallback Protocol",
+      "path": "cards/exp-da-007-data-availability-fallback.md",
+      "when_to_use": "Data access appears broken, missing, or inconsistent.",
+      "tags": [
+        "schema",
+        "fallback",
+        "data_quality",
+        "diagnostics"
+      ],
+      "keywords": [
+        "database",
+        "no such table",
+        "missing column",
+        "empty result",
+        "corrupted",
+        "schema"
+      ],
+      "priority": 3
+    },
+    {
+      "id": "exp-da-008",
+      "title": "Final Report Hardening Checklist",
+      "path": "cards/exp-da-008-final-report-hardening.md",
+      "when_to_use": "You are finalizing stage1 report and want to reduce rubric point leakage.",
+      "tags": [
+        "report",
+        "readability",
+        "professionalism",
+        "final_check"
+      ],
+      "keywords": [
+        "final report",
+        "stage1.md",
+        "executive summary",
+        "conclusion",
+        "business insight"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-009",
+      "title": "Time Window and Leakage Guard",
+      "path": "cards/exp-da-009-time-window-leakage-guard.md",
+      "when_to_use": "Task requires prediction/forecasting or explicit past-vs-future comparison.",
+      "tags": [
+        "time_window",
+        "leakage",
+        "prediction",
+        "validation"
+      ],
+      "keywords": [
+        "past window",
+        "future window",
+        "rolling window",
+        "data leakage",
+        "label window",
+        "forecast"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-010",
+      "title": "Denominator and Unit Consistency",
+      "path": "cards/exp-da-010-denominator-unit-consistency.md",
+      "when_to_use": "Task includes rates/shares/ratios with strict numeric anchors.",
+      "tags": [
+        "denominator",
+        "unit",
+        "ratio",
+        "accuracy"
+      ],
+      "keywords": [
+        "share",
+        "ratio",
+        "percentage",
+        "unit",
+        "weighted average",
+        "denominator"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-011",
+      "title": "Path Minimum Output Contract",
+      "path": "cards/exp-da-011-path-minimum-output-contract.md",
+      "when_to_use": "Multiple valid paths exist and each requirement needs complete deliverables.",
+      "tags": [
+        "path_selection",
+        "completeness",
+        "output_contract",
+        "delivery"
+      ],
+      "keywords": [
+        "path",
+        "requirement",
+        "deliverables",
+        "checklist",
+        "target vs control",
+        "action plan"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-012",
+      "title": "Anchor Number Cross-Check",
+      "path": "cards/exp-da-012-anchor-cross-check.md",
+      "when_to_use": "Rubric-like checks depend on exact/tolerance-based anchor numbers.",
+      "tags": [
+        "anchor",
+        "verification",
+        "precision",
+        "cross_check"
+      ],
+      "keywords": [
+        "anchor",
+        "tolerance",
+        "recompute",
+        "sanity check",
+        "quantile",
+        "threshold"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-013",
+      "title": "Missing Value and Imputation Policy",
+      "path": "cards/exp-da-013-missing-imputation-policy.md",
+      "when_to_use": "Key metrics require join fields that may be missing and need explicit fill policy.",
+      "tags": [
+        "missing_data",
+        "imputation",
+        "stability",
+        "robustness"
+      ],
+      "keywords": [
+        "missing",
+        "null",
+        "imputation",
+        "fillna",
+        "avg_position",
+        "fallback"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-014",
+      "title": "Claim-Evidence Linking",
+      "path": "cards/exp-da-014-claim-evidence-linking.md",
+      "when_to_use": "Need high conclusiveness: every claim/recommendation must be evidence-backed.",
+      "tags": [
+        "conclusiveness",
+        "evidence",
+        "traceability",
+        "report_quality"
+      ],
+      "keywords": [
+        "evidence",
+        "claim",
+        "recommendation",
+        "because",
+        "therefore",
+        "insight"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-015",
+      "title": "Strategy Roadmap Operationalization",
+      "path": "cards/exp-da-015-strategy-roadmap-operationalization.md",
+      "when_to_use": "Task asks for strategic plan and recommendations must be executable with owners/timeline/KPIs.",
+      "tags": [
+        "strategy",
+        "roadmap",
+        "governance",
+        "action_plan",
+        "kpi"
+      ],
+      "keywords": [
+        "comprehensive strategy",
+        "annual plan",
+        "optimize costs",
+        "improve efficiency",
+        "governance",
+        "roadmap",
+        "owner",
+        "timeline"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-016",
+      "title": "Causal Claim Countercheck",
+      "path": "cards/exp-da-016-causal-claim-countercheck.md",
+      "when_to_use": "Task requires explaining drivers/causes and avoiding over-claiming from correlation only.",
+      "tags": [
+        "causal",
+        "root_cause",
+        "confounder",
+        "validation"
+      ],
+      "keywords": [
+        "root cause",
+        "why",
+        "driver",
+        "leads to",
+        "causes",
+        "cascading",
+        "non-linear",
+        "confounding"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-017",
+      "title": "Requirement Coverage Ledger",
+      "path": "cards/exp-da-017-requirement-coverage-ledger.md",
+      "when_to_use": "Prompt has multiple explicit deliverables where missing one requirement hurts completeness heavily.",
+      "tags": [
+        "completeness",
+        "checklist",
+        "requirement",
+        "output_contract"
+      ],
+      "keywords": [
+        "requirements",
+        "first",
+        "then",
+        "finally",
+        "for each",
+        "deliverable",
+        "comprehensive analysis",
+        "targeted recommendations"
+      ],
+      "priority": 5
+    },
+    {
+      "id": "exp-da-018",
+      "title": "Forecast Uncertainty and Scenario Bands",
+      "path": "cards/exp-da-018-forecast-uncertainty-scenarios.md",
+      "when_to_use": "Task includes forecasting/planning under uncertainty and needs robust decisions, not single-point estimates.",
+      "tags": [
+        "forecast",
+        "scenario",
+        "uncertainty",
+        "robustness"
+      ],
+      "keywords": [
+        "forecast",
+        "cash flow",
+        "trajectory",
+        "risk level",
+        "scenario",
+        "sensitivity",
+        "upside",
+        "downside"
+      ],
+      "priority": 4
+    },
+    {
+      "id": "exp-da-019",
+      "title": "Small-Sample Filter Fallback",
+      "path": "cards/exp-da-019-small-sample-filter-fallback.md",
+      "when_to_use": "Strict filter/threshold yields sparse cohort and you still need stable conclusions.",
+      "tags": [
+        "sparse_data",
+        "filter",
+        "fallback",
+        "confidence"
+      ],
+      "keywords": [
+        "top 25%",
+        "high-priority",
+        "threshold",
+        "small sample",
+        "sparse",
+        "cohort",
+        "filter",
+        "fallback"
+      ],
+      "priority": 4
+    }
+  ]
+}
