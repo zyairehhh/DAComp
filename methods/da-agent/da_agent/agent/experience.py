@@ -1,11 +1,12 @@
 import json
 import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional, Tuple
 
 
 DEFAULT_EXPERIENCE_DIR = "/workspace/dacomp-da/experience_cards"
-DEFAULT_TOP_K = 5
+DEFAULT_TOP_K = 3
+MIN_RETRIEVAL_SCORE = 1.5
 
 
 def _tokenize(text: str) -> List[str]:
@@ -14,8 +15,7 @@ def _tokenize(text: str) -> List[str]:
     return re.findall(r"[a-z0-9_]+", text.lower())
 
 
-def _load_catalog(experience_dir: str) -> List[Dict]:
-    base = Path(experience_dir)
+def _load_catalog_at(base: Path) -> List[Dict]:
     index_path = base / "index.json"
     if not index_path.exists():
         return []
@@ -32,6 +32,25 @@ def _load_catalog(experience_dir: str) -> List[Dict]:
             continue
         valid_cards.append(card)
     return valid_cards
+
+
+def _discover_catalog(experience_dir: str) -> Tuple[Optional[Path], List[Dict], List[Path]]:
+    candidates: List[Path] = []
+    for raw in (
+        experience_dir,
+        "/workspace/experience_cards",
+        "/workspace/dacomp-da/experience_cards",
+        "/workspace",
+    ):
+        path = Path(raw)
+        if path not in candidates:
+            candidates.append(path)
+
+    for base in candidates:
+        cards = _load_catalog_at(base)
+        if cards:
+            return base, cards, candidates
+    return None, [], candidates
 
 
 def _score_card(task_text: str, task_tokens: set, card: Dict) -> float:
@@ -51,8 +70,6 @@ def _score_card(task_text: str, task_tokens: set, card: Dict) -> float:
         tag_token = str(tag).strip().lower()
         if tag_token and tag_token in task_tokens:
             score += 1.0
-    # Small deterministic boost from author-set priority.
-    score += float(card.get("priority", 0)) * 0.2
     return score
 
 
@@ -65,11 +82,21 @@ def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[
         if card_score > 0:
             scored.append((card_score, card))
     if not scored:
-        # Fallback to highest-priority generic cards when no lexical hit.
-        ranked = sorted(cards, key=lambda x: float(x.get("priority", 0)), reverse=True)
-        return ranked[:top_k]
+        return []
     scored.sort(key=lambda x: (x[0], float(x[1].get("priority", 0))), reverse=True)
-    return [card for _, card in scored[:top_k]]
+    best_score = scored[0][0]
+    selected = []
+    for score, card in scored:
+        # Keep high-confidence hits only. This avoids injecting broad cards that
+        # add noise and hurt accuracy on threshold-sensitive tasks.
+        if score < MIN_RETRIEVAL_SCORE:
+            continue
+        if score < best_score - 1.5:
+            continue
+        selected.append(card)
+        if len(selected) >= top_k:
+            break
+    return selected
 
 
 def build_experience_snippet(
@@ -77,10 +104,11 @@ def build_experience_snippet(
     experience_dir: str = DEFAULT_EXPERIENCE_DIR,
     top_k: int = DEFAULT_TOP_K,
 ) -> str:
-    cards = _load_catalog(experience_dir)
+    base_dir, cards, tried_paths = _discover_catalog(experience_dir)
     if not cards:
+        tried = ", ".join(f"`{str(path / 'index.json')}`" for path in tried_paths)
         return (
-            "No experience catalog detected at `/workspace/dacomp-da/experience_cards/index.json`.\n"
+            f"No experience catalog detected. Tried: {tried}.\n"
             "Proceed without experience cards."
         )
 
@@ -94,7 +122,7 @@ def build_experience_snippet(
     ]
     for idx, card in enumerate(selected, start=1):
         rel_path = str(card.get("path", "")).lstrip("./")
-        full_path = f"/workspace/dacomp-da/experience_cards/{rel_path}"
+        full_path = str((base_dir / rel_path).resolve()) if base_dir else rel_path
         when_to_use = str(card.get("when_to_use", "")).strip()
         lines.append(
             f"{idx}. [{card.get('id')}] {card.get('title', '')}\n"

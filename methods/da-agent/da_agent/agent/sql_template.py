@@ -280,14 +280,19 @@ LOCAL_SQL_TEMPLATE = """
 import pandas as pd
 import os
 import sqlite3
-import duckdb
+try:
+    import duckdb
+except Exception:
+    duckdb = None
 
 def detect_db_type(file_path):
     if file_path.endswith('.db') or file_path.endswith('.sqlite') :
         return 'sqlite'
     elif file_path.endswith('.duckdb'):
-        return 'duckdb'
+        return 'duckdb' if duckdb is not None else 'sqlite'
     else:
+        if duckdb is None:
+            return 'sqlite'
         try:
             conn = duckdb.connect(database=file_path, read_only=True)
             conn.execute('SELECT 1')
@@ -308,6 +313,9 @@ def execute_sql(file_path, command, output_path_path):
     if db_type == 'sqlite':
         conn = sqlite3.connect(file_path)
     elif db_type == 'duckdb':
+        if duckdb is None:
+            print("ERROR: duckdb is not available in this environment.")
+            return
         conn = duckdb.connect(database=file_path, read_only=True)
     else:
         print(f"ERROR: Unsupported database type {{db_type}}")

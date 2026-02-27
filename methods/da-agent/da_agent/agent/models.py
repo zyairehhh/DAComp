@@ -56,7 +56,13 @@ def _http_chat_completion(
     code_value = "unknown_error"
     for _ in range(3000):
         try:
-            response = requests.post(api_url, headers=headers, json=payload)
+            # Avoid indefinite hangs on provider side; retries are handled below.
+            response = requests.post(
+                api_url,
+                headers=headers,
+                json=payload,
+                timeout=(10, 180),
+            )
         except requests.RequestException as exc:
             logger.error("Failed to call LLM: %s", exc)
             code_value = "request_exception"

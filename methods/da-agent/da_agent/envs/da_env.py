@@ -27,7 +27,7 @@ Getter = Callable[[gym.Env, Dict[str, Any]], Any]
 
 
 # constants
-DEFAULT_TIME_OUT = 300  # default waiting time for each action
+DEFAULT_TIME_OUT = 60  # default waiting time for each action
 MAX_OBS_LENGTH = 60000
 EMPTY_DATA_PATH = "da_agent/data/empty"  # an empty data directory
 DEFAULT_WORK_DIR = "/workspace"  # default working directory (logical)

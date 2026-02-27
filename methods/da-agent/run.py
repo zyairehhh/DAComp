@@ -13,10 +13,6 @@ from typing import Dict, List, Tuple
 from da_agent.envs import DAAgentEnv
 from da_agent.agent.agents import PromptAgent
 from da_agent.agent.models import call_llm
-from da_agent.agent.prompts import (
-    DACOMP_STAGE3_SYSTEM_PROMPT_EN,
-    DACOMP_STAGE3_SYSTEM_PROMPT_ZH,
-)
 from da_agent.agent.prompts_baseline import (
     DACOMP_STAGE3_SYSTEM_PROMPT_EN as DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE,
     DACOMP_STAGE3_SYSTEM_PROMPT_ZH as DACOMP_STAGE3_SYSTEM_PROMPT_ZH_BASELINE,
@@ -77,23 +73,28 @@ def config() -> argparse.Namespace:
     parser.add_argument("--dbt_only", action="store_true", default=True)
     parser.add_argument("--language", choices=["zh", "en"], default="en")
     parser.add_argument(
-        "--mode",
-        type=str,
-        choices=["baseline", "skill"],
-        default="baseline",
-        help="Run mode: baseline (same prompts/design as main) or skill (skills + experience enabled).",
+        "--use_skill",
+        action="store_true",
+        default=False,
+        help="Enable progressive-disclosure skill guidance and mount skills directory into workspace.",
+    )
+    parser.add_argument(
+        "--use_experience",
+        action="store_true",
+        default=False,
+        help="Enable experience-card retrieval guidance and mount experience directory into workspace.",
     )
     parser.add_argument(
         "--skills_dir",
         type=str,
         default="",
-        help="Optional override for skills directory (used only in --mode skill). Defaults to <test_path_parent>/../skills.",
+        help="Optional override for skills directory (used only when --use_skill is enabled). Defaults to <test_path_parent>/../skills.",
     )
     parser.add_argument(
         "--experience_dir",
         type=str,
         default="",
-        help="Optional override for experience cards directory (used only in --mode skill). Defaults to <test_path_parent>/../experience_cards.",
+        help="Optional override for experience cards directory (used only when --use_experience is enabled). Defaults to <test_path_parent>/../experience_cards.",
     )
 
     parser.add_argument(
@@ -146,38 +147,32 @@ def build_stage_task_config(
     task_config: Dict,
     source_dir: Path,
     instance_root: Path,
-    mode: str,
+    use_skills: bool,
+    use_experience: bool,
     skills_dir_override: str,
     experience_dir_override: str,
 ) -> Dict:
     config = copy.deepcopy(task_config)
     task_data_dir = source_dir / task_config["instance_id"]
-    if mode == "baseline":
-        config_steps = [
-            {
-                "type": "copy_all_subfiles",
-                "parameters": {"dirs": [str(task_data_dir)]},
-            }
-        ]
-        config["config"] = config_steps
-        return config
+    copy_dirs = [str(task_data_dir)]
 
-    if skills_dir_override:
-        skills_dir = Path(skills_dir_override).expanduser().resolve()
-    else:
-        skills_dir = (source_dir.parent / "skills").resolve()
-    if not skills_dir.exists():
-        raise FileNotFoundError(f"Skills directory not found: {skills_dir}")
-    if experience_dir_override:
-        experience_dir = Path(experience_dir_override).expanduser().resolve()
-    else:
-        experience_dir = (source_dir.parent / "experience_cards").resolve()
+    if use_skills:
+        if skills_dir_override:
+            skills_dir = Path(skills_dir_override).expanduser().resolve()
+        else:
+            skills_dir = (source_dir.parent / "skills").resolve()
+        if not skills_dir.exists():
+            raise FileNotFoundError(f"Skills directory not found: {skills_dir}")
+        copy_dirs.append(str(skills_dir))
 
-    copy_dirs = [str(task_data_dir), str(skills_dir)]
-    if experience_dir.exists():
+    if use_experience:
+        if experience_dir_override:
+            experience_dir = Path(experience_dir_override).expanduser().resolve()
+        else:
+            experience_dir = (source_dir.parent / "experience_cards").resolve()
+        if not experience_dir.exists():
+            raise FileNotFoundError(f"Experience directory not found: {experience_dir}")
         copy_dirs.append(str(experience_dir))
-    else:
-        logger.warning("Experience directory not found, skipping: %s", experience_dir)
     config_steps = [
         {
             "type": "copy_all_subfiles",
@@ -225,7 +220,8 @@ def run_stage(
         task_config,
         source_dir,
         instance_root,
-        args.mode,
+        args.use_skill,
+        args.use_experience,
         args.skills_dir,
         args.experience_dir,
     )
@@ -246,7 +242,8 @@ def run_stage(
         use_plan=args.plan,
         use_image_prompt=use_image_prompt,
         language=args.language,
-        prompt_mode=args.mode,
+        use_skills=args.use_skill,
+        use_experience=args.use_experience,
     )
     agent.set_env_and_task(env)
     logger.info("[%s] Starting stage %s", task_config["instance_id"], stage_label)
@@ -330,14 +327,12 @@ def collect_stage2_images(
     return metadata
 
 
-def get_stage3_system_prompt(language: str, mode: str) -> str:
-    if mode == "baseline":
-        return (
-            DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE
-            if language == "en"
-            else DACOMP_STAGE3_SYSTEM_PROMPT_ZH_BASELINE
-        )
-    return DACOMP_STAGE3_SYSTEM_PROMPT_EN if language == "en" else DACOMP_STAGE3_SYSTEM_PROMPT_ZH
+def get_stage3_system_prompt(language: str) -> str:
+    return (
+        DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE
+        if language == "en"
+        else DACOMP_STAGE3_SYSTEM_PROMPT_ZH_BASELINE
+    )
 
 
 def synthesize_final_report(
@@ -383,7 +378,7 @@ def synthesize_final_report(
         else "No images captured during stage2."
     )
 
-    system_prompt = get_stage3_system_prompt(args.language, args.mode)
+    system_prompt = get_stage3_system_prompt(args.language)
     stage3_instruction = (
         "Use Stage1 as the backbone, insert the listed images with English captions, and return the final_result.md strictly in English."
         if args.language == "en"

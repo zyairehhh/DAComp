@@ -45,7 +45,8 @@ class PromptAgent:
         use_plan=False,
         use_image_prompt: bool = False,
         language: str = "zh",
-        prompt_mode: str = "baseline",
+        use_skills: bool = False,
+        use_experience: bool = False,
     ):
         
         self.model = model
@@ -67,7 +68,8 @@ class PromptAgent:
         self.use_plan = use_plan
         self.use_image_prompt = use_image_prompt
         self.language = language.lower() if language else "zh"
-        self.prompt_mode = (prompt_mode or "baseline").lower()
+        self.use_skills = use_skills
+        self.use_experience = use_experience
         self._last_repetition_signature = None
         
     def set_env_and_task(self, env: DAAgentEnv):
@@ -109,79 +111,57 @@ class PromptAgent:
         # elif self.env.task_config['type'] == 'design':
         #     self.system_message = DACOMP_SYSTEM_DESIGN.format(work_dir=self.work_dir, action_space=action_space, task=self.instruction, max_steps=self.max_steps)
 
-        if self.prompt_mode == "baseline":
-            if self.use_image_prompt:
-                prompt_template = (
-                    DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE
-                    if self.language == "en"
-                    else DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE
-                )
-                stage1_report = getattr(self.env, "stage1_report", "")
-                self.system_message = prompt_template.format(
-                    work_dir=self.work_dir,
-                    action_space=action_space,
-                    task=self.instruction,
-                    max_steps=self.max_steps,
-                    stage1_report=stage1_report,
-                )
-            else:
-                prompt_template = (
-                    DACOMP_SYSTEM_DESIGN_EN_BASELINE
-                    if self.language == "en"
-                    else DACOMP_SYSTEM_DESIGN_BASELINE
-                )
-                self.system_message = prompt_template.format(
-                    work_dir=self.work_dir,
-                    action_space=action_space,
-                    task=self.instruction,
-                    max_steps=self.max_steps,
-                )
+        if self.use_image_prompt:
+            prompt_template = (
+                DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE
+                if self.language == "en"
+                else DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE
+            )
+            stage1_report = getattr(self.env, "stage1_report", "")
+            base_message = prompt_template.format(
+                work_dir=self.work_dir,
+                action_space=action_space,
+                task=self.instruction,
+                max_steps=self.max_steps,
+                stage1_report=stage1_report,
+            )
         else:
-            experience_snippet = build_experience_snippet(self.instruction)
-            if self.use_image_prompt:
-                prompt_template = (
-                    DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE
-                    if self.language == "en"
-                    else DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE
-                )
-                stage1_report = getattr(self.env, "stage1_report", "")
-                base_message = prompt_template.format(
-                    work_dir=self.work_dir,
-                    action_space=action_space,
-                    task=self.instruction,
-                    max_steps=self.max_steps,
-                    stage1_report=stage1_report,
-                )
-                skill_appendix = (
-                    "\n\n## Skills Mode (Progressive Disclosure)\n"
-                    "You may use DA skills under `/workspace/dacomp-da/skills/` on demand.\n"
-                    "Start from `da-orchestrator/SKILL.md`, then only read selected skill files.\n"
-                    "Use skill templates only when they help satisfy the current requirement.\n\n"
-                    "## Retrieved Experience Cards\n"
-                    f"{experience_snippet}\n"
-                )
-                self.system_message = base_message + skill_appendix
-            else:
-                prompt_template = (
-                    DACOMP_SYSTEM_DESIGN_EN_BASELINE
-                    if self.language == "en"
-                    else DACOMP_SYSTEM_DESIGN_BASELINE
-                )
-                base_message = prompt_template.format(
-                    work_dir=self.work_dir,
-                    action_space=action_space,
-                    task=self.instruction,
-                    max_steps=self.max_steps,
-                )
-                skill_appendix = (
-                    "\n\n## Skills Mode (Progressive Disclosure)\n"
-                    "You may use DA skills under `/workspace/dacomp-da/skills/` on demand.\n"
-                    "Start from `da-orchestrator/SKILL.md`, then only read selected skill files.\n"
-                    "Do not load every skill; read only what the current subtask needs.\n\n"
-                    "## Retrieved Experience Cards\n"
-                    f"{experience_snippet}\n"
-                )
-                self.system_message = base_message + skill_appendix
+            prompt_template = (
+                DACOMP_SYSTEM_DESIGN_EN_BASELINE
+                if self.language == "en"
+                else DACOMP_SYSTEM_DESIGN_BASELINE
+            )
+            base_message = prompt_template.format(
+                work_dir=self.work_dir,
+                action_space=action_space,
+                task=self.instruction,
+                max_steps=self.max_steps,
+            )
+
+        appendices: List[str] = []
+        if self.use_skills:
+            appendices.append(
+                "## Skills Mode (Progressive Disclosure)\n"
+                "You may use DA skills under `/workspace/dacomp-da/skills/` on demand.\n"
+                "Start from `da-orchestrator/SKILL.md`, then only read selected skill files.\n"
+                "Do not load every skill at once."
+            )
+        if self.use_experience:
+            # Prompt construction runs on the host process, not inside the sandbox.
+            # Resolve experience cards from the mounted workspace root (env.mnt_dir).
+            experience_dir = str(getattr(self.env, "mnt_dir", "") or "")
+            experience_snippet = build_experience_snippet(
+                self.instruction,
+                experience_dir=experience_dir,
+            )
+            appendices.append(
+                "## Retrieved Experience Cards\n"
+                f"{experience_snippet}"
+            )
+        if appendices:
+            self.system_message = base_message + "\n\n" + "\n\n".join(appendices) + "\n"
+        else:
+            self.system_message = base_message
         
 
         self.history_messages.append({

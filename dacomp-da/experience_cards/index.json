@@ -5,7 +5,7 @@
       "id": "exp-da-001",
       "title": "Requirement Coverage Matrix",
       "path": "cards/exp-da-001-requirement-coverage.md",
-      "when_to_use": "Task has multiple explicit deliverables and you need full requirement coverage.",
+      "when_to_use": "Use ONLY when the prompt has >=3 explicit deliverables/sub-questions that each need their own evidence and conclusion. Skip for single-metric or single-question tasks.",
       "tags": [
         "coverage",
         "requirement",
@@ -13,12 +13,12 @@
         "report"
       ],
       "keywords": [
-        "comprehensive",
-        "analyze and recommend",
-        "for each",
-        "requirement",
-        "deliverable",
-        "diagnosis"
+        "first then finally",
+        "three deliverables",
+        "multi-part question",
+        "answer each requirement",
+        "for each requirement",
+        "coverage matrix"
       ],
       "priority": 5
     },
@@ -26,7 +26,7 @@
       "id": "exp-da-002",
       "title": "Metric Contract and Threshold Lock",
       "path": "cards/exp-da-002-metric-contract.md",
-      "when_to_use": "Prompt defines thresholds/formulas or target-group filtering rules.",
+      "when_to_use": "Use ONLY when the task defines exact thresholds/formulas/cohort filters (e.g., top X%, metric > Y). Skip when analysis is purely qualitative or no hard cutoff is required.",
       "tags": [
         "metric",
         "threshold",
@@ -36,12 +36,11 @@
       ],
       "keywords": [
         "top 25%",
-        "cost >",
-        "roi <",
+        "top 10%",
         "threshold",
-        "screening",
-        "high-risk",
-        "coefficient of variation"
+        "greater than",
+        "less than",
+        "filter cohort"
       ],
       "priority": 5
     },
@@ -49,7 +48,7 @@
       "id": "exp-da-003",
       "title": "Segmentation Triad",
       "path": "cards/exp-da-003-segmentation-triad.md",
-      "when_to_use": "Need to explain mismatch or performance gap with subgroup comparisons.",
+      "when_to_use": "Use ONLY when you must explain a performance gap via subgroup comparison (target vs control, quantiles, cohorts). Skip when no segmentation is needed.",
       "tags": [
         "segmentation",
         "quartile",
@@ -57,12 +56,12 @@
         "diagnosis"
       ],
       "keywords": [
-        "mismatch",
-        "high ctr low cvr",
-        "stratification",
-        "cohort",
-        "segment",
-        "group comparison"
+        "target vs control",
+        "high vs low performers",
+        "quartile comparison",
+        "cohort split",
+        "segment comparison",
+        "performance gap"
       ],
       "priority": 4
     },
@@ -70,7 +69,7 @@
       "id": "exp-da-004",
       "title": "Driver Ranking with Consistency Checks",
       "path": "cards/exp-da-004-driver-ranking.md",
-      "when_to_use": "Need root-cause ranking among multiple candidate factors.",
+      "when_to_use": "Use ONLY when the question asks for driver ranking or factor importance among multiple candidates. Skip for simple descriptive summaries.",
       "tags": [
         "correlation",
         "regression",
@@ -78,12 +77,12 @@
         "insight"
       ],
       "keywords": [
-        "root cause",
-        "key driver",
-        "impact factors",
-        "relationship",
-        "non-linear",
-        "explain why"
+        "rank drivers",
+        "feature importance",
+        "key factors",
+        "root-cause ranking",
+        "what drives",
+        "driver analysis"
       ],
       "priority": 4
     },
@@ -91,7 +90,7 @@
       "id": "exp-da-005",
       "title": "Quantified Recommendation Card",
       "path": "cards/exp-da-005-quantified-recommendation.md",
-      "when_to_use": "Task requests optimization strategy or action plan.",
+      "when_to_use": "Use ONLY when the prompt explicitly asks for recommendations/optimization actions with quantitative targets. Skip if the task only asks diagnosis/measurement.",
       "tags": [
         "recommendation",
         "target",
@@ -99,12 +98,12 @@
         "conclusion"
       ],
       "keywords": [
-        "optimization",
-        "strategy",
-        "recommendation",
-        "improve",
-        "reduce cost",
-        "governance"
+        "action plan",
+        "implementation steps",
+        "kpi target",
+        "operational recommendation",
+        "intervention plan",
+        "expected impact"
       ],
       "priority": 5
     },
@@ -112,7 +111,7 @@
       "id": "exp-da-006",
       "title": "Sensitivity and Robustness Mini-Test",
       "path": "cards/exp-da-006-sensitivity-robustness.md",
-      "when_to_use": "Decisions depend on assumptions (allocation, pricing, budget, scoring model).",
+      "when_to_use": "Use ONLY when conclusions depend on assumptions (budget/pricing/allocation/model weights) and need robustness checks. Skip for purely historical descriptive analysis.",
       "tags": [
         "robustness",
         "scenario",
@@ -120,12 +119,12 @@
         "risk"
       ],
       "keywords": [
-        "allocation",
-        "budget",
-        "pricing",
-        "model",
+        "sensitivity analysis",
+        "scenario analysis",
         "stress test",
-        "scenario"
+        "assumption change",
+        "robustness check",
+        "what-if"
       ],
       "priority": 3
     },
@@ -133,7 +132,7 @@
       "id": "exp-da-007",
       "title": "Data Availability and Fallback Protocol",
       "path": "cards/exp-da-007-data-availability-fallback.md",
-      "when_to_use": "Data access appears broken, missing, or inconsistent.",
+      "when_to_use": "Use ONLY after data-access anomalies appear (missing table/column, empty or inconsistent query outputs). Skip when data pipeline is healthy.",
       "tags": [
         "schema",
         "fallback",
@@ -141,12 +140,12 @@
         "diagnostics"
       ],
       "keywords": [
-        "database",
         "no such table",
-        "missing column",
-        "empty result",
-        "corrupted",
-        "schema"
+        "no such column",
+        "empty query result",
+        "schema mismatch",
+        "missing data source",
+        "query failed"
       ],
       "priority": 3
     },
@@ -154,7 +153,7 @@
       "id": "exp-da-008",
       "title": "Final Report Hardening Checklist",
       "path": "cards/exp-da-008-final-report-hardening.md",
-      "when_to_use": "You are finalizing stage1 report and want to reduce rubric point leakage.",
+      "when_to_use": "Use ONLY at final write-up time (pre-Terminate) for report hardening. Skip during early exploration/calculation steps.",
       "tags": [
         "report",
         "readability",
@@ -163,10 +162,11 @@
       ],
       "keywords": [
         "final report",
-        "stage1.md",
+        "before terminate",
         "executive summary",
-        "conclusion",
-        "business insight"
+        "quality checklist",
+        "final polish",
+        "report hardening"
       ],
       "priority": 4
     },
@@ -174,7 +174,7 @@
       "id": "exp-da-009",
       "title": "Time Window and Leakage Guard",
       "path": "cards/exp-da-009-time-window-leakage-guard.md",
-      "when_to_use": "Task requires prediction/forecasting or explicit past-vs-future comparison.",
+      "when_to_use": "Use ONLY for time-based prediction/forecasting or past-vs-future evaluation where leakage risk exists. Skip for static cross-sectional analysis.",
       "tags": [
         "time_window",
         "leakage",
@@ -182,12 +182,12 @@
         "validation"
       ],
       "keywords": [
-        "past window",
-        "future window",
+        "forecast",
+        "predict",
+        "future period",
+        "time split",
         "rolling window",
-        "data leakage",
-        "label window",
-        "forecast"
+        "data leakage"
       ],
       "priority": 5
     },
@@ -195,7 +195,7 @@
       "id": "exp-da-010",
       "title": "Denominator and Unit Consistency",
       "path": "cards/exp-da-010-denominator-unit-consistency.md",
-      "when_to_use": "Task includes rates/shares/ratios with strict numeric anchors.",
+      "when_to_use": "Use ONLY when computing rates/shares/percentages where denominator/unit consistency affects correctness. Skip if outputs are absolute counts only.",
       "tags": [
         "denominator",
         "unit",
@@ -203,12 +203,12 @@
         "accuracy"
       ],
       "keywords": [
-        "share",
-        "ratio",
+        "conversion rate",
         "percentage",
-        "unit",
-        "weighted average",
-        "denominator"
+        "ratio",
+        "share",
+        "denominator",
+        "unit consistency"
       ],
       "priority": 5
     },
@@ -216,7 +216,7 @@
       "id": "exp-da-011",
       "title": "Path Minimum Output Contract",
       "path": "cards/exp-da-011-path-minimum-output-contract.md",
-      "when_to_use": "Multiple valid paths exist and each requirement needs complete deliverables.",
+      "when_to_use": "Use ONLY when multiple valid analysis paths exist and each requirement must satisfy a minimum output contract. Skip for single-path, narrowly specified tasks.",
       "tags": [
         "path_selection",
         "completeness",
@@ -224,12 +224,12 @@
         "delivery"
       ],
       "keywords": [
-        "path",
-        "requirement",
-        "deliverables",
-        "checklist",
-        "target vs control",
-        "action plan"
+        "multiple valid paths",
+        "path selection",
+        "choose one path",
+        "minimum output contract",
+        "path-specific deliverable",
+        "alternative method"
       ],
       "priority": 4
     },
@@ -237,7 +237,7 @@
       "id": "exp-da-012",
       "title": "Anchor Number Cross-Check",
       "path": "cards/exp-da-012-anchor-cross-check.md",
-      "when_to_use": "Rubric-like checks depend on exact/tolerance-based anchor numbers.",
+      "when_to_use": "Use ONLY when exact anchor numbers/tolerance checks are critical to scoring or acceptance. Skip when directional conclusions are sufficient.",
       "tags": [
         "anchor",
         "verification",
@@ -245,12 +245,12 @@
         "cross_check"
       ],
       "keywords": [
-        "anchor",
-        "tolerance",
-        "recompute",
+        "anchor number",
+        "within tolerance",
+        "cross-check numbers",
+        "exact value check",
         "sanity check",
-        "quantile",
-        "threshold"
+        "verify computed value"
       ],
       "priority": 5
     },
@@ -258,7 +258,7 @@
       "id": "exp-da-013",
       "title": "Missing Value and Imputation Policy",
       "path": "cards/exp-da-013-missing-imputation-policy.md",
-      "when_to_use": "Key metrics require join fields that may be missing and need explicit fill policy.",
+      "when_to_use": "Use ONLY when key metrics rely on joins/features with non-trivial missing values and fill policy can change conclusions. Skip when missingness is negligible.",
       "tags": [
         "missing_data",
         "imputation",
@@ -266,12 +266,12 @@
         "robustness"
       ],
       "keywords": [
-        "missing",
-        "null",
-        "imputation",
+        "missing values",
+        "null handling",
+        "imputation policy",
         "fillna",
-        "avg_position",
-        "fallback"
+        "left join missing",
+        "default value"
       ],
       "priority": 4
     },
@@ -279,7 +279,7 @@
       "id": "exp-da-014",
       "title": "Claim-Evidence Linking",
       "path": "cards/exp-da-014-claim-evidence-linking.md",
-      "when_to_use": "Need high conclusiveness: every claim/recommendation must be evidence-backed.",
+      "when_to_use": "Use ONLY when final claims/recommendations must be explicitly tied to numeric evidence. Skip for intermediate scratch analysis.",
       "tags": [
         "conclusiveness",
         "evidence",
@@ -287,12 +287,12 @@
         "report_quality"
       ],
       "keywords": [
-        "evidence",
-        "claim",
-        "recommendation",
-        "because",
-        "therefore",
-        "insight"
+        "claim-evidence pair",
+        "evidence-backed claim",
+        "numeric evidence",
+        "cite metric for claim",
+        "supporting evidence",
+        "traceable conclusion"
       ],
       "priority": 4
     },
@@ -300,7 +300,7 @@
       "id": "exp-da-015",
       "title": "Strategy Roadmap Operationalization",
       "path": "cards/exp-da-015-strategy-roadmap-operationalization.md",
-      "when_to_use": "Task asks for strategic plan and recommendations must be executable with owners/timeline/KPIs.",
+      "when_to_use": "Use ONLY when the deliverable is an executable roadmap (owner/timeline/KPI/guardrail), not just high-level advice. Skip for diagnosis-only tasks.",
       "tags": [
         "strategy",
         "roadmap",
@@ -309,14 +309,12 @@
         "kpi"
       ],
       "keywords": [
-        "comprehensive strategy",
-        "annual plan",
-        "optimize costs",
-        "improve efficiency",
-        "governance",
         "roadmap",
-        "owner",
-        "timeline"
+        "owner timeline",
+        "milestone",
+        "kpi governance",
+        "execution plan",
+        "operating mechanism"
       ],
       "priority": 5
     },
@@ -324,7 +322,7 @@
       "id": "exp-da-016",
       "title": "Causal Claim Countercheck",
       "path": "cards/exp-da-016-causal-claim-countercheck.md",
-      "when_to_use": "Task requires explaining drivers/causes and avoiding over-claiming from correlation only.",
+      "when_to_use": "Use ONLY when asked to explain causes/drivers and you must avoid correlation-as-causation errors. Skip for pure reporting or pure prediction tasks.",
       "tags": [
         "causal",
         "root_cause",
@@ -332,14 +330,12 @@
         "validation"
       ],
       "keywords": [
-        "root cause",
-        "why",
-        "driver",
-        "leads to",
-        "causes",
-        "cascading",
-        "non-linear",
-        "confounding"
+        "causal claim",
+        "correlation is not causation",
+        "confounder",
+        "causal driver",
+        "counterfactual",
+        "avoid overclaiming"
       ],
       "priority": 5
     },
@@ -347,7 +343,7 @@
       "id": "exp-da-017",
       "title": "Requirement Coverage Ledger",
       "path": "cards/exp-da-017-requirement-coverage-ledger.md",
-      "when_to_use": "Prompt has multiple explicit deliverables where missing one requirement hurts completeness heavily.",
+      "when_to_use": "Use ONLY for long multi-step prompts with ordered deliverables (first/then/finally) where missing one step hurts completeness. Skip if exp-da-001 already covers a short task sufficiently.",
       "tags": [
         "completeness",
         "checklist",
@@ -355,14 +351,12 @@
         "output_contract"
       ],
       "keywords": [
-        "requirements",
-        "first",
-        "then",
-        "finally",
-        "for each",
-        "deliverable",
-        "comprehensive analysis",
-        "targeted recommendations"
+        "requirement ledger",
+        "checklist by requirement",
+        "did we answer all",
+        "ordered deliverables",
+        "completion ledger",
+        "coverage audit"
       ],
       "priority": 5
     },
@@ -370,7 +364,7 @@
       "id": "exp-da-018",
       "title": "Forecast Uncertainty and Scenario Bands",
       "path": "cards/exp-da-018-forecast-uncertainty-scenarios.md",
-      "when_to_use": "Task includes forecasting/planning under uncertainty and needs robust decisions, not single-point estimates.",
+      "when_to_use": "Use ONLY for planning under uncertainty that needs scenario bands/upside-downside decisions. Skip for deterministic retrospective analysis.",
       "tags": [
         "forecast",
         "scenario",
@@ -378,14 +372,12 @@
         "robustness"
       ],
       "keywords": [
-        "forecast",
-        "cash flow",
-        "trajectory",
-        "risk level",
-        "scenario",
-        "sensitivity",
-        "upside",
-        "downside"
+        "uncertainty band",
+        "base upside downside",
+        "scenario band",
+        "prediction interval",
+        "planning under uncertainty",
+        "risk scenario"
       ],
       "priority": 4
     },
@@ -393,7 +385,7 @@
       "id": "exp-da-019",
       "title": "Small-Sample Filter Fallback",
       "path": "cards/exp-da-019-small-sample-filter-fallback.md",
-      "when_to_use": "Strict filter/threshold yields sparse cohort and you still need stable conclusions.",
+      "when_to_use": "Use ONLY when strict filtering yields a sparse cohort (e.g., very small N) and you still need stable conclusions with fallback logic. Skip when sample size is adequate.",
       "tags": [
         "sparse_data",
         "filter",
@@ -401,14 +393,12 @@
         "confidence"
       ],
       "keywords": [
-        "top 25%",
-        "high-priority",
-        "threshold",
         "small sample",
-        "sparse",
-        "cohort",
-        "filter",
-        "fallback"
+        "sparse cohort",
+        "insufficient n",
+        "fallback threshold",
+        "relax filter",
+        "stability with low sample"
       ],
       "priority": 4
     }
