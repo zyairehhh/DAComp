@@ -1,10 +1,5 @@
 # exp-da-018 Forecast Uncertainty and Scenario Bands
 
-## When to use
-- Task involves forecasting, future cash flow, risk trajectory, or planning under uncertainty.
-- Decision quality depends on assumptions and robustness.
-- Prior outputs were penalized for single-point estimates without uncertainty handling.
-
 ## Experience
 Use a scenario-based forecast package instead of one-point prediction:
 - Base scenario with stated assumptions.

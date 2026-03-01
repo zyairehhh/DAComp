@@ -1,10 +1,5 @@
 # exp-da-012 Anchor Number Cross-Check
 
-## When to use
-- The task has explicit thresholds, quantiles, or target anchor numbers.
-- The rubric likely includes tolerance-based numeric checks.
-- A mismatch in one anchor can invalidate a whole section.
-
 ## Experience
 1. For each requirement, pick 2-3 anchor numbers (count/rate/mean/delta).
 2. Recompute anchors via an independent query or quick Python check.

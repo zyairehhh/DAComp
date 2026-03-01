@@ -1,10 +1,5 @@
 # exp-da-004 Driver Ranking with Consistency Checks
 
-## When to use
-- The task asks for key drivers/root causes.
-- Multiple candidate factors exist and directional claims are needed.
-- You need stronger analytical depth than descriptive statistics.
-
 ## Experience
 Rank drivers using a lightweight but defensible stack:
 1. Pairwise association (correlation or effect-size by bins).

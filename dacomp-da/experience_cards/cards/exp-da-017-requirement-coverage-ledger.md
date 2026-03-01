@@ -1,10 +1,5 @@
 # exp-da-017 Requirement Coverage Ledger
 
-## When to use
-- Prompt contains multiple numbered requirements, staged asks, or "first/then/finally" structure.
-- Missing one sub-requirement can cause major rubric score loss.
-- Prior runs produced strong partial analysis but incomplete delivery.
-
 ## Experience
 Build a requirement ledger before writing the final report:
 - Parse each explicit deliverable into a checklist item.

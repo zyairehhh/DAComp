@@ -1,10 +1,5 @@
 # exp-da-011 Path Minimum Output Contract
 
-## When to use
-- A requirement can be solved through multiple analysis paths.
-- You need to avoid missing mandatory outputs after path selection.
-- The task asks for both diagnosis and actionable recommendations.
-
 ## Experience
 After selecting a path, lock a minimum output contract per requirement:
 1. Target segment definition (rule + count + proportion).

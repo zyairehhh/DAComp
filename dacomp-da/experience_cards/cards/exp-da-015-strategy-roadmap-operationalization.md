@@ -1,10 +1,5 @@
 # exp-da-015 Strategy Roadmap Operationalization
 
-## When to use
-- The task asks for a comprehensive strategy, governance plan, or annual initiative.
-- Output must go beyond diagnosis and include execution details.
-- Prior runs were penalized for generic recommendations without ownership/timeline/KPIs.
-
 ## Experience
 Translate strategy into an executable 3-layer plan:
 - Layer 1 (Objective): 2-4 measurable outcomes with target values.

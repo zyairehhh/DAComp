@@ -1,10 +1,5 @@
 # exp-da-006 Sensitivity and Robustness Mini-Test
 
-## When to use
-- The task involves scoring models, budget allocation, pricing, or policy thresholds.
-- Recommendations depend on assumptions.
-- You need to show strategy is robust under uncertainty.
-
 ## Experience
 Add one compact robustness block before final conclusion:
 1. Pick 2-3 key assumptions (e.g., churn, conversion uplift, risk weight).

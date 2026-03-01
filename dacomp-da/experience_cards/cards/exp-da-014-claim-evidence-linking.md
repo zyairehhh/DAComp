@@ -1,10 +1,5 @@
 # exp-da-014 Claim-Evidence Linking
 
-## When to use
-- The report needs root-cause claims and strategic recommendations.
-- Judge rubrics emphasize conclusiveness and precision.
-- Prior runs showed "insight stated but not evidenced" failures.
-
 ## Experience
 For every non-trivial claim, attach one explicit evidence tuple:
 - segment/scope

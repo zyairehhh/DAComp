@@ -1,10 +1,5 @@
 # exp-da-007 Data Availability and Fallback Protocol
 
-## When to use
-- Query results are empty, inconsistent, or database appears corrupted.
-- Required tables/columns seem missing.
-- You risk spending many steps on broken assumptions.
-
 ## Experience
 Use a fast diagnostic protocol:
 1. Verify file exists and schema list (`sqlite_master`, `PRAGMA table_info`).

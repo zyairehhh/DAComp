@@ -1,10 +1,5 @@
 # exp-da-002 Metric Contract and Threshold Lock
 
-## When to use
-- The prompt specifies thresholds, formulas, or screening rules (e.g., `cost > X`, `ROI < Y`, top 25%).
-- You need to identify a target group and compare it with others.
-- You suspect scoring cares about exact metric definitions.
-
 ## Experience
 Lock metric definitions before segmentation:
 1. Create a metric dictionary with exact formula, denominator, unit, and direction.

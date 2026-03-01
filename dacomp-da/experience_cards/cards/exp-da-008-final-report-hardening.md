@@ -1,10 +1,5 @@
 # exp-da-008 Final Report Hardening Checklist
 
-## When to use
-- You are ready to write `stage1.md` and terminate.
-- The analysis includes multiple metrics, segments, and recommendations.
-- You need to maximize rubric completeness and readability.
-
 ## Experience
 Before finalizing, run this checklist:
 1. Every requirement has explicit answer sentence(s), not implied.

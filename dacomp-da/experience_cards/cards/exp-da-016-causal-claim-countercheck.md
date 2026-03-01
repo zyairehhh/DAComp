@@ -1,10 +1,5 @@
 # exp-da-016 Causal Claim Countercheck
 
-## When to use
-- The task asks why a gap exists, what drives a pattern, or how cascading effects occur.
-- The report includes directional or causal language ("leads to", "drives", "causes").
-- Prior runs had conclusions without confounder checks.
-
 ## Experience
 Before finalizing a causal claim, run a 3-step countercheck:
 - Association check: confirm direction and magnitude across segments or periods.

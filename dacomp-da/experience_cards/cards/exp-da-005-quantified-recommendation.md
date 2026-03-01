@@ -1,10 +1,5 @@
 # exp-da-005 Quantified Recommendation Card
 
-## When to use
-- The prompt asks for optimization strategy, governance actions, or execution plan.
-- You already identified candidate root causes.
-- You need high conclusiveness, not only qualitative suggestions.
-
 ## Experience
 Translate each recommendation into a measurable control loop:
 1. Trigger condition (who/when to apply).
