@@ -131,7 +131,7 @@ def filter_task_configs(task_configs: List[Dict], args: argparse.Namespace) -> L
         logger.info("Filtered to %d tasks for types: %s", len(task_configs), ", ".join(target_types))
 
     if args.example_name:
-        task_configs = [task for task in task_configs if args.example_name in task["id"]]
+        task_configs = [task for task in task_configs if args.example_name in task["instance_id"]]
     elif args.example_index != "all":
         if "-" in args.example_index:
             start, end = map(int, args.example_index.split("-"))
@@ -172,7 +172,6 @@ def build_stage_task_config(
             experience_dir = (source_dir.parent / "experience_cards").resolve()
         if not experience_dir.exists():
             raise FileNotFoundError(f"Experience directory not found: {experience_dir}")
-        copy_dirs.append(str(experience_dir))
     config_steps = [
         {
             "type": "copy_all_subfiles",
@@ -181,6 +180,18 @@ def build_stage_task_config(
     ]
     config["config"] = config_steps
     return config
+
+
+def resolve_experience_dir(source_dir: Path, use_experience: bool, experience_dir_override: str) -> str:
+    if not use_experience:
+        return ""
+    if experience_dir_override:
+        experience_dir = Path(experience_dir_override).expanduser().resolve()
+    else:
+        experience_dir = (source_dir.parent / "experience_cards").resolve()
+    if not experience_dir.exists():
+        raise FileNotFoundError(f"Experience directory not found: {experience_dir}")
+    return str(experience_dir)
 
 
 def ensure_clean_dir(path: Path) -> None:
@@ -232,6 +243,12 @@ def run_stage(
         mnt_dir=str(stage_dir),
     )
 
+    experience_dir = resolve_experience_dir(
+        source_dir,
+        args.use_experience,
+        args.experience_dir,
+    )
+
     agent = PromptAgent(
         model=args.model,
         max_tokens=args.max_tokens,
@@ -244,6 +261,7 @@ def run_stage(
         language=args.language,
         use_skills=args.use_skill,
         use_experience=args.use_experience,
+        experience_dir=experience_dir,
     )
     agent.set_env_and_task(env)
     logger.info("[%s] Starting stage %s", task_config["instance_id"], stage_label)

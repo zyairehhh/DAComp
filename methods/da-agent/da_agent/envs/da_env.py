@@ -83,8 +83,10 @@ class DAAgentEnv(gym.Env):
         time.sleep(0.1)
         logger.info("Environment setup complete.")
 
-        signal.signal(signal.SIGINT, self._cleanup)
-        signal.signal(signal.SIGTERM, self._cleanup)
+        import threading
+        if threading.current_thread() is threading.main_thread():
+            signal.signal(signal.SIGINT, self._cleanup)
+            signal.signal(signal.SIGTERM, self._cleanup)
         self.stage1_report = ""
         self.stage1_result_plain = ""
         try:

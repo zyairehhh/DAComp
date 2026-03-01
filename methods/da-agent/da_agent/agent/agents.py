@@ -47,6 +47,7 @@ class PromptAgent:
         language: str = "zh",
         use_skills: bool = False,
         use_experience: bool = False,
+        experience_dir: str = "",
     ):
         
         self.model = model
@@ -70,6 +71,7 @@ class PromptAgent:
         self.language = language.lower() if language else "zh"
         self.use_skills = use_skills
         self.use_experience = use_experience
+        self.experience_dir = experience_dir
         self._last_repetition_signature = None
         
     def set_env_and_task(self, env: DAAgentEnv):
@@ -147,17 +149,12 @@ class PromptAgent:
                 "Do not load every skill at once."
             )
         if self.use_experience:
-            # Prompt construction runs on the host process, not inside the sandbox.
-            # Resolve experience cards from the mounted workspace root (env.mnt_dir).
-            experience_dir = str(getattr(self.env, "mnt_dir", "") or "")
             experience_snippet = build_experience_snippet(
                 self.instruction,
-                experience_dir=experience_dir,
+                experience_dir=self.experience_dir,
             )
-            appendices.append(
-                "## Retrieved Experience Cards\n"
-                f"{experience_snippet}"
-            )
+            if experience_snippet.strip():
+                appendices.append(experience_snippet)
         if appendices:
             self.system_message = base_message + "\n\n" + "\n\n".join(appendices) + "\n"
         else:
