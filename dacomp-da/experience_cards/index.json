@@ -26,7 +26,8 @@
         "respectively"
       ],
       "trigger_rule": "multi_requirement",
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-002",
@@ -35,7 +36,8 @@
       "when_to_use": "Use when the task defines exact numeric thresholds, formulas, or cohort filters (e.g., top X%, metric > Y, score below Z).",
       "tags": [],
       "keywords": [],
-      "priority": 0
+      "priority": 0,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-003",
@@ -64,7 +66,8 @@
         "low vs",
         "versus"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-004",
@@ -73,7 +76,8 @@
       "when_to_use": "Use when identifying key drivers, root causes, or factors that influence an outcome among multiple candidates.",
       "tags": [],
       "keywords": [],
-      "priority": 0
+      "priority": 0,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-005",
@@ -103,7 +107,8 @@
         "suggestion",
         "plan"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-006",
@@ -129,7 +134,8 @@
         "weight",
         "budget"
       ],
-      "priority": 3
+      "priority": 3,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-007",
@@ -153,7 +159,8 @@
         "schema",
         "database"
       ],
-      "priority": 3
+      "priority": 3,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-008",
@@ -175,7 +182,8 @@
         "findings",
         "assessment"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-009",
@@ -205,7 +213,8 @@
         "monthly",
         "quarterly"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-010",
@@ -226,7 +235,8 @@
         "proportion",
         "per capita"
       ],
-      "priority": 3
+      "priority": 3,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-011",
@@ -250,7 +260,8 @@
         "methodology",
         "approach"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-012",
@@ -276,7 +287,8 @@
         "coefficient",
         "score"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-013",
@@ -299,7 +311,8 @@
         "multiple tables",
         "data quality"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-014",
@@ -323,7 +336,8 @@
         "root cause",
         "determine"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-015",
@@ -351,7 +365,8 @@
         "system",
         "framework"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-016",
@@ -378,7 +393,8 @@
         "result in",
         "influence"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-017",
@@ -403,7 +419,8 @@
         "subsequently",
         "step"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-018",
@@ -428,7 +445,8 @@
         "estimate",
         "planning"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-019",
@@ -453,7 +471,8 @@
         "qualifying",
         "screened"
       ],
-      "priority": 4
+      "priority": 4,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-020",
@@ -476,7 +495,8 @@
         "join",
         "merge"
       ],
-      "priority": 3
+      "priority": 3,
+      "confidence": 1.0
     },
     {
       "id": "exp-da-021",
@@ -505,7 +525,449 @@
         "classify",
         "assessment"
       ],
-      "priority": 5
+      "priority": 5,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-022",
+      "title": "Evidence–Conclusion Link",
+      "path": "cards/exp-da-022-evidence-conclusion-link.md",
+      "when_to_use": "Use when the task has multiple findings or recommendations that each must be backed by specific numbers or tables.",
+      "tags": [
+        "conclusion",
+        "evidence",
+        "accuracy",
+        "support"
+      ],
+      "keywords": [
+        "conclusion",
+        "finding",
+        "result",
+        "evidence",
+        "support",
+        "cite",
+        "recommend",
+        "recommendation",
+        "number",
+        "figure",
+        "table",
+        "report"
+      ],
+      "priority": 4,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-023",
+      "title": "Definition Lock",
+      "path": "cards/exp-da-023-definition-lock.md",
+      "when_to_use": "Use when the task defines a metric, formula, or cohort (e.g. conversion rate = X/Y, top 10%) that must be implemented exactly.",
+      "tags": [
+        "definition",
+        "metric",
+        "formula",
+        "accuracy"
+      ],
+      "keywords": [
+        "defined as",
+        "definition",
+        "formula",
+        "metric",
+        "calculate",
+        "compute",
+        "rate",
+        "ratio",
+        "top 10",
+        "top 25",
+        "above",
+        "below",
+        "threshold"
+      ],
+      "priority": 4,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-024",
+      "title": "Numerical Citation and Units",
+      "path": "cards/exp-da-024-numerical-citation-units.md",
+      "when_to_use": "Use when the report must deliver specific numbers, percentages, or comparisons that graders will verify.",
+      "tags": [
+        "number",
+        "unit",
+        "percentage",
+        "accuracy"
+      ],
+      "keywords": [
+        "report",
+        "percentage",
+        "number",
+        "value",
+        "unit",
+        "magnitude",
+        "increase",
+        "decrease",
+        "compare",
+        "compared to"
+      ],
+      "priority": 4,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-025",
+      "title": "Deliverable Checklist",
+      "path": "cards/exp-da-025-deliverable-checklist.md",
+      "when_to_use": "Use when the task lists multiple required outputs (e.g. analyze X, identify Y, recommend Z) that each need a dedicated answer.",
+      "tags": [
+        "completeness",
+        "deliverable",
+        "requirement"
+      ],
+      "keywords": [
+        "analyze",
+        "identify",
+        "compare",
+        "recommend",
+        "evaluate",
+        "assess",
+        "propose",
+        "additionally",
+        "furthermore",
+        "separately",
+        "respectively"
+      ],
+      "priority": 4,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-026",
+      "title": "Compare Both Sides",
+      "path": "cards/exp-da-026-compare-both-sides.md",
+      "when_to_use": "Use when the task asks to compare two or more groups, periods, or options; report numbers for all sides.",
+      "tags": [
+        "comparison",
+        "accuracy",
+        "completeness"
+      ],
+      "keywords": [
+        "compare",
+        "comparison",
+        "between",
+        "versus",
+        "vs",
+        "difference",
+        "across",
+        "group",
+        "period",
+        "option"
+      ],
+      "priority": 4,
+      "confidence": 1.0
+    },
+    {
+      "id": "exp-da-027",
+      "title": "Verify Data Completeness Before Filtering",
+      "path": "cards/exp-da-027-verify-data-completeness-before-filtering.md",
+      "when_to_use": "When the task requires filtering a dataset based on a specific criterion (e.g., to identify a cohort).",
+      "tags": [
+        "data-cleaning",
+        "cohort-definition",
+        "validation"
+      ],
+      "keywords": [
+        "filter",
+        "identify",
+        "cohort",
+        "subset",
+        "completeness"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "id": "exp-da-028",
+      "title": "Standardize Text Fields Before Aggregation",
+      "path": "cards/exp-da-028-standardize-text-fields-before-aggregation.md",
+      "when_to_use": "When analyzing free-text fields containing lists, categories, or benefits that need to be counted.",
+      "tags": [
+        "text-processing",
+        "data-standardization",
+        "aggregation"
+      ],
+      "keywords": [
+        "benefits",
+        "categories",
+        "list",
+        "text",
+        "aggregate",
+        "standardize"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "id": "exp-da-029",
+      "title": "Execute Data Feasibility and Validation Checks",
+      "path": "cards/exp-da-029-execute-data-feasibility-and-validation-checks.md",
+      "when_to_use": "When the task asks for an analysis using specific tables and metrics.",
+      "tags": [
+        "data-gap",
+        "metric-definition",
+        "validation",
+        "data-profiling"
+      ],
+      "keywords": [
+        "expected",
+        "derive",
+        "benchmark",
+        "anchor",
+        "feasibility",
+        "validation",
+        "embedded",
+        "parse"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-060",
+        "dacomp-081"
+      ]
+    },
+    {
+      "id": "exp-da-030",
+      "title": "Map Time Granularities and Units Before Joining",
+      "path": "cards/exp-da-030-map-time-granularities-and-units-before-joining.md",
+      "when_to_use": "When combining tables with different time units (e.g., month, quarter, week) in the same analysis.",
+      "tags": [
+        "data-joining",
+        "time-series",
+        "data-quality"
+      ],
+      "keywords": [
+        "quarter",
+        "monthly",
+        "year-over-year",
+        "time window",
+        "granularity",
+        "join"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-058"
+      ]
+    },
+    {
+      "id": "exp-da-031",
+      "title": "Aggregate at Correct Grain for Cohort and Subgroup Analysis",
+      "path": "cards/exp-da-031-aggregate-at-correct-grain-for-cohort-and-subgroup-analysis.md",
+      "when_to_use": "When identifying cohorts or comparing performance across dimensions for a specific subset of entities.",
+      "tags": [
+        "aggregation",
+        "segmentation",
+        "cohort-analysis"
+      ],
+      "keywords": [
+        "percentile",
+        "cohort",
+        "aggregate",
+        "per group",
+        "subgroup",
+        "across",
+        "compare"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-058",
+        "dacomp-060"
+      ]
+    },
+    {
+      "id": "exp-da-032",
+      "title": "Explicitly Map Rubric Requirements to Analysis Steps",
+      "path": "cards/exp-da-032-explicitly-map-rubric-requirements-to-analysis-steps.md",
+      "when_to_use": "When the task prompt contains numbered requirements, deliverables, or a rubric-like structure.",
+      "tags": [
+        "planning",
+        "validation",
+        "scoping"
+      ],
+      "keywords": [
+        "requirement",
+        "deliverable",
+        "rubric",
+        "anchor",
+        "compliance",
+        "map"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-081"
+      ]
+    },
+    {
+      "id": "exp-da-033",
+      "title": "Explicitly Map All Requirement Dimensions Before Analysis",
+      "path": "cards/exp-da-033-explicitly-map-all-requirement-dimensions-before-analysis.md",
+      "when_to_use": "When the task asks for a multi-factor strategy or requires analysis across multiple dimensions (e.g., time, location, segment, metric).",
+      "tags": [
+        "requirement_mapping",
+        "multidimensional_analysis",
+        "planning"
+      ],
+      "keywords": [
+        "strategies",
+        "multiple factors",
+        "dimensions",
+        "joint analysis",
+        "cross-tabulation",
+        "coverage"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022"
+      ]
+    },
+    {
+      "id": "exp-da-034",
+      "title": "Validate Data Prerequisites and Feasibility Before Analysis",
+      "path": "cards/exp-da-034-validate-data-prerequisites-and-feasibility-before-analysis.md",
+      "when_to_use": "When a task requires specific data (tables, columns, filters) that must be present and valid for the rubric to be scored.",
+      "tags": [
+        "data-quality",
+        "prerequisite-check",
+        "rubric-alignment"
+      ],
+      "keywords": [
+        "prerequisite",
+        "required data",
+        "database",
+        "corrupted",
+        "valid data",
+        "feasibility check"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-034"
+      ]
+    },
+    {
+      "id": "exp-da-035",
+      "title": "Define and Expand Cohorts via Comprehensive Text Search",
+      "path": "cards/exp-da-035-define-and-expand-cohorts-via-comprehensive-text-search.md",
+      "when_to_use": "When filtering a population based on criteria that may be recorded inconsistently (e.g., in free-text fields or multiple columns).",
+      "tags": [
+        "data_filtering",
+        "cohort_definition",
+        "text_normalization",
+        "completeness"
+      ],
+      "keywords": [
+        "filter",
+        "cohort",
+        "subset",
+        "free-text",
+        "text search",
+        "aggregate",
+        "list",
+        "benefits"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "id": "exp-da-036",
+      "title": "Create a Requirement-to-Deliverable Mapping Table",
+      "path": "cards/exp-da-036-create-a-requirement-to-deliverable-mapping-table.md",
+      "when_to_use": "When the prompt contains a detailed rubric, numbered list of deliverables, or multiple explicit sub-requirements.",
+      "tags": [
+        "project_management",
+        "requirement_tracking",
+        "completeness"
+      ],
+      "keywords": [
+        "requirements",
+        "deliverables",
+        "sub-criteria",
+        "rubric",
+        "checklist",
+        "coverage",
+        "report"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-058",
+        "dacomp-067",
+        "dacomp-069"
+      ]
+    },
+    {
+      "id": "exp-da-037",
+      "title": "Anchor Value and Model Validation Against Rubric",
+      "path": "cards/exp-da-037-anchor-value-and-model-validation-against-rubric.md",
+      "when_to_use": "When the task or rubric provides specific expected numeric values (anchors) or defines a metric formula.",
+      "tags": [
+        "validation",
+        "accuracy",
+        "rubric_alignment",
+        "debugging"
+      ],
+      "keywords": [
+        "anchor",
+        "verify",
+        "expected results",
+        "validation",
+        "scoring model",
+        "formula",
+        "cross-check",
+        "rubric"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-058",
+        "dacomp-080"
+      ]
+    },
+    {
+      "id": "exp-da-038",
+      "title": "Quantify Recommendations with Targets and Operational Details",
+      "path": "cards/exp-da-038-quantify-recommendations-with-targets-and-operational-details.md",
+      "when_to_use": "When the task asks for 'actionable recommendations', an 'executable strategy', a 'governance plan', or a 'roadmap'.",
+      "tags": [
+        "recommendations",
+        "operationalization",
+        "project_management"
+      ],
+      "keywords": [
+        "actionable",
+        "recommendations",
+        "governance",
+        "roadmap",
+        "strategy",
+        "operationalize",
+        "target",
+        "timeline",
+        "owner"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-035",
+        "dacomp-067"
+      ]
     }
   ]
 }

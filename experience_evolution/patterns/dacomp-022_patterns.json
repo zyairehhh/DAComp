@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Map all requirement dimensions before starting analysis",
+    "when_to_use": "When the task asks for strategies based on multiple dimensions (e.g., vehicle type, rating, time, location).",
+    "experience": "- **Explicitly list every dimension** mentioned in the task (vehicle type, service rating, time period, location, ride distance, payment method).\n- **Create an analysis matrix** linking each dimension to the target metric (e.g., fare per km) before writing any code.\n- **For each dimension, design a specific analysis** (e.g., hourly time bands, location clusters, distance bins) and ensure it is executed.\n- **Check for joint analysis needs**—if the task implies combining dimensions (e.g., \"which vehicle type during peak hours\"), plan cross‑tabulations or interaction models.\n- **After each analysis step, tick off the dimension** in a coverage ledger to avoid missing any.",
+    "checklist": [
+      "List all explicit and implied dimensions",
+      "Design analysis for each dimension",
+      "Execute joint analyses where needed",
+      "Verify all dimensions are covered before final report"
+    ],
+    "common_failure_prevented": "Missing multi-dimensional joint analysis (e.g., ignoring time, location, distance) that leads to incomplete strategies.",
+    "keywords": [
+      "strategies",
+      "multiple factors",
+      "dimensions",
+      "joint analysis",
+      "cross-tabulation"
+    ],
+    "tags": [
+      "requirement_mapping",
+      "multidimensional_analysis",
+      "coverage_check"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Execute time‑based segmentation before concluding",
+    "when_to_use": "When the task involves earnings, demand, or performance over time (e.g., annual earnings, peak periods).",
+    "experience": "- **Extract time components** from datetime columns (hour, day of week, month, season).\n- **Define relevant time segments** (peak vs off‑peak, weekday vs weekend, seasonal buckets).\n- **Compute target metric per segment** (e.g., average fare per km by hour of day).\n- **Identify optimal time windows** and quantify the uplift compared to baseline.\n- **Include time‑based recommendations** in the final strategy (e.g., drive during 7–9 AM, avoid Sunday nights).",
+    "checklist": [
+      "Parse datetime fields into granular components",
+      "Define time segments relevant to business",
+      "Calculate metric per segment",
+      "Rank segments by performance",
+      "Produce time‑specific advice"
+    ],
+    "common_failure_prevented": "Omitting time‑period analysis (e.g., no correlation between driving hour and fare) despite task mentioning annual earnings.",
+    "keywords": [
+      "time period",
+      "peak hours",
+      "annual earnings",
+      "seasonal",
+      "hourly"
+    ],
+    "tags": [
+      "time_analysis",
+      "segmentation",
+      "temporal_patterns"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.notfound.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Analyze geographical and distance dimensions for operational strategy",
+    "when_to_use": "When the task involves location‑based or distance‑based decisions (e.g., pickup/drop areas, short‑haul vs long‑haul).",
+    "experience": "- **Extract location features** (pickup/drop zones, urban/rural, high‑demand clusters).\n- **Create distance bins** (e.g., short <5 km, medium 5–15 km, long >15 km) using ride‑distance column.\n- **Compute metric per location/distance bin** (fare per km, cancellation rate, total earnings).\n- **Combine location and distance** with other dimensions (vehicle type, time) to identify high‑yield combinations.\n- **Provide actionable location/distance strategies** (e.g., prefer short trips in city center, avoid long trips with low‑rated vehicles).",
+    "checklist": [
+      "Parse location columns into meaningful clusters",
+      "Bin ride distances",
+      "Calculate performance per bin",
+      "Cross with other dimensions",
+      "Deliver location/distance recommendations"
+    ],
+    "common_failure_prevented": "Skipping location and distance analysis (e.g., no correlation between operating region or ride distance and fare) leading to incomplete optimization.",
+    "keywords": [
+      "location",
+      "pickup",
+      "drop",
+      "distance",
+      "short‑haul",
+      "long‑haul",
+      "operating region"
+    ],
+    "tags": [
+      "geospatial_analysis",
+      "distance_segmentation",
+      "operational_strategy"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.notfound.2, Criterion 3.1.notfound.3",
+    "source_case": "dacomp-022"
+  }
+]

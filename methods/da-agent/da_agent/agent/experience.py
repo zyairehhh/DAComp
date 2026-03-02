@@ -5,7 +5,7 @@ from typing import Dict, List, Optional, Tuple
 
 
 DEFAULT_EXPERIENCE_DIR = "/workspace/_aux/experience_cards"
-DEFAULT_TOP_K = 5
+DEFAULT_TOP_K = 4
 MIN_RETRIEVAL_SCORE = 3.0
 
 
@@ -66,6 +66,19 @@ def _discover_catalog(experience_dir: str) -> Tuple[Optional[Path], List[Dict], 
     return None, [], candidates
 
 
+def _overlap_score(task_tokens: set, card: Dict) -> float:
+    """Semantic-style bonus: token overlap between task and card when_to_use + title (no embeddings)."""
+    card_text = " ".join([
+        str(card.get("when_to_use", "")),
+        str(card.get("title", "")),
+    ])
+    card_tokens = set(_tokenize(card_text))
+    if not card_tokens:
+        return 0.0
+    overlap = len(task_tokens & card_tokens) / len(card_tokens)
+    return min(1.5, overlap * 3.0)  # cap bonus at 1.5
+
+
 def _score_card(task_text: str, task_tokens: set, task_token_string: str, card: Dict) -> float:
     score = 0.0
     keyword_hits = 0
@@ -94,10 +107,15 @@ def _score_card(task_text: str, task_tokens: set, task_token_string: str, card: 
     if keyword_hits >= 3 and tag_hits >= 1:
         score += 2.0
 
+    # Overlap bonus: when_to_use/title overlap with task (semantic-style, no embeddings)
+    score += _overlap_score(task_tokens, card)
+
     return score
 
 
 def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[Dict]:
+    # Skip disabled cards (priority 0 = do not retrieve)
+    cards = [c for c in cards if c.get("priority", 0) != 0]
     task_text = task_instruction or ""
     task_tokens_list = _tokenize(task_text)
     task_tokens = set(task_tokens_list)

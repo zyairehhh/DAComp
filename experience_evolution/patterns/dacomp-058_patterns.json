@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Anchor Value Verification Before Finalizing Analysis",
+    "when_to_use": "When the task description, rubric, or expected output contains specific numeric values that must be matched.",
+    "experience": "Identify all explicit numeric anchors mentioned in the prompt or rubric. Before finalizing calculations, compute these anchor values through a secondary, independent method or query. Compare your results to the provided anchors; if a discrepancy exists, audit your logic, joins, filters, and aggregation grain. Document the source of the anchor and the result of your verification.",
+    "checklist": [
+      "List all expected anchor numbers from the task or rubric",
+      "Design and run a verification query/calculation for each anchor",
+      "If results differ, debug the differences step-by-step",
+      "Reconcile or note any discrepancies in the final report"
+    ],
+    "common_failure_prevented": "Reporting results that are directionally correct but fail to match the grader's expected numeric values, leading to accuracy deductions.",
+    "keywords": [
+      "verify",
+      "anchor",
+      "exact values",
+      "expected results",
+      "cross-check",
+      "numerical accuracy"
+    ],
+    "tags": [
+      "validation",
+      "accuracy",
+      "debugging",
+      "rubric alignment"
+    ],
+    "source_criterion": "Root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Dimension-Level Risk Identification Within Problematic Entities",
+    "when_to_use": "When tasked with diagnosing root causes or risks within a flagged subset (e.g., high-cost, low-ROI campaigns).",
+    "experience": "After identifying the problematic entity list (e.g., campaigns), analyze each entity's performance across all specified dimensions (channel, geo, device, etc.). For each dimension, apply the same risk logic (e.g., cost share > X% AND metric < threshold) to flag specific high-risk segments per entity. Summarize findings at both the aggregate level (e.g., 'Video campaigns are risky') and the individual entity level (e.g., 'Campaign 27 has high Mobile cost share with low ROAS').",
+    "checklist": [
+      "For each problematic entity, calculate performance metrics per dimension",
+      "Apply risk criteria to each dimension segment (e.g., geo, device) for that entity",
+      "Create a summary table of entity-level dimension risks",
+      "Ensure aggregate conclusions are supported by individual entity evidence"
+    ],
+    "common_failure_prevented": "Providing only aggregate-level risk insights without identifying which specific dimensions (e.g., device, geo) are problematic for each flagged entity.",
+    "keywords": [
+      "diagnosis",
+      "root cause",
+      "per entity",
+      "segment performance",
+      "risk identification",
+      "multidimensional"
+    ],
+    "tags": [
+      "segmentation",
+      "diagnostic",
+      "granular analysis"
+    ],
+    "source_criterion": "Root/Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Requirement Mapping Table for Ordered Deliverables",
+    "when_to_use": "When the prompt contains multiple, detailed requirements or a rubric with specific sub-criteria that must all be addressed.",
+    "experience": "Create a table mapping each requirement/sub-criterion from the prompt to your analysis step and output evidence. For each requirement, note the exact metric, filter, comparison, or conclusion needed. During analysis, systematically check off each item. Before final reporting, validate that every requirement is addressed with a specific output and that the output's structure matches the requirement's request (e.g., 'compare differences' requires a side-by-side table).",
+    "checklist": [
+      "Parse the prompt and extract every explicit and implicit requirement",
+      "Create a mapping table with columns: Requirement, Expected Output, Analysis Step, Evidence Location",
+      "During analysis, refer to the table to ensure no requirement is missed",
+      "In the final report, label outputs with the corresponding requirement"
+    ],
+    "common_failure_prevented": "Missing specific sub-requirements (e.g., calculating coefficient of variation, providing seasonal index per industry) because they were not explicitly tracked during the analysis.",
+    "keywords": [
+      "requirements",
+      "deliverables",
+      "checklist",
+      "sub-criteria",
+      "coverage",
+      "rubric"
+    ],
+    "tags": [
+      "project management",
+      "completeness",
+      "task decomposition"
+    ],
+    "source_criterion": "Root/Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-058"
+  }
+]

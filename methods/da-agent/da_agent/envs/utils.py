@@ -35,16 +35,21 @@ class timeout:
     def __init__(self, seconds=TIMEOUT_DURATION, error_message="Timeout"):
         self.seconds = seconds
         self.error_message = error_message
+        self._can_use_signal = False
 
     def handle_timeout(self, signum, frame):
         raise TimeoutError(self.error_message)
 
     def __enter__(self):
-        signal.signal(signal.SIGALRM, self.handle_timeout)
-        signal.alarm(self.seconds)
+        import threading
+        if threading.current_thread() is threading.main_thread():
+            signal.signal(signal.SIGALRM, self.handle_timeout)
+            signal.alarm(self.seconds)
+            self._can_use_signal = True
 
     def __exit__(self, type, value, traceback):
-        signal.alarm(0)
+        if self._can_use_signal:
+            signal.alarm(0)
 
 
 def delete_files_in_folder(folder_path):

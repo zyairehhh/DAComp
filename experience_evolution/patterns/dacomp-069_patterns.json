@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Define and Document Metric Segmentation Before Analysis",
+    "when_to_use": "When the task asks to compare groups based on a threshold or quantile.",
+    "experience": "Before running any comparisons, explicitly define the segmentation logic in a way that matches the task instruction.\n1. **Clarify the Metric**: Identify the exact column name for the segmentation variable (e.g., `revenue_per_user_usd`).\n2. **Define Thresholds**: Note the exact thresholds (e.g., 'over $7' means `> 7`, 'under $3' means `< 3`). If thresholds are ambiguous, state your chosen definition.\n3. **Handle Edge Cases**: Decide how to treat values exactly at the threshold (e.g., `>=` vs `>`) and middle groups.\n4. **Validate Group Sizes**: After segmentation, check the number of entities in each group. If a group is too small, note the risk and consider a fallback segmentation.\n5. **Document in Report**: State your segmentation criteria and group sizes in the analysis section, linking them directly to the task requirement.",
+    "checklist": [
+      "Identify segmentation variable",
+      "Define thresholds precisely",
+      "Handle boundary values",
+      "Check group sample sizes",
+      "Report criteria and group counts"
+    ],
+    "common_failure_prevented": "Prevents using incorrect or arbitrary segmentation thresholds that mismatch the task, leading to irrelevant group comparisons.",
+    "keywords": [
+      "segmentation",
+      "compare",
+      "top markets",
+      "high vs low",
+      "threshold",
+      "group by"
+    ],
+    "tags": [
+      "data_preparation",
+      "segmentation",
+      "requirements_analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Perform Weighted Aggregation for Regional or Segment Averages",
+    "when_to_use": "When comparing performance across groups with different sizes (e.g., regions, user cohorts).",
+    "experience": "When aggregating KPIs (like average performance score) across regions or segments, a simple average of region-level averages can be misleading if regions have vastly different user bases or revenue.\n1. **Identify Weighting Variable**: Determine the appropriate denominator for weighting (e.g., `active_devices`, `total_users`, `revenue_share`).\n2. **Compute Weighted Averages**: For each KPI, calculate `sum(KPI * weight) / sum(weight)` across the relevant granular data points (e.g., monthly region data).\n3. **Compare Weighted vs. Unweighted**: Report both weighted and unweighted averages to highlight the impact of scale.\n4. **Justify Weighting Choice**: Explain why the chosen weight is relevant (e.g., 'user-weighted average reflects the typical user experience').\n5. **Include in Conclusions**: State whether the performance gap changes after weighting, which indicates if larger markets drive the overall trend.",
+    "checklist": [
+      "Identify relevant weight metric",
+      "Compute weighted averages",
+      "Compare with unweighted results",
+      "Explain weighting rationale",
+      "Discuss scale impact"
+    ],
+    "common_failure_prevented": "Prevents overlooking the influence of market size when comparing group performance, leading to incorrect conclusions about overall impact.",
+    "keywords": [
+      "weighted average",
+      "scale",
+      "regional performance",
+      "aggregate",
+      "impact",
+      "size"
+    ],
+    "tags": [
+      "statistics",
+      "aggregation",
+      "business_insight"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Explicitly Link Analysis Findings to Deliverable Requirements",
+    "when_to_use": "When the task has specific, numbered deliverables or a structured rubric (e.g., 'analyze X', 'identify Y', 'recommend Z').",
+    "experience": "Many tasks have implicit or explicit sub-requirements that must be addressed individually in the final report.\n1. **Map Requirements**: At the start, parse the task instruction and list each distinct deliverable or question.\n2. **Create a Coverage Ledger**: For each requirement, note the evidence needed (e.g., a table, a number, a chart) and the conclusion expected.\n3. **Cross-Check During Analysis**: After each analytical step, mark which requirement it addresses.\n4. **Write with Headers**: Structure the final report with clear sections or bullet points that correspond to each requirement.\n5. **Verify Completeness**: Before finalizing, ensure every requirement has a corresponding section with explicit evidence and a clear conclusion.",
+    "checklist": [
+      "List all deliverables from prompt",
+      "Map evidence to each deliverable",
+      "Structure report by deliverable",
+      "Include explicit conclusion per deliverable",
+      "Final completeness check"
+    ],
+    "common_failure_prevented": "Prevents missing critical deliverables or failing to provide a direct answer to each part of a multi-part task, which leads to low rubric scores.",
+    "keywords": [
+      "deliverables",
+      "requirements",
+      "analysis",
+      "report",
+      "conclusion",
+      "recommendations"
+    ],
+    "tags": [
+      "project_management",
+      "reporting",
+      "requirements_analysis"
+    ],
+    "source_criterion": "Multiple criteria (e.g., Requirement 3/Criterion 3.3, Requirement 4/Criterion 4.1)",
+    "source_case": "dacomp-069"
+  }
+]

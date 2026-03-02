@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Map Rubric-Specified Metrics to Analysis Steps",
+    "when_to_use": "When the task instructions reference a specific rubric, scoring guide, or list of required metrics.",
+    "experience": "Markdown bullets: \n- **Explicitly list** each metric named in the rubric requirement and its exact definition.\n- **Document the SQL or calculation** for each metric, ensuring it matches the rubric's formula.\n- **Cross-reference** your computed results against the rubric's expected data points (e.g., 'Two-Factor Authentication Not Enabled Rate').\n- **If data is missing** to compute a rubric metric, state this explicitly and propose a fallback or note the gap.\n- **Before finalizing**, verify that your report's conclusions are driven by the rubric's specified metrics, not by substitute metrics you created.",
+    "checklist": [
+      "Extract all named metrics from the rubric",
+      "Write a precise definition (formula) for each",
+      "Map each formula to a SQL query or calculation",
+      "Compare your outputs to rubric's example numbers",
+      "Note any discrepancies or missing data"
+    ],
+    "common_failure_prevented": "Completing an analysis with self-defined indicators that miss rubric-required metrics, resulting in a score of zero.",
+    "keywords": [
+      "rubric",
+      "scoring guide",
+      "required metrics",
+      "deliverable",
+      "specification"
+    ],
+    "tags": [
+      "requirements",
+      "specification",
+      "alignment"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Operationalize Recommendations with Targets and Timelines",
+    "when_to_use": "When the task asks for 'actionable recommendations', 'governance plans', or 'prioritized initiatives'.",
+    "experience": "Markdown bullets: \n- **For each recommendation**, specify a clear, **measurable target** (e.g., 'reduce rate X by Y%', 'increase adoption to Z%').\n- **Assign a responsible role or department** for each action.\n- **Define a concrete timeline** with phases or deadlines (e.g., 'Phase 1 (within 1 month)').\n- **Link each recommendation** directly to a specific finding or metric from your analysis.\n- **If recommending cross-department initiatives**, detail the coordination mechanism (e.g., 'quarterly security council').",
+    "checklist": [
+      "State a numerical target for each recommendation",
+      "Assign an owner (role/team)",
+      "Set a timeline (e.g., by quarter)",
+      "Explicitly tie the action to an analytical finding",
+      "Describe the mechanism for implementation"
+    ],
+    "common_failure_prevented": "Providing vague, qualitative suggestions that lack concrete, accountable actions, making them non-operational.",
+    "keywords": [
+      "actionable",
+      "recommendations",
+      "governance",
+      "initiatives",
+      "roadmap",
+      "plan"
+    ],
+    "tags": [
+      "recommendations",
+      "operationalization",
+      "project management"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Follow Predefined Analytical Paths Before Innovating",
+    "when_to_use": "When the rubric outlines specific, numbered analysis paths (e.g., Path A, Path B, Path C) to reach a conclusion.",
+    "experience": "Markdown bullets: \n- **First, attempt to execute each step** of the provided paths exactly as described.\n- **If a path cannot be followed** due to data limitations, document the reason and seek an explicit fallback rule from the rubric.\n- **Only create a custom method** if the rubric explicitly permits it or if all predefined paths are infeasible.\n- **Justify any deviation** by referencing the specific data constraint or rubric clause that forced it.\n- **Compare your final output** (e.g., ranked list, conclusions) to the expected output of the rubric's paths to check for alignment.",
+    "checklist": [
+      "Identify all analysis paths in the rubric",
+      "Attempt to follow Path A step-by-step",
+      "If blocked, check for a fallback rule",
+      "Document why a path was abandoned",
+      "Validate your output against the path's example"
+    ],
+    "common_failure_prevented": "Developing a reasonable but non-conforming analysis that ignores the rubric's prescribed methodology, leading to low scores.",
+    "keywords": [
+      "path",
+      "methodology",
+      "approach",
+      "steps",
+      "fallback"
+    ],
+    "tags": [
+      "methodology",
+      "compliance",
+      "rubric"
+    ],
+    "source_criterion": "root/Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-035"
+  }
+]

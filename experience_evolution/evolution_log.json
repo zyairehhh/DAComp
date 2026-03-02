@@ -1,0 +1,46 @@
+[
+  {
+    "iteration": 1,
+    "added_ids": [
+      "exp-da-027",
+      "exp-da-028",
+      "exp-da-029",
+      "exp-da-030",
+      "exp-da-031",
+      "exp-da-032"
+    ],
+    "avg_delta_rubrics_pct": 0.2245,
+    "per_case_deltas": {
+      "dacomp-058": 65.26,
+      "dacomp-081": -16.0,
+      "dacomp-034": 22.0,
+      "dacomp-060": 15.0,
+      "dacomp-048": 26.0
+    },
+    "kept": true,
+    "timestamp": "2026-03-02T12:11:55",
+    "note": "dacomp-081 no output counted as -16pp; 4 valid cases avg +32pp"
+  },
+  {
+    "iteration": 2,
+    "added_ids": [
+      "exp-da-033",
+      "exp-da-034",
+      "exp-da-035",
+      "exp-da-036",
+      "exp-da-037",
+      "exp-da-038"
+    ],
+    "avg_delta_rubrics_pct": 0.2551,
+    "per_case_deltas": {
+      "dacomp-058": 46.32,
+      "dacomp-081": -16.0,
+      "dacomp-034": 50.24,
+      "dacomp-060": 31.0,
+      "dacomp-048": 16.0
+    },
+    "kept": true,
+    "timestamp": "2026-03-02T14:28:05",
+    "note": "dacomp-081 no output (-16pp); 4 valid avg +35.89pp vs baseline"
+  }
+]

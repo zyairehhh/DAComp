@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Validate Model Against Known Anchors Before Proceeding",
+    "when_to_use": "The task involves calculating scores, segmenting users, or generating new metrics.",
+    "experience": "1. **Extract Validation Anchors**: Before finalizing calculations, query the data to produce known statistics (e.g., P95 of a key metric, overall average).\n2. **Cross-Check with Rubric**: If the task or rubric provides expected values (e.g., 'P95(total_responses)=7'), compute your own values and ensure they match within a small tolerance.\n3. **Adjust Formulas if Misaligned**: If your computed anchors differ significantly, investigate your data selection, filters, join logic, or metric definitions.\n4. **Document Anchor Discrepancies**: If you cannot reconcile, explicitly note the difference and its potential impact on your analysis.\n5. **Re-run Validation Post-Segmentation**: After defining segments or scoring, compute segment sizes and compare to any provided cohort-level aggregates.",
+    "checklist": [
+      "Identify at least two key numeric anchors from the task or rubric",
+      "Compute equivalent values from your data",
+      "Confirm values match or diagnose divergence",
+      "Reconcile definitions before final reporting"
+    ],
+    "common_failure_prevented": "Creating a scoring model that yields a different distribution of users (e.g., 5.9% high vs. 27.11% high) because formulas or thresholds were not validated against expected results.",
+    "keywords": [
+      "composite score",
+      "scoring model",
+      "segment proportions",
+      "anchor",
+      "validation",
+      "expected value"
+    ],
+    "tags": [
+      "validation",
+      "scoring",
+      "rubric-alignment"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2/best_path_analysis/Criterion 2.2.A.2, Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Map Requirements to Explicit Analysis Steps and Outputs",
+    "when_to_use": "The task has multiple, specific sub-requirements or deliverables listed (e.g., 'identify characteristics', 'analyze differences', 'deliver segmentation strategy').",
+    "experience": "1. **Decompose the Prompt**: List each distinct requirement from the task as a separate analysis step.\n2. **Define Output Contracts**: For each step, specify the exact output format needed (e.g., a table, a set of metrics, a list of drivers).\n3. **Link Evidence to Claims**: Ensure every conclusion or recommendation is backed by a number, table, or chart generated in a previous step.\n4. **Maintain a Requirement Ledger**: As you complete each step, mark it as done and note the location of the supporting evidence.\n5. **Cross-Reference Before Finalization**: Before the final report, verify the ledger shows coverage for all requirements.",
+    "checklist": [
+      "List all explicit and implicit requirements",
+      "Define the concrete output for each",
+      "Maintain a completion tracker",
+      "Ensure final report addresses each requirement with evidence"
+    ],
+    "common_failure_prevented": "Missing key deliverables (e.g., not comparing transition paths across regions) or providing descriptive analysis without the specific, verifiable metrics (e.g., lift values) requested by the rubric.",
+    "keywords": [
+      "deliverables",
+      "analysis report",
+      "requirements",
+      "sub-tasks",
+      "identify",
+      "analyze differences"
+    ],
+    "tags": [
+      "project-management",
+      "requirement-tracking",
+      "evidence-linking"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2, Requirement 4/Criterion 4.1/best_path_analysis/Criterion 4.1.A.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Specify Quantitative Levers and Controls for Action Plans",
+    "when_to_use": "The task asks for a personalized incentive plan, engagement strategy, or intervention recommendations.",
+    "experience": "1. **For Each Recommended Action**, define the **trigger** (e.g., user enters medium tier), the **specific intervention** (e.g., send cross-channel bonus offer), and the **quantitative parameters** (e.g., frequency ≤2 per week, reward of 50 points).\n2. **Link Actions to KPIs**: Specify the measurable outcome expected (e.g., increase high-tier proportion by +4pp per quarter).\n3. **Define Cadence and Review**: State how often the action will be executed and how its success will be reviewed (e.g., monthly performance dashboard).\n4. **Avoid Vague Language**: Replace generic terms like 'increase engagement' with quantified targets like 'increase average weekly survey starts by 0.5'.",
+    "checklist": [
+      "Define action triggers, mechanics, and frequency controls",
+      "Set a numeric KPI target for each action",
+      "Specify a review cadence",
+      "Replace vague verbs with quantified metrics"
+    ],
+    "common_failure_prevented": "Proposing a generic incentive plan lacking operational details (e.g., 'provide cross-channel incentives' without specifying the reward amount, frequency, or success metric), making it non-actionable.",
+    "keywords": [
+      "personalized incentive plan",
+      "segmentation strategy",
+      "recommendations",
+      "actionable",
+      "intervention",
+      "KPIs"
+    ],
+    "tags": [
+      "operationalization",
+      "recommendations",
+      "quantification"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1/best_path_analysis/Criterion 5.1.A.2, Requirement 5/Criterion 5.2/best_path_analysis/Criterion 5.2.A.2",
+    "source_case": "dacomp-080"
+  }
+]

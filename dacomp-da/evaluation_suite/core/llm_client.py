@@ -192,6 +192,22 @@ def _http_completion(
             code_value = error_info.get("code", f"status_{response.status_code}")
             if code_value == "context_length_exceeded":
                 return None
+            # DashScope may reject an oversized judge request with a 400
+            # invalid-parameter error instead of context_length_exceeded.
+            # Treat it as a terminal skip for this call so the evaluator can
+            # continue and eventually mark the item as exhausted rather than
+            # retrying forever.
+            if (
+                response.status_code == 400
+                and code_value == "invalid_parameter_error"
+                and "Range of input length should be [1, 131072]"
+                in str(error_info.get("message", ""))
+            ):
+                logger.warning(
+                    "Skipping oversized request for model {} due to provider length limit.",
+                    model_name,
+                )
+                return None
             logger.error(
                 "Unexpected LLM response (status {}): {}",
                 response.status_code,
