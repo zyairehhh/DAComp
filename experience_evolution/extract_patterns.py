@@ -201,6 +201,12 @@ def _truncate_trajectory(traj_text: str, first_n: int = 12, last_n: int = 25) ->
 # Pattern extraction prompt
 # ---------------------------------------------------------------------------
 
+_EXTRACTION_PROMPT_CONTRAST_SUFFIX = """
+
+## Similar Successful Cases (for contrast — what did they do right?)
+{contrast_section}
+"""
+
 _EXTRACTION_PROMPT = """\
 You are a data analysis coach. Your job is to identify REUSABLE principles from data analysis failures so that future agents avoid the same mistakes.
 
@@ -249,12 +255,46 @@ If no general reusable principle can be extracted from this case, return an empt
 """
 
 
+def find_similar_successful_cases(
+    target_instruction: str,
+    all_instructions: Dict[str, str],
+    all_scores: Dict[str, Any],
+    top_k: int = 3,
+    min_rubrics_pct: float = 70.0,
+) -> List[tuple]:
+    """Find top_k high-scoring cases most similar to target_instruction (Jaccard token overlap).
+
+    Returns [(case_id, instruction), ...] for cases with rubrics_pct >= min_rubrics_pct,
+    sorted by descending Jaccard similarity to target_instruction.
+    """
+    target_tokens = set(re.findall(r"[a-z0-9]+", target_instruction.lower()))
+    if not target_tokens:
+        return []
+
+    candidates = []
+    for case_id, instr in all_instructions.items():
+        score_row = all_scores.get(case_id, {})
+        pct = parse_rubrics_percentage(score_row)
+        if pct < min_rubrics_pct:
+            continue
+        case_tokens = set(re.findall(r"[a-z0-9]+", instr.lower()))
+        union = len(target_tokens | case_tokens)
+        if union == 0:
+            continue
+        jaccard = len(target_tokens & case_tokens) / union
+        candidates.append((jaccard, case_id, instr))
+
+    candidates.sort(reverse=True)
+    return [(cid, instr) for _, cid, instr in candidates[:top_k]]
+
+
 def extract_patterns_for_case(
     instance_id: str,
     instruction: str,
     traj_path: Path,
     rubrics_row: Dict[str, Any],
     existing_cards_summary: str,
+    similar_success_cases: Optional[List[tuple]] = None,
 ) -> List[Dict]:
     """Extract candidate patterns for one case. Returns list of pattern dicts."""
     # Load trajectory
@@ -275,6 +315,14 @@ def extract_patterns_for_case(
         failure_analyses=failure_analyses[:12000],
         existing_cards_summary=existing_cards_summary,
     )
+
+    # Append contrast section if provided
+    if similar_success_cases:
+        contrast_lines = []
+        for cid, instr in similar_success_cases:
+            contrast_lines.append(f"### {cid}\n{instr[:600]}")
+        contrast_section = "\n\n".join(contrast_lines)
+        prompt += _EXTRACTION_PROMPT_CONTRAST_SUFFIX.format(contrast_section=contrast_section)
 
     print(f"[{instance_id}] Calling LLM for pattern extraction (score={score_pct:.1f}%)…",
           file=sys.stderr)

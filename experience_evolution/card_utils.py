@@ -10,7 +10,7 @@ from __future__ import annotations
 import json
 import re
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple  # noqa: F401 (Tuple used in rollback_specific_cards)
 
 
 # ---------------------------------------------------------------------------
@@ -164,6 +164,34 @@ def rollback_cards(added_ids: List[str], index: Dict, cards_dir: Path) -> Dict:
         else:
             kept.append(card)
     return {**index, "cards": kept}
+
+
+def rollback_specific_cards(
+    card_ids: List[str],
+    index: Dict,
+    cards_dir: Path,
+) -> Tuple[Dict, List[str]]:
+    """Remove only the specified card IDs from index and disk.
+
+    Unlike rollback_cards (which removes all newly added cards), this function
+    performs a surgical rollback — only the named cards are removed, leaving
+    other newly added cards intact.
+
+    Returns:
+        (updated_index, actually_removed_ids)
+    """
+    remove_set = set(card_ids)
+    kept = []
+    removed: List[str] = []
+    for card in index.get("cards", []):
+        if card["id"] in remove_set:
+            card_path = cards_dir / card.get("path", "")
+            if card_path.exists():
+                card_path.unlink()
+            removed.append(card["id"])
+        else:
+            kept.append(card)
+    return {**index, "cards": kept}, removed
 
 
 def update_confidence(card_id: str, delta_rubrics_pct: float, index: Dict) -> Dict:

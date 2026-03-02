@@ -5,15 +5,18 @@ Implements two modes:
   - auto:        fully automated, writes cards and runs the test pipeline
 
 Iteration flow:
-  1. Select N worst-performing cases from baseline
-  2. Extract failure patterns for each case (LLM)
-  3. Synthesize patterns into candidate cards (LLM)
-  4. [interactive] Display proposals and get user approval
-  5. Write approved cards to cards_dir / update index.json
-  6. Run DA-agent on test sample with new cards
-  7. Run llm_judge to score results
-  8. Compare vs baseline scores → update confidence
-  9. Rollback if regression; else keep and log
+  1. Select N worst-performing cases from baseline (skip 'hard'/stagnant cases)
+  2. [classify] Classify failure type; skip non-knowledge_gap cases
+  3. Extract failure patterns for each case (LLM)
+  4. Synthesize patterns into candidate cards (LLM, with dedup gate)
+  4.5 [guard] Pre-write retrieval regression guard + keyword tightening
+  5. [interactive] Display proposals and get user approval
+  6. Write approved cards to cards_dir / update index.json
+  6.5 [validate] Check each new card's retrieval coverage
+  7. Run DA-agent on test sample with new cards
+  8. Run llm_judge to score results
+  9. Compare vs baseline scores → update confidence + case state
+  10. Surgical per-case rollback; then avg-delta rollback if needed
 
 Usage:
     # Interactive with 10 worst cases, test on 5
@@ -26,6 +29,9 @@ Usage:
 
     # Dry-run: extract + propose only (no agent run, no writes)
     python evolve_pipeline.py --mode dry-run --n-cases 5
+
+    # With contrast learning (attach successful reference cases to prompt)
+    python evolve_pipeline.py --mode interactive --n-cases 10 --use-contrast
 """
 
 from __future__ import annotations
@@ -38,7 +44,7 @@ import subprocess
 import sys
 import time
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Set, Tuple
 
 # ---------------------------------------------------------------------------
 # Path defaults (relative to this script's location)
@@ -77,13 +83,34 @@ from card_utils import (
     REGRESSION_THRESHOLD,
     load_index,
     rollback_cards,
+    rollback_specific_cards,
     save_index,
     summarize_existing_cards,
     update_confidence,
 )
 from select_cases import load_case_file, select_worst_cases
-from extract_patterns import extract_patterns_for_case, load_rubrics_scores, load_task_instructions
+from extract_patterns import (
+    extract_patterns_for_case,
+    find_similar_successful_cases,
+    load_rubrics_scores,
+    load_task_instructions,
+)
 from synthesize_cards import load_all_patterns, synthesize_cards_with_llm, write_new_cards
+from retrieval import simulate_retrieval_map, validate_new_cards
+from regression_guard import (
+    HIGH_BASELINE_THRESHOLD,
+    CASE_REGRESSION_THRESHOLD,
+    find_culprit_cards,
+    run_pre_write_guard,
+)
+from classify_failures import classify_failure_type, load_failure_type, save_failure_type
+from case_state import (
+    get_hard_case_ids,
+    load_case_state,
+    mark_stagnant_cases,
+    save_case_state,
+    update_case_state,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -156,8 +183,6 @@ def run_llm_judge(
     print(f"[judge] Running: {' '.join(cmd)}", file=sys.stderr)
     subprocess.run(cmd, cwd=str(_EVAL_DIR), check=True)
 
-    # The judge writes to model_scores/<dir_name>__...csv
-    # Find it by glob
     dir_name = agent_results_dir.name
     candidates = list((_EVAL_DIR / "model_scores").glob(f"{dir_name}*.csv"))
     if candidates:
@@ -189,6 +214,18 @@ def load_scores_for_cases(csv_path: Path, case_ids: List[str]) -> Dict[str, floa
         for row in reader:
             iid = (row.get("instance_id") or "").strip()
             if iid in case_set:
+                scores[iid] = _parse_total_score(row)
+    return scores
+
+
+def load_all_baseline_scores(csv_path: Path) -> Dict[str, float]:
+    """Return {instance_id: weighted_total_score} for ALL cases in the CSV."""
+    scores: Dict[str, float] = {}
+    with csv_path.open(encoding="utf-8") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            iid = (row.get("instance_id") or "").strip()
+            if iid:
                 scores[iid] = _parse_total_score(row)
     return scores
 
@@ -259,6 +296,7 @@ def _log_iteration(
     avg_delta: float,
     deltas: Dict[str, float],
     kept: bool,
+    note: str = "",
 ) -> None:
     entry = {
         "iteration": iteration,
@@ -268,6 +306,8 @@ def _log_iteration(
         "kept": kept,
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
+    if note:
+        entry["note"] = note
     history: List[Dict] = []
     if log_path.exists():
         try:
@@ -282,46 +322,103 @@ def _log_iteration(
 # Main pipeline
 # ---------------------------------------------------------------------------
 
-def run_pipeline(args: argparse.Namespace) -> None:
+def run_pipeline(
+    args: argparse.Namespace,
+    override_traj_dir: Optional[Path] = None,
+    override_extract_csv: Optional[Path] = None,
+) -> Optional[Tuple[Path, Path]]:
+    """Run one iteration of the evolution pipeline.
+
+    Args:
+        args:                 Parsed CLI arguments.
+        override_traj_dir:    If set, use this trajectory dir instead of args.traj_dir
+                              for pattern extraction (enables multi-iteration chaining).
+        override_extract_csv: If set, use this CSV for rubric scores in pattern extraction
+                              (iteration N+1 sees residual failures after iteration N's cards).
+
+    Returns:
+        (agent_results_dir, new_scores_csv) on success, None on early exit/rollback.
+    """
     cards_dir = Path(args.cards_dir)
     baseline_csv = Path(args.baseline_csv)
     patterns_dir = Path(args.patterns_dir)
     patterns_dir.mkdir(parents=True, exist_ok=True)
     log_path = _HERE / "evolution_log.json"
+    state_file = _HERE / "case_state.json"
+
+    # Trajectory dir and extraction CSV (support override for multi-iteration chaining)
+    traj_dir = override_traj_dir or Path(args.traj_dir)
+    extract_csv = override_extract_csv or baseline_csv
+
+    # ---- Load shared data ----
+    instructions = load_task_instructions(Path(args.task_file))
+    scores_by_id = load_rubrics_scores(extract_csv)          # for pattern extraction
+    baseline_weighted = load_all_baseline_scores(baseline_csv)  # for guard + rollback
+    index = load_index(cards_dir)
+    existing_summary = summarize_existing_cards(index)
+
+    # ---- Load case state (stagnation tracking) ----
+    case_state = load_case_state(state_file)
+    hard_ids = get_hard_case_ids(case_state)
+    if hard_ids:
+        print(f"  [state] Excluding {len(hard_ids)} stagnant cases: {sorted(hard_ids)}")
 
     # ---- Step 1: Select cases ----
     print(f"\n[Step 1] Selecting {args.n_cases} worst-performing cases…")
     if args.case_file:
         case_ids = load_case_file(Path(args.case_file))[:args.n_cases]
     else:
-        case_ids = select_worst_cases(baseline_csv, n=args.n_cases)
+        case_ids = select_worst_cases(extract_csv, n=args.n_cases + len(hard_ids))
+        case_ids = [c for c in case_ids if c not in hard_ids][:args.n_cases]
     print(f"  Selected: {case_ids}")
 
-    # Use first --test-n cases as the test sample (already worst-scoring)
     test_case_ids = case_ids[:args.test_n]
 
-    # ---- Step 2: Extract patterns ----
-    print(f"\n[Step 2] Extracting patterns for {len(case_ids)} cases…")
-    instructions = load_task_instructions(Path(args.task_file))
-    scores_by_id = load_rubrics_scores(baseline_csv)
-    index = load_index(cards_dir)
-    existing_summary = summarize_existing_cards(index)
-    traj_dir = Path(args.traj_dir)
+    # ---- Step 2: Classify failures + extract patterns ----
+    print(f"\n[Step 2] Classifying failures and extracting patterns for {len(case_ids)} cases…")
+    failure_types: Dict[str, str] = {}
 
     for iid in case_ids:
         out_path = patterns_dir / f"{iid}_patterns.json"
+
+        # Load or compute failure type (cached)
+        ft = load_failure_type(patterns_dir, iid)
+        if ft is None:
+            instruction = instructions.get(iid, "")
+            rubrics_row = scores_by_id.get(iid, {})
+            traj_path = traj_dir / iid / f"{iid}-traj.txt"
+            traj_text = traj_path.read_text(encoding="utf-8", errors="replace") \
+                if traj_path.exists() else ""
+            ft = classify_failure_type(iid, instruction, traj_text, rubrics_row, model=args.model)
+            save_failure_type(patterns_dir, iid, ft)
+        failure_types[iid] = ft
+
+        if ft != "knowledge_gap":
+            print(f"  [{iid}] failure_type={ft} — skipping pattern extraction")
+            continue
+
         if out_path.exists() and not args.force_extract:
             print(f"  [{iid}] patterns already exist, skipping extraction")
             continue
+
         instruction = instructions.get(iid, "")
         rubrics_row = scores_by_id.get(iid, {})
         traj_path = traj_dir / iid / f"{iid}-traj.txt"
+
+        # Optional contrast learning
+        similar_cases = None
+        if args.use_contrast:
+            similar_cases = find_similar_successful_cases(
+                instruction, instructions, scores_by_id, top_k=3,
+            )
+
         patterns = extract_patterns_for_case(
             instance_id=iid,
             instruction=instruction,
             traj_path=traj_path,
             rubrics_row=rubrics_row,
             existing_cards_summary=existing_summary,
+            similar_success_cases=similar_cases,
         )
         out_path.write_text(json.dumps(patterns, indent=2, ensure_ascii=False), encoding="utf-8")
         print(f"  [{iid}] extracted {len(patterns)} patterns")
@@ -331,7 +428,7 @@ def run_pipeline(args: argparse.Namespace) -> None:
     all_patterns = load_all_patterns(patterns_dir)
     if not all_patterns:
         print("  No patterns available. Exiting.")
-        return
+        return None
     print(f"  Loaded {len(all_patterns)} total candidate patterns")
 
     synthesized = synthesize_cards_with_llm(all_patterns, existing_summary, model=args.model)
@@ -339,7 +436,34 @@ def run_pipeline(args: argparse.Namespace) -> None:
 
     if not synthesized:
         print("  Nothing to add.")
-        return
+        return None
+
+    # Assign temporary IDs for guard simulation (will be reassigned on write)
+    from card_utils import next_card_id
+    _temp_index = load_index(cards_dir)
+    for card in synthesized:
+        if not card.get("id"):
+            card["id"] = next_card_id(_temp_index)
+            _temp_index = {**_temp_index, "cards": [*_temp_index.get("cards", []),
+                                                     {"id": card["id"]}]}
+
+    # ---- Step 4.5: Pre-write regression guard ----
+    if args.mode != "dry-run":
+        print(f"\n[Step 4.5] Running pre-write regression guard…")
+        current_cards = load_index(cards_dir).get("cards", [])
+        guard_result = run_pre_write_guard(
+            candidate_cards=synthesized,
+            current_index=current_cards,
+            tasks=instructions,
+            baseline_scores=baseline_weighted,
+        )
+        synthesized = guard_result.refined_cards
+        if guard_result.tightened_card_ids:
+            print(f"  Keywords tightened on: {guard_result.tightened_card_ids}")
+        if guard_result.blocked_card_ids:
+            print(f"  Blocked (risk too high): {guard_result.blocked_card_ids}")
+            synthesized = [c for c in synthesized
+                           if c.get("id") not in guard_result.blocked_card_ids]
 
     # ---- Step 4 (interactive): Review proposals ----
     if args.mode == "interactive":
@@ -347,26 +471,38 @@ def run_pipeline(args: argparse.Namespace) -> None:
         synthesized = interactive_review(synthesized)
         if not synthesized:
             print("  All cards skipped. Exiting.")
-            return
+            return None
 
     if args.mode == "dry-run":
         print(f"\n[DRY RUN] {len(synthesized)} cards proposed. No files written.")
         for i, card in enumerate(synthesized, 1):
             _display_card_proposal(card, i, len(synthesized))
-        return
+        return None
 
     # ---- Step 5: Write cards ----
+    # Strip temp IDs so write_new_cards assigns real IDs
+    for card in synthesized:
+        card.pop("id", None)
+
     print(f"\n[Step 5] Writing {len(synthesized)} cards to {cards_dir}…")
     added_ids, updated_index = write_new_cards(synthesized, cards_dir, dry_run=False)
     if not added_ids:
         print("  No valid cards written.")
-        return
+        return None
     print(f"  Added: {added_ids}")
+
+    # ---- Step 5.5: Validate retrieval coverage ----
+    print(f"\n[Step 5.5] Validating retrieval coverage for new cards…")
+    hits = validate_new_cards(added_ids, test_case_ids, cards_dir, instructions)
+    for card_id in sorted(hits):
+        hit_cases = hits[card_id]
+        status = "OK" if hit_cases else "WARN: 0 retrieval hits on test cases"
+        print(f"  [{card_id}] {len(hit_cases)}/{len(test_case_ids)} test cases — {status}")
 
     if args.skip_agent_run:
         print("\n[--skip-agent-run] Skipping agent execution and evaluation.")
         print("Cards written. Run agent manually and compare scores.")
-        return
+        return None
 
     # ---- Step 6: Run agent on test sample ----
     iteration_id = args.iteration
@@ -384,7 +520,7 @@ def run_pipeline(args: argparse.Namespace) -> None:
         print("  Rolling back cards…")
         rolled = rollback_cards(added_ids, updated_index, cards_dir)
         save_index(rolled, cards_dir)
-        return
+        return None
 
     # ---- Step 7: Run LLM judge ----
     print(f"\n[Step 7] Running LLM judge…")
@@ -396,13 +532,13 @@ def run_pipeline(args: argparse.Namespace) -> None:
         print("  Rolling back cards…")
         rolled = rollback_cards(added_ids, updated_index, cards_dir)
         save_index(rolled, cards_dir)
-        return
+        return None
 
     # ---- Step 8: Compare scores + update confidence ----
     print(f"\n[Step 8] Comparing scores…")
     avg_delta, deltas = compare_scores(baseline_csv, new_scores_csv, test_case_ids)
-    avg_delta_frac = avg_delta / 100.0  # convert from percentage points to fraction
-    print(f"  Avg rubrics delta: {avg_delta:+.2f}pp ({avg_delta_frac:+.4f})")
+    avg_delta_frac = avg_delta / 100.0
+    print(f"  Avg weighted delta: {avg_delta:+.2f}pp ({avg_delta_frac:+.4f})")
     for iid, d in sorted(deltas.items()):
         print(f"  {iid}: {d:+.2f}pp")
 
@@ -412,25 +548,69 @@ def run_pipeline(args: argparse.Namespace) -> None:
         index_after = update_confidence(card_id, avg_delta_frac, index_after)
     save_index(index_after, cards_dir)
 
-    # ---- Step 9: Keep or rollback ----
-    # Rollback only if clear regression; ambiguous/no-change keeps cards
+    # Update case state
+    updated_state = case_state
+    new_scores_by_case = load_scores_for_cases(new_scores_csv, test_case_ids)
+    for iid in test_case_ids:
+        updated_state = update_case_state(
+            updated_state, iid,
+            new_scores_by_case.get(iid, 0.0),
+            failure_type=failure_types.get(iid),
+        )
+    updated_state = mark_stagnant_cases(updated_state)
+    save_case_state(updated_state, state_file)
+    newly_hard = {
+        cid for cid in updated_state
+        if updated_state[cid].get("status") == "hard"
+        and case_state.get(cid, {}).get("status") != "hard"
+    }
+    if newly_hard:
+        print(f"  [state] Newly marked hard (stagnant): {sorted(newly_hard)}")
+
+    # ---- Step 9: Surgical rollback + avg-delta rollback ----
+    kept = True
+    note = ""
+
+    # 9a: Surgical per-case rollback for high-baseline regressions
+    new_cards_only = [c for c in index_after.get("cards", []) if c["id"] in set(added_ids)]
+    culprit_ids = find_culprit_cards(
+        deltas, new_cards_only, instructions, baseline_weighted,
+    )
+    if culprit_ids:
+        remaining_new = sorted(set(added_ids) - culprit_ids)
+        print(
+            f"\n[Step 9a] Surgical rollback: removing culprit cards {sorted(culprit_ids)} "
+            f"(keeping {remaining_new})…"
+        )
+        index_after, actually_removed = rollback_specific_cards(
+            sorted(culprit_ids), index_after, cards_dir
+        )
+        save_index(index_after, cards_dir)
+        added_ids = [cid for cid in added_ids if cid not in culprit_ids]
+        note = f"Surgical rollback of {sorted(actually_removed)}"
+        print(f"  Removed: {actually_removed}")
+
+    # 9b: Avg-delta rollback as final safety net
     if avg_delta_frac < REGRESSION_THRESHOLD:
         print(
-            f"\n[Step 9] Regression detected ({avg_delta:+.2f}pp). Rolling back {added_ids}…"
+            f"\n[Step 9b] Avg regression detected ({avg_delta:+.2f}pp). "
+            f"Rolling back remaining {added_ids}…"
         )
         final_index = rollback_cards(added_ids, index_after, cards_dir)
         save_index(final_index, cards_dir)
         kept = False
+        note = (note + " | avg-delta rollback").lstrip(" | ")
         print("  Rollback complete.")
     else:
-        kept = True
         print(
-            f"\n[Step 9] Keeping cards (delta={avg_delta:+.2f}pp ≥ threshold). "
+            f"\n[Step 9] Keeping cards (avg delta={avg_delta:+.2f}pp ≥ threshold). "
             f"Confidence updated."
         )
 
-    _log_iteration(log_path, iteration_id, added_ids, avg_delta_frac, deltas, kept)
+    _log_iteration(log_path, iteration_id, added_ids, avg_delta_frac, deltas, kept, note)
     print(f"\nIteration {iteration_id} complete. Log: {log_path}")
+
+    return (agent_results_dir, new_scores_csv)
 
 
 # ---------------------------------------------------------------------------
@@ -472,17 +652,25 @@ def main() -> None:
                         help="Skip agent execution (write cards only, no scoring)")
     parser.add_argument("--force-extract", action="store_true",
                         help="Re-extract patterns even if *_patterns.json already exists")
+    parser.add_argument("--use-contrast", action="store_true",
+                        help="Attach similar successful cases to extraction prompt for contrast")
 
     args = parser.parse_args()
 
     if args.mode == "auto" and args.max_iterations > 1:
+        prev_result: Optional[Tuple[Path, Path]] = None
         for i in range(1, args.max_iterations + 1):
             args.iteration = i
             print(f"\n{'#'*60}")
             print(f"# AUTO ITERATION {i}/{args.max_iterations}")
             print(f"{'#'*60}")
-            run_pipeline(args)
-            # Move processed patterns to avoid re-processing
+
+            traj_override = prev_result[0] if prev_result else None
+            csv_override = prev_result[1] if prev_result else None
+
+            prev_result = run_pipeline(args, traj_override, csv_override)
+
+            # Archive patterns to avoid re-processing in next iteration
             patterns_dir = Path(args.patterns_dir)
             archive = patterns_dir.parent / f"patterns_iter{i}"
             if patterns_dir.exists():

@@ -136,12 +136,62 @@ If no patterns meet the quality bar, return an empty array: []
 """
 
 
+def _tokenize_text(text: str) -> set:
+    """Lowercase alphanumeric token set for Jaccard overlap."""
+    import re
+    return set(re.findall(r"[a-z0-9]+", text.lower()))
+
+
+def _is_duplicate_pattern(pattern: Dict, existing_summary: str, threshold: float = 0.85) -> bool:
+    """Return True if pattern.when_to_use has Jaccard overlap > threshold with existing_summary."""
+    when_to_use = str(pattern.get("when_to_use", ""))
+    if not when_to_use:
+        return False
+    pat_tokens = _tokenize_text(when_to_use)
+    sum_tokens = _tokenize_text(existing_summary)
+    if not pat_tokens or not sum_tokens:
+        return False
+    intersection = len(pat_tokens & sum_tokens)
+    union = len(pat_tokens | sum_tokens)
+    return (intersection / union) > threshold if union > 0 else False
+
+
+def filter_duplicate_patterns(
+    patterns: List[Dict],
+    existing_summary: str,
+    threshold: float = 0.85,
+) -> tuple:
+    """Filter out patterns that are highly similar to existing cards.
+
+    Returns (kept, filtered) tuple.
+    """
+    kept: List[Dict] = []
+    filtered: List[Dict] = []
+    for p in patterns:
+        if _is_duplicate_pattern(p, existing_summary, threshold):
+            filtered.append(p)
+        else:
+            kept.append(p)
+    return kept, filtered
+
+
 def synthesize_cards_with_llm(
     patterns: List[Dict],
     existing_cards_summary: str,
     model: str = _DEFAULT_MODEL,
 ) -> List[Dict]:
     """Call LLM to consolidate patterns into final cards."""
+    # Pre-filter patterns that duplicate existing cards (fast Jaccard check)
+    kept, filtered = filter_duplicate_patterns(patterns, existing_cards_summary)
+    if filtered:
+        titles = [p.get("title", "?") for p in filtered]
+        print(f"  [dedup] Filtered {len(filtered)} near-duplicate patterns: {titles}",
+              file=sys.stderr)
+    patterns = kept
+    if not patterns:
+        print("  [dedup] All patterns filtered as duplicates.", file=sys.stderr)
+        return []
+
     source_cases = sorted({p.get("source_case", "") for p in patterns if p.get("source_case")})
     patterns_json = json.dumps(patterns, indent=2, ensure_ascii=False)
     # Truncate if very large

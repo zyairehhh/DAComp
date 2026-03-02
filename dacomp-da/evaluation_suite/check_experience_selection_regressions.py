@@ -11,11 +11,15 @@ EXPERIENCE_DIR = ROOT / "dacomp-da" / "experience_cards"
 
 
 EXPECTED = {
+    # Cases that should retrieve NO experience cards (simple / non-matching tasks)
+    "dacomp-002": {"has_snippet": False},
+    "dacomp-004": {"has_snippet": False},
+    "dacomp-006": {"has_snippet": False},
     "dacomp-012": {"has_snippet": False},
-    "dacomp-013": {"has_snippet": False},
-    "dacomp-024": {"has_snippet": False},
     "dacomp-038": {"has_snippet": False},
-    "dacomp-068": {"has_snippet": True, "must_contain": ["[exp-da-002]"]},
+    # Cases that should retrieve specific cards (positive anchors)
+    "dacomp-058": {"has_snippet": True, "must_contain": ["[exp-da-009]"]},
+    "dacomp-034": {"has_snippet": True, "must_contain": ["[exp-da-005]"]},
 }
 
 
