@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Explicitly verify data scope and key metrics against anchors",
+    "when_to_use": "The task requires analyzing a specific time window, metric thresholds, or entity (like an app name).",
+    "experience": "1. Before any analysis, write a verification step that extracts the exact time range, entity filter, and key metric values from the dataset.\n2. Compare these extracted values to the stated anchors in the task (e.g., 'overall_performance_score dropped from 85 to 72').\n3. Explicitly state the verification outcome in your final report: confirm the data matches the problem statement or note discrepancies.\n4. Include the exact table name, column names, and filters used as part of your verification statement.\n5. If data quality issues are found (e.g., duplicates), clean or flag them before proceeding.",
+    "checklist": [
+      "Extract and state the time window",
+      "Confirm the entity filter is applied correctly",
+      "Verify key metric values against anchors",
+      "Note data quality issues and handling",
+      "Document the data source table and columns used"
+    ],
+    "common_failure_prevented": "The analysis fails to demonstrate it is based on the correct data scope and verified metrics, leading to a low score on foundational criteria.",
+    "keywords": [
+      "verify",
+      "time window",
+      "specific app",
+      "key metric",
+      "data scope",
+      "anchors"
+    ],
+    "tags": [
+      "data_validation",
+      "scope_definition",
+      "reporting_clarity"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Segment data precisely as defined in the task instructions",
+    "when_to_use": "The task defines specific segmentation thresholds or grouping rules for comparison.",
+    "experience": "1. Parse the task instructions to identify the exact segmentation criteria (e.g., 'markets where a key revenue metric is over $7 and markets where it is under $3').\n2. In your code, create these segments exactly as defined, using the exact column name and thresholds.\n3. In your report, explicitly state the segmentation rule used and list which items fall into each segment.\n4. If the defined segmentation is impossible due to data limitations (e.g., no data points under $3), propose and document an alternative, but first note the limitation.\n5. Ensure all subsequent comparative analysis uses these defined segments, not ad-hoc groups.",
+    "checklist": [
+      "Identify the exact segmentation rule from the task",
+      "Code the segmentation precisely",
+      "List the members of each segment",
+      "Note any data limitations to the rule",
+      "Use the defined segments for all comparisons"
+    ],
+    "common_failure_prevented": "The analysis uses arbitrary or incorrect segmentation thresholds, failing the specific comparative analysis requirement.",
+    "keywords": [
+      "segment",
+      "threshold",
+      "group",
+      "comparison",
+      "high vs low",
+      "top markets"
+    ],
+    "tags": [
+      "segmentation",
+      "requirements_parsing",
+      "comparative_analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Perform weighted aggregation when analyzing multi-market performance",
+    "when_to_use": "The analysis aggregates metrics across regions, countries, or segments where units have different scales or importance.",
+    "experience": "1. Identify if the dataset contains a weighting variable (e.g., active_devices, total_revenue, user_count).\n2. When calculating group averages (e.g., average crash rate across countries), compute the weighted average using the appropriate weight, not a simple mean.\n3. In your report, explicitly state the weighting variable used and the rationale (e.g., 'crash rate weighted by active devices to reflect user impact').\n4. Compare weighted vs unweighted results to assess the impact of scale.\n5. If no explicit weight is given, propose a reasonable proxy (e.g., total_users) and justify its use.",
+    "checklist": [
+      "Identify a potential weighting variable in the data",
+      "Calculate weighted averages for key metrics",
+      "Compare weighted vs unweighted results",
+      "State the weighting variable and rationale in the report",
+      "Discuss the impact of weighting on conclusions"
+    ],
+    "common_failure_prevented": "The analysis reports simple averages that ignore scale differences, leading to misleading conclusions about regional performance.",
+    "keywords": [
+      "weighted",
+      "aggregate",
+      "average",
+      "scale",
+      "impact",
+      "regional",
+      "multi-market"
+    ],
+    "tags": [
+      "aggregation",
+      "weighted_metrics",
+      "scale_awareness"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-069"
+  }
+]

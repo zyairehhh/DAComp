@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Map rubric anchors and verification points before analysis",
+    "when_to_use": "When the task includes a rubric or defined success metrics for specific comparisons or calculations.",
+    "experience": "- Before starting analysis, list all required anchor points, metrics, or comparisons specified in the rubric (e.g., 'campaign 184 Germany share 0.297').\n- Design calculation logic and queries to produce those specific outputs.\n- Verify each required output against the rubric's expected values (e.g., ROAS=3.66 vs 3.311) and resolve discrepancies.\n- If rubric uses a specific time period (e.g., latest month June 2024), filter data accordingly before aggregating.\n- Confirm required calculations are not omitted (e.g., coefficient of variation, seasonal index per industry).",
+    "checklist": [
+      "List all rubric anchor points",
+      "Verify each anchor calculation",
+      "Align time filters with rubric",
+      "Validate final outputs match rubric values"
+    ],
+    "common_failure_prevented": "Missing or mismatched anchor values leads to low accuracy scores (e.g., anchor points not matched in Requirement 3/Criterion 3.1).",
+    "keywords": [
+      "rubric",
+      "anchor points",
+      "verification",
+      "expected values",
+      "required metrics"
+    ],
+    "tags": [
+      "rubric mapping",
+      "validation",
+      "accuracy"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/A.2, Requirement 4/Criterion 4.1/A.2, Requirement 3/Criterion 3.3/A.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Ensure campaign-level granularity for multi-dimensional analysis",
+    "when_to_use": "When analyzing performance across multiple dimensions (e.g., device, geo, keyword) for a set of identified campaigns.",
+    "experience": "- Aggregate data at the campaign level first for overall screening and health scoring.\n- For each dimension (e.g., device type, geography), compute per-campaign metrics (e.g., cost share, ROAS per device within each campaign).\n- Apply segmentation rules (e.g., cost share >35% and ROAS<0.8) within each campaign to flag high-risk sub-dimensions.\n- Report findings per campaign, not only across all campaigns (e.g., top 3 geos per campaign, not just overall top geos).\n- Ensure results include campaign identifiers alongside dimension-specific metrics.",
+    "checklist": [
+      "Aggregate per campaign",
+      "Compute per-campaign dimension metrics",
+      "Apply campaign-level segmentation rules",
+      "Report results with campaign identifiers"
+    ],
+    "common_failure_prevented": "Aggregating across all campaigns without campaign-specific segmentation leads to missing high-risk patterns per campaign (e.g., no device-level risk identification per campaign in Requirement 3/Criterion 3.2).",
+    "keywords": [
+      "per campaign",
+      "campaign-specific",
+      "dimension analysis",
+      "segmentation",
+      "granularity"
+    ],
+    "tags": [
+      "campaign-level",
+      "segmentation",
+      "drill-down"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Compute specified derived metrics before comparative analysis",
+    "when_to_use": "When the rubric requires specific derived metrics (e.g., coefficient of variation, seasonal index, YoY change) for problem detection or segmentation.",
+    "experience": "- Extract all required derived metrics from the task description or rubric (e.g., coefficient of variation, seasonal index per industry).\n- Calculate each metric at the required entity level (e.g., per campaign for YoY change, per industry for seasonal index).\n- Handle missing data for derived metrics using defined imputation (e.g., backfilling missing YoY values).\n- Use derived metrics as inputs for further analysis (e.g., CV to assess volatility, seasonal index to identify patterns).\n- Validate that derived metrics are used in subsequent steps (e.g., flag campaigns with rising cost and no ROAS improvement).",
+    "checklist": [
+      "List required derived metrics",
+      "Calculate per required entity",
+      "Handle missing data",
+      "Use metrics in downstream analysis"
+    ],
+    "common_failure_prevented": "Omission of required derived metrics (e.g., CV, seasonal index) leads to incomplete analysis and low scores (e.g., Requirement 4/Criterion 4.2).",
+    "keywords": [
+      "derived metrics",
+      "coefficient of variation",
+      "seasonal index",
+      "YoY change",
+      "imputation"
+    ],
+    "tags": [
+      "metric calculation",
+      "data transformation",
+      "rubric compliance"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2, Requirement 4/Criterion 4.1/A.3",
+    "source_case": "dacomp-058"
+  }
+]

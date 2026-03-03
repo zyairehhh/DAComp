@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Map rubric scoring criteria to concrete analysis steps",
+    "when_to_use": "When the task instructions or rubric explicitly name evaluation dimensions or require a specific analysis structure.",
+    "experience": "Markdown bullets:\n- First, list all rubric criteria and sub-criteria, noting required metrics, dimensions, and segmentation rules.\n- For each criterion, design an analysis step that directly produces the required output (e.g., a table of average GMV per discount bin per category).\n- Verify each planned step against the rubric's wording—does it satisfy the stated completeness and accuracy definitions?\n- Ensure that intermediate calculations (e.g., discount depth bins) are explicitly defined before performing aggregations.\n- At each reporting stage, label outputs with the rubric criterion they address.",
+    "checklist": [
+      "List rubric criteria",
+      "Design analysis steps per criterion",
+      "Verify against rubric definitions",
+      "Define intermediate metrics",
+      "Label outputs with criteria"
+    ],
+    "common_failure_prevented": "Performing a general correlation analysis when the rubric requires bin-level averages by category, resulting in a score of zero.",
+    "keywords": [
+      "rubric",
+      "criteria",
+      "scoring",
+      "evaluation",
+      "dimensions"
+    ],
+    "tags": [
+      "rubric alignment",
+      "requirement mapping",
+      "structured analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-034"
+  },
+  {
+    "title": "Classify segments based on responsiveness, not just aggregate performance",
+    "when_to_use": "When the task asks to identify high/low sensitivity segments or to optimize strategies based on responsiveness.",
+    "experience": "Markdown bullets:\n- Compute a responsiveness metric that measures change in outcome per unit change in input (e.g., slope of sales vs. discount depth).\n- Do not use aggregate totals (e.g., total sales) as a proxy for responsiveness.\n- Segment entities (e.g., categories) into high/medium/low responsiveness groups using explicit thresholds (e.g., top/bottom quartiles of the responsiveness metric).\n- Validate that the classification aligns with the task's definition of 'sensitivity' (e.g., elasticity, correlation).\n- Report both the responsiveness metric and the resulting classification in your findings.",
+    "checklist": [
+      "Compute responsiveness metric",
+      "Avoid using aggregate totals",
+      "Segment using explicit thresholds",
+      "Align with task's sensitivity definition",
+      "Report metric and classification"
+    ],
+    "common_failure_prevented": "Misclassifying categories based on total sales quantity instead of sales responsiveness to discount depth.",
+    "keywords": [
+      "sensitivity",
+      "responsiveness",
+      "elasticity",
+      "high/low",
+      "segment",
+      "classify"
+    ],
+    "tags": [
+      "segmentation",
+      "sensitivity analysis",
+      "classification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-034"
+  },
+  {
+    "title": "Derive optimal ranges from binned performance trends",
+    "when_to_use": "When the task requires identifying optimal value ranges (e.g., discount depth, price) for different segments.",
+    "experience": "Markdown bullets:\n- Define discrete bins for the input variable (e.g., discount depth 0–10%, 10–20%, etc.).\n- For each segment (e.g., category), compute a performance metric (e.g., average GMV, efficiency) per bin.\n- Identify the bin(s) where performance is maximized or meets a target threshold (e.g., highest GMV, GMV/discount > 5).\n- If performance trends are non‑monotonic, describe the 'sweet spot' range and the diminishing returns beyond it.\n- Present the optimal range per segment, supported by the binned performance table.",
+    "checklist": [
+      "Define input variable bins",
+      "Compute performance metric per bin",
+      "Identify performance‑maximizing bins",
+      "Describe sweet spots and diminishing returns",
+      "Present optimal range per segment"
+    ],
+    "common_failure_prevented": "Failing to provide specific optimal discount ranges per category because analysis only looked at overall aggregates.",
+    "keywords": [
+      "optimal",
+      "range",
+      "bins",
+      "sweet spot",
+      "performance trend",
+      "maximize"
+    ],
+    "tags": [
+      "optimization",
+      "binning",
+      "trend analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-034"
+  }
+]

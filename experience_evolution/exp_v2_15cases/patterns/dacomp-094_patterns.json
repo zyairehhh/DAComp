@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Map Rubric Sub-criteria to Concrete Analysis Steps",
+    "when_to_use": "When the task includes a rubric or evaluation framework specifying required analyses.",
+    "experience": "- **Cross-reference rubric lines with your analysis plan:** For each rubric criterion (e.g., 'Criterion 2.1 – speed metrics'), list the exact metrics, formulas, segmentation, and outputs required.\n- **Create a tracking checklist:** Convert each rubric sub-criterion into a specific analytical task (e.g., 'compute days from first touch to peak activity' not just 'touch_span_days').\n- **Validate metric completeness before reporting:** Before finalizing insights, ensure every rubric-required metric has been computed, and annotate any that are impossible due to data constraints.\n- **Report against rubric anchors:** Where the rubric provides expected anchor values (e.g., open_rate=0.3537), calculate them explicitly and note any discrepancies.",
+    "checklist": [
+      "List all rubric criteria",
+      "Define exact SQL/Python code for each",
+      "Check outputs match rubric anchor points",
+      "Note missing criteria before final report"
+    ],
+    "common_failure_prevented": "Missing analysis dimensions required by the rubric (e.g., speed metrics, touch sequence analysis) because they weren't explicitly translated into executable steps.",
+    "keywords": [
+      "rubric",
+      "evaluation",
+      "criteria",
+      "required metrics",
+      "anchor points"
+    ],
+    "tags": [
+      "planning",
+      "rubric alignment",
+      "compliance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Define Composite Metrics from Atomic Events Before Aggregation",
+    "when_to_use": "When the analysis requires derived metrics (e.g., speed, retention) calculated from timestamped event sequences.",
+    "experience": "- **Identify the unit of analysis:** Determine whether the metric is per person, per campaign, per touchpoint sequence, etc.\n- **Map raw events to metric logic:** Write step-by-step logic for each required composite metric using atomic events (e.g., 'days from first email_open to placed_order with max revenue').\n- **Compute at the correct grain:** Calculate the metric at the finest grain (e.g., per person-campaign) before aggregating to segments.\n- **Validate with sample data:** Manually compute the metric for a few example IDs to ensure logic matches the business definition.",
+    "checklist": [
+      "Write pseudo‑code for each composite metric",
+      "Compute at atomic grain first",
+      "Spot‑check with manual calculation",
+      "Aggregate only after atomic computation"
+    ],
+    "common_failure_prevented": "Reporting incomplete or incorrectly aggregated metrics (e.g., using pre‑aggregated `touch_span_days` without verifying it measures 'first touch to peak activity').",
+    "keywords": [
+      "derived metric",
+      "sequence",
+      "event log",
+      "time‑to‑event",
+      "composite"
+    ],
+    "tags": [
+      "metric design",
+      "event logic",
+      "aggregation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Audit Segment Coverage Before Cross‑Tab Analysis",
+    "when_to_use": "When the analysis involves segmenting data by multiple dimensions (e.g., time windows × subject themes) for interactive effects.",
+    "experience": "- **Create a segment‑coverage matrix:** For each analysis dimension (e.g., weekday/weekend, morning/afternoon, holiday‑before/after), count distinct values and cross‑tabulate sample sizes.\n- **Flag sparse or empty cells:** Identify segment combinations with insufficient data (e.g., zero records for 'afternoon' sends) before computing metrics.\n- **Document coverage limitations in the report:** Explicitly state which segment comparisons are unreliable due to small samples.\n- **Adjust analysis plan if needed:** Consider collapsing sparse categories or noting them as 'insufficient data' rather than reporting misleading averages.",
+    "checklist": [
+      "Cross‑tabulate segment counts",
+      "Identify cells with n< threshold",
+      "Note coverage gaps in report",
+      "Adjust granularity if needed"
+    ],
+    "common_failure_prevented": "Reporting metrics for segment combinations with no data (e.g., afternoon sends) or drawing conclusions from extremely small samples.",
+    "keywords": [
+      "segmentation",
+      "cross‑tab",
+      "sample size",
+      "coverage",
+      "interactive effect"
+    ],
+    "tags": [
+      "data quality",
+      "exploratory analysis",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-094"
+  }
+]

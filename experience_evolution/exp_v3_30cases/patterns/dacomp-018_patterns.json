@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Compute required rubric metrics precisely before inferring conclusions",
+    "when_to_use": "When the task or its evaluation rubric defines specific quantitative benchmarks or comparisons.",
+    "experience": "1. **Explicitly map rubric-defined metrics**: Before starting analysis, translate rubric requirements (e.g., 'profit share', 'average profit by age group') into exact SQL/Python calculations.\n2. **Compute and report benchmark values**: Calculate the required metrics verbatim (e.g., total profit per gender, average profit per region) and store results in a validation table.\n3. **Compare computed values to rubric benchmarks**: After calculation, compare your results against rubric-provided benchmarks (if any) to verify numerical accuracy.\n4. **Adjust calculations if discrepancies exceed tolerance**: If relative error > 1%, re‑examine filters, joins, and aggregations for hidden assumptions.\n5. **Use rubric values as anchor points in final conclusions**: Directly reference the computed rubric metrics (e.g., '55.01% of Fashion profit comes from Female customers') to justify segment prioritization.",
+    "checklist": [
+      "List all rubric‑required metrics from the evaluation criteria",
+      "Write code that computes each metric exactly as defined",
+      "Compare computed values to any provided rubric benchmarks",
+      "If benchmarks are missing, sanity‑check magnitudes with quick sample aggregations",
+      "Base segment‑prioritization conclusions on these precise metrics"
+    ],
+    "common_failure_prevented": "Drawing directional conclusions that align with the rubric's intent but failing to produce numerically accurate, reproducible figures required for full credit.",
+    "keywords": [
+      "rubric",
+      "benchmark",
+      "accuracy",
+      "metric",
+      "profit share",
+      "evaluation"
+    ],
+    "tags": [
+      "rubric_alignment",
+      "quantitative_validation",
+      "metric_calculation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 1/Criterion 1.3, Requirement 1/Criterion 1.4, Requirement 1/Criterion 1.5, Requirement 1/Criterion 1.6",
+    "source_case": "dacomp-018"
+  },
+  {
+    "title": "Define exact segment boundaries before aggregating performance",
+    "when_to_use": "When analyzing demographic or behavioral segments (e.g., age groups, regions, customer segments).",
+    "experience": "1. **Clarify segment definitions upfront**: If the rubric or business context implies specific segment boundaries (e.g., age brackets 18‑24, 25‑34), define them explicitly before aggregation.\n2. **Create a segment mapping table**: Build a reference table (e.g., `age_group_mapping`) that maps raw values (e.g., age 25) to standardized segments.\n3. **Join segment mapping before aggregation**: In your main analysis query, join the mapping to ensure consistent grouping.\n4. **Verify segment coverage**: After grouping, check counts and total profit per segment to ensure no data is mis‑classified or omitted.\n5. **Report segment totals and shares**: For each segment, compute both absolute performance (e.g., total profit) and relative contribution (e.g., percent of total).",
+    "checklist": [
+      "Define segment categories (e.g., age bins, region list, customer segments)",
+      "Create a mapping table or CASE statement for segment assignment",
+      "Join mapping in aggregation queries",
+      "Report both volume and rate metrics per segment",
+      "Check that segment sums equal overall total"
+    ],
+    "common_failure_prevented": "Reporting directional segment trends (e.g., 'young‑to‑middle‑aged customers are profitable') without providing the precise, reproducible segment‑level totals required by the rubric.",
+    "keywords": [
+      "segment",
+      "age group",
+      "region",
+      "demographic",
+      "bins",
+      "grouping"
+    ],
+    "tags": [
+      "segment_definition",
+      "aggregation_consistency",
+      "categorical_analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 1/Criterion 1.3, Requirement 1/Criterion 1.4",
+    "source_case": "dacomp-018"
+  },
+  {
+    "title": "Use exact rubric comparisons for behavioral correlation analysis",
+    "when_to_use": "When tasked with analyzing how behavioral signals (e.g., likes, shares) correlate with performance.",
+    "experience": "1. **Identify the exact comparison required**: The rubric may ask for average profit of users with vs without a behavior, not just correlation coefficients.\n2. **Compute the rubric‑specified comparison directly**: Create binary flags (e.g., `has_like`) and calculate average profit per flag value.\n3. **Avoid substituting alternative analyses**: Do not report correlation or regression unless the rubric explicitly asks for it. If both are required, compute both.\n4. **Validate with sample data**: For each binary flag, verify that the average profit difference is statistically meaningful (e.g., t‑test) and aligns with business intuition.\n5. **Present results in the rubric's preferred format**: If the rubric provides a table structure, replicate it with your computed values.",
+    "checklist": [
+      "Identify which behavioral metrics are in the rubric",
+      "Create binary flags for presence/absence of each behavior",
+      "Compute average performance (e.g., profit) for each flag value",
+      "Compare your computed averages to rubric benchmarks",
+      "Report differences and significance, not just correlation"
+    ],
+    "common_failure_prevented": "Providing generic correlation analysis when the rubric requires specific average‑profit comparisons (e.g., profit when like=1 vs like=0), leading to accuracy penalties.",
+    "keywords": [
+      "behavioral",
+      "correlation",
+      "average",
+      "comparison",
+      "binary flag",
+      "like",
+      "share"
+    ],
+    "tags": [
+      "behavioral_analysis",
+      "comparison_method",
+      "rubric_adherence"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.5",
+    "source_case": "dacomp-018"
+  }
+]

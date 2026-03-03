@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Extract all potential data fields from narrative text columns",
+    "when_to_use": "A task requires analysis of key entities (e.g., skills, benefits) that may be in free-text descriptions.",
+    "experience": "Markdown bullets:\n- **Map the Data**: Identify all potential sources for the required data points, including structured columns and unstructured text columns like 'Job Description' or 'Remarks'.\n- **Search Broadly**: Construct keyword lists and use pattern matching (LIKE, regex) on text columns to find all relevant mentions, not just structured field entries.\n- **Consolidate Sources**: Combine results from both structured and unstructured columns before counting or summarizing to avoid significant undercounting.\n- **Validate Completeness**: Cross-check total counts with domain expectations or sample manual verification to identify if key sources are missing.",
+    "checklist": [
+      "List all relevant data columns, including long text fields",
+      "Design keyword or pattern searches for each required entity in text fields",
+      "Merge results from structured and unstructured sources",
+      "Compare total counts to a sanity check or known benchmark"
+    ],
+    "common_failure_prevented": "Prevents missing a large portion of relevant records by ignoring key information stored only in descriptive text fields.",
+    "keywords": [
+      "benefits",
+      "skills",
+      "qualities",
+      "extract",
+      "description"
+    ],
+    "tags": [
+      "Data Extraction",
+      "Text Mining",
+      "Completeness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Clean and standardize extracted categorical values before aggregation",
+    "when_to_use": "An analysis requires counting or grouping items from free-text lists with varied formatting and synonyms.",
+    "experience": "Markdown bullets:\n- **Inspect Variation**: After extraction, examine the most frequent raw values to identify spelling differences, synonyms, and formatting inconsistencies (e.g., 'high-temperature allowance' vs. 'high temperature allowance').\n- **Create Standardization Rules**: Develop a mapping dictionary or a set of string-cleaning rules (e.g., lowercasing, removing punctuation, splitting on multiple delimiters) to consolidate synonymous entries.\n- **Apply Rules Before Counting**: Standardize all entries in the extracted list before performing value counts or creating distribution tables.\n- **Review Aggregated Results**: Check the final grouped list for any remaining duplicates that the rules may have missed, and iteratively refine the cleaning process.",
+    "checklist": [
+      "Review top raw extracted items for variations",
+      "Define and apply a cleaning/standardization function",
+      "Perform counts on the cleaned list, not the raw list",
+      "Audit final results for leftover duplicates"
+    ],
+    "common_failure_prevented": "Prevents fragmented analysis where the same logical item is counted multiple times under different textual representations.",
+    "keywords": [
+      "distribution",
+      "count",
+      "list",
+      "categorize",
+      "standardize"
+    ],
+    "tags": [
+      "Data Cleaning",
+      "Text Normalization",
+      "Aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Validate and refine data parsing logic with a sample audit",
+    "when_to_use": "A task involves parsing complex, semi-structured text fields (e.g., salary ranges, addresses) into numeric or categorical values.",
+    "experience": "Markdown bullets:\n- **Develop Parsing Logic**: Create an initial parsing function (e.g., using regex) for the target field.\n- **Audit a Random Sample**: Apply the parser to a random sample of raw values (e.g., 50-100 rows) and manually inspect the parser's input and output.\n- **Identify Edge Cases**: From the audit, catalog patterns the parser missed (e.g., alternative units, different delimiters, commission structures) or incorrectly handled.\n- **Iterate and Improve**: Refine the parsing logic to cover the discovered edge cases, then re-audit until accuracy is satisfactory before applying to the full dataset.\n",
+    "checklist": [
+      "Write initial parsing function",
+      "Sample and manually audit parser input/output",
+      "Document edge case patterns missed by the parser",
+      "Refine parser and re-audit before full-scale run"
+    ],
+    "common_failure_prevented": "Prevents systematic errors in derived numeric fields (like salary) that lead to inaccurate distributions and downstream analysis.",
+    "keywords": [
+      "parse",
+      "extract",
+      "range",
+      "format",
+      "audit"
+    ],
+    "tags": [
+      "Data Validation",
+      "Parsing",
+      "Quality Assurance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-048"
+  }
+]

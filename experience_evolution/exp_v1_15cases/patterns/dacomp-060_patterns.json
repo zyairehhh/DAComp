@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Define and compute missing benchmark metrics from available data",
+    "when_to_use": "When a task requires a benchmark comparison (e.g., 'Expected CVR', 'Industry Average', 'Historical Baseline') that is not a direct column in the data.",
+    "experience": "*   **Identify the required benchmark metric** from the task description (e.g., 'Expected CVR', 'Baseline', 'Target').\n*   **Analyze the data schema** to see if the benchmark is a pre-computed column. If not, note its absence.\n*   **Propose a data-driven derivation** using available data to create a logical surrogate benchmark. For example, calculate the average CVR for a relevant peer group (e.g., same campaign type, keyword category, or time period) to serve as the 'Expected CVR'.\n*   **Document your assumption** about how the benchmark was constructed and state it clearly before proceeding with analysis.\n*   **Perform the comparative analysis** (e.g., Intent Match Ratio = Actual Metric / Derived Benchmark Metric) using your defined benchmark.",
+    "checklist": [
+      "Identify required benchmark metric",
+      "Check for direct column in schema",
+      "Propose and document surrogate calculation",
+      "Use derived metric in comparative analysis"
+    ],
+    "common_failure_prevented": "Prevents analysis paralysis or incorrect assumptions when a required comparative metric (like 'Expected CVR') is not present in the raw data.",
+    "keywords": [
+      "expected",
+      "benchmark",
+      "baseline",
+      "target",
+      "ratio",
+      "vs",
+      "intent match"
+    ],
+    "tags": [
+      "metric_definition",
+      "data_gap",
+      "comparative_analysis"
+    ],
+    "source_criterion": "Failure to compute the Intent Match Ratio due to missing 'Expected CVR' column.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Plan analysis by mapping task verbs to specific SQL operations",
+    "when_to_use": "When a task combines multiple analytical actions like 'identify', 'analyze characteristics', and 'propose recommendations'.",
+    "experience": "*   **Decompose the task instruction** into distinct analytical verbs (e.g., 'identify', 'analyze', 'assess', 'propose').\n*   **For each verb, define the specific data operation** and output required. Example mapping:\n    *   `Identify` → A filtered list of entities (ad groups) based on calculated metric thresholds.\n    *   `Analyze characteristics` → A grouped summary (e.g., by keyword match type, ad group type) of the identified entities.\n    *   `Assess (Intent Match Ratio)` → A calculation of a new metric for the identified entities.\n*   **Outline the SQL queries** needed for each step, ensuring the output of one step (e.g., list of IDs) feeds into the next.\n*   **Execute the plan sequentially**, validating the output of each step before proceeding to the next.",
+    "checklist": [
+      "List analytical verbs from task",
+      "Map each verb to a data operation",
+      "Outline SQL query sequence",
+      "Validate intermediate outputs"
+    ],
+    "common_failure_prevented": "Prevents getting lost in data exploration and failing to produce the specific, structured outputs required by each part of the task.",
+    "keywords": [
+      "identify",
+      "analyze",
+      "characteristics",
+      "assess",
+      "focus on",
+      "report on"
+    ],
+    "tags": [
+      "task_decomposition",
+      "analysis_planning",
+      "structured_output"
+    ],
+    "source_criterion": "Failure to move from exploration to structured identification and analysis of problematic ad groups.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Verify calculation logic for derived metrics against business definitions",
+    "when_to_use": "When calculating key performance indicators (KPIs) like CTR, CVR, CPA from raw counts (clicks, impressions, conversions).",
+    "experience": "*   **Explicitly state the formula** for each derived KPI before writing any calculation code (e.g., `CTR = clicks / impressions`, `CVR = conversions / clicks`).\n*   **Check for edge cases** in the formula (e.g., division by zero, handling of nulls). Decide on a rule (e.g., filter out rows where denominator is zero) and apply it consistently.\n*   **Sanity-check a sample** of your calculated metrics against the raw numbers. For example, pick a few rows and manually verify that `clicks/impressions` matches your calculated CTR.\n*   **Confirm the aggregation level** is correct. Ensure metrics like CVR are calculated at the same entity level (e.g., per ad group) required for the subsequent percentile analysis.",
+    "checklist": [
+      "Write down KPI formula",
+      "Define handling of edge cases",
+      "Manually verify sample calculations",
+      "Confirm correct aggregation level"
+    ],
+    "common_failure_prevented": "Prevents logical errors in metric calculation that would invalidate all subsequent filtering and analysis, such as using the wrong denominator or aggregating incorrectly.",
+    "keywords": [
+      "CTR",
+      "CVR",
+      "calculate",
+      "metric",
+      "rate",
+      "ratio",
+      "performance indicator"
+    ],
+    "tags": [
+      "kpi_calculation",
+      "data_validation",
+      "business_logic"
+    ],
+    "source_criterion": "Risk of incorrect CTR/CVR calculation due to not explicitly defining and verifying formulas before percentile analysis.",
+    "source_case": "dacomp-060"
+  }
+]

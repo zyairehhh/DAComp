@@ -1,0 +1,92 @@
+[
+  {
+    "title": "Decompose aggregated trends into rate and mix effects",
+    "when_to_use": "When analyzing changes in aggregated metrics (e.g., overall conversion rate) across segments and time periods.",
+    "experience": "*   Before concluding a trend is uniform, calculate the overall metric change.\n*   Decompose the change into two components: the 'rate effect' (average change within each segment) and the 'mix effect' (change due to shifts in segment volume/weight).\n*   Use a standard decomposition formula (e.g., shift-share, Laspeyres index) to calculate the contribution of each effect.\n*   Identify if the overall change is primarily driven by performance declines within segments or by a shift towards lower-performing segments.\n*   Report the decomposed effects alongside the aggregate trend to provide a more accurate diagnosis.",
+    "checklist": [
+      "Identify the key aggregate metric (e.g., overall conversion rate).",
+      "List all relevant segments (e.g., job roles, regions).",
+      "Calculate the metric for each segment in the baseline and comparison periods.",
+      "Calculate the weighted average metric for both periods.",
+      "Apply a decomposition method to isolate the rate and mix effects.",
+      "Interpret which effect is the primary driver of the total change."
+    ],
+    "common_failure_prevented": "Attributing an aggregate performance decline entirely to within-segment performance drops, while missing the impact of a changing business mix.",
+    "keywords": [
+      "decline",
+      "overall",
+      "trend",
+      "decompose",
+      "mix",
+      "rate"
+    ],
+    "tags": [
+      "decomposition",
+      "trend_analysis",
+      "attribution",
+      "rate_vs_mix"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Control for baseline differences when comparing entity performance",
+    "when_to_use": "When comparing the performance (e.g., conversion rate) of different entities (e.g., hiring managers, teams) that operate in different contexts.",
+    "experience": "*   Identify entity-level factors (e.g., assigned job roles, time periods) that systematically influence the performance metric.\n*   For each entity, calculate a 'baseline' expected performance based on the average performance of all entities within the same factor combination (e.g., average conversion rate for a specific role in a specific quarter).\n*   Compute the entity's residual (actual performance - baseline). This isolates the entity's contribution from the context.\n*   Rank or evaluate entities based on their residuals, not their raw performance scores.\n*   Report both the raw scores and the residuals to distinguish context-driven results from entity-driven ones.",
+    "checklist": [
+      "List the entities to be evaluated (e.g., managers).",
+      "Identify the key contextual factors (e.g., job role, quarter).",
+      "For each entity, compute its raw performance metric.",
+      "Calculate the baseline performance for each unique combination of contextual factors.",
+      "Compute the residual (actual - baseline) for each entity.",
+      "Analyze and report entity rankings based on residuals."
+    ],
+    "common_failure_prevented": "Incorrectly attributing performance differences to the entity (e.g., a manager) when they are actually caused by the different contexts (e.g., harder-to-fill roles) they were assigned.",
+    "keywords": [
+      "compare",
+      "systematically",
+      "lower",
+      "performance",
+      "control for",
+      "baseline"
+    ],
+    "tags": [
+      "causal_analysis",
+      "performance_evaluation",
+      "residuals",
+      "controlling_factors"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Prevent leakage by validating regression variable independence",
+    "when_to_use": "When building a regression model to quantify the impact of process or resource factors on an outcome metric.",
+    "experience": "*   Clearly define the dependent variable (the outcome you want to explain, e.g., conversion rate).\n*   For each candidate independent variable, assess if it is a direct component, a direct consequence, or a near-synonym of the dependent variable.\n*   Exclude any variables that are not conceptually independent or that would introduce mathematical tautology.\n*   Test for multicollinearity among the remaining independent variables using VIF (Variance Inflation Factor) or correlation matrices.\n*   If high multicollinearity is detected, remove or combine the problematic variables to ensure the model estimates stable, interpretable coefficients.",
+    "checklist": [
+      "List all candidate independent variables.",
+      "For each variable, ask: 'Is this a direct part of the calculation for the dependent variable?'",
+      "Remove variables that fail the independence check.",
+      "Check correlations between the remaining independent variables.",
+      "Calculate VIF scores if possible and remove variables with high VIF (>5-10).",
+      "Run the final regression with validated independent variables."
+    ],
+    "common_failure_prevented": "Creating a regression model with spuriously high explanatory power (R²) due to variable leakage or multicollinearity, leading to unreliable and unactionable coefficients.",
+    "keywords": [
+      "quantify impact",
+      "factors",
+      "regression",
+      "correlation",
+      "multicollinearity",
+      "coefficient"
+    ],
+    "tags": [
+      "regression",
+      "model_validation",
+      "leakage",
+      "multicollinearity"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.3",
+    "source_case": "dacomp-066"
+  }
+]

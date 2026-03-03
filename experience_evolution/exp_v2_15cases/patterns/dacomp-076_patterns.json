@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Map rubric-mandated metrics before performing analysis",
+    "when_to_use": "When the task explicitly references a rubric or a scoring framework with required dimensions and metrics.",
+    "experience": "- **Extract all required metrics** from the rubric before any data manipulation. Create a checklist of each formula (e.g., 'seasonality_std', 'txn_consistency_error', 'revenue_per_score', 'z-score deviation').\n- **Compute each required metric directly**, even if a similar metric seems intuitive (e.g., compute the exact 'txn_consistency_error' = transaction_count - expected_transactions, not a derived ratio).\n- **Validate metric output** by checking a small sample of rows and ensure the calculation matches the rubric's definition.\n- **Use the computed metrics** in all downstream analysis (e.g., filtering, grouping, modeling). Do not substitute with alternative metrics unless the rubric permits.",
+    "checklist": [
+      "List all rubric-mandated metrics and formulas",
+      "Compute each metric exactly as defined",
+      "Verify calculations on a sample",
+      "Use those metrics in all subsequent steps"
+    ],
+    "common_failure_prevented": "Missing required rubric metrics leads to scoring zero, even when a reasonable alternative analysis is performed.",
+    "keywords": [
+      "rubric",
+      "scoring framework",
+      "required dimensions",
+      "mandatory metrics",
+      "evaluation criteria"
+    ],
+    "tags": [
+      "rubric compliance",
+      "metric definition",
+      "requirements mapping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Explicitly validate dataset completeness for each analysis dimension",
+    "when_to_use": "When the task requires analyzing specific dimensions (e.g., transactional behavior, seasonal patterns, value realization).",
+    "experience": "- **For each analysis dimension**, list the required fields and verify they are present in the dataset.\n- **Check for missing values and ranges** in those fields that could affect the analysis (e.g., zeros, nulls, unrealistic values).\n- **Confirm the granularity** (e.g., customer-level) and that each required aggregation (e.g., segment averages) is feasible.\n- **Document any gaps** in the data that may limit the analysis and note them in the report.",
+    "checklist": [
+      "List required fields per dimension",
+      "Check missing values and data ranges",
+      "Verify granularity and aggregation feasibility",
+      "Document data gaps"
+    ],
+    "common_failure_prevented": "Incomplete analysis because key fields were not validated, leading to missing required components (e.g., not computing months_active from customer_age_days).",
+    "keywords": [
+      "dimensions",
+      "transactional behavior",
+      "seasonal patterns",
+      "value realization",
+      "coverage validation"
+    ],
+    "tags": [
+      "data validation",
+      "completeness check",
+      "dimension mapping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.notfound.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Install and verify essential modeling libraries before analysis",
+    "when_to_use": "When the task requires machine learning techniques like cluster analysis or decision trees.",
+    "experience": "- **At the start of analysis**, identify required libraries (e.g., scikit-learn, pandas, numpy) and check their availability.\n- **If not available**, install them in a separate, early step before any modeling code is written.\n- **Test a simple import** and basic function (e.g., `from sklearn.cluster import KMeans`) to confirm the installation works.\n- **Have a fallback plan** if installation fails (e.g., use a simpler heuristic method and clearly document the limitation).",
+    "checklist": [
+      "List required ML libraries",
+      "Check/install libraries early",
+      "Test import and a simple function",
+      "Document fallback if installation fails"
+    ],
+    "common_failure_prevented": "Analysis stalls or fails because required libraries are missing, leading to incomplete modeling (e.g., no decision tree built).",
+    "keywords": [
+      "cluster analysis",
+      "decision tree",
+      "modeling",
+      "machine learning",
+      "predictive accuracy"
+    ],
+    "tags": [
+      "dependency management",
+      "modeling setup",
+      "fallback planning"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-076"
+  }
+]

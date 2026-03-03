@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Explicitly compute required metrics before filtering",
+    "when_to_use": "Task instructions require filtering or segmenting based on calculated metrics like percentiles or averages.",
+    "experience": "Markdown bullets:\n- **Derive the metrics first:** Write a query that clearly calculates the core metrics (e.g., CTR, CVR) for all relevant entities (e.g., ad groups).\n- **Calculate thresholds separately:** In a separate step or subquery, calculate the global threshold values (e.g., 75th percentile of CTR, 25th percentile of CVR) from the derived metrics.\n- **Join and filter:** Apply the thresholds to filter the entities, ensuring the logic aligns with the task's criteria (e.g., 'CTR > 75th percentile AND CVR < 25th percentile').\n- **Handle edge cases:** Account for NULL or zero values in denominators (e.g., `clicks > 0` for CVR) to avoid calculation errors.\n- **Validate with a sample:** After identifying the filtered set, sample a few records to confirm the logic works as intended.",
+    "checklist": [
+      "Define and compute all required derived metrics (CTR, CVR, etc.) in a CTE or subquery.",
+      "Calculate percentile or average thresholds in a separate step.",
+      "Join the derived metrics table with the thresholds and apply the filtering logic correctly.",
+      "Include NULL/zero handling for safe division (e.g., using CASE or NULLIF).",
+      "Spot-check the results against raw data to verify the filter."
+    ],
+    "common_failure_prevented": "Failing to correctly implement percentile-based segmentation due to incorrectly sequenced or missing calculations.",
+    "keywords": [
+      "percentile",
+      "filter",
+      "criteria",
+      "above average",
+      "threshold",
+      "identify",
+      "based on"
+    ],
+    "tags": [
+      "data_wrangling",
+      "segmentation",
+      "metric_calculation"
+    ],
+    "source_criterion": "Rubric evaluation indicated low score, likely from failing to properly identify ad groups meeting the CTR > 75th percentile and CVR < 25th percentile criteria.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Define ambiguous metrics using domain knowledge or clarifying queries",
+    "when_to_use": "Task introduces a metric (e.g., 'Intent Match Ratio') or concept not explicitly present in the schema.",
+    "experience": "Markdown bullets:\n- **Inspect the task context:** Read the task description carefully to infer the intended definition (e.g., 'Expected CVR' likely refers to a baseline like campaign average, industry benchmark, or keyword group average).\n- **Explore available data:** Query for columns with names containing 'expected', 'benchmark', 'target', or 'average' to see if the data exists.\n- **Propose and document an assumption:** If the data is missing, define a reasonable proxy based on available data (e.g., overall average CVR, average CVR per ad group type, or historical average) and state this assumption clearly in your analysis.\n- **Check for supporting tables:** Look at related tables (e.g., keyword_report, search_term_report) for any 'quality_score' or 'match_type' that could inform 'Intent Match Ratio'.\n- **Use the assumption consistently:** Apply your defined proxy metric throughout the analysis and note it as a limitation.",
+    "checklist": [
+      "Search the schema for columns related to the ambiguous metric (e.g., 'expected', 'target').",
+      "Examine related tables that might contain the missing data.",
+      "Formulate a clear, justifiable assumption for the missing metric based on domain logic.",
+      "Document the assumption in the analysis output.",
+      "Apply the derived metric consistently in all subsequent calculations."
+    ],
+    "common_failure_prevented": "Getting stuck or producing incomplete analysis because a required metric (e.g., Expected CVR) is not directly in the data.",
+    "keywords": [
+      "expected",
+      "ratio",
+      "benchmark",
+      "quality",
+      "match",
+      "intent"
+    ],
+    "tags": [
+      "assumption_handling",
+      "metric_definition",
+      "data_exploration"
+    ],
+    "source_criterion": "Rubric evaluation likely penalized inability to analyze 'Intent Match Ratio' due to missing 'Expected CVR' data.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Aggregate data at the correct entity level before analysis",
+    "when_to_use": "Analysis requires performance metrics (e.g., CTR, CVR) for business entities like ad groups, campaigns, or keywords over a time period.",
+    "experience": "Markdown bullets:\n- **Identify the primary entity:** Confirm the unit of analysis from the task (e.g., 'ad groups' means aggregate by `ad_group_id`).\n- **Check for time granularity:** Determine if daily data needs to be summed or averaged across a date range. If no date filter is given, aggregate over all available dates.\n- **Aggregate key metrics correctly:** Sum additive metrics (clicks, impressions, conversions) before computing ratios (CTR, CVR). Do NOT average pre-calculated daily ratios.\n- **Use proper grouping:** Ensure your `GROUP BY` includes all identifier columns for the entity (e.g., `ad_group_id`, `ad_group_name`).\n- **Validate aggregation logic:** Compare aggregated totals to a simple `SUM()` of raw columns to ensure consistency.",
+    "checklist": [
+      "Determine the entity level (e.g., ad_group_id) from the task description.",
+      "Decide on time aggregation: sum across all dates unless specified otherwise.",
+      "Write a query that sums absolute measures (clicks, impressions, conversions) grouped by the entity.",
+      "Compute derived ratios (CTR, CVR) from the aggregated sums, not from pre-averaged values.",
+      "Test aggregation by comparing a sample entity's raw daily totals with the aggregated result."
+    ],
+    "common_failure_prevented": "Incorrectly calculating metrics by averaging daily ratios instead of summing raw counts, leading to inaccurate segment identification.",
+    "keywords": [
+      "aggregate",
+      "by ad group",
+      "over time",
+      "total",
+      "sum",
+      "average",
+      "per"
+    ],
+    "tags": [
+      "aggregation",
+      "data_preparation",
+      "business_entity"
+    ],
+    "source_criterion": "Rubric evaluation suggested failure to correctly compute ad-group-level CTR and CVR from the raw table.",
+    "source_case": "dacomp-060"
+  }
+]

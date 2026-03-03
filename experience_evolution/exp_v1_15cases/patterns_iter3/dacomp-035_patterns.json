@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Identify and strictly follow rubric-defined scoring metrics",
+    "when_to_use": "When the task is associated with a detailed rubric or scoring guide specifying required metrics.",
+    "experience": "1. Before starting analysis, meticulously review all provided rubric sections to identify any explicitly defined metrics, indicators, or scoring paths.\n2. Map each required metric to its precise calculation formula, data sources, and definition as provided in the rubric.\n3. Compute the exact indicators in the exact order and with the exact naming (e.g., 'Severe Anomalies Proportion', 'Two-Factor Authentication Not Enabled Rate') before generating derived insights.\n4. Compare your computed indicator values against any reference values given in the rubric to ensure alignment. If discrepancies arise, debug the query logic rather than substituting alternative metrics.\n5. Structure the final report around these pre-defined metrics, using them as the foundation for all subsequent ranking and recommendations.",
+    "checklist": [
+      "Extract all rubric-defined metric names",
+      "Verify calculation formulas and definitions",
+      "Compute metrics before any ranking or filtering",
+      "Validate results against rubric reference values if provided",
+      "Base all conclusions on these metrics"
+    ],
+    "common_failure_prevented": "Introducing alternative, self-defined metrics that miss rubric-specific scoring criteria, leading to zero points on core requirements.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "metrics",
+      "indicators",
+      "standard path",
+      "defined"
+    ],
+    "tags": [
+      "requirements",
+      "scoring",
+      "metrics",
+      "analysis-planning"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Check for and adhere to mandatory analysis paths or standards",
+    "when_to_use": "When the rubric or task description outlines specific 'paths', 'standards', or 'methodologies' for the analysis.",
+    "experience": "1. During initial requirement parsing, explicitly search for phrases like 'standard path', 'path A/B/C', 'follow the standard', or 'methodology described'.\n2. If a standard path is defined, treat it as a mandatory script; do not deviate by creating your own analysis framework.\n3. Compare your planned analytical steps (data exploration, metric calculation, ranking logic, reporting structure) line-by-line against the prescribed path.\n4. If your approach differs, stop and re-plan to strictly follow the prescribed steps, even if your alternative seems reasonable.\n5. Ensure final outputs (like priority lists or recommendation targets) directly use the data points and language from the standard path.",
+    "checklist": [
+      "Locate prescribed analysis paths in instructions",
+      "Align each analysis step with the path",
+      "Do not create alternative frameworks",
+      "Use path-specified data points in conclusions"
+    ],
+    "common_failure_prevented": "Creating a custom, reasonable analysis that fails because it does not match the rubric's prescribed scoring path, resulting in a score of zero.",
+    "keywords": [
+      "path",
+      "standard",
+      "methodology",
+      "follow",
+      "prescribed",
+      "framework"
+    ],
+    "tags": [
+      "requirements",
+      "compliance",
+      "methodology",
+      "task-parsing"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Anchor recommendations on rubric-supplied values and targets",
+    "when_to_use": "When the rubric includes specific numeric values, thresholds, or improvement targets that must be cited in recommendations.",
+    "experience": "1. Identify all numeric values, benchmarks, or targets mentioned in the rubric's solution or standard path (e.g., 'raise two-factor authentication enablement rate to over 90%').\n2. In the recommendation section, explicitly reference these exact values and targets. Do not generate new, logically derived targets.\n3. Tie each departmental recommendation directly to the rubric's calculated metrics for that department (e.g., 'Marketing Department has a Severe Anomalies Proportion of 39.5%, therefore...').\n4. Ensure the priority ranking (e.g., 'immediate', 'secondary') and the specific risk characteristics used to justify it are verbatim from the rubric's logic, not from your own derived metrics.",
+    "checklist": [
+      "Extract all rubric-provided numbers and targets",
+      "Cite exact values in recommendations",
+      "Link recommendations to rubric-derived department metrics",
+      "Mirror rubric's prioritization logic"
+    ],
+    "common_failure_prevented": "Providing reasonable, data-driven recommendations that are scored zero because they don't incorporate the specific numeric anchors and targets defined in the rubric.",
+    "keywords": [
+      "targets",
+      "benchmark",
+      "reference",
+      "values",
+      "improvement",
+      "anchor"
+    ],
+    "tags": [
+      "reporting",
+      "recommendations",
+      "rubric-compliance",
+      "data-narrative"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-035"
+  }
+]

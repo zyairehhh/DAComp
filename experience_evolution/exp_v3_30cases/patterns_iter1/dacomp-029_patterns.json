@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Build multivariate models before reporting single-factor trends",
+    "when_to_use": "When the task requires analyzing which factors influence an outcome or comparing configurations",
+    "experience": "- **Explicitly state you will perform multi-factor regression/correlation analysis** before diving into single-factor grouped means.\n- **Include modeling steps** in your analysis plan: feature engineering, model fitting, coefficient extraction.\n- **Report standardized coefficients and significance** to rank factor importance.\n- **Compare multi-factor results with single-factor trends** to check consistency.\n- **Use the model to generate predictions or segmentations** (e.g., high-value configurations).",
+    "checklist": [
+      "State intent to build multivariate model",
+      "Engineer features from raw data",
+      "Fit regression/classification model",
+      "Extract and interpret coefficients",
+      "Validate against single-factor trends"
+    ],
+    "common_failure_prevented": "Reporting only descriptive grouped means without controlling for confounding variables, leading to incomplete or misleading factor rankings.",
+    "keywords": [
+      "multivariate",
+      "regression",
+      "correlation",
+      "coefficient",
+      "significance",
+      "factor importance"
+    ],
+    "tags": [
+      "modeling",
+      "causal inference",
+      "feature importance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Standardize entity identifiers before grouping and ranking",
+    "when_to_use": "When grouping data by named entities (e.g., models, brands, categories) extracted from text fields",
+    "experience": "- **Create a mapping dictionary or regex rules** to consolidate variations (e.g., 'Hongguang MINI EV' vs 'Wuling Hongguang MINIEV').\n- **Apply standardization before computing group statistics**.\n- **Validate grouping** by checking sample counts per standardized entity.\n- **Report the standardized names** in final rankings.\n- **If the rubric specifies exact entity names**, ensure your output matches them exactly.",
+    "checklist": [
+      "Extract raw entity names from text",
+      "Define standardization rules",
+      "Apply standardization",
+      "Check group counts",
+      "Align with rubric naming"
+    ],
+    "common_failure_prevented": "Inconsistent grouping due to naming variations, causing inaccurate rankings and failure to match rubric benchmarks.",
+    "keywords": [
+      "standardize",
+      "group by",
+      "entity resolution",
+      "normalize",
+      "consolidate"
+    ],
+    "tags": [
+      "data cleaning",
+      "grouping",
+      "entity matching"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Explicitly translate qualitative goals into quantitative KPIs",
+    "when_to_use": "When the task includes qualitative business goals like 'avoid risk' or 'improve operations'",
+    "experience": "- **Identify the qualitative directive** in the task (e.g., 'avoid risk', 'optimize strategy').\n- **Define specific, measurable KPIs** that operationalize the goal (e.g., 'avoid models with depreciation ratio > X%', 'prioritize configurations with turnover < Y days').\n- **Set thresholds or targets** for each KPI based on data or domain knowledge.\n- **Generate recommendations that explicitly reference these KPIs and thresholds**.\n- **Use directive language** (e.g., 'avoid', 'prioritize', 'recommend') in the recommendations.",
+    "checklist": [
+      "Parse task for qualitative goals",
+      "Define corresponding KPIs",
+      "Set quantitative thresholds",
+      "Generate actionable recommendations",
+      "Use directive language"
+    ],
+    "common_failure_prevented": "Providing only descriptive findings without actionable, directive recommendations tied to measurable business outcomes.",
+    "keywords": [
+      "recommendations",
+      "actionable",
+      "KPI",
+      "threshold",
+      "operationalize",
+      "directive"
+    ],
+    "tags": [
+      "business insight",
+      "recommendation",
+      "operational strategy"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-029"
+  }
+]

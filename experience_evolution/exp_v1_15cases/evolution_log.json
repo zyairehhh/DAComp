@@ -1,0 +1,166 @@
+[
+  {
+    "iteration": 1,
+    "added_ids": [
+      "exp-da-001",
+      "exp-da-002",
+      "exp-da-003",
+      "exp-da-004",
+      "exp-da-005",
+      "exp-da-006",
+      "exp-da-007",
+      "exp-da-008",
+      "exp-da-009",
+      "exp-da-010",
+      "exp-da-011",
+      "exp-da-012",
+      "exp-da-013"
+    ],
+    "avg_delta_rubrics_pct": -32.82,
+    "per_case_deltas": {
+      "dacomp-058": -6.3158,
+      "dacomp-081": -16.0,
+      "dacomp-034": -18.0,
+      "dacomp-060": -31.0,
+      "dacomp-048": -32.0,
+      "dacomp-069": -34.6316,
+      "dacomp-080": -35.1579,
+      "dacomp-067": -36.4118,
+      "dacomp-022": -40.0,
+      "dacomp-035": -40.0,
+      "dacomp-041": -40.0,
+      "dacomp-092": -40.0,
+      "dacomp-070": -40.7368,
+      "dacomp-078": -41.0,
+      "dacomp-098": -41.0
+    },
+    "kept": false,
+    "timestamp": "2026-03-03T00:47:19",
+    "note": "avg-delta rollback"
+  },
+  {
+    "iteration": 1,
+    "added_ids": [
+      "exp-da-001",
+      "exp-da-002",
+      "exp-da-003",
+      "exp-da-004",
+      "exp-da-005",
+      "exp-da-006",
+      "exp-da-007",
+      "exp-da-008"
+    ],
+    "avg_delta_rubrics_pct": 10.84,
+    "per_case_deltas": {
+      "dacomp-058": 35.6316,
+      "dacomp-081": -16.0,
+      "dacomp-034": 23.5294,
+      "dacomp-060": 15.0,
+      "dacomp-048": 14.0,
+      "dacomp-069": 11.6842,
+      "dacomp-080": 26.1053,
+      "dacomp-067": 21.0,
+      "dacomp-022": 49.7143,
+      "dacomp-035": 4.0,
+      "dacomp-041": -40.0,
+      "dacomp-092": 13.75,
+      "dacomp-070": -4.0,
+      "dacomp-078": -4.1667,
+      "dacomp-098": 12.3333
+    },
+    "kept": true,
+    "timestamp": "2026-03-03T00:56:20"
+  },
+  {
+    "iteration": 1,
+    "added_ids": [
+      "exp-da-009",
+      "exp-da-010",
+      "exp-da-011",
+      "exp-da-012",
+      "exp-da-013",
+      "exp-da-014",
+      "exp-da-015",
+      "exp-da-016"
+    ],
+    "avg_delta_rubrics_pct": 10.84,
+    "per_case_deltas": {
+      "dacomp-058": 35.6316,
+      "dacomp-081": -16.0,
+      "dacomp-034": 23.5294,
+      "dacomp-060": 15.0,
+      "dacomp-048": 14.0,
+      "dacomp-069": 11.6842,
+      "dacomp-080": 26.1053,
+      "dacomp-067": 21.0,
+      "dacomp-022": 49.7143,
+      "dacomp-035": 4.0,
+      "dacomp-041": -40.0,
+      "dacomp-092": 13.75,
+      "dacomp-070": -4.0,
+      "dacomp-078": -4.1667,
+      "dacomp-098": 12.3333
+    },
+    "kept": true,
+    "timestamp": "2026-03-03T01:22:56"
+  },
+  {
+    "iteration": 2,
+    "added_ids": [
+      "exp-da-017",
+      "exp-da-018",
+      "exp-da-019",
+      "exp-da-020",
+      "exp-da-021",
+      "exp-da-022",
+      "exp-da-023"
+    ],
+    "avg_delta_rubrics_pct": 6.29,
+    "per_case_deltas": {
+      "dacomp-070": 15.3684,
+      "dacomp-078": -7.0,
+      "dacomp-034": 22.0,
+      "dacomp-058": 35.2632,
+      "dacomp-035": 0.0,
+      "dacomp-048": 18.0,
+      "dacomp-060": 3.0,
+      "dacomp-069": 0.5263,
+      "dacomp-098": 4.0,
+      "dacomp-092": 5.0,
+      "dacomp-067": -36.4118,
+      "dacomp-080": 4.8421,
+      "dacomp-022": 17.1429
+    },
+    "kept": true,
+    "timestamp": "2026-03-03T02:28:10"
+  },
+  {
+    "iteration": 3,
+    "added_ids": [
+      "exp-da-024",
+      "exp-da-025",
+      "exp-da-026",
+      "exp-da-027",
+      "exp-da-028",
+      "exp-da-029"
+    ],
+    "avg_delta_rubrics_pct": 10.45,
+    "per_case_deltas": {
+      "dacomp-067": -36.4118,
+      "dacomp-060": 14.0,
+      "dacomp-078": -2.5,
+      "dacomp-069": 6.9474,
+      "dacomp-034": -2.0,
+      "dacomp-035": 4.0,
+      "dacomp-080": 4.8421,
+      "dacomp-058": 70.7895,
+      "dacomp-092": 28.0,
+      "dacomp-098": 9.3333,
+      "dacomp-048": 10.0,
+      "dacomp-070": -10.5263,
+      "dacomp-022": 39.4286
+    },
+    "kept": true,
+    "timestamp": "2026-03-03T07:12:45"
+  }
+]

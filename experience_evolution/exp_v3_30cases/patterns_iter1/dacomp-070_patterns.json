@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Define and apply analysis windows before joining datasets",
+    "when_to_use": "When the task requires analyzing data over a specific time window, such as 'past 6 months' or 'Q3 last year'.",
+    "experience": "- **Explicitly extract and define the analysis window** using the data's date range, e.g., dynamically calculate the date 6 months prior to MAX(date).\n- **Apply the time filter consistently** to all source tables before performing joins or aggregations.\n- **Validate the filtered dataset** by checking row counts and date ranges to ensure the window is correctly applied across all data sources.\n- **Document the exact window used** (e.g., start and end dates) in the analysis to ensure reproducibility and alignment with the task requirement.",
+    "checklist": [
+      "Extract MIN/MAX dates from relevant tables",
+      "Calculate the exact date window filter",
+      "Apply the date filter in all queries before joins",
+      "Verify record counts post-filtering"
+    ],
+    "common_failure_prevented": "Prevents incomplete or misaligned time-series analysis by ensuring all data is filtered to the same, correct time window.",
+    "keywords": [
+      "past",
+      "months",
+      "last",
+      "window",
+      "over time",
+      "time frame"
+    ],
+    "tags": [
+      "time-series",
+      "data-filtering",
+      "window-definition"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Construct a single, well-defined metric for multi-dimensional segments",
+    "when_to_use": "When the task requires analyzing performance for combined segments like 'region and device type' or 'channel and customer tier'.",
+    "experience": "- **First, define the precise combined metric** that will measure performance for the multi-dimensional segment (e.g., efficiency = conversion_rate * install_share).\n- **Validate that the metric can be calculated** from the available data at the granularity of the combined segment.\n- **Perform joins and aggregations at the correct grain** to create a single dataset where each row represents a unique combination (e.g., region-device-date).\n- **Compute the metric for each combination** and analyze its distribution before performing trend analysis.",
+    "checklist": [
+      "Articulate the formula for the combined metric",
+      "Verify data availability for all components",
+      "Create a unified dataset at the segment grain",
+      "Calculate the metric for all combinations"
+    ],
+    "common_failure_prevented": "Prevents flawed analyses where metrics are calculated separately per dimension instead of for the true combined segment.",
+    "keywords": [
+      "combination",
+      "each",
+      "segment",
+      "multi-dimensional",
+      "cross",
+      "by",
+      "and"
+    ],
+    "tags": [
+      "metric-definition",
+      "segmentation",
+      "data-joining"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Benchmark model results against rubric expectations or domain logic",
+    "when_to_use": "When the task involves building statistical models (e.g., regression, correlation) and a rubric or common sense provides expected outcome ranges.",
+    "experience": "- **Before modeling, list expected directional relationships** between key variables based on domain knowledge or the rubric.\n- **After modeling, compare coefficients, R², and signs** to these expectations to flag potential errors.\n- **If results contradict expectations**, re-examine data preparation, model specification (e.g., missing terms, incorrect functional form), and variable definitions.\n- **Explicitly note and justify any deviations** from expected results in the final report.",
+    "checklist": [
+      "Document expected relationships from rubric/domain",
+      "Run initial simple model (e.g., correlation)",
+      "Compare model outputs to expectations",
+      "Debug specification if results are contradictory"
+    ],
+    "common_failure_prevented": "Prevents reporting incorrect or nonsensical model results (e.g., positive correlation when negative is expected) without validation.",
+    "keywords": [
+      "relationship",
+      "correlation",
+      "regression",
+      "model",
+      "coefficient",
+      "predict"
+    ],
+    "tags": [
+      "model-validation",
+      "benchmarking",
+      "sanity-check"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1/best_path_analysis/Criterion 4.1.fallback.2",
+    "source_case": "dacomp-070"
+  }
+]

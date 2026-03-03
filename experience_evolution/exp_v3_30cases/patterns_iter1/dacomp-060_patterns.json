@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Define and compute expected baseline metrics from data",
+    "when_to_use": "When the task mentions a comparison ratio like 'Intent Match Ratio' or 'Expected CVR' but no explicit expected value is provided in the data.",
+    "experience": "1. **Identify the concept of an 'expected' or 'baseline' value** (e.g., Expected CVR) as mentioned in the task.  \n2. **Examine available data tables and columns** to see if a pre-calculated expected value column exists.  \n3. **If no explicit column exists, determine a defensible proxy** from the data. Common methods are:  \n   - Using the overall average across all relevant entities (e.g., average CVR for all ad groups).  \n   - Using the median or a percentile to reduce outlier influence.  \n   - Calculating a benchmark within a relevant segment (e.g., average CVR for campaigns in the same category).  \n4. **Document the chosen method and justification** for creating the baseline metric.  \n5. **Explicitly compute the baseline metric** before using it in subsequent ratio calculations (e.g., Intent Match Ratio = Actual CVR / Expected CVR).",
+    "checklist": [
+      "Identify needed baseline metric",
+      "Check data for explicit column",
+      "Define proxy method",
+      "Compute baseline",
+      "Document rationale"
+    ],
+    "common_failure_prevented": "Analysis stalls or produces incorrect results because a required comparative metric (like a ratio to an expected value) cannot be calculated due to missing data definition.",
+    "keywords": [
+      "expected",
+      "ratio",
+      "baseline",
+      "match",
+      "benchmark",
+      "comparison"
+    ],
+    "tags": [
+      "metrics",
+      "data-definition",
+      "analysis-planning"
+    ],
+    "source_criterion": "Agent failed to proceed with Intent Match Ratio analysis because 'Expected CVR' was not found in the data schema, leading to stalled exploration.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Summarize data granularity and aggregation strategy before analysis",
+    "when_to_use": "When the analysis involves performance metrics (like CTR, CVR) for business entities (like ad groups) reported over time.",
+    "experience": "1. **Determine the reporting grain of the primary data table** (e.g., is the data at the daily ad_group level, or at the keyword level?).  \n2. **Identify the final entity level required for the analysis** (e.g., the task asks for 'problematic ad groups' – the final level is `ad_group`).  \n3. **Plan the necessary aggregation steps** to get from the raw grain to the required entity level. This typically involves:  \n   - **Summing** raw counts (clicks, impressions, conversions) across time dimensions for each entity.  \n   - **Calculating derived metrics** (ratios, rates) **only after** aggregating the raw counts to the correct level.  \n4. **Check for data completeness** at the desired aggregation level (e.g., ensure each ad group has sufficient impressions/clicks to calculate a meaningful CTR/CVR).  \n5. **Perform the aggregation and metric calculation in a single, clear query or code block**, documenting the logic.",
+    "checklist": [
+      "Identify raw grain",
+      "Identify final entity level",
+      "Plan aggregation of raw counts",
+      "Calculate metrics after aggregation",
+      "Check data completeness"
+    ],
+    "common_failure_prevented": "Calculating metrics at the wrong granularity (e.g., daily) and then aggregating them, which can produce mathematically incorrect averages of ratios.",
+    "keywords": [
+      "aggregate",
+      "granularity",
+      "performance metrics",
+      "CTR",
+      "CVR",
+      "ad group",
+      "campaign"
+    ],
+    "tags": [
+      "aggregation",
+      "metrics-calculation",
+      "data-structure"
+    ],
+    "source_criterion": "Agent began exploring data but did not formulate a clear plan for aggregating daily/keyword-level data to the ad_group level before computing CTR/CVR percentiles.",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Formally compute percentile thresholds before filtering data",
+    "when_to_use": "When the task requires segmenting data based on percentile criteria (e.g., 'CTR > 75th percentile and CVR < 25th percentile').",
+    "experience": "1. **Calculate the required percentile thresholds on the relevant population.** For example:  \n   - Compute the 75th percentile of CTR across all ad groups.  \n   - Compute the 25th percentile of CVR across all ad groups.  \n2. **Store these threshold values as variables or in a temporary table.**  \n3. **Apply these computed thresholds as filters** to identify the target segment (e.g., `WHERE CTR > p75_ctr AND CVR < p25_cvr`).  \n4. **Verify the segment size** after filtering to ensure the thresholds produce a meaningful sample.  \n5. **Consider adding a data sufficiency filter** (e.g., `impressions > 100`) before computing percentiles to avoid skew from low-volume entities.",
+    "checklist": [
+      "Compute percentile thresholds",
+      "Store thresholds",
+      "Filter using thresholds",
+      "Verify segment size",
+      "Apply volume filter if needed"
+    ],
+    "common_failure_prevented": "Using arbitrary or incorrect cut-off values, or failing to correctly identify the segment because percentile logic was not implemented programmatically.",
+    "keywords": [
+      "percentile",
+      "threshold",
+      "filter",
+      "segment",
+      "high",
+      "low",
+      "criteria"
+    ],
+    "tags": [
+      "segmentation",
+      "thresholds",
+      "quantile"
+    ],
+    "source_criterion": "The agent understood the percentile filtering requirement but did not progress to the actual computation and application of those percentiles on the aggregated ad_group data.",
+    "source_case": "dacomp-060"
+  }
+]

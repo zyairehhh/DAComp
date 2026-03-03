@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Explicitly align analysis steps with rubric-defined best paths",
+    "when_to_use": "When the task instructions or a hidden rubric imply specific analytical methods or scoring criteria.",
+    "experience": "1. Decompose the high-level task into discrete requirements (e.g., 'analyze decay patterns', 'identify non-linear relationship'). 2. For each requirement, compare your planned analytical approach (e.g., metric definition, statistical model, segmentation) against known rubric 'Paths' or 'Best Practices'—if a rubric is not provided, hypothesize what a thorough analysis would require (e.g., combined metrics, lagged variables, interaction terms). 3. Before finalizing calculations, explicitly state which analytical path you are following and verify its completeness (e.g., 'Path 3.1.B: Net Install / Total Install Index for maturity'). 4. If a rubric is available after scoring, use the feedback to correct your approach mid-analysis.",
+    "checklist": [
+      "List all task sub-requirements",
+      "Map each requirement to an intended analysis path",
+      "Verify that all steps in the rubric's 'Best Path' are executed",
+      "Check for missing components (e.g., interaction terms, lagged variables, weighting)"
+    ],
+    "common_failure_prevented": "This prevents constructing models that partially match the rubric (e.g., building a regression without required interaction terms or lagged variables), leading to low accuracy and completeness scores.",
+    "keywords": [
+      "rubric",
+      "best path",
+      "scoring criteria",
+      "analysis dimensions",
+      "requirements"
+    ],
+    "tags": [
+      "task_decomposition",
+      "rubric_alignment",
+      "methodology"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Create composite indices for multi-dimensional segment analysis",
+    "when_to_use": "When the task requires analyzing performance or decay for combinations of dimensions (e.g., 'each region and device type combination').",
+    "experience": "1. Identify the required combination of dimensions (e.g., region-device). 2. If a direct join key is missing, design a synthetic composite key or aggregate data to a common level (e.g., app-date) and calculate a combined metric (e.g., efficiency index = region_metric * device_metric). 3. Ensure the composite metric logically represents the joint performance of the dimensions. 4. Perform trend analysis (e.g., slope calculation) on the composite metric for each unique combination. 5. Report findings for the combinations, not just for each dimension separately.",
+    "checklist": [
+      "Identify required dimension combinations",
+      "Design a combined metric if direct data join is impossible",
+      "Calculate the metric for each combination over time",
+      "Analyze trends per combination"
+    ],
+    "common_failure_prevented": "This prevents analyzing dimensions in isolation when the task explicitly asks for their combination, leading to incomplete analysis and missed insights.",
+    "keywords": [
+      "combination",
+      "multi-dimensional",
+      "segment",
+      "region and device",
+      "cross-tab"
+    ],
+    "tags": [
+      "segmentation",
+      "metric_design",
+      "data_aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Quantify optimal target ranges from non-linear analysis",
+    "when_to_use": "When the task requires identifying optimal thresholds or ranges for operational metrics based on a performance relationship.",
+    "experience": "1. After modeling a non-linear relationship (e.g., quadratic, polynomial), identify the performance metric's peak or plateau within the observed data range. 2. Bin the predictor variable (e.g., quality_score) and compute the average outcome (e.g., conversion rate) for each bin. 3. Determine the predictor value range where the outcome is within a top percentile (e.g., top 20%) or above a performance threshold. 4. Propose explicit, numeric target ranges (e.g., 'maintain quality_score between 4.5 and 5.3') derived directly from the binned analysis, not general statements.",
+    "checklist": [
+      "Perform binned analysis of predictor vs. outcome",
+      "Identify the performance-optimizing range",
+      "State explicit numeric targets with upper and lower bounds",
+      "Link targets directly to the model findings"
+    ],
+    "common_failure_prevented": "This prevents making generic recommendations (e.g., 'improve quality') without providing actionable, data-derived numeric targets, which are often required for operational strategy.",
+    "keywords": [
+      "optimal range",
+      "target",
+      "threshold",
+      "non-linear",
+      "recommendation"
+    ],
+    "tags": [
+      "optimization",
+      "target_setting",
+      "binned_analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-070"
+  }
+]

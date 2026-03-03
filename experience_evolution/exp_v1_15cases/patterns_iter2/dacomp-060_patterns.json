@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Segment multi-dimensional data according to explicit rubric criteria",
+    "when_to_use": "When the analysis task requires a diagnostic segmentation or comparison based on defined thresholds or tiers (e.g., 'high CTR/low CVR', 'IMR tiers').",
+    "experience": "Markdown bullets:\n- Before analysis, parse the task for explicit segmentation rules (e.g., percentiles, custom thresholds, named categories).\n- Map each required segment to a column or derived metric in your data. Validate the counts for each segment match expected logic.\n- For tiered segmentation (e.g., IMR <0.5, 0.5–0.9, ≥0.9), create a categorical column first, then compute segment-specific KPIs.\n- For each segment, compute key metrics (e.g., clicks, spend, share) that the rubric requires for validation.\n- Compare segment performance and test if any segment disproportionately contributes to the problem condition.\n- In the final output, present the segmentation results before drawing conclusions.",
+    "checklist": [
+      "Parse rubric segmentation thresholds",
+      "Create a categorical column for each segment",
+      "Compute segment KPIs (clicks, spend, CVR, etc.)",
+      "Compare segment contribution to problem groups"
+    ],
+    "common_failure_prevented": "This prevents overlooking required diagnostic splits (like IMR tiers), which results in failing to explain why problem groups exist and missing targeted recommendations.",
+    "keywords": [
+      "segment",
+      "tiers",
+      "thresholds",
+      "group by",
+      "category",
+      "diagnostic"
+    ],
+    "tags": [
+      "segmentation",
+      "rubric mapping",
+      "validation",
+      "comparative analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Construct explicit impact scoring to prioritize recommendations",
+    "when_to_use": "When the task asks for 'targeted optimizations', 'prioritized actions', or ranking of problematic segments.",
+    "experience": "Markdown bullets:\n- Identify the problem metric (e.g., low CVR) and a baseline (e.g., control group CVR).\n- Define impact as: (Segment's click share) × (Baseline metric – Segment's metric).\n- For each segment (e.g., keyword match types, channels), compute this impact score.\n- Sort segments by impact score descending to identify top priorities.\n- Validate the scoring with simple sanity checks (e.g., segments with low click share but huge metric gap may still be important).\n- Link each high-impact segment to a specific, actionable recommendation.",
+    "checklist": [
+      "Define impact formula using share and metric gap",
+      "Compute impact score for each segment",
+      "Rank segments by impact",
+      "Link top-ranked segments to actionable recommendations"
+    ],
+    "common_failure_prevented": "This prevents generic, untargeted recommendations that fail to address the biggest opportunities and cause the agent to miss rubric points for prioritization.",
+    "keywords": [
+      "impact",
+      "prioritize",
+      "rank",
+      "recommendations",
+      "top",
+      "opportunity"
+    ],
+    "tags": [
+      "impact analysis",
+      "prioritization",
+      "business insight",
+      "recommendation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Define weighted aggregates for performance metrics across groups",
+    "when_to_use": "When reporting aggregated metrics (e.g., average CTR, CPA) for a group of entities (e.g., ad groups) with varying volume.",
+    "experience": "Markdown bullets:\n- For any group-level summary (e.g., 'problem ad groups'), determine if the analysis requires a simple average or a volume-weighted average.\n- When KPIs are ratios (CTR, CVR, CPC, CPA), compute the weighted average as (total numerator) / (total denominator) across the group.\n- Explicitly state your aggregation method (e.g., 'weighted by clicks') in the report.\n- Validate weighted metrics against benchmarks or control groups to ensure they are meaningful.\n- If the rubric provides expected weighted values, ensure your calculation matches the expected formula.",
+    "checklist": [
+      "Determine if weighted or simple average is appropriate",
+      "Compute weighted metrics as total numerator / total denominator",
+      "Explicitly note the weighting method in output",
+      "Validate against known anchors"
+    ],
+    "common_failure_prevented": "This prevents reporting misleading simple averages that do not represent true group performance (e.g., a few high-volume ad groups skewing results) and failing rubric accuracy checks.",
+    "keywords": [
+      "weighted",
+      "average",
+      "aggregate",
+      "KPIs",
+      "metrics",
+      "performance"
+    ],
+    "tags": [
+      "aggregation",
+      "metric calculation",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-060"
+  }
+]

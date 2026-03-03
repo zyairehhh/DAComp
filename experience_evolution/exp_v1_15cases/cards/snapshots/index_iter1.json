@@ -1,0 +1,202 @@
+{
+  "cards": [
+    {
+      "id": "exp-da-001",
+      "title": "Explicitly map task requirements to rubric-defined dimensions",
+      "path": "cards/exp-da-001-explicitly-map-task-requirements-to-rubric-defined-dimensions.md",
+      "when_to_use": "When the task or rubric specifies required analysis dimensions, metrics, or a scoring framework.",
+      "tags": [
+        "requirements_parsing",
+        "rubric_alignment",
+        "task_decomposition"
+      ],
+      "keywords": [
+        "rubric",
+        "requirements",
+        "dimensions",
+        "deliverable",
+        "scoring",
+        "metrics",
+        "framework"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-035",
+        "dacomp-041",
+        "dacomp-067"
+      ]
+    },
+    {
+      "id": "exp-da-002",
+      "title": "Proactively analyze all key dimensions suggested by the task",
+      "path": "cards/exp-da-002-proactively-analyze-all-key-dimensions-suggested-by-the-task.md",
+      "when_to_use": "When the task instruction mentions multiple potential analysis dimensions (e.g., types, ratings, time, location).",
+      "tags": [
+        "data_analysis",
+        "completeness",
+        "requirement_parsing"
+      ],
+      "keywords": [
+        "dimensions",
+        "multi-dimensional",
+        "time period",
+        "location",
+        "joint analysis",
+        "correlation"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022"
+      ]
+    },
+    {
+      "id": "exp-da-003",
+      "title": "Validate data availability and structure before committing to an analysis",
+      "path": "cards/exp-da-003-validate-data-availability-and-structure-before-committing-to-an-analysis.md",
+      "when_to_use": "When starting analysis on a new dataset or after discovering potential data quality issues.",
+      "tags": [
+        "data_validation",
+        "robustness",
+        "adaptation"
+      ],
+      "keywords": [
+        "data quality",
+        "profiling",
+        "validation",
+        "missing values",
+        "data structure",
+        "adjust plan"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022"
+      ]
+    },
+    {
+      "id": "exp-da-004",
+      "title": "Define a formal, versioned parameter table for configurable thresholds",
+      "path": "cards/exp-da-004-define-a-formal-versioned-parameter-table-for-configurable-thresholds.md",
+      "when_to_use": "When classifying data into risk or quality levels based on configurable thresholds.",
+      "tags": [
+        "data_governance",
+        "reproducibility",
+        "risk_analysis"
+      ],
+      "keywords": [
+        "threshold",
+        "risk level",
+        "parameter",
+        "standard",
+        "exceedance",
+        "indicator"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-041"
+      ]
+    },
+    {
+      "id": "exp-da-005",
+      "title": "Explicitly compute required metrics before filtering or segmenting",
+      "path": "cards/exp-da-005-explicitly-compute-required-metrics-before-filtering-or-segmenting.md",
+      "when_to_use": "When the task requires filtering or segmenting based on calculated metrics like percentiles or averages.",
+      "tags": [
+        "data_wrangling",
+        "segmentation",
+        "metric_calculation"
+      ],
+      "keywords": [
+        "percentile",
+        "filter",
+        "threshold",
+        "identify",
+        "based on",
+        "segment"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-060"
+      ]
+    },
+    {
+      "id": "exp-da-006",
+      "title": "Aggregate data at the correct entity level before computing ratios",
+      "path": "cards/exp-da-006-aggregate-data-at-the-correct-entity-level-before-computing-ratios.md",
+      "when_to_use": "When analysis requires performance metrics (e.g., CTR, CVR) for business entities like ad groups, campaigns, or products.",
+      "tags": [
+        "aggregation",
+        "data_preparation",
+        "business_entity"
+      ],
+      "keywords": [
+        "aggregate",
+        "by ad group",
+        "over time",
+        "total",
+        "sum",
+        "average",
+        "per"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-060"
+      ]
+    },
+    {
+      "id": "exp-da-007",
+      "title": "Extract and clean data from all potential sources including narrative text",
+      "path": "cards/exp-da-007-extract-and-clean-data-from-all-potential-sources-including-narrative-text.md",
+      "when_to_use": "A task requires analysis of key entities (e.g., skills, benefits) that may be in free-text descriptions.",
+      "tags": [
+        "data_extraction",
+        "text_mining",
+        "data_cleaning"
+      ],
+      "keywords": [
+        "extract",
+        "text",
+        "description",
+        "standardize",
+        "clean",
+        "count",
+        "distribution"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "id": "exp-da-008",
+      "title": "Quantify qualitative goals with specific KPIs and thresholds",
+      "path": "cards/exp-da-008-quantify-qualitative-goals-with-specific-kpis-and-thresholds.md",
+      "when_to_use": "When the task includes qualitative goals like 'enhance quality' or 'maintain satisfaction' that require recommendations.",
+      "tags": [
+        "KPI_definition",
+        "goal_quantification",
+        "actionable_insights"
+      ],
+      "keywords": [
+        "KPIs",
+        "targets",
+        "monitoring",
+        "dashboard",
+        "satisfaction",
+        "quality",
+        "retention"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-067"
+      ]
+    }
+  ]
+}

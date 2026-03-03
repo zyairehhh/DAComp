@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Explicitly compute required rubric dimensions before ranking",
+    "when_to_use": "When a task or rubric specifies required analysis dimensions, metrics, or a scoring framework.",
+    "experience": "- **Map requirements**: Start by explicitly listing the analysis dimensions or metrics required by the rubric or task instruction.\n- **Compute all dimensions**: Calculate the specified metrics for the entire relevant dataset *before* filtering or ranking.\n- **Validate completeness**: For each required dimension, verify your analysis covers all specified sub-criteria (e.g., correlation analysis, segmentation).\n- **Document mapping**: In your analysis report, explicitly state which part of your work addresses each rubric dimension.\n- **Check thresholds**: If the rubric uses scoring thresholds (e.g., 'high risk'), define them clearly based on the data distribution.",
+    "checklist": [
+      "List all rubric-specified dimensions and sub-criteria",
+      "Compute the required metrics for the full dataset",
+      "Verify each sub-criterion is addressed with a clear conclusion",
+      "Explicitly link analysis steps to rubric requirements in the final output"
+    ],
+    "common_failure_prevented": "Failing to compute required metrics (e.g., correlation, segmentation) before ranking, leading to partial credit loss.",
+    "keywords": [
+      "rubric",
+      "scoring framework",
+      "required dimensions",
+      "evaluation criteria",
+      "metric calculation"
+    ],
+    "tags": [
+      "requirement mapping",
+      "pre-analysis",
+      "rubric compliance",
+      "metric computation"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-019"
+  },
+  {
+    "title": "Segment and compare groups before identifying key targets",
+    "when_to_use": "When tasked to identify prioritized items or key targets within specific segments.",
+    "experience": "- **Define segments**: Identify the segmentation dimensions mentioned (e.g., manufacturer, category, origin).\n- **Aggregate metrics**: Compute summary statistics (e.g., average, total, count) for your key metrics *within each segment*.\n- **Compare across segments**: Perform systematic comparisons (e.g., ranking, statistical tests) to highlight differences between segments.\n- **Then identify targets**: Only after segment analysis, drill down to identify specific high-risk items within priority segments.\n- **Report findings**: Explicitly state which segments are higher risk and why, before listing individual items.",
+    "checklist": [
+      "Identify all segmentation dimensions in the task",
+      "Compute aggregate metrics per segment",
+      "Rank or compare segments to find high-priority groups",
+      "Then filter individual items within high-priority segments",
+      "Report both segment-level and item-level insights"
+    ],
+    "common_failure_prevented": "Directly ranking individual items without first analyzing segment-level risk differences, missing the core requirement.",
+    "keywords": [
+      "segmentation",
+      "group comparison",
+      "category analysis",
+      "manufacturer risk",
+      "priority groups"
+    ],
+    "tags": [
+      "segmentation",
+      "comparative analysis",
+      "aggregation",
+      "drill-down"
+    ],
+    "source_criterion": "root/Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-019"
+  },
+  {
+    "title": "Conduct full correlation analysis before drawing conclusions",
+    "when_to_use": "When the task requires analyzing the relationship between a categorical factor (e.g., certification status) and risk metrics.",
+    "experience": "- **Isolate variables**: Identify the categorical factor (e.g., GSP status) and the numeric risk metrics.\n- **Compute grouped statistics**: Calculate the average, median, or distribution of each risk metric for each category.\n- **Test for significance**: If sample size permits, apply appropriate statistical tests (e.g., t-test, ANOVA) to assess differences.\n- **Visualize relationship**: Create plots (e.g., box plots, bar charts) to illustrate the relationship.\n- **Draw explicit conclusion**: State a clear, data-backed conclusion about whether the factor correlates with higher/lower risk.",
+    "checklist": [
+      "Identify the categorical factor and relevant risk metrics",
+      "Compute summary statistics per category",
+      "Perform statistical comparison between categories",
+      "Create a visualization of the relationship",
+      "State a definitive conclusion supported by the data"
+    ],
+    "common_failure_prevented": "Mentioning a factor's presence in a list without quantifying its correlation with risk, resulting in an incomplete analysis.",
+    "keywords": [
+      "correlation",
+      "relationship",
+      "statistical test",
+      "factor analysis",
+      "categorical variable"
+    ],
+    "tags": [
+      "statistical analysis",
+      "hypothesis testing",
+      "data visualization",
+      "conclusion"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.1",
+    "source_case": "dacomp-019"
+  }
+]

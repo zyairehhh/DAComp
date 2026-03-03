@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Verify analysis dimensions against explicit rubric metrics",
+    "when_to_use": "When the evaluation rubric specifies required calculated metrics or a structured scoring framework.",
+    "experience": "- **Extract Metric Definitions:** Before coding, explicitly list all metrics mentioned in the rubric and note their precise formulas.\n- **Create a Cross-Reference:** Map each required metric from the rubric to the corresponding analysis step in your plan and verify your planned calculations match.\n- **Validate Before Reporting:** After computing metrics, verify the outputs against rubric examples or expected units (e.g., percentage vs ratio).",
+    "checklist": [
+      "List rubric-specified metrics and formulas",
+      "Compare planned code logic to rubric definitions",
+      "Run a sanity check on computed metric values before concluding"
+    ],
+    "common_failure_prevented": "Performing a superficially similar analysis but missing specific metrics required for scoring (e.g., using a ratio instead of an absolute relative error).",
+    "keywords": [
+      "rubric",
+      "metric",
+      "scoring",
+      "criterion",
+      "required"
+    ],
+    "tags": [
+      "requirements",
+      "validation",
+      "rubric adherence"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Formalize derived feature creation for segmentation tasks",
+    "when_to_use": "When the task involves proposing new dimensions or features for a segmentation or clustering model.",
+    "experience": "- **Document Feature Definitions:** For each new derived feature (e.g., 'transaction consistency error'), write the exact SQL or Python formula and store it as a code comment and report text.\n- **Create a Feature Inventory Table:** In your report, include a table listing each new feature, its formula, its business meaning, and its expected effect on the model.\n- **Cross-Check Feature Use:** Ensure all proposed new features are explicitly used in the clustering and/or decision tree analysis steps.",
+    "checklist": [
+      "Document the exact formula for each derived feature",
+      "Create a feature inventory table in the report",
+      "Verify the new features are fed into the model"
+    ],
+    "common_failure_prevented": "Implicitly defining or inconsistently using derived features, causing gaps in the analysis and missed rubric requirements.",
+    "keywords": [
+      "new dimensions",
+      "segmentation",
+      "feature engineering",
+      "cluster analysis",
+      "predictive accuracy"
+    ],
+    "tags": [
+      "feature engineering",
+      "documentation",
+      "modeling"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Systematically compare model versions when evaluating feature impact",
+    "when_to_use": "When the task asks to explore whether new features 'improve' or 'should be introduced' into an existing model.",
+    "experience": "- **Establish a Baseline:** First, train and evaluate a model using only the existing/legacy features.\n- **Create an Enhanced Model:** Train a second, comparable model that incorporates the new proposed features.\n- **Report Comparative Performance:** Present side-by-side metrics (e.g., accuracy, silhouette score) and a feature importance comparison for both models to demonstrate the added value.",
+    "checklist": [
+      "Build and evaluate a baseline model with original features",
+      "Build and evaluate an enhanced model with new features",
+      "Create a direct comparison table of performance metrics"
+    ],
+    "common_failure_prevented": "Building only a single model with mixed features, which fails to isolate and demonstrate the improvement attributable to the new dimensions.",
+    "keywords": [
+      "improve",
+      "should be introduced",
+      "predictive accuracy",
+      "enhance",
+      "compare"
+    ],
+    "tags": [
+      "model comparison",
+      "A/B testing",
+      "evaluation"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1, Requirement 5/Criterion 5.2",
+    "source_case": "dacomp-076"
+  }
+]

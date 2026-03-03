@@ -1,0 +1,93 @@
+[
+  {
+    "title": "Anchor and verify analysis against rubric-defined numeric thresholds",
+    "when_to_use": "When the task evaluation rubric contains specific numeric thresholds, coefficient values, or R² benchmarks",
+    "experience": "- **Extract rubric anchor values** – Parse the rubric to identify concrete numeric benchmarks (e.g., R²=0.00287 for a specific model).\n- **Compare output to anchors** – After computing your model or metric, compare results (coefficients, R², slopes) against the rubric's anchor values.\n- **Investigate mismatches** – If your numbers differ significantly, re-examine data filters, variable definitions, model specification, and aggregation levels to align with the rubric’s implied methodology.\n- **Document alignment** – Explicitly state in your report how your computed values compare to the rubric’s expected values and justify any deviations.",
+    "checklist": [
+      "Extract all numeric anchors from rubric",
+      "Compute and compare your values against each anchor",
+      "Reconcile mismatches by checking data and method",
+      "Report alignment or explain deviations"
+    ],
+    "common_failure_prevented": "Producing results that are numerically different from the rubric’s expectation, leading to low accuracy scores.",
+    "keywords": [
+      "benchmark",
+      "threshold",
+      "coefficient",
+      "R²",
+      "anchor",
+      "accuracy",
+      "verify",
+      "rubric"
+    ],
+    "tags": [
+      "rubric",
+      "validation",
+      "model accuracy",
+      "quantitative verification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/A.2, Requirement 3/Criterion 3.2/A.2, Requirement 4/Criterion 4.1/A.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Define segmentation tiers precisely based on task instructions",
+    "when_to_use": "When the task requires classifying entities (e.g., regions, markets, users) into maturity, risk, or performance tiers",
+    "experience": "- **Identify the segmentation dimension** – Determine the exact variable (e.g., active device share, net install index) to use for tiering as specified in the rubric or task.\n- **Define clear tier boundaries** – Use explicit thresholds (e.g., >30% share = mature, 10–30% = stable, <10% = emerging) rather than vague qualitative labels.\n- **Apply consistent grouping across the analysis** – Use the same tier definition for all subsequent models, comparisons, and recommendations.\n- **Validate tier distribution** – Check that each tier contains a meaningful sample size and that the classification aligns with domain logic.",
+    "checklist": [
+      "Identify segmentation variable from rubric",
+      "Define explicit numeric thresholds for each tier",
+      "Apply tiers consistently across all analyses",
+      "Check tier sample sizes and logic"
+    ],
+    "common_failure_prevented": "Misclassifying entities (e.g., using month-based growth instead of region-based share) leading to incorrect strategy recommendations.",
+    "keywords": [
+      "tier",
+      "segment",
+      "maturity",
+      "classify",
+      "threshold",
+      "group",
+      "market",
+      "strategy"
+    ],
+    "tags": [
+      "segmentation",
+      "thresholds",
+      "classification",
+      "strategy"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Simulate scenarios or marginal effects to quantify strategy impact",
+    "when_to_use": "When the task asks to \"predict optimization strategies,\" \"recommend actions,\" or \"quantify the effect\" of a change",
+    "experience": "- **Identify levers and outcomes** – Pinpoint the actionable inputs (e.g., conversion rate, update frequency) and target metrics (e.g., revenue_per_active_device).\n- **Build a predictive model** – Develop a regression or other model linking inputs to the target metric, controlling for relevant factors.\n- **Compute marginal effects** – For each input variable, calculate the expected change in the target metric given a unit increase (e.g., +1% conversion rate → +$X revenue).\n- **Run scenario simulations** – Propose specific intervention levels (e.g., increase update frequency by 20%) and predict the outcome using the model.\n- **Translate to action items** – Recommend concrete actions with expected deltas (e.g., \"Increase store listing conversion by 2pp to boost revenue by $0.15 per device\").",
+    "checklist": [
+      "Build model linking inputs to target",
+      "Compute marginal effects for each input",
+      "Define realistic intervention scenarios",
+      "Predict outcome deltas for each scenario",
+      "Recommend actions with quantified impact"
+    ],
+    "common_failure_prevented": "Providing vague recommendations without quantified impact, failing to meet the requirement for data-driven strategy prediction.",
+    "keywords": [
+      "scenario",
+      "marginal",
+      "impact",
+      "predict",
+      "optimize",
+      "recommend",
+      "strategy",
+      "effect"
+    ],
+    "tags": [
+      "simulation",
+      "marginal analysis",
+      "strategy",
+      "quantification"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-070"
+  }
+]

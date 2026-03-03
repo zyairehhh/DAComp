@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Establish entity linkage before analyzing cross‑table metrics",
+    "when_to_use": "When a task requires combining metrics from different tables (e.g., campaign engagement and user retention).",
+    "experience": "- **Explicitly identify join keys** or linking variables between tables. If no direct key exists, state the limitation upfront.\n- **Check granularity alignment**: confirm whether metrics are aggregated at the same level (e.g., per‑person vs per‑campaign).\n- **If linkage is missing**, propose a fallback (e.g., aggregate person‑level metrics to the same grain as the other table, or use correlation analysis with appropriate caveats).\n- **Document linkage assumptions** and how they affect causality claims.",
+    "checklist": [
+      "Identify join keys or linking fields",
+      "Align granularity of metrics across tables",
+      "State linkage limitations and propose alternatives",
+      "Document assumptions about causality"
+    ],
+    "common_failure_prevented": "Prevents analyzing retention per campaign when no person‑campaign link exists, leading to incomplete or misleading conclusions.",
+    "keywords": [
+      "combine",
+      "cross‑table",
+      "linkage",
+      "retention",
+      "subsequent",
+      "interact"
+    ],
+    "tags": [
+      "data modeling",
+      "entity relationship",
+      "causality",
+      "aggregation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Weight aggregated metrics by denominator volume",
+    "when_to_use": "When computing average rates (e.g., open rate, conversion rate) across segments with different audience sizes.",
+    "experience": "- **Always compute weighted averages** for rate metrics: sum(numerator) / sum(denominator) across the segment.\n- **Avoid simple average of pre‑computed rates** (e.g., AVG(email_open_rate)) when denominator (count_received_email) varies.\n- **For each segment**, compute total opens = SUM(count_opened_email), total received = SUM(count_received_email), then rate = total opens / total received.\n- **Include sample sizes** (count of campaigns, total received) alongside each rate to allow interpretation of reliability.",
+    "checklist": [
+      "Use sum(numerator)/sum(denominator) for segment rates",
+      "Do not average pre‑computed rates directly",
+      "Report sample size and total volume for each segment"
+    ],
+    "common_failure_prevented": "Prevents biased segment comparisons where small‑sample campaigns distort unweighted averages.",
+    "keywords": [
+      "aggregate",
+      "rate",
+      "average",
+      "weighted",
+      "segment",
+      "open rate",
+      "click rate"
+    ],
+    "tags": [
+      "statistics",
+      "aggregation",
+      "weighted average",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Perform stratified correlation before reporting overall trends",
+    "when_to_use": "When the task asks to evaluate how factors 'interact to influence' multiple outcomes (e.g., open rate, retention).",
+    "experience": "- **Explicitly compute correlation coefficients** (e.g., Pearson) between key independent variables (e.g., open rate) and dependent variables (e.g., retention) across the dataset.\n- **Stratify by relevant segments** (e.g., quartiles of engagement, keyword groups) and compute outcome means per stratum to reveal non‑linear patterns.\n- **If direct linkage is missing**, state that correlation is only possible at the available grain (e.g., campaign‑level rates vs person‑level retention) and describe the limitation.\n- **Report both correlation values and stratified means** to support interaction claims.",
+    "checklist": [
+      "Compute correlation between independent and dependent variables",
+      "Stratify by key segments and compare outcome means",
+      "Acknowledge granularity limitations",
+      "Report both correlation and stratified trends"
+    ],
+    "common_failure_prevented": "Prevents missing meaningful associations (e.g., between email engagement and retention) by only reporting overall averages.",
+    "keywords": [
+      "interact",
+      "influence",
+      "correlation",
+      "stratify",
+      "association",
+      "trend"
+    ],
+    "tags": [
+      "statistical analysis",
+      "segmentation",
+      "correlation",
+      "interaction effects"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-093"
+  }
+]

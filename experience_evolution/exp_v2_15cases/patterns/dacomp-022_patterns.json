@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly map each task phrase to a required analysis dimension",
+    "when_to_use": "When a task instruction mentions specific factors (e.g., 'time period', 'region', 'distance') for strategy recommendations.",
+    "experience": "1. **Extract key phrases from the task description** using a simple keyword extraction step (e.g., nouns and adjectives).\n2. **Create a mapping table** linking each mentioned dimension (e.g., 'vehicle type', 'service rating', 'time', 'region') to a specific dataset column or derived metric.\n3. **Check for completeness** by verifying whether each mapped dimension has been quantitatively analyzed (e.g., through correlation, segmentation, or aggregation).\n4. **If a dimension lacks data**, document this limitation explicitly in the final report.\n5. **Perform multi-dimensional joint analysis** (e.g., cross-tabulation or interaction modeling) for any combination of dimensions that could influence the target metric.",
+    "checklist": [
+      "Extract task keywords",
+      "Create dimension-to-data mapping",
+      "Verify each dimension is analyzed",
+      "Document missing data",
+      "Perform joint analysis"
+    ],
+    "common_failure_prevented": "Missing analysis of dimensions mentioned in the task instruction, leading to incomplete strategic advice.",
+    "keywords": [
+      "strategies",
+      "dimensions",
+      "factors",
+      "which",
+      "what level"
+    ],
+    "tags": [
+      "task comprehension",
+      "requirement mapping",
+      "completeness check"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Conduct explicit multi-dimensional segmentation before reporting aggregated trends",
+    "when_to_use": "When the task requires comparing performance across multiple categorical variables (e.g., vehicle type × rating × time).",
+    "experience": "1. **List all primary categorical variables** relevant to the target metric (e.g., per‑kilometer fare).\n2. **Generate all meaningful two‑way and three‑way segmentations** (e.g., (vehicle, rating), (vehicle, time period), (rating, region)).\n3. **For each segmentation, compute the target metric** (mean, median, total) and the sample size (count).\n4. **Identify interactions** where the metric changes significantly across combined segments (e.g., a certain vehicle type earns more during peak hours).\n5. **Prioritize segmentation insights** that directly inform actionable recommendations in the task.",
+    "checklist": [
+      "List categorical variables",
+      "Generate segment combinations",
+      "Compute metric per segment",
+      "Identify interactions",
+      "Prioritize actionable insights"
+    ],
+    "common_failure_prevented": "Reporting only single‑factor aggregates, missing the interplay between factors that drives optimal strategy.",
+    "keywords": [
+      "joint analysis",
+      "segment",
+      "interaction",
+      "combined",
+      "cross-tabulation"
+    ],
+    "tags": [
+      "segmentation",
+      "interaction analysis",
+      "multivariate"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Dedicate a separate analysis step for each dimension of a multi‑factor task",
+    "when_to_use": "When the task asks for strategies based on several distinct factors (e.g., 'which Vehicle Type' and 'what level of service rating').",
+    "experience": "1. **Break the task into explicit sub‑questions** (e.g., 'What is the impact of vehicle type on per‑km fare?', 'What is the impact of service rating on ride volume?').\n2. **For each sub‑question, define the precise metric** to be analyzed (e.g., average fare per km, total rides, total earnings).\n3. **Conduct a self‑contained analysis for each sub‑question**, including data filtering, aggregation, and visualization.\n4. **Synthesize the separate insights** into a coherent recommendation (e.g., 'Choose Vehicle X because it has the highest per‑km fare, and maintain Rating Y because it maximizes ride count').\n5. **Document the analysis steps** for each dimension in the final report to demonstrate thorough coverage.",
+    "checklist": [
+      "Decompose task into sub‑questions",
+      "Define metric per sub‑question",
+      "Conduct separate analysis",
+      "Synthesize insights",
+      "Document coverage"
+    ],
+    "common_failure_prevented": "Over‑focusing on one factor (e.g., vehicle type) while neglecting other requested factors (e.g., time period, region).",
+    "keywords": [
+      "multi‑factor",
+      "separate analysis",
+      "impact",
+      "each dimension",
+      "sub‑question"
+    ],
+    "tags": [
+      "task decomposition",
+      "analysis planning",
+      "coverage"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  }
+]

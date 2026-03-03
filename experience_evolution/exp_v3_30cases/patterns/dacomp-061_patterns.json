@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Define rubric metrics with explicit formulas before analysis",
+    "when_to_use": "When the task requires calculating a derived metric specified in a rubric or instruction (e.g., stability percentage, bug rate).",
+    "experience": "1. **Extract metric definition** from the task or rubric. Identify required input fields and exact calculation logic.\n2. **Map definition to data** by verifying column names, data types, and missing values.\n3. **Write a testable formula** (e.g., SQL CASE, Python function) that matches the rubric's description.\n4. **Validate the formula** by computing for known sample cases or checking against anchor values provided in the rubric.\n5. **Document the metric** with formula and assumptions before using it in segmentation or modeling.",
+    "checklist": [
+      "Extract metric definition from rubric",
+      "Map required fields to actual data columns",
+      "Write explicit calculation formula",
+      "Validate against anchor values",
+      "Document assumptions"
+    ],
+    "common_failure_prevented": "Using incorrect or overly simplistic proxy metrics (e.g., 1 - (unique_assignees/total_issues)) that do not match the rubric's intended measurement, leading to flawed analysis.",
+    "keywords": [
+      "redefine",
+      "team_stability",
+      "percentage",
+      "calculate",
+      "metric",
+      "derived",
+      "rubric"
+    ],
+    "tags": [
+      "metric_definition",
+      "rubric_alignment",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-061"
+  },
+  {
+    "title": "Aggregate data at the required entity level before joining",
+    "when_to_use": "When merging tables involves different granularities (e.g., user-level vs. project-level data).",
+    "experience": "1. **Identify the analysis entity level** (e.g., project, user) from the task.\n2. **Check the granularity of each table** by inspecting distinct counts of the key column (e.g., `project_id`, `user_id`).\n3. **Pre-aggregate metrics** at the required entity level before performing joins (e.g., compute average user metrics per project).\n4. **Verify join feasibility** by comparing distinct key values across tables to detect mismatches or one-to-many relationships.\n5. **Use appropriate join type** (LEFT, INNER) and handle missing aggregations with defaults or exclusions.",
+    "checklist": [
+      "Identify target entity level",
+      "Check table granularity",
+      "Pre-aggregate before join",
+      "Verify join key overlap",
+      "Choose join type"
+    ],
+    "common_failure_prevented": "Attempting to join a table aggregated at the wrong level (e.g., a single-row 'all_projects' table) without aggregation, making project-level analysis impossible.",
+    "keywords": [
+      "aggregate",
+      "project-level",
+      "user-level",
+      "merge",
+      "join",
+      "granularity"
+    ],
+    "tags": [
+      "data_aggregation",
+      "joins",
+      "granularity"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-061"
+  },
+  {
+    "title": "Construct analysis groups using all rubric-specified dimensions",
+    "when_to_use": "When the rubric requires segmenting data into groups based on multiple dimensions (e.g., speed × stability).",
+    "experience": "1. **List all grouping dimensions** from the rubric (e.g., speed threshold, stability threshold).\n2. **Define explicit thresholds** for each dimension (e.g., fast < 15 days, high stability > 80%).\n3. **Create a segmentation flag** for each dimension using a CASE statement or conditional column.\n4. **Cross the dimensions** to create all possible groups (e.g., fast/high, fast/low).\n5. **Compute summary statistics** for each group (count, mean, etc.) to verify representation and anchor values.\n6. **Use groups consistently** in all comparative analyses (t-tests, correlations, regressions).",
+    "checklist": [
+      "List grouping dimensions",
+      "Define explicit thresholds",
+      "Create segmentation flags",
+      "Cross dimensions for all groups",
+      "Compute group summaries",
+      "Use groups consistently"
+    ],
+    "common_failure_prevented": "Performing group comparisons (e.g., fast vs. slow) without constructing the full quadrant segmentation required by the rubric, leading to incomplete analysis.",
+    "keywords": [
+      "segment",
+      "group",
+      "quadrant",
+      "fast",
+      "slow",
+      "high",
+      "low",
+      "comparison"
+    ],
+    "tags": [
+      "segmentation",
+      "rubric_compliance",
+      "comparative_analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-061"
+  }
+]

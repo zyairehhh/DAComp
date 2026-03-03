@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Explicitly map rubric scoring dimensions to your analysis outputs",
+    "when_to_use": "When the task description or rubric mentions specific required metrics, dimensions, or scoring criteria.",
+    "experience": "- Before coding, list all required metrics, breakdowns, and thresholds mentioned in the rubric or task.\n- For each analysis step, check your planned output against this list to ensure all required dimensions are covered.\n- After producing results, create a verification table to confirm each required anchor value (e.g., open rate for discount campaigns, correlation between open rate and retention) is explicitly computed and reported.\n- If a required metric cannot be computed due to data limitations, document the limitation explicitly and propose an alternative validation or proxy, but do not silently omit the requirement.",
+    "checklist": [
+      "List all rubric-required metrics and dimensions before analysis",
+      "Verify each planned analysis step addresses a required dimension",
+      "Create a final output checklist to confirm all required anchors are reported",
+      "Document and justify any missing required metrics"
+    ],
+    "common_failure_prevented": "Prevents missing critical analysis components (like retention correlation or high-send window stratification) that lead to low rubric scores.",
+    "keywords": [
+      "rubric",
+      "required metrics",
+      "scoring",
+      "dimensions",
+      "anchors"
+    ],
+    "tags": [
+      "planning",
+      "compliance",
+      "output verification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3, Requirement 3/Criterion 3.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Operationalize all analysis dimensions from the task description",
+    "when_to_use": "When the task instruction lists multiple analytical dimensions to explore (e.g., timing windows, subject groups, retention metrics).",
+    "experience": "- Parse the task instruction and extract every distinct analytical dimension mentioned (e.g., 'send time windows', 'subject copy', 'active retention', 'break down by is_archived').\n- For each dimension, define specific, measurable operational definitions (e.g., 'morning' = 6am-12pm, 'discount' subject = contains '折扣' or 'discount').\n- Create a mapping table linking each task dimension to the corresponding database columns and derived features.\n- Ensure your final analysis includes results for every dimension and their specified interactions (e.g., subject x time_of_day).",
+    "checklist": [
+      "Extract all analytical dimensions from the task description",
+      "Define measurable operational rules for each dimension",
+      "Map dimensions to data columns and create derived features",
+      "Include results for all dimensions and their interactions in final report"
+    ],
+    "common_failure_prevented": "Prevents overlooking key analysis axes like 'high send window', 'frequency stratification', or specific subject keyword groupings.",
+    "keywords": [
+      "dimensions",
+      "break down",
+      "interact",
+      "evaluate",
+      "grouping"
+    ],
+    "tags": [
+      "scope",
+      "feature engineering",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Validate join feasibility and data lineage before assuming metrics",
+    "when_to_use": "When the task requires combining metrics from different tables or deriving new metrics from aggregated data.",
+    "experience": "- Before planning calculations, inspect the schema and sample data for all required tables to confirm join keys and data granularity.\n- If a required metric (e.g., active_retention_rate_week) exists in a separate table, verify if a valid join path exists at the desired analysis level (e.g., campaign vs person).\n- If a direct join is impossible, explicitly acknowledge the limitation and either propose a reasonable proxy with justification or adjust the analysis scope.\n- Never silently substitute a different metric (e.g., using active_days) for a required one without explicitly stating the assumption and its potential bias.",
+    "checklist": [
+      "Inspect schema and sample data for all relevant tables",
+      "Verify join keys and granularity for required combined metrics",
+      "If join is infeasible, document limitation and propose proxy/alternative",
+      "Explicitly state any metric substitutions and their implications"
+    ],
+    "common_failure_prevented": "Prevents incorrect metric derivation (e.g., using campaign-level active_days as a proxy for person-level retention rates) that fails to meet the task's specific requirements.",
+    "keywords": [
+      "join",
+      "combine",
+      "retention",
+      "metrics",
+      "proxy"
+    ],
+    "tags": [
+      "data validation",
+      "assumptions",
+      "metrics definition"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-093"
+  }
+]

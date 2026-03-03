@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Validate calculated thresholds against sample counts and expected logic",
+    "when_to_use": "When the task requires segmenting a population using a percentile-based threshold (e.g., 'top 25%', 'bottom quartile').",
+    "experience": "- After computing a threshold (e.g., 75th percentile), **immediately calculate the count and proportion of records that meet the threshold**. \n- **Compare this proportion to the definition** (e.g., top 25% should be ~25% of the population). A large mismatch indicates an error in the threshold logic, such as applying the threshold to the wrong dataset or misusing `WHERE` conditions.\n- **Manually inspect the distribution of the metric** (e.g., print a histogram or decile summary) to spot anomalies like extreme skewness or many identical values that could distort percentile calculations.\n- **Validate with a simple, independent calculation** (e.g., use `ROW_NUMBER()` and total count to select the correct top N) to cross-check your threshold method.",
+    "checklist": [
+      "Compute threshold value and the resulting segment size.",
+      "Verify segment size matches intended proportion (e.g., 25%).",
+      "Check for data anomalies that could skew percentiles.",
+      "Cross-check with an alternative ranking method."
+    ],
+    "common_failure_prevented": "Incorrectly identifying the high-volatility segment because the computed threshold captured ~71% of customers instead of the top 25%.",
+    "keywords": [
+      "percentile",
+      "threshold",
+      "top X%",
+      "segment",
+      "quantile",
+      "ranking"
+    ],
+    "tags": [
+      "segmentation",
+      "validation",
+      "data quality",
+      "statistics"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Explicitly verify metric formulas and outputs against rubric expectations",
+    "when_to_use": "When the task specifies a key derived metric (e.g., coefficient of variation, variance of growth rates) that will be used in downstream analysis.",
+    "experience": "- **Before using a derived metric in models or summaries, compute it for a few known sample records manually** (or via a separate sanity-check query) to verify the formula yields the expected value.\n- **Compare your aggregate results (e.g., average, distribution) with any known benchmarks or reasonable ranges** provided in the rubric or implied by the data context. Large deviations signal potential errors in the calculation logic.\n- **Document the exact formula used**, including how missing values, zeros, or edge cases are handled, and ensure this aligns with the task's definition.\n- **If the metric is time-based (e.g., monthly CV, quarterly variance), explicitly state the time window and aggregation level** and confirm it matches the task's implied period.",
+    "checklist": [
+      "Calculate metric for sample records to validate formula.",
+      "Compare aggregate results to expected ranges/benchmarks.",
+      "Document formula and handling of edge cases.",
+      "Confirm time windows and aggregation levels are correct."
+    ],
+    "common_failure_prevented": "Reporting average CV and variance values that significantly deviate from the rubric's expected values due to incorrect aggregation or formula implementation.",
+    "keywords": [
+      "coefficient of variation",
+      "variance",
+      "growth rate",
+      "formula",
+      "derived metric",
+      "calculate"
+    ],
+    "tags": [
+      "metric validation",
+      "data accuracy",
+      "benchmarking"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Cross-validate segment characteristics against independent data sources",
+    "when_to_use": "When analyzing a segment (e.g., high-risk customers) by joining multiple datasets to describe its behavior and impact.",
+    "experience": "- **After defining a segment, compute key descriptive statistics (counts, proportions) from each source table independently** before joining, to verify join logic and segment consistency.\n- **Check that segment-level aggregates (e.g., total revenue share) are plausible** by comparing them to overall population totals from a trusted source.\n- **If the task requires comparing the segment's performance to a baseline (e.g., overall business health), compute the baseline separately** and ensure the comparison period and entity granularity match.\n- **Flag and investigate any large discrepancies** between segment statistics derived from different tables as they may indicate join errors or misaligned definitions.",
+    "checklist": [
+      "Compute segment size and key stats from each source table.",
+      "Compare segment aggregates to overall population totals.",
+      "Compute baseline metrics separately for comparison.",
+      "Investigate large discrepancies between sources."
+    ],
+    "common_failure_prevented": "Reporting implausible segment contributions (e.g., high-volatility customers contributing 62% of revenue instead of ~31%) due to incorrect joins or misalignment of time periods.",
+    "keywords": [
+      "segment",
+      "join",
+      "contribution",
+      "share",
+      "baseline",
+      "compare"
+    ],
+    "tags": [
+      "data integration",
+      "validation",
+      "business logic"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-092"
+  }
+]

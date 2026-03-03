@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Explicitly Define Data Scope and Time Windows",
+    "when_to_use": "When the task requires analyzing trends, performance, or building a strategy based on 'past year' or similar historical data.",
+    "experience": "1. **Explicitly state your analysis period** at the start of your plan.  \n2. **Define the granularity** (e.g., year, quarter) and ensure all subsequent queries filter for this period.  \n3. **Use a primary aggregated table** (like `greenhouse__diversity_metrics`) for high-level KPIs to establish a baseline.  \n4. **Use detailed tables** (like `greenhouse__application_enhanced`) for diagnostic analysis, but always join them with the defined time filter.  \n5. **Note any data limitations** (e.g., missing cost columns) and state your assumptions clearly.",
+    "checklist": [
+      "Declare the specific time period for analysis upfront",
+      "Use `WHERE` clauses with date columns in all major queries",
+      "Use aggregated tables for baseline metrics and detailed tables for root cause",
+      "Document all assumptions about data completeness and proxies"
+    ],
+    "common_failure_prevented": "Prevents analysis from being marked down for lacking a unified data scope or time window, which leads to unclear or unanchored conclusions.",
+    "keywords": [
+      "historical data",
+      "past year",
+      "trend analysis",
+      "baseline",
+      "time period"
+    ],
+    "tags": [
+      "data-scoping",
+      "time-filtering",
+      "assumptions"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Map Analysis Steps Directly to Rubric Requirements",
+    "when_to_use": "When the task prompt includes specific, named requirements (e.g., 'channel weight allocation', 'interviewer satisfaction') that are scored against a rubric.",
+    "experience": "1. **Parse the task instructions** and list each explicit requirement as a sub-heading in your response plan.  \n2. **For each requirement, identify the exact rubric path** (e.g., Path 2.2.A) by checking for key terms in the task.  \n3. **Design your SQL queries and calculations to directly produce the metrics** specified in that rubric path.  \n4. **Present your findings under the corresponding sub-heading**, explicitly stating how you addressed the requirement.  \n5. **If a rubric path requires a specific model or calculation (e.g., 'joint model of time cost and channel cash cost'), implement it exactly, even if you need to make reasonable assumptions for missing data.**",
+    "checklist": [
+      "List all explicit requirements from the prompt as sections",
+      "Identify key terms that map to rubric scoring paths",
+      "Structure SQL analysis to output the metrics needed for each path",
+      "Label your conclusions with the requirement they fulfill"
+    ],
+    "common_failure_prevented": "Prevents failing rubric criteria because the analysis, while logically sound, did not follow the specific method or produce the specific outputs the rubric was looking for.",
+    "keywords": [
+      "requirements",
+      "rubric",
+      "scoring",
+      "metrics",
+      "channel allocation",
+      "satisfaction score",
+      "ROI"
+    ],
+    "tags": [
+      "task-decomposition",
+      "rubric-alignment",
+      "output-specificity"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Quantify Qualitative Goals with Specific KPIs and Thresholds",
+    "when_to_use": "When the task includes qualitative goals like 'enhance hiring quality' or 'maintain satisfaction above 4.0'.",
+    "experience": "1. **Operationalize each qualitative goal** into 2-3 measurable KPIs using the available data.  \n2. **Define specific, numerical targets or thresholds** for each KPI (e.g., 'interviewer satisfaction score > 4.0' becomes 'avg interview rating > 4.0 and scorecard submission rate > 90%').  \n3. **Create a monitoring plan** that includes the KPI, its current value, target, and a defined alert trigger (e.g., 'if avg rating drops below 3.8 for two consecutive weeks').  \n4. **In your strategy proposal, present these KPIs in a table** and link your initiatives (e.g., training) directly to moving these KPIs.  \n5. **Calculate the baseline for each KPI** from historical data to show the starting point.",
+    "checklist": [
+      "Translate each qualitative goal into 2-3 concrete KPIs",
+      "Set a clear numerical target for each KPI",
+      "Calculate the historical baseline for each KPI",
+      "Design a simple dashboard or alert logic for monitoring",
+      "Link strategic initiatives to impacting specific KPIs"
+    ],
+    "common_failure_prevented": "Prevents vague conclusions that lack actionable metrics, ensuring proposals have clear success measures and monitoring mechanisms.",
+    "keywords": [
+      "KPIs",
+      "targets",
+      "monitoring",
+      "dashboard",
+      "satisfaction",
+      "quality",
+      "retention"
+    ],
+    "tags": [
+      "KPI-definition",
+      "goal-quantification",
+      "monitoring-plan"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3, Requirement 5/Criterion 5.2",
+    "source_case": "dacomp-067"
+  }
+]

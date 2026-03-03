@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Design scoring models to match rubric-defined formula and anchors",
+    "when_to_use": "When the task requires building a composite score or index from multiple metrics.",
+    "experience": "1. **Explicitly map the scoring formula** from the task instructions or rubric; if a specific formula is not provided, propose one but verify it matches the implied scale (e.g., 0‑100) and components.\n2. **Check for numeric anchors** in the rubric (e.g., expected average score, segment percentages) and use them to validate your calculations. If your results differ significantly, investigate the discrepancy (e.g., data scope, normalization method).\n3. **Use the exact features and weights** specified in the rubric’s paths; if multiple paths exist, choose the one that best fits your data availability and justify your choice.\n4. **Report the distribution of the composite score** (mean, median, percentiles) and compare it to any given benchmarks.\n5. **Ensure reproducibility** by providing the exact SQL or code used to compute the score, including any normalization (e.g., min‑max, percentile rank).",
+    "checklist": [
+      "Map rubric scoring components",
+      "Verify results against provided numeric anchors",
+      "Use exact rubric features and weights",
+      "Report distribution and compare to benchmark",
+      "Provide reproducible calculation code"
+    ],
+    "common_failure_prevented": "Building a scoring model that does not align with the rubric's required metrics, weights, or validation anchors, resulting in a zero score.",
+    "keywords": [
+      "composite score",
+      "scoring model",
+      "value score",
+      "0-100",
+      "weighted",
+      "anchor"
+    ],
+    "tags": [
+      "scoring",
+      "validation",
+      "rubric alignment",
+      "numeric anchors"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Define user segments based on rubric thresholds, not derived percentiles",
+    "when_to_use": "When the task asks to segment users into predefined tiers (e.g., low/medium/high value).",
+    "experience": "1. **Look for explicit segment thresholds** in the rubric (e.g., low<40, medium 40‑65, high 65‑85, power≥85). If none are given, infer them from cohort tables or define them based on business rules, but document your reasoning.\n2. **Do not rely solely on percentiles** of your calculated score to define thresholds unless the rubric explicitly asks for percentile‑based segmentation.\n3. **Validate segment proportions** against rubric‑provided percentages (e.g., low=9.43%, medium=31.25%). If your proportions differ, check your threshold logic and data filtering.\n4. **Compare your segmentation results with any existing cohort tables** (e.g., `user_cohort_analysis`) to ensure consistency.\n5. **Report the final thresholds and the resulting user counts/percentages** for each segment.",
+    "checklist": [
+      "Extract rubric segment thresholds",
+      "Avoid percentile‑based thresholds unless specified",
+      "Validate segment proportions against rubric anchors",
+      "Compare with existing cohort data",
+      "Report thresholds and counts"
+    ],
+    "common_failure_prevented": "Creating segments using arbitrary or percentile‑based cutoffs that do not match the rubric's required segment definitions, leading to inaccurate analysis.",
+    "keywords": [
+      "segment",
+      "tier",
+      "low/medium/high",
+      "threshold",
+      "cohort",
+      "proportion"
+    ],
+    "tags": [
+      "segmentation",
+      "thresholds",
+      "validation",
+      "cohort analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Analyze driver characteristics using conditional probability and lift",
+    "when_to_use": "When the task asks to identify key factors that drive transitions between segments (e.g., medium to high value).",
+    "experience": "1. **Frame the analysis as a conditional probability problem**: For each candidate behavioral condition (e.g., cross‑channel usage, high completion rate), calculate P(high‑value | condition) and P(high‑value | not condition).\n2. **Compute the lift** = P(high|condition) / P(high|not condition). Rank conditions by lift to identify the strongest drivers.\n3. **Limit the sample** to the relevant comparison groups (e.g., only medium‑ and high‑value users) unless the rubric specifies otherwise.\n4. **Report both the uplift percentage and the lift metric** as required by the rubric.\n5. **If the rubric provides example lift values** (e.g., 1.47 for channel_count≥3), verify your calculations match those values; if not, check your data and condition definitions.",
+    "checklist": [
+      "Calculate conditional probabilities",
+      "Compute lift for each candidate condition",
+      "Limit sample to relevant segments",
+      "Report uplift and lift metrics",
+      "Verify against rubric example lifts"
+    ],
+    "common_failure_prevented": "Using simple mean comparisons or uplift percentages without calculating conditional probabilities and lift, missing the rubric's required methodology.",
+    "keywords": [
+      "driver",
+      "transition",
+      "lift",
+      "conditional probability",
+      "uplift",
+      "key characteristic"
+    ],
+    "tags": [
+      "driver analysis",
+      "lift",
+      "conditional probability",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-080"
+  }
+]

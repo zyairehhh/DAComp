@@ -1,0 +1,95 @@
+[
+  {
+    "title": "Parse free-text data using systematic keyword extraction and synonym merging",
+    "when_to_use": "When analyzing job descriptions, product reviews, or any free-text field for structured insights.",
+    "experience": "- **Extract from all relevant text columns**: Don't rely only on dedicated columns (e.g., 'Benefits'); also parse longer free-text fields (e.g., 'Job Description') using keyword lists or NLP.\n- **Build a unified synonym dictionary**: Create a mapping to merge equivalent terms (e.g., 'high-temperature allowance' ↔ 'high temperature allowance') before counting.\n- **Normalize multi‑level categories**: Group extracted terms into broader categories (e.g., 'Technical Skills', 'Soft Skills') using a hierarchical dictionary.\n- **Validate coverage**: Compare counts from raw‑field extraction versus full‑text extraction to ensure completeness.\n- **Report method**: Explicitly state which columns were used for extraction and how synonyms were merged.",
+    "checklist": [
+      "Extract from all text columns that may contain relevant info",
+      "Build and apply a synonym dictionary to merge equivalent terms",
+      "Group terms into meaningful categories if the task requires categorization",
+      "Cross‑validate extraction by comparing counts across methods"
+    ],
+    "common_failure_prevented": "Missing significant portions of relevant data because the analysis only considered structured columns and ignored free‑text fields.",
+    "keywords": [
+      "benefits",
+      "skills",
+      "qualities",
+      "description",
+      "keywords",
+      "extract",
+      "text",
+      "free‑text",
+      "synonym",
+      "categorize"
+    ],
+    "tags": [
+      "data extraction",
+      "text mining",
+      "synonym merging",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.2 and Criterion 1.3.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Define comprehensive analysis dimensions from task keywords before diving into data",
+    "when_to_use": "When the task asks for 'qualities', 'factors', 'characteristics', or 'dimensions' that influence an outcome.",
+    "experience": "- **Brainstorm a dimension map**: Before querying, list all possible dimensions suggested by the task (e.g., for 'qualities increasing salary': years of experience, language skills, certifications, industry, company type, soft skills, technical skills).\n- **Map dimensions to data columns**: Identify which columns or text fields contain each dimension; note if some dimensions require parsing free‑text.\n- **Plan extraction for each dimension**: Design specific methods for each (e.g., regex for years, keyword lists for skills, categorical mapping for industries).\n- **Prioritize by data coverage**: Start with dimensions that have sufficient data and clear definitions.\n- **Document missing dimensions**: Explicitly note if any brainstormed dimension cannot be extracted due to data limitations.",
+    "checklist": [
+      "Brainstorm a comprehensive list of analysis dimensions from the task statement",
+      "Map each dimension to specific data columns or free‑text fields",
+      "Design extraction methods for each dimension, especially those requiring text parsing",
+      "Note any dimensions that cannot be analyzed due to data constraints"
+    ],
+    "common_failure_prevented": "Overlooking major categories of influencing factors because the analysis focused only on a few obvious structured columns.",
+    "keywords": [
+      "qualities",
+      "factors",
+      "characteristics",
+      "dimensions",
+      "influence",
+      "affect",
+      "predictors",
+      "determinants"
+    ],
+    "tags": [
+      "analysis planning",
+      "dimension mapping",
+      "completeness",
+      "requirements scoping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Cross‑validate data‑parsing outputs against known distributions or sample checks",
+    "when_to_use": "When extracting numerical values or categories from semi‑structured text (e.g., salary ranges, date ranges, coded fields).",
+    "experience": "- **Create a validation sample**: Randomly sample 50–100 raw text entries and manually extract the target values.\n- **Compare automated vs. manual results**: Calculate error rates (e.g., percentage of mismatches) for key fields.\n- **Refine parsing logic iteratively**: Use mismatches to improve regex patterns or handling of edge cases (e.g., commission‑based salaries, unit variations).\n- **Check distribution reasonableness**: Compare the automated distribution (e.g., salary bins) to industry benchmarks or simple heuristics (e.g., minimum wage).\n- **Report parsing accuracy**: In the final analysis, state the estimated accuracy of extraction based on the validation sample.",
+    "checklist": [
+      "Manually extract a random sample of raw text to create a ground‑truth set",
+      "Compare automated extraction against the manual set to quantify errors",
+      "Iteratively improve parsing rules based on observed mismatches",
+      "Compare the overall distribution to external benchmarks or common sense"
+    ],
+    "common_failure_prevented": "Reporting significantly inaccurate distributions due to unvalidated parsing logic (e.g., salary bin errors >20%).",
+    "keywords": [
+      "extract",
+      "parse",
+      "distribution",
+      "validation",
+      "accuracy",
+      "regex",
+      "text parsing",
+      "semi‑structured",
+      "ranges"
+    ],
+    "tags": [
+      "data validation",
+      "parsing accuracy",
+      "distribution checking",
+      "error prevention"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.3",
+    "source_case": "dacomp-048"
+  }
+]

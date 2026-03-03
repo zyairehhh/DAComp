@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Perform domain-specific data validation before extraction",
+    "when_to_use": "When analyzing data with entries that have culturally or linguistically specific phrasing",
+    "experience": "1. Before filtering on a column, search for all common synonyms, abbreviations, and culturally specific terminology for the target category (e.g., for 'vocational school' in Chinese job data, search for '中專', '技校', '職高').\n2. Validate the completeness of your filter by cross-referencing a manual sample of the dataset to ensure you are not missing relevant records that use alternative phrasing.\n3. If the dataset contains free-text fields, consider them as potential sources for the target category and apply a keyword-based extraction in addition to structured column filters.\n4. Quantify the potential error introduced by incomplete filtering by comparing the count from your primary method against a broader keyword-based count.",
+    "checklist": [
+      "Identify all synonyms and cultural variants of target categories",
+      "Validate filter completeness against manual sample",
+      "Use keyword extraction on free-text fields as a supplement",
+      "Report any significant discrepancies in counts"
+    ],
+    "common_failure_prevented": "Missing a large portion of relevant data due to reliance on a single structured column with limited categories.",
+    "keywords": [
+      "synonyms",
+      "cultural",
+      "validation",
+      "completeness",
+      "filter"
+    ],
+    "tags": [
+      "data_validation",
+      "data_extraction",
+      "completeness_check"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Standardize free-text entries into a controlled vocabulary",
+    "when_to_use": "When analyzing distributions of categorical data from unstructured text fields with synonyms and variations",
+    "experience": "1. After initial extraction of items (e.g., benefits, skills), manually review the top N most frequent raw entries to identify synonyms and variations (e.g., 'high-temperature allowance' vs 'high temperature allowance').\n2. Create a mapping dictionary to consolidate these variations into a standard, canonical term.\n3. Apply this mapping to all extracted data before calculating final frequencies or distributions.\n4. When reporting, present the consolidated distribution and optionally note the original variations that were merged.",
+    "checklist": [
+      "Review top raw entries for synonyms",
+      "Create a synonym mapping dictionary",
+      "Apply mapping to standardize categories",
+      "Report consolidated distribution"
+    ],
+    "common_failure_prevented": "Inaccurately splitting counts for the same real-world concept due to minor textual differences, leading to an unreliable distribution.",
+    "keywords": [
+      "standardize",
+      "synonyms",
+      "consolidate",
+      "mapping",
+      "free-text"
+    ],
+    "tags": [
+      "data_cleaning",
+      "feature_engineering",
+      "normalization"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Extract key qualities from free-text descriptions using keyword dictionaries",
+    "when_to_use": "When the task requires identifying 'qualities' or 'skills' that are often embedded in job descriptions or narrative text",
+    "experience": "1. Define clear categories of qualities relevant to the task (e.g., 'Years of Experience', 'Certificates', 'Technical Skills', 'Soft Skills').\n2. For each category, build a comprehensive dictionary of keywords and phrases (including synonyms and common abbreviations).\n3. Systematically search the relevant free-text field(s) (e.g., 'Job Description', 'Requirements') for these keywords to flag the presence of each quality.\n4. Create a structured output (e.g., a multi-column dataframe) indicating which qualities are mentioned in each record.",
+    "checklist": [
+      "Define relevant quality categories",
+      "Build keyword dictionaries for each category",
+      "Search free-text fields for keyword presence",
+      "Create a structured output table of flagged qualities"
+    ],
+    "common_failure_prevented": "Missing major categories of influential factors because analysis was limited to structured columns, leading to incomplete conclusions.",
+    "keywords": [
+      "keyword extraction",
+      "skills",
+      "qualities",
+      "job description",
+      "dictionary"
+    ],
+    "tags": [
+      "text_analysis",
+      "feature_extraction",
+      "entity_recognition"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-048"
+  }
+]

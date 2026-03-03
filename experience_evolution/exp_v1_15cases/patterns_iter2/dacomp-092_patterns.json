@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Compute percentile thresholds on the correct entity level",
+    "when_to_use": "When a task requires filtering a segment based on ranking (e.g., top X%) of a specific metric.",
+    "experience": "Before filtering data on a percentile threshold (like top 25% for volatility), ensure you:\n- **Identify the correct entity** for which the ranking metric is defined (e.g., per customer, per invoice).\n- **Verify if the metric is constant** per entity across rows (e.g., customer-level volatility may be repeated on invoice rows).\n- **Deduplicate** or aggregate the metric at the entity level before calculating the percentile threshold.\n- **Apply the derived threshold** to filter the full dataset for subsequent analysis, ensuring the join key is preserved.\n- **Double-check the filtered count** against expected entity counts (e.g., total customers * 25%).",
+    "checklist": [
+      "Identify the correct ranking entity (e.g., customer, product)",
+      "Verify metric consistency across entity rows",
+      "Deduplicate or aggregate metric at entity level before calculating percentiles",
+      "Apply threshold to original dataset using appropriate join keys",
+      "Sanity-check filtered entity count against expected proportion"
+    ],
+    "common_failure_prevented": "Incorrect segment size or composition due to calculating percentiles on non-deduplicated transaction-level data.",
+    "keywords": [
+      "top X%",
+      "ranking",
+      "percentile",
+      "segment",
+      "filter",
+      "high-volatility"
+    ],
+    "tags": [
+      "Data Preparation",
+      "Filtering",
+      "Aggregation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/A.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Align analysis time windows with required date ranges",
+    "when_to_use": "When the task specifies a time frame for calculations (e.g., 'past 12 months', 'quarter-over-quarter').",
+    "experience": "To ensure date-based calculations are correct:\n- **Parse the task instruction** to identify the explicit or implied date range (e.g., 'past 12 months' likely means rolling 12 months from the latest date).\n- **Examine the data** to confirm the latest available date and compute the required window start date.\n- **Use consistent date grouping keys** as specified (e.g., use `revenue_year` and `revenue_quarter` columns if they exist for quarterly analysis).\n- **Validate the window** by checking the number of entities/records included versus total data.\n- **Document the date logic** and handle edge cases (e.g., entities with insufficient data points in the window).",
+    "checklist": [
+      "Parse task for required date range",
+      "Identify latest date and compute window start",
+      "Use existing date grouping columns if available",
+      "Validate entity/record count within window",
+      "Handle edge cases like missing periods"
+    ],
+    "common_failure_prevented": "Inaccurate metric calculations due to using incorrect date logic (e.g., using transaction date grouping instead of pre-defined fiscal quarters).",
+    "keywords": [
+      "past 12 months",
+      "quarter-over-quarter",
+      "rolling window",
+      "time frame",
+      "date range"
+    ],
+    "tags": [
+      "Data Cleaning",
+      "Time Series",
+      "Validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2/A.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Validate calculated metrics against expected value ranges",
+    "when_to_use": "When calculating new metrics (e.g., coefficient of variation, variance, proportion) that have plausible bounds.",
+    "experience": "After computing a new metric, conduct sanity checks:\n- **Define the expected range** (e.g., CV ≥ 0, variance ≥ 0, proportion between 0 and 1).\n- **Check for impossible values** (e.g., negative variance, CV > 100 if expressed as percentage).\n- **Compare aggregate statistics** (mean, median) to domain expectations or known benchmarks if available.\n- **Examine extreme outliers** that could indicate calculation errors (e.g., division by zero, incorrect grouping).\n- **Cross-validate with alternative calculation methods** (e.g., compute CV manually for a sample).",
+    "checklist": [
+      "Define expected range for each new metric",
+      "Check for impossible values (negative variance, infinite CV)",
+      "Compare aggregate stats to domain expectations",
+      "Investigate extreme outliers",
+      "Cross-validate with alternative calculation for a sample"
+    ],
+    "common_failure_prevented": "Reporting inaccurate metric values due to calculation errors (e.g., misapplied formula, incorrect grouping) that go undetected.",
+    "keywords": [
+      "calculate",
+      "coefficient of variation",
+      "variance",
+      "proportion",
+      "metric",
+      "validate"
+    ],
+    "tags": [
+      "Validation",
+      "Metrics",
+      "Quality Assurance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/A.2, Requirement 2/Criterion 2.2/A.2",
+    "source_case": "dacomp-092"
+  }
+]

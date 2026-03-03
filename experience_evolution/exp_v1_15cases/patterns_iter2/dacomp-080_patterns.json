@@ -1,0 +1,79 @@
+[
+  {
+    "title": "Explicitly map rubric-defined thresholds to your segmentation",
+    "when_to_use": "When a rubric provides specific segmentation thresholds or scoring criteria that differ from intuitive percentile splits.",
+    "experience": "1. **Extract Thresholds**: Immediately locate all fixed values in the rubric (e.g., low < 40, medium < 65, high ≥ 65).<br>2. **Compare with Common Methods**: Identify if rubric thresholds are business-defined (e.g., business rules) vs. data-driven (e.g., percentiles).<br>3. **Verify Segment Proportions**: After applying rubric thresholds, calculate segment counts to confirm they match expected distributions.<br>4. **Justify Any Deviation**: If thresholds must be adjusted, explicitly note the deviation, explain the reason, and cross-reference with other data sources.",
+    "checklist": [
+      "Extract fixed thresholds from rubric",
+      "Calculate segment proportions",
+      "Cross-check with business cohort definitions if available",
+      "Log any threshold deviations"
+    ],
+    "common_failure_prevented": "The segmentation using percentiles leads to equal-size groups that do not match the business's value definitions, causing misalignment with downstream analyses.",
+    "keywords": [
+      "segmentation",
+      "thresholds",
+      "tier",
+      "low/medium/high",
+      "rubric"
+    ],
+    "tags": [
+      "segmentation",
+      "business_rules",
+      "threshold_validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Systematically verify computed metrics against rubric anchors",
+    "when_to_use": "When the rubric includes specific numeric 'anchors' for validation (e.g., average score = 56.93, or a region's user count).",
+    "experience": "1. **Identify Anchor Metrics**: Parse rubric for numeric verification points (e.g., 'average composite score ~56.93', 'South America average score 65.2').<br>2. **Compute and Compare**: Independently calculate the anchor metrics and compare against the rubric values, documenting any discrepancies.<br>3. **Diagnose Discrepancies**: If a mismatch occurs, check if your data scope, filters, or feature definitions differ from the rubric's expected data processing.<br>4. **Document Assumptions**: Explicitly state assumptions made in the calculation and whether the match is exact or approximate.",
+    "checklist": [
+      "List rubric anchor metrics with expected values",
+      "Compute identical metrics from your data",
+      "Note discrepancies and investigate root causes",
+      "Document final values in analysis"
+    ],
+    "common_failure_prevented": "Reporting inaccurate metrics (e.g., average composite score 31.3) without realizing they deviate from the rubric's expected anchors, leading to downstream errors.",
+    "keywords": [
+      "validation",
+      "metrics",
+      "anchor",
+      "benchmark",
+      "verification"
+    ],
+    "tags": [
+      "data_validation",
+      "benchmarking",
+      "quality_assurance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/fallback.2, Requirement 4/Criterion 4.2/fallback.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Translate qualitative task verbs into quantitative analysis methods",
+    "when_to_use": "When the task uses verbs like 'identify key drivers,' 'analyze transition paths,' or 'compare differences'.",
+    "experience": "1. **Map Verbs to Methods**: For 'identify drivers' → use conditional probability lift, correlation, or regression; for 'analyze paths' → use cohort funnel or transition matrix.<br>2. **Define Operational Conditions**: Convert 'medium to high transition' into a specific cohort definition (e.g., users in medium segment at time T, high segment at T+1).<br>3. **Specify Sample Scope**: When comparing groups (e.g., languages), define the population (e.g., all users, only medium tier).<br>4. **Quantify Results**: Ensure outputs are measurable (e.g., lift percentage, significance level, effect size).",
+    "checklist": [
+      "List task verbs (e.g., identify, analyze, compare)",
+      "Select an appropriate statistical method for each verb",
+      "Define operational cohorts and filters",
+      "Produce quantitative outputs"
+    ],
+    "common_failure_prevented": "Analyzing drivers by comparing group averages without calculating lift or statistical significance, leading to unsupported recommendations.",
+    "keywords": [
+      "identify drivers",
+      "transition paths",
+      "compare differences",
+      "behavioral characteristics"
+    ],
+    "tags": [
+      "analysis_method",
+      "quantification",
+      "task_decomposition"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-080"
+  }
+]

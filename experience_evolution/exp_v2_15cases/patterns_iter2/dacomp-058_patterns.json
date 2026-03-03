@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Explicitly align screening criteria with required time scope",
+    "when_to_use": "When the task defines a specific time window for an initial filter or target population.",
+    "experience": "Markdown bullets: \n- Identify the exact time condition (e.g., 'latest month', 'last 12 months', 'Q2 2024') stated in the task or rubric.\n- Before applying filters, confirm the date/time column's format and range in the dataset.\n- Apply the screening logic precisely to data within that single specified period, not across all historical data.\n- Validate that the resulting filtered sample matches the expected size or characteristics described in the rubric.\n- If a time period is ambiguous, explicitly state your interpretation and confirm it aligns with the data's availability.",
+    "checklist": [
+      "Locate time window requirement",
+      "Verify date column format",
+      "Filter data to that specific period only",
+      "Validate filtered sample size"
+    ],
+    "common_failure_prevented": "Screening campaigns based on historical occurrence instead of a specified fixed period, leading to an incorrect target list.",
+    "keywords": [
+      "screening",
+      "initial criteria",
+      "latest month",
+      "time period",
+      "fixed threshold"
+    ],
+    "tags": [
+      "filtering",
+      "time scope",
+      "data selection",
+      "requirements"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Implement explicit outlier handling and metric imputation rules",
+    "when_to_use": "When constructing a composite index or score from multiple metrics that may have extreme values or missing data.",
+    "experience": "Markdown bullets: \n- Before normalization, define specific winsorizing boundaries (e.g., P5/P95) for each metric to cap extreme values.\n- For missing metric values, define an imputation rule (e.g., replace with overall median, segment average, or a specified anchor value).\n- For metrics derived from zero denominators (e.g., CTR with zero impressions), define a fallback value (e.g., set to a low percentile).\n- Document these rules as a parameter table, including the chosen boundaries and imputation values.\n- Apply these rules consistently across all entities before calculating aggregate scores.",
+    "checklist": [
+      "Define winsorizing bounds per metric",
+      "Define missing value imputation rule",
+      "Handle zero‑denominator cases",
+      "Document in a parameter table"
+    ],
+    "common_failure_prevented": "Using simple percentile ranks without robust outlier handling, leading to skewed scores and missing rubric‑required anchor values.",
+    "keywords": [
+      "normalization",
+      "winsorizing",
+      "missing data",
+      "imputation",
+      "outlier",
+      "robust",
+      "composite score"
+    ],
+    "tags": [
+      "data preparation",
+      "metrics",
+      "scoring",
+      "robustness"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Perform segment‑level diagnosis before aggregate analysis",
+    "when_to_use": "When the task requires identifying problematic sub‑units (e.g., devices, geos) within larger entities (e.g., campaigns).",
+    "experience": "Markdown bullets: \n- For each entity flagged as problematic, calculate performance metrics (e.g., ROAS, cost share) for each relevant segment (e.g., device_type, geo_target).\n- Apply segment‑specific thresholds (e.g., cost share > 35%, ROAS < 0.8) to identify high‑risk segments within each entity.\n- Report findings at the entity‑segment level, not just aggregate segment averages across all entities.\n- Use the segment‑level diagnosis to tailor specific optimization recommendations (e.g., 'reduce Mobile bid for campaign X').",
+    "checklist": [
+      "For each flagged entity, compute segment metrics",
+      "Apply segment‑specific risk thresholds",
+      "Report entity‑segment risk findings",
+      "Link findings to tailored recommendations"
+    ],
+    "common_failure_prevented": "Reporting aggregate segment performance across all campaigns, missing the specific high‑cost, low‑ROAS devices or geos within each problematic campaign.",
+    "keywords": [
+      "segment",
+      "within‑campaign",
+      "device",
+      "geo",
+      "drill‑down",
+      "diagnosis",
+      "sub‑unit"
+    ],
+    "tags": [
+      "segmentation",
+      "diagnostic",
+      "granular analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-058"
+  }
+]

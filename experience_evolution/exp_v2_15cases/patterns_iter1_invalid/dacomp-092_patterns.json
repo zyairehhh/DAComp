@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Verify dataset schema alignment with task requirements before analysis",
+    "when_to_use": "When the task instruction references specific table names, column names, or metrics that must be computed.",
+    "experience": "* Before any calculation, run `PRAGMA table_info(table_name)` or equivalent to list all columns and verify the required fields exist.\n* If a required column is missing, search for alternative names in the schema or flag the discrepancy immediately.\n* Confirm the granularity of the data (e.g., transaction-level vs. aggregated) matches what is needed for the requested time-series calculations.\n* Validate that the dataset contains the necessary time periods (e.g., 12 months of monthly data) for rolling window metrics.\n* If the dataset is not as expected, document the gap and adapt the analysis plan explicitly, rather than silently substituting proxies.",
+    "checklist": [
+      "List all columns in referenced tables",
+      "Check for required metric names",
+      "Confirm data granularity and time coverage",
+      "Document discrepancies and adapt plan"
+    ],
+    "common_failure_prevented": "Prevents wasting effort on calculations using incorrect or missing data fields, leading to invalid metrics like using revenue_volatility instead of customer_margin_volatility.",
+    "keywords": [
+      "table",
+      "column",
+      "metric",
+      "calculate",
+      "aggregate",
+      "time series"
+    ],
+    "tags": [
+      "data validation",
+      "schema check",
+      "requirement mapping"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Define precise calculation logic for derived metrics before coding",
+    "when_to_use": "When the task requires computing complex derived metrics like coefficient of variation, growth rate variance, or weighted scores.",
+    "experience": "* Write out the exact mathematical formula for each required metric, specifying the numerator, denominator, and aggregation level.\n* Identify the exact source columns and time windows (e.g., 'past 12 months', 'quarter-over-quarter').\n* For variance of growth rates, explicitly define the series (e.g., quarterly invoice totals for 4 quarters) and the growth rate formula.\n* Prototype the calculation on a small sample (e.g., one customer) to verify the logic matches the task intent.\n* Compare intermediate results against known benchmarks or sanity-check values before full-scale computation.",
+    "checklist": [
+      "Write explicit formula for each metric",
+      "Specify source columns and time window",
+      "Prototype on a sample customer",
+      "Sanity-check intermediate results"
+    ],
+    "common_failure_prevented": "Prevents misinterpreting metrics, such as computing variance across customers instead of across quarters for each customer, yielding meaningless results.",
+    "keywords": [
+      "coefficient of variation",
+      "variance",
+      "growth rate",
+      "calculate",
+      "metric",
+      "formula"
+    ],
+    "tags": [
+      "metric definition",
+      "calculation logic",
+      "prototyping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Cross-validate analysis results with expected benchmarks or distributions",
+    "when_to_use": "When the task involves segment distributions, exposure rates, or correlation analyses that likely have known patterns.",
+    "experience": "* After computing segment distributions (e.g., lifecycle stages), check if the sum of percentages is 100% and counts align with the filtered population.\n* Compare key statistics (e.g., mean, median) against domain knowledge or rubric examples to detect gross errors.\n* For correlation analyses, verify the sign and magnitude are plausible (e.g., correlation between -1 and 1).\n* If results deviate wildly from expectations (e.g., variance of 12387 vs. expected 0.09), re-examine the calculation logic and data input.\n* Document any validation checks performed and note any discrepancies that cannot be resolved.",
+    "checklist": [
+      "Verify segment percentages sum to 100%",
+      "Compare key stats to domain expectations",
+      "Check correlation bounds and plausibility",
+      "Re-examine logic if results are orders of magnitude off"
+    ],
+    "common_failure_prevented": "Prevents reporting implausible results (e.g., variance of 12387 for a growth rate) without noticing the error, leading to inaccurate conclusions.",
+    "keywords": [
+      "distribution",
+      "segment",
+      "exposure",
+      "correlation",
+      "validate",
+      "benchmark"
+    ],
+    "tags": [
+      "result validation",
+      "sanity check",
+      "error detection"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-092"
+  }
+]

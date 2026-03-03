@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly identify and validate a control group",
+    "when_to_use": "When a task requires comparing a problem group's characteristics to a baseline.",
+    "experience": "- **Define the control group** clearly using the same selection criteria as the problem group, but with the opposite performance outcome (e.g., high CTR and high CVR).\n- **Validate group definitions** by confirming the problem and control groups are mutually exclusive and collectively exhaustive for the selected metric thresholds.\n- **Compute weighted comparison metrics** (e.g., wCTR, wCVR) for both groups, using appropriate denominators (e.g., total impressions or total clicks) to ensure comparability.\n- **Report group sizes and key aggregated metrics** for both groups to contextualize the analysis.",
+    "checklist": [
+      "Define control group using explicit criteria",
+      "Calculate group membership counts",
+      "Compute weighted metrics for both groups",
+      "Compare metrics between groups"
+    ],
+    "common_failure_prevented": "Avoids failing to provide a meaningful baseline comparison for problem group characteristics.",
+    "keywords": [
+      "control group",
+      "baseline",
+      "compare",
+      "high X low Y",
+      "versus"
+    ],
+    "tags": [
+      "segmentation",
+      "comparative analysis",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Segment by calculated ratio tiers to prioritize issues",
+    "when_to_use": "When the analysis requires prioritizing problems or actions based on a derived performance ratio (e.g., Intent Match Ratio, ROAS).",
+    "experience": "- **Define actionable tiers** for the derived ratio (e.g., IMR<0.5, 0.5-0.9, ≥0.9) based on business logic or benchmark distribution.\n- **Summarize key metrics (clicks, spend, conversions) for each tier** to quantify the scale and impact.\n- **Rank tiers by a composite impact score** (e.g., waste = spend * (1 - IMR)) to determine where optimization efforts will have the greatest return.\n- **Link tier analysis to root-cause investigation**, directing deeper analysis (e.g., keyword match type, traffic source) to the highest-impact tier first.",
+    "checklist": [
+      "Define ratio thresholds for tiers",
+      "Aggregate volume metrics per tier",
+      "Calculate an impact score per tier",
+      "Rank tiers by impact"
+    ],
+    "common_failure_prevented": "Prevents reporting a ratio distribution without actionable prioritization for stakeholders.",
+    "keywords": [
+      "tier",
+      "segment",
+      "prioritize",
+      "ratio",
+      "impact",
+      "worst-performing"
+    ],
+    "tags": [
+      "segmentation",
+      "prioritization",
+      "impact analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Design a monitoring plan with specific KPIs and thresholds",
+    "when_to_use": "When the task includes making recommendations for ongoing optimization.",
+    "experience": "- **Specify the key performance indicators (KPIs)** to monitor (e.g., IMR, CVR, CPC).\n- **Define quantitative targets or alert thresholds** for each KPI (e.g., 'IMR < 0.5 triggers review').\n- **Describe the monitoring dashboard's core components**: dimensions (e.g., campaign, ad group), metrics, and filters.\n- **Set a review cadence and ownership** (e.g., 'refresh weekly, reviewed by marketing team').\n- **Outline the action loop**: what steps to take when an alert is triggered (e.g., 'pause ad group, audit keywords').",
+    "checklist": [
+      "List KPIs to track",
+      "Set numeric targets/alert thresholds",
+      "Describe dashboard structure",
+      "Define refresh frequency",
+      "Outline action process"
+    ],
+    "common_failure_prevented": "Avoids providing recommendations without a concrete plan for tracking their effectiveness.",
+    "keywords": [
+      "monitor",
+      "dashboard",
+      "track",
+      "alert",
+      "KPI",
+      "ongoing"
+    ],
+    "tags": [
+      "recommendation",
+      "monitoring",
+      "operationalization"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-060"
+  }
+]

@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Verify dataset scope and granularity before committing to analysis",
+    "when_to_use": "When the task requires analyzing specific entity interactions (e.g., campaign-level metrics) but only aggregated or summary tables are present.",
+    "experience": "- **Explicitly confirm the unit of analysis**: Check if the required grain (e.g., per-campaign, per-person-event) exists in the data.\n- **Assess record count sufficiency**: Compare the number of observed records against expected population sizes (e.g., 4 events vs. 1192 persons).\n- **Map required fields to source tables**: Validate that all necessary dimensions (time, content, outcome) are available at the required grain.\n- **Document coverage gaps**: If the dataset is aggregated or sparse, note this limitation before proceeding with detailed segmentation or modeling.\n- **Consider fallback strategies**: If the ideal grain isn't available, determine if higher-level aggregates (e.g., person-level open rates) can be used to answer a reformulated question.",
+    "checklist": [
+      "Identify the required unit of analysis from the task",
+      "Check row counts and distinct values for key entities",
+      "Confirm all needed dimensions exist at that grain",
+      "Note any aggregation that prevents drill-down",
+      "Decide if analysis is feasible or needs scope adjustment"
+    ],
+    "common_failure_prevented": "Prevents building an analysis on a dataset that lacks the necessary granularity, leading to incomplete or impossible calculations (e.g., trying to analyze campaign timing with only 4 event records).",
+    "keywords": [
+      "campaign",
+      "event",
+      "interaction",
+      "granularity",
+      "aggregated",
+      "summary"
+    ],
+    "tags": [
+      "data assessment",
+      "scope validation",
+      "grain analysis"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Formalize segmentation logic before computing segment metrics",
+    "when_to_use": "When the task requires comparing performance across predefined segments (e.g., time windows, content themes).",
+    "experience": "- **Define segment membership rules explicitly**: Write clear logic (e.g., SQL CASE statements) for each segment (weekday/weekend, morning/afternoon, holiday proximity, subject theme).\n- **Audit segment sample sizes**: Count records in each segment to ensure statistical reliability before computing averages.\n- **Handle edge cases and missing data**: Decide how to treat records that don't fit cleanly into segments (e.g., missing send time).\n- **Create a segmentation reference table**: Build a mapping of all possible segment combinations to ensure complete coverage.\n- **Compute metrics per segment only after membership is assigned**: Avoid mixing aggregated totals with segment-specific calculations.",
+    "checklist": [
+      "Write explicit logic for each segment dimension",
+      "Count records in each segment combination",
+      "Check for segments with zero or very low counts",
+      "Create a segment cross-reference matrix",
+      "Compute metrics per segment using the assigned membership"
+    ],
+    "common_failure_prevented": "Prevents incomplete or inaccurate segment comparisons (e.g., reporting metrics for a segment without verifying it has sufficient data, or missing key segment combinations like 'afternoon').",
+    "keywords": [
+      "segment",
+      "cohort",
+      "breakdown",
+      "comparison",
+      "theme",
+      "window"
+    ],
+    "tags": [
+      "segmentation",
+      "sample audit",
+      "logic definition"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Design the full experiment before drawing recommendations",
+    "when_to_use": "When the analysis concludes with recommendations for A/B tests or operational changes.",
+    "experience": "- **Specify the experimental units**: Define what will be randomized (e.g., email batches, customer cohorts).\n- **List all treatment factors and levels**: Explicitly state the independent variables (e.g., send time: morning/afternoon) and their variations.\n- **Define primary and guardrail metrics**: Identify the key performance indicators (KPIs) for success and metrics to monitor for negative side effects.\n- **Calculate required sample size**: Estimate the number of units needed per cell to detect a meaningful effect with appropriate power.\n- **Outline randomization and blinding procedures**: Describe how to assign units to treatments and minimize bias.\n- **Plan the analysis method**: State how you will compare groups (e.g., t-test on conversion rate) and handle multiple comparisons.",
+    "checklist": [
+      "Define treatment and control groups",
+      "List all factor-level combinations",
+      "Specify primary KPIs and guardrails",
+      "Calculate minimum sample size per cell",
+      "Describe randomization and execution plan",
+      "State the statistical test for evaluation"
+    ],
+    "common_failure_prevented": "Prevents vague, unimplementable recommendations by forcing the agent to translate insights into a concrete, statistically sound experiment design.",
+    "keywords": [
+      "A/B test",
+      "experiment",
+      "recommendation",
+      "treatment",
+      "randomization",
+      "sample size"
+    ],
+    "tags": [
+      "experiment design",
+      "recommendation",
+      "actionable insight"
+    ],
+    "source_criterion": "root/Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-094"
+  }
+]

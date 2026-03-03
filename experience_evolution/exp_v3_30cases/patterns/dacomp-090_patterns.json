@@ -1,0 +1,94 @@
+[
+  {
+    "title": "Map task dimensions to rubric-defined binned and concentration analyses",
+    "when_to_use": "When the task instruction requires analyzing distributions across customer segments or comparing groups.",
+    "experience": "- When a task asks for 'distribution characteristics' or 'differential patterns,' explicitly list the analysis dimensions mentioned (e.g., customer_lifespan_days, total_invoices).\n- For each dimension, define bins (e.g., quartiles, deciles, or business-relevant thresholds) to segment customers into groups.\n- Calculate for each bin: 1) count of customers, 2) proportion of total customers, 3) concentration of the key metric (e.g., sum of outstanding_balance).\n- Compare the concentration proportions across bins between problem and normal customer groups to identify where high-risk customers are overrepresented.\n- Report the binned counts and proportions in a structured table and highlight the top concentration segment (e.g., 'top 10% of customers by avg_invoice_amount hold X% of total risk balance').",
+    "checklist": [
+      "List analysis dimensions specified in the task",
+      "Define binning thresholds for each dimension",
+      "Compute counts and proportions per bin for each group",
+      "Calculate concentration of key metric per bin",
+      "Compare concentration between problem and normal groups",
+      "Report top concentration segment and its share"
+    ],
+    "common_failure_prevented": "Prevents missing required binned proportion and concentration analysis when exploring distribution characteristics.",
+    "keywords": [
+      "distribution",
+      "characteristics",
+      "dimensions",
+      "bins",
+      "concentration",
+      "segments"
+    ],
+    "tags": [
+      "data_analysis",
+      "segmentation",
+      "binned_analysis",
+      "distribution",
+      "rubric_mapping"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Follow specified modeling methods for forecasting and loss estimation",
+    "when_to_use": "When tasked with building a forecast model and the rubric or instruction provides specific calculation methods.",
+    "experience": "- Before building any model, extract the exact methodology described in the task or rubric (e.g., scenario analysis, net cash flow conversion).\n- Map each required step to a concrete calculation using the provided data tables (e.g., convert forecasted inflows to expected collection using a collection rate).\n- Validate that your model's intermediate outputs match any anchor values provided in the rubric.\n- If the rubric expects multiple scenarios (e.g., optimistic, base, pessimistic), explicitly compute and report each scenario.\n- Ensure final loss estimates are derived directly from the specified method, not substituted with alternative approaches like risk-score probabilities.",
+    "checklist": [
+      "Extract exact modeling method from task/rubric",
+      "Map method steps to available data fields",
+      "Calculate intermediate outputs and compare to anchor points",
+      "Compute final estimates using the specified method",
+      "Report estimates for all required scenarios"
+    ],
+    "common_failure_prevented": "Prevents using a generic risk-score model when the rubric requires a specific cash-flow conversion method.",
+    "keywords": [
+      "forecast",
+      "model",
+      "loss",
+      "scenario",
+      "conversion",
+      "method"
+    ],
+    "tags": [
+      "modeling",
+      "forecasting",
+      "rubric_adherence",
+      "methodology",
+      "estimation"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Define explicit tiering thresholds and report full tier statistics",
+    "when_to_use": "When asked to create risk tiers or segment customers into categories for management.",
+    "experience": "- Explicitly state the tier boundaries used (e.g., Red: ≥60, Yellow: 45–59.9, Green: <45).\n- For each tier, report: 1) customer count, 2) total outstanding balance, 3) proportion of total customers, 4) proportion of total balance.\n- Validate tier counts and balance sums against anchor points or overall totals to ensure consistency.\n- When proposing management strategies, link each strategy to specific tier statistics (e.g., 'Tier A holds 65% of the risk balance, so focus collection efforts here').\n- If the task implies continuous monitoring, define quantitative KPIs per tier (e.g., 'if collection rate drops below 48% for three consecutive months, escalate').",
+    "checklist": [
+      "Define tier boundaries explicitly",
+      "Calculate customer count and total balance per tier",
+      "Compute proportion of customers and balance per tier",
+      "Verify sums match overall totals",
+      "Link strategies to tier statistics",
+      "Define monitoring KPIs per tier if needed"
+    ],
+    "common_failure_prevented": "Prevents incomplete tier reporting that lacks balance breakdown and clear linkage to management actions.",
+    "keywords": [
+      "tier",
+      "segment",
+      "risk",
+      "threshold",
+      "management",
+      "strategy"
+    ],
+    "tags": [
+      "segmentation",
+      "risk_tiering",
+      "reporting",
+      "strategy_mapping",
+      "KPIs"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.2",
+    "source_case": "dacomp-090"
+  }
+]

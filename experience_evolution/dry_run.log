@@ -1,0 +1,188 @@
+[dacomp-060] failure_type=knowledge_gap: The agent deviated from the specified methodology by using incorrect percentile thresholds, aggregation methods, and failing to implement the Empirical Bayes approach for Expected CVR.
+[dacomp-048] failure_type=knowledge_gap: The agent extracted data and performed analyses but failed to correctly identify key salary and benefit distributions and missed major categories for qualities influencing salary.
+[dacomp-069] failure_type=knowledge_gap: The agent's analysis omitted required, explicit verification steps and deterministic criteria from the rubric, indicating a failure to correctly apply the mandated analytical methodology.
+[dacomp-080] failure_type=knowledge_gap: The agent followed a general analysis approach but failed to implement the specific, required methodology for key definition, feature engineering, and validation as detailed in the rubric.
+[dacomp-067] failure_type=knowledge_gap: The agent's analysis failed because it did not follow the required rubric structure for defining data scope, performing sensitivity analysis, or linking channel allocation to quantitative efficiency gains, indicating a misunderstanding of the analytical methodology.
+[dacomp-022] failure_type=knowledge_gap: The agent had the required data but failed to perform the multi-dimensional joint analysis across time period, region, and ride distance as specified in the rubrics, focusing only on vehicle type and rating.
+[dacomp-035] failure_type=knowledge_gap: The agent failed to compute the four specific indicators defined in the rubric (including Two-Factor Authentication Not Enabled Rate), instead calculating different metrics, demonstrating a misalignment with required methodology.
+[dacomp-041] failure_type=knowledge_gap: The agent applied a simplistic, non-contextual risk calculation using generic thresholds, completely failing to meet the rubric's requirement for a structured, parameterized framework with versioning, source documentation, and sensitivity analysis.
+[dacomp-041] Calling LLM for pattern extraction (score=3.3%)…
+[dacomp-092] failure_type=knowledge_gap: The agent failed to locate the correct database tables and instead loaded mismatched CSV files, demonstrating a fundamental misunderstanding of the required data schema and environment.
+[dacomp-092] Calling LLM for pattern extraction (score=6.7%)…
+[dacomp-070] failure_type=knowledge_gap: The agent failed to define and calculate a proper combined metric for region-device efficiency as specified in the rubric, indicating a conceptual gap in the required analytical methodology.
+[dacomp-070] Calling LLM for pattern extraction (score=7.9%)…
+[dacomp-078] failure_type=knowledge_gap: The agent applied incorrect methodology by using aggregated lifetime data without proper time window partitioning, causing data leakage and failing to construct predictive labels from future data as required.
+[dacomp-078] Calling LLM for pattern extraction (score=8.3%)…
+[dacomp-098] failure_type=knowledge_gap: The agent failed to establish proper analytical foundations by not defining time windows, segmentation criteria, or properly mapping contacts to paying companies, which are essential for the requested conversion rate and duration analysis.
+[dacomp-098] Calling LLM for pattern extraction (score=8.3%)…
+Calling LLM to synthesize 42 patterns…
+
+[Step 1] Selecting 15 worst-performing cases…
+  Selected: ['dacomp-058', 'dacomp-081', 'dacomp-034', 'dacomp-060', 'dacomp-048', 'dacomp-069', 'dacomp-080', 'dacomp-067', 'dacomp-022', 'dacomp-035', 'dacomp-041', 'dacomp-092', 'dacomp-070', 'dacomp-078', 'dacomp-098']
+
+[Step 2] Classifying failures and extracting patterns for 15 cases…
+  [dacomp-058] patterns already exist, skipping extraction
+  [dacomp-081] patterns already exist, skipping extraction
+  [dacomp-034] patterns already exist, skipping extraction
+  [dacomp-060] patterns already exist, skipping extraction
+  [dacomp-048] patterns already exist, skipping extraction
+  [dacomp-069] patterns already exist, skipping extraction
+  [dacomp-080] patterns already exist, skipping extraction
+  [dacomp-067] patterns already exist, skipping extraction
+  [dacomp-022] patterns already exist, skipping extraction
+  [dacomp-035] patterns already exist, skipping extraction
+  [dacomp-041] extracted 3 patterns
+  [dacomp-092] extracted 3 patterns
+  [dacomp-070] extracted 3 patterns
+  [dacomp-078] extracted 3 patterns
+  [dacomp-098] extracted 3 patterns
+
+[Step 3] Synthesizing patterns into candidate cards…
+  Loaded 42 total candidate patterns
+  LLM proposed 8 consolidated cards
+
+[DRY RUN] 8 cards proposed. No files written.
+
+============================================================
+Proposed card 1/8: Map and track all rubric requirements as explicit deliverables
+============================================================
+when_to_use:  When the task instructions or rubric list multiple, specific analysis questions or required outputs.
+keywords:     ['requirements', 'deliverables', 'rubric', 'checklist', 'sub-criteria', 'coverage']
+tags:         ['requirements_analysis', 'task_management', 'completeness', 'rubric_alignment']
+source_cases: ['dacomp-041', 'dacomp-058', 'dacomp-067']
+
+Experience:
+- **Parse the prompt/rubric to list every explicit and implied deliverable** (e.g., 'calculate coefficient of variation', 'provide seasonal index per industry', 'propose monitoring KPIs').
+- **Create a mapping table** linking each requirement to its required data source, specific calculation, and evidence location in your output.
+- **Treat each criterion as a section that must be answered**; structure your final report with clear headers mapping to these requirements.
+- **Systematically check off each item** during analysis to ensure no requirement is missed.
+- **If a requirement cannot be met due to data limitations, explicitly state this** and note the impact on conclusions.
+
+Common failure prevented:
+Missing specific sub-requirements or entire analysis sections because they were not explicitly tracked, leading to incomplete deliverables.
+
+============================================================
+Proposed card 2/8: Map all task dimensions to analysis steps before starting
+============================================================
+when_to_use:  When the task asks for strategies based on multiple factors like vehicle type, time, location, or channel.
+keywords:     ['strategies', 'multiple factors', 'dimensions', 'joint analysis', 'cross-tabulation', 'segmentation']
+tags:         ['multidimensional_analysis', 'requirement_mapping', 'coverage_check']
+source_cases: ['dacomp-022', 'dacomp-058']
+
+Experience:
+- **Explicitly list every dimension** mentioned in the task (e.g., vehicle type, time period, location, distance, rating).
+- **Design a specific analysis for each dimension** (e.g., hourly bands, distance bins, location clusters) linking it to the target metric.
+- **Create an analysis matrix or plan** to track coverage of each dimension and identify joint analyses needed (e.g., vehicle type during peak hours).
+- **Execute analyses step-by-step**, ticking off each dimension in a coverage ledger.
+- **Ensure final recommendations** explicitly address findings from each dimension and their combinations.
+
+Common failure prevented:
+Providing an incomplete strategy that misses key factors (e.g., ignoring time, location, or distance) because dimensions were not systematically covered.
+
+============================================================
+Proposed card 3/8: Verify data integrity and prerequisites before analysis
+============================================================
+when_to_use:  When starting a task that depends on data from a new, unverified source (database, file).
+keywords:     ['database', 'corrupted', 'prerequisite', 'verify', 'data source', 'scoring']
+tags:         ['data_quality', 'prerequisite_check', 'early_validation', 'troubleshooting']
+source_cases: ['dacomp-034']
+
+Experience:
+- **Immediately test basic access** with a simple query (e.g., `SELECT COUNT(*)`) or file read to confirm data exists and is accessible.
+- **Sample and inspect** a few rows to verify schema and plausible values.
+- **Define and check data prerequisites** listed in the rubric (e.g., specific tables, filtered subsets) before detailed analysis.
+- **If data is corrupt or missing, set a short time budget** for troubleshooting (e.g., 5-10 mins) then escalate; do not proceed with synthetic data.
+- **Document any data limitations** and their impact on the analysis upfront.
+
+Common failure prevented:
+Proceeding with analysis on corrupted, empty, or incorrect data, resulting in zero scores for dependent rubric criteria.
+
+============================================================
+Proposed card 4/8: Anchor analysis with expected values and cross-validation
+============================================================
+when_to_use:  When the task or rubric provides specific numeric values that must be matched or used for validation.
+keywords:     ['verify', 'anchor', 'expected results', 'cross-check', 'validation', 'numerical accuracy']
+tags:         ['validation', 'accuracy', 'debugging', 'rubric_alignment']
+source_cases: ['dacomp-048', 'dacomp-058']
+
+Experience:
+- **Identify all explicit numeric anchors** mentioned in the prompt or rubric (e.g., expected counts, benchmark rates).
+- **Design independent verification queries or calculations** to reproduce these anchor values.
+- **Compare your results to the anchors**; if discrepancies exist, debug your logic, joins, and filters step-by-step.
+- **For key derived metrics (e.g., salary from text)**, manually verify extraction on a random sample and compute independent anchor totals.
+- **Reconcile or clearly document** any differences between your results and expected anchors in the final report.
+
+Common failure prevented:
+Reporting directionally correct but numerically inaccurate results due to unverified parsing or aggregation logic.
+
+============================================================
+Proposed card 5/8: Design a structured, parameterized framework for thresholds
+============================================================
+when_to_use:  When classifying data into risk or quality levels based on configurable thresholds or standards.
+keywords:     ['threshold', 'risk level', 'parameter', 'standard', 'exceedance', 'indicator']
+tags:         ['data_governance', 'reproducibility', 'risk_analysis', 'configuration']
+source_cases: ['dacomp-041']
+
+Experience:
+- **Create a formal parameter table** (e.g., `risk_thresholds_v1`) documenting thresholds, risk levels, sources, and versions for each indicator.
+- **Implement logic that references this table**, avoiding hard-coded values, to allow easy updates (e.g., conservative vs. relaxed thresholds).
+- **Document unit conversion and harmonization rules** (e.g., all temperatures in °C).
+- **Include traceability fields in outputs** (e.g., `triggered_threshold`, `threshold_source`) to justify classifications.
+- **Validate the framework** by ensuring all required indicators and levels are defined before tagging data.
+
+Common failure prevented:
+Producing non-reproducible, untraceable analysis due to ad-hoc, hard-coded thresholds that fail structured rubric requirements.
+
+============================================================
+Proposed card 6/8: Define metric segmentation and weighting rules explicitly
+============================================================
+when_to_use:  When comparing groups based on thresholds or aggregating KPIs across regions/segments of different sizes.
+keywords:     ['segmentation', 'compare', 'high vs low', 'threshold', 'weighted average', 'aggregation']
+tags:         ['data_preparation', 'segmentation', 'statistical_rigor', 'requirements_analysis']
+source_cases: ['dacomp-069']
+
+Experience:
+- **For segmentation**: Precisely define the segmentation variable, thresholds (including boundary handling), and validate group sizes before analysis.
+- **For weighted aggregation**: Identify the appropriate weight metric (e.g., user count, revenue) and compute weighted averages (`sum(KPI * weight)/sum(weight)`) instead of simple averages of averages.
+- **Compare weighted vs. unweighted results** to highlight the impact of scale.
+- **Justify your chosen segmentation and weighting** rationale in the report.
+- **Document the rules and group counts** to ensure transparency and reproducibility.
+
+Common failure prevented:
+Drawing misleading conclusions due to arbitrary segmentation or ignoring scale effects when aggregating across heterogeneous groups.
+
+============================================================
+Proposed card 7/8: Quantify strategy impact with scenario modeling
+============================================================
+when_to_use:  When proposing actions to achieve a numerical goal like cost reduction or efficiency improvement.
+keywords:     ['optimize', 'strategy', 'proposal', 'reduce costs', 'improve efficiency', 'scenario', 'ROI']
+tags:         ['optimization', 'modeling', 'scenario_analysis', 'sensitivity', 'business_impact']
+source_cases: ['dacomp-067']
+
+Experience:
+- **Clearly state the numerical goal and baseline** (e.g., reduce cost by 15%).
+- **Identify actionable optimization levers** (e.g., channel mix, process changes).
+- **Build a simple quantitative model** linking levers to the goal (e.g., Total Cost = Sum(Volume * Unit Cost)).
+- **Run at least two alternative scenarios** (e.g., current state, proposed optimal, a conservative alternative).
+- **Document all model assumptions and sensitivities**, explaining how changes would affect the conclusion.
+
+Common failure prevented:
+Proposing a strategy without quantifying its impact or testing robustness, failing strategy and scenario analysis criteria.
+
+============================================================
+Proposed card 8/8: Make recommendations actionable with owners, targets, and timelines
+============================================================
+when_to_use:  When the task asks for 'actionable recommendations', 'governance plans', or 'prioritized initiatives'.
+keywords:     ['actionable', 'recommendations', 'governance', 'initiatives', 'roadmap', 'plan', 'owner']
+tags:         ['recommendations', 'operationalization', 'project_management']
+source_cases: ['dacomp-035']
+
+Experience:
+- **For each recommendation, specify a measurable target** (e.g., 'reduce rate X by Y%', 'increase adoption to Z%').
+- **Assign a responsible role or department** for each action.
+- **Define a concrete timeline** with phases or deadlines (e.g., 'Phase 1 (within 1 month)').
+- **Explicitly tie each recommendation to a specific analytical finding or metric**.
+- **For cross-department initiatives, detail the coordination mechanism** (e.g., 'quarterly security council').
+
+Common failure prevented:
+Providing vague, qualitative suggestions that lack concrete, accountable actions, making them non-operational.

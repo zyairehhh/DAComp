@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Screen campaigns based on a specific reference time period",
+    "when_to_use": "The task requires identifying high-cost/low-performance campaigns for a specific period, such as the latest month.",
+    "experience": "*   Before filtering data, **identify the exact time period** for the screening.\n*   **Check the analysis's date filter** is fixed to that period (e.g., WHERE year_month = '2024-06').\n*   **Aggregate costs and performance metrics** within that period before applying any threshold.\n*   **Verify the count of unique entities** that meet the criteria matches the expected granularity.\n*   **Contrast results** from the specified period with other periods to ensure the filter is correctly applied.",
+    "checklist": [
+      "Define the reference period for screening",
+      "Apply date filter before calculating aggregates",
+      "Count filtered unique entities (e.g., campaign IDs)"
+    ],
+    "common_failure_prevented": "Prevents incorrectly including data from multiple periods in the initial screening, leading to incorrect high-risk campaign lists.",
+    "keywords": [
+      "latest month",
+      "current period",
+      "screening criteria",
+      "reference period",
+      "high-risk campaigns"
+    ],
+    "tags": [
+      "time_filter",
+      "data_screening",
+      "period_specificity"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Weight performance metrics by volume before averaging",
+    "when_to_use": "When aggregating performance metrics (like ROAS or CTR) across subgroups with different spending or impression volumes.",
+    "experience": "*   Identify the **correct volume metric** to use as weight (e.g., cost, impressions).\n*   **Calculate the weighted average** for each aggregated group (e.g., industry, campaign type).\n*   **Compare weighted results** with simple averages to assess the impact of volume differences.\n*   For trend analysis, **calculate YoY and seasonal metrics** using volume-weighted aggregates for consistency.\n*   **Document the weighting method** in the analysis to clarify how aggregates were derived.",
+    "checklist": [
+      "Identify the appropriate volume metric (e.g., cost)",
+      "Compute weighted averages, not simple averages",
+      "Report the weighting method"
+    ],
+    "common_failure_prevented": "Prevents misleading conclusions by ensuring aggregates reflect the influence of high-spend campaigns, not just equal weighting.",
+    "keywords": [
+      "weighted average",
+      "aggregate metrics",
+      "volume weighting",
+      "performance comparison",
+      "YoY growth"
+    ],
+    "tags": [
+      "weighted_metrics",
+      "aggregation",
+      "data_quality"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Validate metric definitions against a required rubric",
+    "when_to_use": "When the task or rubric specifies exact formulas, imputation values, or normalization methods.",
+    "experience": "*   **Extract all explicit metric definitions** (e.g., 'impute missing avg_position with 2.452') from the rubric.\n*   **Map each required step** in the rubric to a corresponding step in the analysis code.\n*   **Create a parameter table** for hard-coded values (imputation constants, percentiles).\n*   **Cross-verify computed values** against rubric-provided anchor points or example outputs.\n*   **Adjust calculations** if initial results deviate from expected values based on the rubric.",
+    "checklist": [
+      "Extract rubric definitions for metrics and imputation",
+      "Map rubric steps to analysis steps",
+      "Verify computed values against rubric anchor points"
+    ],
+    "common_failure_prevented": "Prevents using ad-hoc or incorrect formulas for metrics, normalizations, or missing value handling.",
+    "keywords": [
+      "rubric",
+      "metric definition",
+      "impute",
+      "normalization",
+      "anchor points"
+    ],
+    "tags": [
+      "rubric_alignment",
+      "metric_validation",
+      "specification_compliance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-058"
+  }
+]

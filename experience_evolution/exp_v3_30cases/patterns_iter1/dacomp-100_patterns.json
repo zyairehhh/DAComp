@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Explicitly define and validate cohort logic before feature calculation",
+    "when_to_use": "The task requires building a model or analysis for a specific subset of records (e.g., 'customers whose contracts are due...', 'users in the last quarter').",
+    "experience": "*   **State the selection logic explicitly**: Write down the exact SQL/Python filter criteria, including reference dates, date windows, and any derived statuses.\n*   **Validate cohort size and key attributes**: Execute queries to count the cohort and summarize key fields (e.g., average contract value, distribution of segments) to confirm logic matches expectations.\n*   **Cross-check against known benchmarks**: If a rubric or common sense provides an expected count or statistic, verify your cohort definition reproduces it.\n*   **Document assumptions about ambiguous flags**: If using status tags (e.g., 'renewal_window'), explicitly define what each value means for your analysis and verify with sample records.",
+    "checklist": [
+      "Explicitly write the cohort filter logic",
+      "Validate cohort count against known totals",
+      "Summarize key cohort attributes (e.g., avg ACV)",
+      "Document assumptions for categorical flags"
+    ],
+    "common_failure_prevented": "Prevents using an incorrect or unvalidated subset of data for all downstream analysis, leading to skewed metrics and flawed conclusions.",
+    "keywords": [
+      "cohort",
+      "subset",
+      "due for",
+      "eligible",
+      "filter",
+      "segment"
+    ],
+    "tags": [
+      "cohort_definition",
+      "validation",
+      "data_preparation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-100"
+  },
+  {
+    "title": "Construct and validate derived features against rubric specifications",
+    "when_to_use": "The task requires creating new metrics or features from raw data (e.g., 'proportion of negative sentiment', 'average resolution time').",
+    "experience": "*   **Map each feature to its source data and calculation formula**: For each required feature, document the exact SQL/Python logic, time windows, and any aggregation rules.\n*   **Compute aggregate statistics for the entire cohort**: Calculate global totals, averages, and distributions (e.g., total conversations in window, average feature value) to sanity-check the feature construction.\n*   **Compare results to provided benchmarks or expectations**: If a rubric lists expected values (e.g., total volume = 3,996), verify your calculations match. Investigate and resolve large discrepancies.\n*   **Set and document risk thresholds based on distributions**: Use percentile analysis (e.g., 80th percentile) or business rules to define 'high-risk' thresholds for each feature.",
+    "checklist": [
+      "Document the exact calculation for each feature",
+      "Compute and report cohort-level aggregate statistics",
+      "Compare aggregates to known benchmarks",
+      "Define risk thresholds using percentiles or rules"
+    ],
+    "common_failure_prevented": "Prevents reporting feature values that are incorrectly calculated or unvalidated, which undermines the reliability of subsequent risk scoring and segmentation.",
+    "keywords": [
+      "feature",
+      "metric",
+      "calculate",
+      "derive",
+      "construct",
+      "indicator"
+    ],
+    "tags": [
+      "feature_engineering",
+      "validation",
+      "benchmarking"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-100"
+  },
+  {
+    "title": "Anchor target variable definition to a single, unambiguous data source",
+    "when_to_use": "The task requires labeling records with an outcome (e.g., 'churned', 'successfully renewed') for model training or performance comparison.",
+    "experience": "*   **Identify the authoritative source for the target**: Locate the primary data field (e.g., a status column, a transaction flag) that most directly indicates the outcome. Avoid constructing labels from multiple, potentially conflicting proxies without justification.\n*   **Explicitly map label values to the target classes**: Define the exact rule (e.g., `expansion_signal = 'Risk Mitigation'` -> churn, else renewed).\n*   **Validate label distribution and sample size**: Check the count of positive/negative classes. If sample sizes differ significantly from expected or rubric values, re-examine the labeling logic.\n*   **Document any limitations or assumptions**: If the primary source is unavailable and a proxy is used, clearly state this and its potential implications for the analysis.",
+    "checklist": [
+      "Identify the primary data field for the target outcome",
+      "Write an explicit mapping rule from data values to labels",
+      "Validate the distribution of resulting labels",
+      "Document any proxy use and its limitations"
+    ],
+    "common_failure_prevented": "Prevents defining the target variable inconsistently or based on flawed heuristics, which corrupts all model evaluation and discriminative power analysis.",
+    "keywords": [
+      "label",
+      "target",
+      "outcome",
+      "churned",
+      "renewed",
+      "successful",
+      "discriminative"
+    ],
+    "tags": [
+      "target_variable",
+      "model_setup",
+      "validation"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-100"
+  }
+]

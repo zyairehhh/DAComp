@@ -1,0 +1,93 @@
+[
+  {
+    "title": "Establish explicit temporal windows to prevent target leakage",
+    "when_to_use": "When the analysis uses historical data to predict a future state or requires comparing different time periods.",
+    "experience": "*   **Define and document clear training, validation, and future prediction windows** (e.g., 'training data up to month M', 'prediction target for months M+3 to M+6').\n*   **Aggregate features using only data from within the training window**; never use future data or lifetime-to-date totals that leak future information.\n*   **Derive the target variable (e.g., 'high-value') solely from data in the future/outcome window.**\n*   **Create a verification script** that confirms no observation in the training set has a feature derived from data after its target window start date.\n*   **Report the count of valid entities (e.g., accounts) that have sufficient data in both the training and future windows.**",
+    "checklist": [
+      "Define and name training/outcome windows",
+      "Aggregate features from training window only",
+      "Compute target from outcome window only",
+      "Write script to check for temporal leakage",
+      "Report entity counts for each window"
+    ],
+    "common_failure_prevented": "This prevents building a predictive model with leaked future information, which inflates accuracy and causes the model to fail in production.",
+    "keywords": [
+      "predict",
+      "future",
+      "trend",
+      "forecast",
+      "next",
+      "months",
+      "accuracy"
+    ],
+    "tags": [
+      "modeling",
+      "time series",
+      "leakage",
+      "feature engineering",
+      "validation"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Design and validate a precise operational target definition",
+    "when_to_use": "When the task requires classifying entities (e.g., 'high-value') without a pre-existing label in the data.",
+    "experience": "*   **Operationalize qualitative goals with quantifiable, time-bound metrics** (e.g., 'high-value' = top 20% of future revenue, or 'positive trend' = slope > 5% over next quarter).\n*   **Define the target variable for each analysis window separately** (e.g., calculate percentile thresholds per window, not globally).\n*   **Inspect the resulting label distribution** (counts, proportions) and **document implications** for model stability (e.g., class imbalance).\n*   **Validate the definition's face validity** by checking if labeled entities align with business intuition via sample inspection or correlation with known proxies.",
+    "checklist": [
+      "Define target with specific metric and threshold",
+      "Calculate target per time window",
+      "Analyze label distribution and imbalance",
+      "Validate definition with business logic"
+    ],
+    "common_failure_prevented": "This prevents using an ambiguous, static, or leaky target definition that does not match the business question and leads to uninterpretable or unstable models.",
+    "keywords": [
+      "identify",
+      "high-value",
+      "score",
+      "label",
+      "classify",
+      "trend",
+      "positive"
+    ],
+    "tags": [
+      "target definition",
+      "modeling",
+      "business logic",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Evaluate model performance against the specified business objective",
+    "when_to_use": "When the task specifies a performance goal (e.g., 'accuracy over 85%') or requires comparing a new model to a baseline.",
+    "experience": "*   **Map the stated goal to specific evaluation metrics** (e.g., 'identify high-value customers' maps to Precision at a chosen threshold).\n*   **Evaluate the model on a held-out test set** that was not used for feature selection, weight tuning, or threshold finding.\n*   **Compare the new model's performance to the baseline** on the key metric(s), not just overall accuracy.\n*   **If the goal is unmet (e.g., precision < 0.85), iterate** by adjusting the classification threshold, refining features, or redefining the target.\n*   **Report the final performance on the test set and the operational threshold** needed to achieve it.",
+    "checklist": [
+      "Translate goal to specific metric (e.g., Precision)",
+      "Evaluate final model on a held-out test set",
+      "Compare performance to baseline model",
+      "Adjust approach if goal is not met",
+      "Report final metric and operational threshold"
+    ],
+    "common_failure_prevented": "This prevents reporting misleading in-sample accuracy and failing to verify that the model actually meets the business's stated performance requirement.",
+    "keywords": [
+      "accuracy",
+      "identify",
+      "increase",
+      "over X%",
+      "compare",
+      "performance",
+      "evaluate"
+    ],
+    "tags": [
+      "model evaluation",
+      "business objective",
+      "test set",
+      "metric",
+      "baseline"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-078"
+  }
+]

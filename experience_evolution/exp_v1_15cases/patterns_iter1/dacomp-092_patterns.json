@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Validate Data Schema Against Task Specification Before Analysis",
+    "when_to_use": "When a task mentions specific tables and columns to compute metrics.",
+    "experience": "1. Immediately after reading the task, list the required tables and columns from the instructions.\n2. Before any query, run a schema check (e.g., PRAGMA table_info or DESCRIBE) on each table to confirm existence and data types of key columns.\n3. Verify that the columns needed for calculations (e.g., `customer_margin_volatility`, monthly `gross_profit`) actually exist and contain plausible non-null values.\n4. If a column is missing, check for aliases or alternative sources, but never assume a proxy (like using `revenue_volatility` for `customer_margin_volatility`) without explicit justification.\n5. If data is missing or mismatched, explicitly flag it in the report and adjust the plan—do not silently proceed with incompatible data.",
+    "checklist": [
+      "List required tables and columns from task",
+      "Inspect actual table schemas",
+      "Confirm key columns exist and have expected data",
+      "Note and justify any data substitutions",
+      "Document schema gaps before analysis"
+    ],
+    "common_failure_prevented": "Prevents building an entire analysis on wrong or misaligned data, which leads to inaccurate metrics and low rubric scores.",
+    "keywords": [
+      "schema",
+      "columns",
+      "table",
+      "validation",
+      "data structure"
+    ],
+    "tags": [
+      "data quality",
+      "requirement analysis",
+      "preprocessing"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Verify Metric Calculation Logic Matches Operational Definitions",
+    "when_to_use": "When computing derived metrics like coefficient of variation (CV) or variance of growth rates.",
+    "experience": "1. Explicitly write down the exact formula for each requested metric as given in the task.\n2. Map each term in the formula to a specific column or aggregation from the validated schema.\n3. For time-series metrics (e.g., “over the past 12 months”), ensure you have the correct time window and granularity (e.g., monthly aggregates).\n4. Compute the metric for a few sample customers manually (using SQL or Python) and compare with expected results if benchmarks are known.\n5. Before finalizing, sanity-check results: e.g., CV should not be negative, variance should be reasonable relative to the mean.",
+    "checklist": [
+      "Write down exact metric definition",
+      "Map formula terms to data columns",
+      "Validate time windows and grouping",
+      "Test calculation on sample rows",
+      "Sanity-check results for plausibility"
+    ],
+    "common_failure_prevented": "Prevents computing metrics incorrectly (e.g., using `revenue_volatility` as CV, or wrong variance of QoQ growth), which leads to fundamentally wrong results.",
+    "keywords": [
+      "coefficient of variation",
+      "variance",
+      "growth rate",
+      "metric",
+      "calculation"
+    ],
+    "tags": [
+      "metrics",
+      "validation",
+      "formula"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Design and Validate Segmentation Before Multi‑Table Joins",
+    "when_to_use": "When the task defines a segment (e.g., “top 25% for volatility”) and requires joining multiple tables.",
+    "experience": "1. First, create the target segment (e.g., high‑volatility customers) using the exact definition and data from the primary table.\n2. Validate the segment size and key statistics (e.g., count, percentile threshold) to ensure it matches the task’s implicit expectations (e.g., top 25% should be roughly a quarter of customers).\n3. Only after the segment is defined and validated, join it to other tables using the appropriate key (e.g., `customer_id`).\n4. After joining, check that the segment’s rows in the joined table are non‑null for the needed analysis columns.\n5. Report the segment definition, validation results, and join success before proceeding to deeper analysis.",
+    "checklist": [
+      "Define segment with exact logic",
+      "Validate segment size and threshold",
+      "Check segment statistics before joining",
+      "Perform join and verify non‑null counts",
+      "Document segment validation steps"
+    ],
+    "common_failure_prevented": "Prevents analyzing a mis‑defined segment (e.g., using the wrong volatility column or percentile) and ensures subsequent joins yield meaningful data for analysis.",
+    "keywords": [
+      "segment",
+      "join",
+      "percentile",
+      "threshold",
+      "validation"
+    ],
+    "tags": [
+      "segmentation",
+      "data integration",
+      "quality assurance"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-092"
+  }
+]

@@ -1,0 +1,79 @@
+[
+  {
+    "title": "Decompose aggregate trends using rate and mix contributions",
+    "when_to_use": "When analyzing changes in an overall metric (e.g., conversion rate) across segments over time.",
+    "experience": "- Calculate the overall metric for each time period (e.g., quarterly weighted average conversion rate).\n- For each segment (e.g., role, manager), compute its contribution: (segment's rate change * segment's share in the earlier period) + (segment's share change * segment's rate in the later period).\n- Sum contributions to verify they equal the total change.\n- Rank segments by absolute contribution to identify the largest drivers.\n- Report the decomposition: total change = sum of rate effects + sum of mix effects.",
+    "checklist": [
+      "Compute weighted average rates per period",
+      "Calculate segment contributions using shift-share analysis",
+      "Rank segments by contribution magnitude"
+    ],
+    "common_failure_prevented": "Misidentifying which specific roles drove a department's overall decline because simple average comparisons ignore volume and mix shifts.",
+    "keywords": [
+      "decline",
+      "trend",
+      "contribution",
+      "decomposition",
+      "shift-share"
+    ],
+    "tags": [
+      "trend_analysis",
+      "segmentation",
+      "contribution_analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Compare manager performance using within-role baselines",
+    "when_to_use": "When evaluating manager performance across different roles or segments.",
+    "experience": "- For each role (e.g., Frontend, Backend), compute the average performance metric (e.g., conversion rate) across all managers.\n- For each manager-role combination, calculate the deviation from the role's average.\n- Aggregate manager deviations across all roles they oversee (weighted by volume).\n- Compare managers using these aggregated residuals, not raw averages.\n- Identify systematic under/over-performance relative to role expectations.",
+    "checklist": [
+      "Calculate role-specific averages",
+      "Compute manager-role residuals",
+      "Aggregate residuals per manager",
+      "Rank managers by aggregated residual"
+    ],
+    "common_failure_prevented": "Concluding a manager is underperforming simply because they oversee tougher roles, rather than controlling for role difficulty.",
+    "keywords": [
+      "manager performance",
+      "benchmark",
+      "residual",
+      "control for role",
+      "systematic"
+    ],
+    "tags": [
+      "performance_evaluation",
+      "benchmarking",
+      "residual_analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Formalize regression specification with all relevant factors",
+    "when_to_use": "When quantifying the impact of multiple factors on a key outcome metric.",
+    "experience": "- List all potential explanatory variables suggested by domain knowledge and task description (e.g., interviewers count, manager experience, role, time).\n- Define the outcome variable precisely (e.g., conversion rate).\n- Specify the regression equation, including control variables and fixed effects (e.g., role, month).\n- Run the regression and interpret coefficients, significance, and model fit.\n- Validate by checking for omitted variable bias and multicollinearity.",
+    "checklist": [
+      "List all candidate explanatory variables",
+      "Define regression equation with controls",
+      "Run regression and interpret coefficients",
+      "Validate specification"
+    ],
+    "common_failure_prevented": "Reporting simplistic correlations that ignore confounding factors, leading to misleading conclusions about driver importance.",
+    "keywords": [
+      "regression",
+      "impact",
+      "factors",
+      "coefficient",
+      "control variable"
+    ],
+    "tags": [
+      "regression",
+      "causal_analysis",
+      "modeling"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.3",
+    "source_case": "dacomp-066"
+  }
+]

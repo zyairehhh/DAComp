@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Verify analysis matches rubric-defined evaluation paths before reporting",
+    "when_to_use": "When the task instruction or a provided rubric specifies required analysis dimensions, metrics, or a scoring framework.",
+    "experience": "- Before finalizing any analysis, explicitly map the task's key questions and requirements to the rubric's evaluation paths and criteria.\n- For each rubric criterion, identify which specific metrics, formulas, or comparisons (e.g., thresholds, benchmark values) are required for a complete and accurate response.\n- Construct a checklist of the exact output elements (e.g., a list of decaying combinations with a uniform threshold, target ranges for risk zones, maturity tier definitions) that must be produced.\n- Validate that your analysis methodology (e.g., regression model specification, metric calculation, segmentation) aligns with the rubric's expected 'best path' (e.g., standardized variables, specific functional forms, lagged terms).\n- After producing results, explicitly check your final outputs against the rubric's completeness and accuracy benchmarks before concluding.",
+    "checklist": [
+      "Map task questions to rubric criteria",
+      "Identify required metrics and formulas from rubric",
+      "Verify methodology matches rubric's expected analysis path",
+      "Check outputs against rubric's completeness and accuracy benchmarks"
+    ],
+    "common_failure_prevented": "Producing an analysis that is directionally correct but fails to meet the specific, graded requirements of the rubric (e.g., missing threshold-based lists, incorrect model specifications).",
+    "keywords": [
+      "rubric",
+      "evaluation",
+      "criteria",
+      "scoring",
+      "benchmark",
+      "required",
+      "path"
+    ],
+    "tags": [
+      "rubric_alignment",
+      "validation",
+      "completeness_check"
+    ],
+    "source_criterion": "Root/Requirement 1/Criterion 1.3, Root/Requirement 2/Criterion 2.2, Root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Explicitly compute and report configurable threshold-based segments",
+    "when_to_use": "When the task requires identifying high/low performers, risk zones, or maturity tiers based on quantitative metrics.",
+    "experience": "- Immediately after calculating key metrics, define a versioned parameter table (e.g., in code comments or a configuration block) that stores all segmentation thresholds (e.g., decay threshold = -3%, quality score target range = 4.5–5.3).\n- Use these parameters to filter, classify, or rank entities (e.g., region-device combinations, apps) into the required segments (e.g., 'decaying', 'high-risk', 'mature market').\n- Report the resulting lists, counts, or aggregates for each segment explicitly in the output, ensuring they are directly answerable to the task's request.\n- If the task suggests different scenarios or maturity levels, calculate and report the key performance indicator (KPI) values (e.g., average update frequency, rating) for each defined tier.",
+    "checklist": [
+      "Define a parameter table for all thresholds",
+      "Use parameters to segment entities",
+      "Explicitly report lists/aggregates per segment",
+      "Calculate tier-specific KPIs if required"
+    ],
+    "common_failure_prevented": "Omitting the generation of specific, actionable lists (e.g., decaying combinations, high-risk zones) because segmentation logic was implicit or missing.",
+    "keywords": [
+      "threshold",
+      "segment",
+      "tier",
+      "classify",
+      "filter",
+      "parameter",
+      "list"
+    ],
+    "tags": [
+      "segmentation",
+      "parameterization",
+      "reporting"
+    ],
+    "source_criterion": "Root/Requirement 1/Criterion 1.3, Root/Requirement 3/Criterion 3.1, Root/Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Validate model coefficients and metrics against provided benchmarks",
+    "when_to_use": "When the analysis involves statistical modeling (regression, correlation) and the rubric or context provides expected benchmark values.",
+    "experience": "- Before interpreting model results, check if the rubric or problem context provides expected correlation coefficients, R-squared values, or other statistical benchmarks.\n- Replicate the exact model specification as implied by the benchmark (e.g., variable standardization, weighting, inclusion of interaction/squared terms, specific functional form).\n- Compare your model's key output statistics (coefficients, p-values, R²) directly to the provided benchmarks. If discrepancies exceed a reasonable tolerance (e.g., >10% relative error), diagnose potential causes: data filtering, variable definition, model specification, or computational error.\n- Report both your results and the benchmark, and explicitly note any material discrepancies and your investigation into them.",
+    "checklist": [
+      "Check for provided statistical benchmarks",
+      "Replicate exact benchmark model specification",
+      "Compare outputs to benchmarks",
+      "Diagnose and report significant discrepancies"
+    ],
+    "common_failure_prevented": "Reporting statistically plausible but inaccurate results that fail to match pre-defined evaluation benchmarks, leading to low accuracy scores.",
+    "keywords": [
+      "benchmark",
+      "validation",
+      "coefficient",
+      "correlation",
+      "R-squared",
+      "model",
+      "specification"
+    ],
+    "tags": [
+      "model_validation",
+      "benchmarking",
+      "accuracy_check"
+    ],
+    "source_criterion": "Root/Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.A.2, Root/Requirement 4/Criterion 4.1/best_path_analysis/Criterion 4.1.B.2",
+    "source_case": "dacomp-070"
+  }
+]

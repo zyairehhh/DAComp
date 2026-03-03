@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define metrics by cross-referencing task and rubric requirements first",
+    "when_to_use": "When the task description references a rubric or scoring framework for the analysis.",
+    "experience": "1. **Identify the scoring framework**: Immediately after receiving the task, check if a rubric or evaluation criteria is provided.  \n2. **Map task language to rubric dimensions**: Extract key terms from the task (e.g., 'weak security awareness,' 'prioritized strengthening') and find their precise definitions in the rubric (e.g., 'Department Abnormal Login Rate,' 'Severe Anomalies Proportion').  \n3. **Create a metric specification table**: List each required metric, its rubric definition, the needed source data, and the exact calculation formula.  \n4. **Validate calculations before exploration**: Use a small data sample to test each metric calculation against the rubric's operational definition before performing full aggregation or ranking.  \n5. **Cross-check final output**: Before reporting, ensure all required metrics are computed, correctly labeled, and used in the final ranking/analysis as specified.",
+    "checklist": [
+      "Is there a rubric or scoring framework mentioned?",
+      "What are the exact metric names and definitions in the rubric?",
+      "Do my calculated metrics match these definitions?",
+      "Have I used all required metrics in my final analysis?"
+    ],
+    "common_failure_prevented": "This prevents creating custom metrics that do not satisfy the rubric, leading to a score of zero for key criteria.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "criteria",
+      "evaluation",
+      "framework",
+      "required metrics"
+    ],
+    "tags": [
+      "requirements analysis",
+      "metric definition",
+      "rubric compliance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Benchmark composite risk scores against a simple, explainable baseline",
+    "when_to_use": "When building a composite index or score to rank entities (like departments) by risk or performance.",
+    "experience": "1. **Document weighting rationale**: Before calculating a composite score, explicitly state the weight assigned to each component metric and the justification (e.g., equal weighting, domain expertise, business priority).  \n2. **Calculate a naive baseline rank**: First, rank entities using a single, most critical metric (e.g., highest per-user incident rate). This provides a simple, defensible benchmark.  \n3. **Compare composite results to the baseline**: If the composite ranking drastically differs from the naive baseline, investigate why. Is the weighting diluting a key signal?  \n4. **Sensitivity analysis**: Briefly test how the ranking changes with slight weight adjustments to ensure the conclusion is not fragile.  \n5. **Explain ranking shifts**: In the final output, justify why the composite ranking differs from a simple single-metric ranking, if it does.",
+    "checklist": [
+      "Have I explicitly defined and justified the weights for my composite score?",
+      "What is the ranking based on the single most important metric?",
+      "Does my composite ranking make intuitive sense compared to this baseline?",
+      "Is my conclusion sensitive to small weight changes?"
+    ],
+    "common_failure_prevented": "This prevents creating a complex composite model that yields a non-intuitive or incorrect ranking, which fails to align with the expected answer.",
+    "keywords": [
+      "composite score",
+      "risk ranking",
+      "prioritization",
+      "weighting",
+      "index",
+      "benchmark"
+    ],
+    "tags": [
+      "model validation",
+      "sensitivity analysis",
+      "explainable AI"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.B.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Link specific recommendations directly to computed, rubric-defined metrics",
+    "when_to_use": "When the task requires providing action recommendations or prioritization based on the analysis.",
+    "experience": "1. **Anchor recommendations to data points**: For each proposed action or priority level, cite the specific, rubric-defined metric value that justifies it (e.g., 'Department X is prioritized because its Severe Anomalies Proportion is 39.5%, the highest').  \n2. **Quantify recommendation targets**: When suggesting an intervention (e.g., 'strengthen two-factor authentication'), define a measurable target tied to the metric (e.g., 'increase Two-Factor Authentication Not Enabled Rate from 40.8% to below 10%').  \n3. **Map priorities to metric thresholds**: Establish clear thresholds on your key metrics (e.g., 'immediate priority if abnormal login rate > 0.9'). Use these thresholds to categorize departments, not just relative ranking.  \n4. **Cross-reference rubric guidance**: Check if the rubric provides example recommendations or prioritization logic, and align your language and structure with it.",
+    "checklist": [
+      "For each recommendation, which specific metric value supports it?",
+      "Have I defined a measurable target for each recommendation?",
+      "Are my priority categories based on thresholds, not just relative rank?",
+      "Does my recommendation language align with the rubric's examples?"
+    ],
+    "common_failure_prevented": "This prevents giving generic recommendations or incorrect prioritization that are not explicitly backed by the analysis metrics defined in the rubric.",
+    "keywords": [
+      "recommendations",
+      "action plan",
+      "prioritization",
+      "targets",
+      "justification",
+      "governance"
+    ],
+    "tags": [
+      "communication",
+      "decision support",
+      "actionable insights"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-035"
+  }
+]

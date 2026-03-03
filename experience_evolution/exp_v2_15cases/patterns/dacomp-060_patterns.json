@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Validate computed thresholds against rubric expectations before filtering",
+    "when_to_use": "When the task or rubric provides specific expected values or tolerances for calculated metrics (like percentiles, group sizes, or weighted averages).",
+    "experience": "- Immediately after calculating key metrics (e.g., percentiles, group counts, weighted averages), compare them against any provided rubric or benchmark values.\n- If discrepancies exceed stated tolerances, re-examine the calculation logic: verify aggregation levels, filter conditions, and handling of null/zero values.\n- Recalculate using alternative methods (e.g., different aggregation, weighted vs. unweighted) to see if results align.\n- Document any deviations and provide a brief justification or note the recalibration attempt.\n- Before proceeding to segment or filter based on these metrics, ensure the thresholds used match the rubric's expected values within tolerance.",
+    "checklist": [
+      "Compute the metric as specified",
+      "Retrieve the rubric's expected value and tolerance",
+      "Compare your result to the expected range",
+      "If outside tolerance, debug calculation steps",
+      "Recalibrate and validate before using the metric for filtering"
+    ],
+    "common_failure_prevented": "Prevents filtering groups with incorrect thresholds, leading to wrong segment sizes (e.g., 613 vs. 274 problem groups) and misaligned downstream analysis.",
+    "keywords": [
+      "percentile",
+      "threshold",
+      "tolerance",
+      "benchmark",
+      "validation",
+      "filter",
+      "segment"
+    ],
+    "tags": [
+      "metric validation",
+      "rubric alignment",
+      "threshold calibration"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Explicitly map analysis dimensions to rubric requirements before starting",
+    "when_to_use": "When the rubric or task instructions specify required analysis dimensions, segments, or calculations (e.g., 'analyze common characteristics' with listed sub-dimensions like intent match ratio, traffic quality).",
+    "experience": "- Before any analysis, parse the task and rubric to extract all explicitly requested dimensions, metrics, and segments.\n- Create a checklist or mapping table linking each requirement to a specific analysis step (e.g., 'Intent Match Ratio' -> calculate actual CVR / expected CVR, segment by IMR tiers).\n- For each dimension, verify the required data exists and define the exact calculation method (e.g., expected CVR definition, IMR segmentation thresholds).\n- As you complete each analysis step, mark it off in the checklist and include the results in your report.\n- If a required dimension cannot be fully addressed due to data limitations, explicitly note the gap and propose a mitigation.",
+    "checklist": [
+      "List all required analysis dimensions from rubric",
+      "Map each to a specific data source and calculation",
+      "Verify data availability and define methods",
+      "Execute analyses in order, documenting results",
+      "Flag and explain any unmet requirements"
+    ],
+    "common_failure_prevented": "Prevents missing critical analysis components (e.g., not segmenting by IMR tiers, not analyzing advertising_channel_type, not computing impact scores) that lead to low rubric scores.",
+    "keywords": [
+      "rubric",
+      "requirement",
+      "dimension",
+      "segment",
+      "characteristic",
+      "analysis plan"
+    ],
+    "tags": [
+      "requirement mapping",
+      "analysis planning",
+      "rubric compliance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.2, Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Define and compute all rubric metrics before drawing conclusions",
+    "when_to_use": "When the rubric specifies exact metrics to compute (e.g., click share per segment, spend share, impact scores) before making prioritization or optimization recommendations.",
+    "experience": "- Identify all metrics the rubric expects you to calculate (e.g., click share per IMR tier, spend share per match type, impact = click_share_problem × (CVR_control - CVR_segment)).\n- Compute each metric precisely using the defined formulas and aggregation levels.\n- Validate that the computed values are reasonable (e.g., shares sum to ~1, impacts are numerically stable).\n- Use these computed metrics to drive your conclusions and recommendations (e.g., rank segments by impact score).\n- Report the metrics clearly in your analysis, tying them directly to your findings.",
+    "checklist": [
+      "Extract all required metric formulas from rubric",
+      "Compute each metric using correct data and aggregations",
+      "Validate metric consistency (e.g., sums, ranges)",
+      "Use metrics as basis for conclusions and prioritization",
+      "Report metrics alongside insights"
+    ],
+    "common_failure_prevented": "Prevents vague or unsupported conclusions (e.g., stating 'problematic groups have low IMR' without providing IMR tier distributions, click shares, or impact scores) that lack quantitative rigor.",
+    "keywords": [
+      "metric",
+      "formula",
+      "calculation",
+      "impact score",
+      "share",
+      "priority",
+      "recommendation"
+    ],
+    "tags": [
+      "metric computation",
+      "quantitative conclusion",
+      "rubric metrics"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-060"
+  }
+]

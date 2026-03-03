@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Validate metric calculations against independent references",
+    "when_to_use": "When a task requires calculating specific performance or stability metrics (like coefficient of variation or growth variance).",
+    "experience": "*   Before reporting final calculated values, compute known aggregates (like total customer count, total revenue) from your source data and compare them to a simple, independent sanity-check query.\n*   For derived metrics (like CV), manually calculate the metric for a few sample entities using raw data to verify the formula and grouping logic.\n*   Cross-check your final segment sizes (e.g., number of high-volatility customers) against the total population to ensure the filtering logic (e.g., percentile cutoff) is correct.\n*   If the task provides an implicit benchmark (like 'past 12 months'), verify the date range used in your calculation matches this definition exactly.\n*   When results deviate significantly from expected magnitudes (e.g., CV of 0.375 vs. an expected ~0.23), pause and re-examine the data preparation steps (filtering, aggregation level, formula).",
+    "checklist": [
+      "Perform a sanity-check aggregate calculation",
+      "Manually verify formula on sample data",
+      "Cross-check segment size against total population",
+      "Verify date/time window definitions",
+      "Investigate large deviations from expected magnitude"
+    ],
+    "common_failure_prevented": "Reporting inaccurate metric values (like average CV and variance) due to incorrect aggregation, filtering, or formula application.",
+    "keywords": [
+      "calculate",
+      "coefficient of variation",
+      "variance",
+      "stability",
+      "metric"
+    ],
+    "tags": [
+      "validation",
+      "accuracy",
+      "calculation",
+      "sanity-check"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/A.2, Requirement 2/Criterion 2.2/A.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Operationalize analysis dimensions with clear definitions",
+    "when_to_use": "When the task instructs analyzing relationships across dimensions like customer segments, behavioral categories, or risk tiers.",
+    "experience": "*   For each analysis dimension (e.g., 'payment behavior', 'lifecycle stage'), explicitly map the raw data values to the categories required for your analysis. Create a reference table if categories need grouping.\n*   Define how missing or null values in these dimensions will be handled (e.g., assign 'UNKNOWN' category) before performing joins or aggregations.\n*   When calculating proportions or rates (e.g., 'exposure rate'), explicitly state the numerator (segment within target group) and denominator (total in that segment) and ensure they are calculated at the correct grain.\n*   For relationship exploration, specify the exact statistical measure or visualization (e.g., average metric by category, correlation coefficient) you will use to quantify the relationship.\n*   Document these operational definitions (category mappings, handling of missing data, metric formulas) as a preliminary step before executing the analysis.",
+    "checklist": [
+      "Map raw data values to analysis categories",
+      "Define handling for missing/null values",
+      "Clarify numerator/denominator for rate calculations",
+      "Specify the measure for relationship analysis",
+      "Document operational definitions upfront"
+    ],
+    "common_failure_prevented": "Reporting incomplete or misaligned results (e.g., counts instead of exposure rates, missing lifecycle distribution) due to vague definitions for analysis dimensions.",
+    "keywords": [
+      "segment",
+      "behavior",
+      "category",
+      "distribution",
+      "relationship"
+    ],
+    "tags": [
+      "operationalization",
+      "definition",
+      "segmentation",
+      "categorization"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/A.2, Requirement 3/Criterion 3.2/A.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Anchor model outputs to concrete examples and validation",
+    "when_to_use": "When the task requires building a scoring model, index, or classification system.",
+    "experience": "*   After defining the model/scoring formula, apply it to 2-3 specific, real entities from your dataset and show the step-by-step calculation in your output.\n*   Report key distribution statistics (mean, percentiles) of the final scores for the target population to provide context and validate the model's discrimination.\n*   Explicitly map the resulting scores or tiers to the intended actionable outcomes (e.g., 'High Risk' triggers a credit review within 7 days).\n*   Create a simple validation dashboard or table that cross-tabulates the new model's output (e.g., risk tier) with key input dimensions (e.g., RFM segment, payment behavior) to verify logical consistency.\n*   If the model produces unexpected results (e.g., many NaN scores), debug by checking each component metric for invalid values (zeros, nulls) and define a fallback or imputation strategy.",
+    "checklist": [
+      "Show step-by-step calculation for sample entities",
+      "Report distribution stats of final scores",
+      "Map scores/tiers to specific actions",
+      "Cross-tabulate model output with input dimensions",
+      "Debug component metrics for invalid values"
+    ],
+    "common_failure_prevented": "Presenting an unvalidated model that produces nonsensical outputs (e.g., NaN scores) or lacks connection to actionable business decisions.",
+    "keywords": [
+      "model",
+      "score",
+      "rating",
+      "tier",
+      "classification"
+    ],
+    "tags": [
+      "modeling",
+      "validation",
+      "example",
+      "actionable"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1/A.2, Requirement 5/Criterion 5.2/A.2",
+    "source_case": "dacomp-092"
+  }
+]

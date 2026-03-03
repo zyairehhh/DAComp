@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define and report deviation direction for all comparative analyses",
+    "when_to_use": "When the task requires analyzing deviations, gaps, or differences from an average or baseline.",
+    "experience": "- **Compute and store the sign**: Always calculate the raw difference (individual value - baseline) in addition to the absolute deviation.\n- **Report both sides separately**: Summarize counts, averages, or characteristics for the positive and negative deviation groups.\n- **Compare the groups**: Analyze if the factors driving positive deviations are different from those driving negative ones.\n- **Include direction in conclusions**: State explicitly which segments or groups are underperforming vs. overperforming relative to the baseline.",
+    "checklist": [
+      "Calculate signed difference metric",
+      "Summarize statistics for positive and negative groups",
+      "Compare characteristics of overperformers vs. underperformers"
+    ],
+    "common_failure_prevented": "Missing the insight that deviation direction matters, leading to incomplete conclusions about over/under-performance.",
+    "keywords": [
+      "deviation",
+      "difference",
+      "gap",
+      "vs. average",
+      "anomaly",
+      "classify"
+    ],
+    "tags": [
+      "comparative analysis",
+      "segmentation",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Formalize thresholds for new features when analyzing anomalies",
+    "when_to_use": "When creating new derived features to classify or explain anomaly groups (e.g., high/low volatility, seasonality).",
+    "experience": "- **Quantify the classification**: Define precise thresholds (e.g., CV > 0.5 = 'high volatility') based on data distribution or business logic.\n- **Count the hits**: Report how many observations fall into each defined category (e.g., 'high volatility and high deviation').\n- **Measure the lift**: Calculate the prevalence or average target metric (e.g., deviation) within each category versus the overall population.\n- **Propose monitoring rules**: Translate significant thresholds into actionable business rules for future flagging.",
+    "checklist": [
+      "Define clear thresholds for each new feature",
+      "Count observations per threshold-defined group",
+      "Calculate performance lift for each group",
+      "Draft an actionable rule based on top thresholds"
+    ],
+    "common_failure_prevented": "Providing only correlation or feature importance without concrete, actionable segmentation rules.",
+    "keywords": [
+      "threshold",
+      "classify",
+      "volatility",
+      "seasonality",
+      "stability",
+      "identify",
+      "flag"
+    ],
+    "tags": [
+      "feature engineering",
+      "segmentation",
+      "rule-based analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.notfound.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Report precise metrics and sample sizes for all derived segments",
+    "when_to_use": "When describing newly identified clusters, groups, or segments from an analysis.",
+    "experience": "- **Always report N**: State the exact count of observations in each cluster or rule-based segment.\n- **Provide central tendency**: Report the median (or mean) for key descriptive variables within each segment.\n- **Characterize the segment**: Describe the segment's profile using the most frequent categorical values (mode) for key dimensions.\n- **Link to original taxonomy**: Map how the new segments relate to existing business classifications (e.g., 'Cluster A contains 80% of Premium-tier customers').",
+    "checklist": [
+      "Report count (N) for each segment",
+      "Report median/mean for key numerical features",
+      "Report mode for key categorical features",
+      "Cross-tabulate with existing segments"
+    ],
+    "common_failure_prevented": "Providing only qualitative descriptions of clusters, making the analysis non-verifiable and less actionable.",
+    "keywords": [
+      "cluster",
+      "segment",
+      "profile",
+      "group",
+      "characterize",
+      "describe"
+    ],
+    "tags": [
+      "clustering",
+      "reporting",
+      "descriptive statistics"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1/best_path_analysis/Criterion 4.1.B.2",
+    "source_case": "dacomp-076"
+  }
+]

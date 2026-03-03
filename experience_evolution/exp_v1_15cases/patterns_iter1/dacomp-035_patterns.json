@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly map analysis requirements to rubric-defined dimensions",
+    "when_to_use": "When a task asks to analyze a problem using historical data to identify priorities or weaknesses.",
+    "experience": "1. Before any data exploration, parse the task description and any provided rubric to identify the **exact metrics or dimensions required** for the analysis. 2. Create a mapping table: list each required dimension (e.g., 'abnormal frequency', 'risk intensity', 'security configuration', 'scope of impact') and the specific formula or data field needed. 3. Verify data availability for each mapped dimension by checking table schemas and sample data. 4. If a required dimension's data is missing, explicitly note this as a limitation before proceeding, and consider alternative data sources or ask for clarification. 5. Structure your analysis steps to compute each required dimension separately and validate outputs against any expected ranges from the rubric. 6. Ensure final conclusions are directly based on these computed dimensions, not on ad-hoc, unvalidated composite scores.",
+    "checklist": [
+      "Extract required dimensions from the rubric",
+      "Map each dimension to SQL/Python calculation logic",
+      "Check for missing data fields early",
+      "Align intermediate results with rubric expectations",
+      "Base final ranking on the required dimensions"
+    ],
+    "common_failure_prevented": "The agent created a custom composite score that ignored the rubric's required 'Two-Factor Authentication Not Enabled Rate' dimension, leading to incomplete analysis and low scores.",
+    "keywords": [
+      "security awareness",
+      "historical data analysis",
+      "identify weaknesses",
+      "prioritized",
+      "governance"
+    ],
+    "tags": [
+      "requirement-mapping",
+      "rubric-adherence",
+      "metric-definition"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.1, root/Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Validate analysis path against standard rubric templates before proceeding",
+    "when_to_use": "When the task involves ranking or prioritizing groups (departments, users, products) based on multi-dimensional metrics.",
+    "experience": "1. Identify if the rubric provides **standard analysis paths** (e.g., Path A: filter by exceeding average; Path B: weighted composite score; Path C: simple ranking). 2. Before developing a custom method, check if your data and computed metrics can directly support one of the standard paths. 3. If a standard path fits, follow it exactly, using the rubric's specified formulas and thresholds. 4. If no standard path fits, explicitly justify why and document your alternative method before implementation. 5. When reporting results, compare your findings to what the standard paths would produce to ensure consistency. 6. Avoid mixing methodologies; if you choose a custom path, ensure it comprehensively addresses all rubric requirements.",
+    "checklist": [
+      "Check rubric for predefined analysis paths",
+      "Match computed metrics to path prerequisites",
+      "Follow path steps exactly if applicable",
+      "Document deviations if necessary",
+      "Compare custom results to standard expectations"
+    ],
+    "common_failure_prevented": "The agent developed an independent ranking method without realizing the rubric offered specific paths (A/B/C) for departmental prioritization, causing mismatch with evaluation criteria.",
+    "keywords": [
+      "ranking",
+      "prioritize",
+      "relative weakness",
+      "composite score",
+      "filtering"
+    ],
+    "tags": [
+      "analysis-framework",
+      "rubric-paths",
+      "methodology-selection"
+    ],
+    "source_criterion": "root/Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Quantify recommendations with measurable targets and timelines",
+    "when_to_use": "When the analysis output includes actionable recommendations for improvement or intervention.",
+    "experience": "1. For each recommendation, specify a **measurable target metric** (e.g., 'reduce abnormal login rate by 20%', 'increase two-factor authentication adoption to over 90%'). 2. Define a **clear timeline** for achieving each target (e.g., 'within the next quarter', 'by end of fiscal year'). 3. Link each target to the specific data point or metric from your analysis that justifies it. 4. Ensure recommendations are **SMART** (Specific, Measurable, Achievable, Relevant, Time-bound). 5. If the analysis identifies high-priority groups, tailor targets for each group (e.g., 'Department X should achieve Y% reduction in severe anomalies within 3 months'). 6. Present targets as part of a phased implementation plan when multiple actions are recommended.",
+    "checklist": [
+      "State target metric for each recommendation",
+      "Set explicit deadline or timeframe",
+      "Base target on analysis findings",
+      "Make recommendations SMART",
+      "Prioritize by group if applicable"
+    ],
+    "common_failure_prevented": "The agent provided only qualitative action suggestions (e.g., 'targeted training', 'monitoring') without concrete, time-bound quantitative goals, reducing the usefulness and scorability of the recommendations.",
+    "keywords": [
+      "recommendations",
+      "action plan",
+      "improvement",
+      "guidance",
+      "strengthen security"
+    ],
+    "tags": [
+      "actionable-insights",
+      "recommendation-specificity",
+      "target-setting"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.2",
+    "source_case": "dacomp-035"
+  }
+]

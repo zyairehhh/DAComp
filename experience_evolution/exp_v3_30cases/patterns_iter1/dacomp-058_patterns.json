@@ -1,0 +1,91 @@
+[
+  {
+    "title": "Explicitly Map Multi-Dimensional Requirements to Data Tables",
+    "when_to_use": "When the task requires building a composite metric or score from multiple underlying data dimensions.",
+    "experience": "1. **Decompose the final metric** into its specified components (e.g., Cost Efficiency, Conversion Quality, Competitiveness) and their exact weights.\n2. **For each component**, list all required underlying metrics (e.g., ROAS, CTR, quality_score) from the task description.\n3. **Trace each underlying metric to a specific source table and column** by validating the data schema.\n4. **Identify any missing or mismatched granularities** (e.g., month vs. quarter) between component sources and define a consistent joining/mapping strategy.\n5. **Verify that the combined metric can be computed for the correct entity level** (e.g., per campaign, per campaign-month) for all required analysis segments.\n6. **Document the mapping** in a parameter table or analysis plan before coding.",
+    "checklist": [
+      "Decompose composite metric into components and weights",
+      "List all required underlying metrics",
+      "Trace each metric to a source table and column",
+      "Resolve granularity mismatches",
+      "Validate entity-level computability",
+      "Document mapping in a plan"
+    ],
+    "common_failure_prevented": "This prevents omitting required dimensions (e.g., competitiveness metrics like avg_position) or using incorrect data sources, which leads to incomplete or inaccurate scoring models.",
+    "keywords": [
+      "three-dimensional",
+      "composite score",
+      "health score",
+      "multidimensional",
+      "weighted model",
+      "dimensions"
+    ],
+    "tags": [
+      "metric design",
+      "data mapping",
+      "requirements analysis",
+      "composite scores"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Validate Anchor Points and Calibration Benchmarks Early",
+    "when_to_use": "When the analysis requires comparing performance against specific benchmarks or confirming metric values.",
+    "experience": "1. **Extract and record explicit anchor points** from the task description or rubric (e.g., 'Video ROAS=3.66', 'campaign 184 Germany share 0.297').\n2. **Compute these anchor values early in your analysis** using the defined logic and data.\n3. **Compare your computed values with the provided anchors** to verify your data processing and metric calculations are correct.\n4. **If discrepancies exist**, systematically debug: check filtering logic, joins, aggregations, and data cleaning steps.\n5. **Only proceed to deeper analysis once anchor points are matched** within an acceptable tolerance.\n6. **Use these verified anchors as calibration references** for subsequent thresholds or segmentations.",
+    "checklist": [
+      "Identify required anchor points from task/rubric",
+      "Compute anchor values early",
+      "Compare against provided benchmarks",
+      "Debug discrepancies before proceeding",
+      "Use anchors for calibration"
+    ],
+    "common_failure_prevented": "This prevents propagating undetected calculation errors into segmentation and optimization recommendations, ensuring analysis accuracy.",
+    "keywords": [
+      "anchor points",
+      "benchmark",
+      "verify",
+      "calibrate",
+      "accuracy",
+      "validation"
+    ],
+    "tags": [
+      "data validation",
+      "quality assurance",
+      "calibration",
+      "benchmarking"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Perform Segment-Specific Risk Identification at All Required Levels",
+    "when_to_use": "When the task requires identifying high-risk groups across multiple segmentation dimensions (e.g., channel, device, geography).",
+    "experience": "1. **List all segmentation dimensions** required by the task (e.g., device_type, geo_target, industry).\n2. **For each dimension**, define explicit risk criteria using the task's metrics and thresholds (e.g., device cost share >35% AND ROAS<0.8).\n3. **Apply risk identification at the correct entity level** (e.g., per campaign, not overall) and for each required segment.\n4. **Output a clear mapping** of each risky entity to the specific dimension and criteria that flagged it.\n5. **Ensure results are actionable** by linking identified risks to the corresponding optimization recommendations (e.g., 'high cost share on Mobile' -> 'adjust device bidding').\n6. **Validate that no required segmentation dimension was omitted** from the risk analysis.",
+    "checklist": [
+      "List all required segmentation dimensions",
+      "Define explicit risk criteria per dimension",
+      "Apply identification at correct entity level",
+      "Map risks to entities and dimensions",
+      "Link risks to actionable recommendations",
+      "Validate all dimensions are covered"
+    ],
+    "common_failure_prevented": "This prevents only performing aggregate analysis and missing campaign-specific risks within segments (e.g., per-device performance), leading to incomplete diagnostic insights.",
+    "keywords": [
+      "segment",
+      "risk identification",
+      "per campaign",
+      "device",
+      "geography",
+      "channel type"
+    ],
+    "tags": [
+      "segmentation",
+      "risk analysis",
+      "diagnostic",
+      "granularity"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-058"
+  }
+]

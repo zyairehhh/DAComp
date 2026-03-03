@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Verify derived features against raw data accuracy anchors",
+    "when_to_use": "Task requires building a composite score or index based on multiple metrics.",
+    "experience": "When constructing a scoring model from raw data, always validate your derived features against known or expected summary statistics (anchors) from the dataset or business context.\n1. Before computing composite scores, calculate summary statistics (mean, median, p95, std) for each raw input feature and compare them to expected values if available (e.g., from rubric, historical benchmarks, or domain knowledge).\n2. Ensure your feature derivation logic (e.g., completion rate = completed/sent) matches the exact definition used in the organization. Test edge cases (division by zero, null handling).\n3. After creating the composite score, compute its distribution (mean, standard deviation, quantiles) and compare it to any provided anchors (e.g., 'AVG(Score)=56.9269').\n4. If anchors are not provided, sanity-check the score distribution: are values within the expected range (0-100)? Does the segmentation produced match rough business intuition (e.g., high-value users are a minority)?\n5. When thresholds for segmentation are set (e.g., low/medium/high), calculate the proportion of users in each segment and compare to any existing cohort labels in the data (e.g., `qualtrics__user_cohort_analysis`) to validate consistency.\n6. Document any discrepancies between your derived metrics and expected anchors, and adjust your methodology if the difference is significant (>5% relative error).",
+    "checklist": [
+      "Compute summary stats for each raw metric and compare to provided anchors",
+      "Validate derived feature formulas against business definitions",
+      "Check composite score distribution against expected mean and spread",
+      "Compare segmentation proportions with existing cohort labels",
+      "Document and justify any deviations from anchors"
+    ],
+    "common_failure_prevented": "Creating a scoring model that yields segment proportions vastly different from the business reality (e.g., high-value = 5.9% vs expected 27.11%).",
+    "keywords": [
+      "composite score",
+      "user value scoring",
+      "index",
+      "model",
+      "segmentation",
+      "threshold"
+    ],
+    "tags": [
+      "validation",
+      "feature engineering",
+      "scoring",
+      "anchors"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Align analysis with the prescribed methodology path",
+    "when_to_use": "Task instructions imply a specific analytical approach or rubric provides explicit scoring paths.",
+    "experience": "Many data analysis tasks have preferred or required methodological paths (e.g., conditional probability/lift analysis vs. mean comparison). Explicitly check if the task description or rubric outlines a specific approach.\n1. Carefully read the task for keywords like 'conditional probability', 'lift', 'percentile-based', 'binning', or 'cross-analysis'. If a rubric is provided, identify the 'best_path_analysis' criteria.\n2. Before starting, map the available data to the required steps of the prescribed path. If the path uses specific features (e.g., `responses_90d`, `avg_duration_sec`), ensure you compute them, even if you think other features are better.\n3. If the path involves a specific statistical technique (e.g., calculate lift: `P(high|condition) / P(high)`), implement it exactly, not a substitute (e.g., comparing means).\n4. When comparing groups (e.g., medium vs high-value users), follow the path's definition of the sample (e.g., 'limit to medium+high tiers only').\n5. Report results in the format expected by the path (e.g., conditional probabilities, lift values, transition ratios) even if you also provide additional insights.\n6. If you must deviate from the prescribed path due to data constraints, explicitly state why and how your alternative still addresses the core question.",
+    "checklist": [
+      "Identify keywords or rubric paths specifying a required methodology",
+      "Map data columns to the exact features needed for that path",
+      "Implement the prescribed statistical technique precisely",
+      "Adhere to sample filters defined in the path",
+      "Report results in the format required by the path"
+    ],
+    "common_failure_prevented": "Using mean comparisons when the task required conditional probability/lift analysis to identify transition drivers.",
+    "keywords": [
+      "conditional probability",
+      "lift",
+      "transition",
+      "driver",
+      "key characteristics",
+      "path",
+      "methodology"
+    ],
+    "tags": [
+      "methodology",
+      "rubric alignment",
+      "statistical technique"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-080"
+  },
+  {
+    "title": "Define precise, measurable actions for operational plans",
+    "when_to_use": "Task requires designing a personalized strategy, incentive plan, or intervention.",
+    "experience": "When proposing an action plan (e.g., incentives, engagement strategies), ensure each recommendation is operationally precise and measurable.\n1. For each segment or group, specify the exact **action** (e.g., 'send a cross-channel reminder'), **frequency** (e.g., 'twice per month'), **trigger** (e.g., 'upon survey completion'), and **quantitative incentive** (e.g., '50 loyalty points').\n2. Link each action to a measurable **Key Performance Indicator (KPI)** with a target value and timeframe (e.g., 'increase high-value user proportion by +4 percentage points quarterly').\n3. Define the **cadence for review** of the plan (e.g., 'review segment performance monthly and adjust thresholds quarterly').\n4. Ensure actions are feasible given typical user experience constraints (e.g., 'limit email sends to ≤2 per week to avoid fatigue').\n5. If personalization is based on attributes like language or region, tailor the action specifics (message content, incentive type) to that attribute, not just the segment.\n6. Document assumptions about resource availability (e.g., 'assuming a points budget of 10,000 per month') to ground the plan in reality.",
+    "checklist": [
+      "Specify action, frequency, trigger, and incentive amount for each recommendation",
+      "Define a quantitative KPI with target and timeframe for each action",
+      "Set a review cadence for the plan",
+      "Incorporate user experience constraints (e.g., contact frequency limits)",
+      "Tailor action details to personalization attributes (language, region)",
+      "Document resource assumptions"
+    ],
+    "common_failure_prevented": "Providing vague strategic goals (e.g., 'increase cross-channel engagement') without actionable, measurable tactics for execution.",
+    "keywords": [
+      "personalized incentive plan",
+      "segmentation strategy",
+      "actionable recommendations",
+      "operational plan",
+      "intervention"
+    ],
+    "tags": [
+      "actionability",
+      "operationalization",
+      "KPIs",
+      "incentives"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-080"
+  }
+]

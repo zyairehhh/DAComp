@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Structure exploratory analysis to align with task segmentation goals",
+    "when_to_use": "Task instructions segment data based on a key metric threshold (e.g., over $7 and under $3).",
+    "experience": "- **Immediately translate threshold language**: When a task mentions 'key revenue metric > X', treat identifying this metric as a critical first step. Do not explore alternative metrics until confirming the exact column.\n- **Validate segment existence**: Before committing to analysis, run a simple query to count observations above and below the threshold to ensure segments are populated.\n- **Anchor to rubric definitions**: If a scoring rubric outlines explicit segmentation paths (e.g., ARPU, Revenue Tier), prioritize those paths over custom thresholds.\n- **Report segment characteristics early**: After defining segments, output a summary (e.g., count, min, max, average) to confirm the split makes sense for the analysis.",
+    "checklist": [
+      "Identify the exact metric column matching the task's threshold language.",
+      "Query the min, max, and distribution of the metric.",
+      "Count observations in each segment (e.g., >$7, <$3).",
+      "Compare against rubric-defined segmentation paths if provided."
+    ],
+    "common_failure_prevented": "Wasting time exploring irrelevant metrics and failing to apply the correct segmentation, leading to incomplete or misaligned analysis.",
+    "keywords": [
+      "key metric",
+      "segment",
+      "over $X",
+      "under $Y",
+      "threshold",
+      "high vs low"
+    ],
+    "tags": [
+      "segmentation",
+      "task alignment",
+      "rubric",
+      "data exploration"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Explicitly map required analysis dimensions from the rubric",
+    "when_to_use": "Task has a detailed scoring rubric specifying required metrics, comparisons, or breakdowns.",
+    "experience": "- **Extract analysis requirements verbatim**: Before writing any code, list each rubric criterion and note the exact metrics, comparisons, and outputs required.\n- **Create a mapping table**: Link each rubric requirement to the necessary SQL queries, calculations, and visualizations.\n- **Validate completeness**: Before finalizing, check that each rubric-specified dimension (e.g., 'geographical structure breakdown', 'weighted metrics', 'monthly comparison of KPIs') has been addressed with the correct data.\n- **Use rubric anchors for verification**: Where the rubric provides expected values (e.g., 'sample markets = 14'), compute and report these to confirm your analysis is on track.",
+    "checklist": [
+      "Parse the rubric for required metrics, comparisons, and outputs.",
+      "Create a checklist mapping each requirement to a specific analysis step.",
+      "Verify your outputs match the rubric's expected format and anchors.",
+      "Address all 'must-have' dimensions before adding exploratory insights."
+    ],
+    "common_failure_prevented": "Missing critical rubric-required analyses (e.g., weighted metrics, geographical breakdowns, specific correlations) resulting in a low score.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "required",
+      "dimensions",
+      "criteria",
+      "breakdown"
+    ],
+    "tags": [
+      "rubric adherence",
+      "completeness",
+      "project planning",
+      "task scoping"
+    ],
+    "source_criterion": "Multiple failures across Requirements 2, 3, 4",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Define quantitative targets for qualitative recommendations",
+    "when_to_use": "Task asks for 'recommendations', 'goals', or 'action plans' to improve a business metric.",
+    "experience": "- **Translate qualitative goals to KPIs**: For each recommendation (e.g., 'improve retention'), identify the specific metric(s) (e.g., `day_30_retention_rate`) to target.\n- **Set measurable targets**: Based on data benchmarks (e.g., segment averages, industry standards), define a concrete numerical goal (e.g., 'increase from 0.28 to 0.35').\n- **Link targets to actions**: Specify which actions (e.g., 'reduce crash rate to ≤1.8') are expected to drive which KPI improvement.\n- **Validate feasibility**: Check that proposed targets are realistically achievable given current performance and trends in the data.",
+    "checklist": [
+      "For each recommendation, list the specific KPI it impacts.",
+      "Set a numerical target for each KPI, anchored to data benchmarks.",
+      "Ensure each target is time-bound or has a clear owner if applicable.",
+      "Cross-reference targets with underlying data to ensure they are plausible."
+    ],
+    "common_failure_prevented": "Providing vague, unactionable recommendations lacking measurable outcomes, which fails to satisfy rubric criteria for quantitative goals.",
+    "keywords": [
+      "recommendations",
+      "goals",
+      "action plan",
+      "improve",
+      "target",
+      "KPI"
+    ],
+    "tags": [
+      "recommendations",
+      "goal setting",
+      "KPIs",
+      "actionable insights"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1, 4.2",
+    "source_case": "dacomp-069"
+  }
+]

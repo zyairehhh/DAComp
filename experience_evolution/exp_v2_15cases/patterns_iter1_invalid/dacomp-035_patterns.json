@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Extract and strictly follow rubric-defined metrics and scoring paths",
+    "when_to_use": "When the task description or rubric explicitly mentions required analysis dimensions or a specific scoring framework.",
+    "experience": "Before starting analysis, agents should:\n- **Search for or request any rubric or scoring framework** that defines required metrics and ranking methods.\n- **Map each rubric criterion to corresponding data fields and formulas** to ensure all required metrics are calculated, even if they require joining different tables.\n- **Strictly follow the rubric's specified scoring paths** (e.g., filtering based on company average, using a weighted composite model) rather than inventing your own, unless the rubric allows for alternative methods.\n- **Validate that all calculated metrics align with the rubric's definitions** before proceeding to interpretation and recommendations.\n- **Flag missing data needed for a required rubric metric** early, and document assumptions or limitations if that data cannot be sourced.\n- **Clearly label output sections** to demonstrate alignment with the rubric's structure.",
+    "checklist": [
+      "Request rubric",
+      "Map rubric metrics to data",
+      "Compute all required metrics",
+      "Follow rubric's ranking logic",
+      "Document missing data"
+    ],
+    "common_failure_prevented": "Prevents creating a reasonable but non-compliant analysis that fails because it does not align with the client's or grader's required dimensions and formulas.",
+    "keywords": [
+      "rubric",
+      "required dimensions",
+      "scoring framework",
+      "required metrics",
+      "grading criteria"
+    ],
+    "tags": [
+      "requirements_analysis",
+      "compliance",
+      "metric_definition"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Explicitly verify data availability for all key dimensions before analysis",
+    "when_to_use": "When the task requires analysis across multiple pre-defined dimensions (e.g., risk, impact, configuration).",
+    "experience": "To avoid missing critical analysis dimensions, agents should:\n- **Decompose the task into mandatory dimensions** based on the task description, rubric, or common domain knowledge (e.g., for security awareness: frequency, severity, configuration, scope).\n- **For each dimension, identify required data fields** (e.g., for 'security configuration', find fields related to 2FA status, password policies).\n- **Proactively query the database schema and sample data** to confirm the existence and quality of these fields across relevant tables before finalizing the analysis plan.\n- **If a required data field is absent, adjust the analysis plan** to use proxies, clearly document the limitation, and inform the stakeholder. Do not silently drop a required dimension.\n- **Cross-check final analysis outputs** to ensure all required dimensions are addressed.",
+    "checklist": [
+      "List mandatory dimensions",
+      "Map dimensions to data fields",
+      "Validate field existence and quality",
+      "Document missing dimensions",
+      "Cross-check final output"
+    ],
+    "common_failure_prevented": "Prevents incomplete analysis where a required dimension (e.g., security configuration) is omitted because its data wasn't explored, leading to a low score despite other good work.",
+    "keywords": [
+      "multiple dimensions",
+      "key aspects",
+      "security configuration",
+      "risk assessment",
+      "comprehensive analysis"
+    ],
+    "tags": [
+      "data_exploration",
+      "requirement_validation",
+      "dimensional_analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Anchor recommendations to specific, measurable data points and targets",
+    "when_to_use": "When the task requires delivering actionable recommendations for improvement.",
+    "experience": "To ensure recommendations are concrete and actionable, agents should:\n- **Directly cite the specific metrics and values** from your analysis that justify each recommendation (e.g., 'Marketing has a Severe Anomalies Proportion of 39.5%, indicating...').\n- **Translate qualitative advice into quantitative targets and timelines** (e.g., 'Reduce the Two-Factor Authentication Not Enabled Rate from X% to Y% within 3 months').\n- **Prioritize recommendations based on the severity and impact ranking** derived from your analysis, explaining the rationale.\n- **Structure recommendations in a phased or graded manner**, clearly linking each action to a specific department or risk factor.\n- **Avoid generic, untethered advice** (e.g., 'provide training') without specifying the who, what, and by when.",
+    "checklist": [
+      "Cite specific data points",
+      "Set quantitative targets",
+      "Define timelines",
+      "Prioritize based on analysis",
+      "Structure phased actions"
+    ],
+    "common_failure_prevented": "Prevents recommendations that are reasonable but too vague and lack concrete, measurable objectives, making them difficult to implement or evaluate.",
+    "keywords": [
+      "actionable recommendations",
+      "improvement plan",
+      "targets",
+      "timelines",
+      "prioritization"
+    ],
+    "tags": [
+      "recommendations",
+      "action_plan",
+      "stakeholder_communication"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.2",
+    "source_case": "dacomp-035"
+  }
+]

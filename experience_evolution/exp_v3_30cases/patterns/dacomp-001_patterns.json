@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Formally define and calibrate composite scoring systems",
+    "when_to_use": "When the task requires creating a composite score from multiple dimensions to rank or classify entities.",
+    "experience": "- **Explicitly list all indicators, their measurement, and directionality** (e.g., profit stability measured by CV of monthly profit, higher is riskier).\n- **Assign clear, defensible weights** to each indicator, justifying them based on domain logic or data (e.g., 50% credit rating, 30% profit stability).\n- **Validate monotonicity** by testing that the composite score increases/decreases as expected for clear edge cases (e.g., a company with worst rating and worst stability gets highest risk score).\n- **Define interval thresholds (e.g., quantiles)** to segment scores into risk categories (e.g., S < 20 = low risk).\n- **Document versioning and calibration assumptions** (e.g., random seed, parameter table) to ensure reproducibility.",
+    "checklist": [
+      "List indicators, formulas, and directionality",
+      "Define and justify indicator weights",
+      "Test monotonicity on boundary examples",
+      "Set quantile-based category thresholds",
+      "Document version and calibration assumptions"
+    ],
+    "common_failure_prevented": "Prevents building an ad-hoc, untraceable score with implicit weighting that fails rubric validation.",
+    "keywords": [
+      "composite score",
+      "risk score",
+      "scoring system",
+      "rating",
+      "weighted index"
+    ],
+    "tags": [
+      "scoring",
+      "validation",
+      "calibration",
+      "reproducibility"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-001"
+  },
+  {
+    "title": "Map scoring outputs to explicit risk parameters before allocation",
+    "when_to_use": "When designing credit limits, pricing, or allocation based on risk categories.",
+    "experience": "- **Define a mapping function from composite score to PD** (e.g., logistic regression or lookup table), not just historical default rates.\n- **Define LGD tiers** based on score intervals or external data, not assume constant LGD.\n- **Calculate regulatory capital parameters (K, m, U)** if required by the domain, and incorporate them into limit formulas.\n- **Establish explicit bucket-level parameters** (e.g., average PD, LGD, churn, upper/lower limit bounds) before allocation.\n- **Perform anchor checks** by verifying that mapping produces sensible PDs for extreme scores (e.g., best score yields near-zero PD).",
+    "checklist": [
+      "Create explicit S→PD mapping function",
+      "Define LGD tiers per risk bucket",
+      "Incorporate regulatory capital parameters if needed",
+      "Document bucket-level parameters (PD, LGD, churn)",
+      "Test mapping on boundary scores"
+    ],
+    "common_failure_prevented": "Prevents skipping the formal PD/LGD layering and regulatory capital integration, leading to an incomplete risk-based allocation.",
+    "keywords": [
+      "PD mapping",
+      "LGD",
+      "regulatory capital",
+      "risk bucket",
+      "capital allocation"
+    ],
+    "tags": [
+      "risk modeling",
+      "calibration",
+      "regulation",
+      "allocation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3 & Requirement 1/Criterion 1.4",
+    "source_case": "dacomp-001"
+  },
+  {
+    "title": "Design allocation algorithms with iterative quota adjustment",
+    "when_to_use": "When distributing a fixed total (budget, credit) across entities subject to per-entity caps and floor constraints.",
+    "experience": "- **Define per-entity initial limits** based on capacity score and risk-adjusted return.\n- **Specify per-bucket caps and floors** (e.g., max exposure per rating, minimum limit).\n- **Implement an iterative scaling algorithm** (e.g., while total allocated > total available, reduce limits proportionally; while total < available, increase up to caps).\n- **Log intermediate quantities** (e.g., initial allocation, adjustments, final limits) for transparency and debugging.\n- **Test convergence and boundary cases** (e.g., all entities hit caps, one entity dominates capacity).",
+    "checklist": [
+      "Define initial limit formula per entity",
+      "Set per-bucket caps/floors",
+      "Write pseudocode for iterative scaling",
+      "Log intermediate allocation steps",
+      "Test extreme scenarios for convergence"
+    ],
+    "common_failure_prevented": "Prevents a simplistic one-shot proportional allocation that ignores constraints, leading to unrealistic or infeasible limits.",
+    "keywords": [
+      "credit limit",
+      "allocation algorithm",
+      "quota",
+      "iterative scaling",
+      "exposure cap"
+    ],
+    "tags": [
+      "allocation",
+      "optimization",
+      "constraints",
+      "algorithm"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-001"
+  }
+]

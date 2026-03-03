@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Explicitly map rubric scoring criteria to analysis outputs",
+    "when_to_use": "When the task includes a rubric or scoring framework that defines specific required metrics and dimensions.",
+    "experience": "- **Parse the rubric before analysis**: Before writing any code, read the rubric to identify all required metrics (e.g., CTR, orders_per_1k, GMV_per_1k), dimensions (e.g., high send windows, scale quartiles), and success anchors.\n- **Create a checklist of required outputs**: Translate each rubric criterion into a concrete analysis step and output (e.g., 'compute weighted CTR for each subject category').\n- **Validate completeness before reporting**: After analysis, cross-check your final report against the rubric checklist to ensure no required metric or dimension is missing.\n- **Use rubric terminology in outputs**: Label your results using the exact terms from the rubric (e.g., 'high send day', 'scale quartiles') to make mapping explicit.",
+    "checklist": [
+      "Parse rubric for required metrics and dimensions",
+      "Create a checklist mapping criteria to analysis steps",
+      "Validate all rubric items are addressed in final report",
+      "Use rubric terminology in output labels"
+    ],
+    "common_failure_prevented": "Missing required analysis dimensions (e.g., failing to analyze high send windows or scale quartiles) because the rubric criteria were not explicitly tracked.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "criteria",
+      "required metrics",
+      "dimensions"
+    ],
+    "tags": [
+      "rubric",
+      "completeness",
+      "validation",
+      "planning"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Define and compute all derived metrics before segmentation",
+    "when_to_use": "When the task requires segmenting or filtering data based on calculated metrics (e.g., percentiles, rates, classifications).",
+    "experience": "- **List all derived metrics upfront**: Identify metrics that need to be created from raw data (e.g., 'high send day' defined as P90 of daily send volume, 'scale quartiles' based on audience size).\n- **Compute metrics at the appropriate grain**: Calculate derived metrics at the correct entity level (e.g., daily send volume per day, audience size per campaign) before any segmentation.\n- **Create a parameter table**: Document thresholds (e.g., P90 value, quartile cutoffs) used for classification to ensure reproducibility.\n- **Validate derived metric distributions**: Check the distribution of computed metrics (e.g., count of campaigns in each quartile) to ensure logical segmentation.",
+    "checklist": [
+      "List all derived metrics required for segmentation",
+      "Compute metrics at correct entity level",
+      "Document classification thresholds",
+      "Validate segmentation distribution"
+    ],
+    "common_failure_prevented": "Skipping segmentation analysis (e.g., high send windows, scale quartiles) because the required derived metrics were never formally defined and computed.",
+    "keywords": [
+      "segmentation",
+      "percentile",
+      "quartile",
+      "derived metric",
+      "classification",
+      "threshold"
+    ],
+    "tags": [
+      "metrics",
+      "segmentation",
+      "reproducibility",
+      "data preparation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Ensure interaction analysis includes all specified control splits",
+    "when_to_use": "When analyzing the combined effects of multiple factors and the task requires controlling for specific variables (e.g., archived status, variant splits).",
+    "experience": "- **Identify control variables from the task**: List all variables mentioned for controlling or splitting (e.g., 'break down results by is_archived and variation_id').\n- **Design analysis with nested splits**: For interaction analysis (e.g., subject × timing), compute metrics within each control group (e.g., archived vs. non-archived) separately, not just overall.\n- **Report key combinations per control group**: When identifying high/low performers, report results for each control split or explicitly state if the pattern is consistent across splits.\n- **Check for sufficient sample size**: Before concluding, verify each split has enough data for reliable inference.",
+    "checklist": [
+      "List all control variables from task instructions",
+      "Nest interaction analysis within control splits",
+      "Report results per control group or note consistency",
+      "Validate sample sizes per split"
+    ],
+    "common_failure_prevented": "Reporting interaction effects only at an overall level, missing required breakdowns by control variables (e.g., failing to analyze subject × timing within archived campaigns).",
+    "keywords": [
+      "interaction",
+      "control for",
+      "break down by",
+      "split by",
+      "segment",
+      "variation"
+    ],
+    "tags": [
+      "interaction analysis",
+      "segmentation",
+      "reporting",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-093"
+  }
+]

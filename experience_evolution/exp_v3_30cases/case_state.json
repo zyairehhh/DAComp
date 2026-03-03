@@ -1,0 +1,407 @@
+{
+  "dacomp-058": {
+    "scores": [
+      0.0,
+      41.94736842105263,
+      41.94736842105263,
+      41.578947368421055,
+      77.10526315789474,
+      41.94736842105263,
+      41.578947368421055,
+      45.526315789473685,
+      43.1578947368421,
+      70.78947368421052
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-081": {
+    "scores": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "stagnation_count": 3,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-034": {
+    "scores": [
+      0.0,
+      41.529411764705884,
+      41.529411764705884,
+      40.0,
+      16.0
+    ],
+    "stagnation_count": 3,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-060": {
+    "scores": [
+      0.0,
+      46.0,
+      46.0,
+      34.0,
+      45.0,
+      46.0,
+      34.0,
+      59.0,
+      42.0,
+      28.0
+    ],
+    "stagnation_count": 2,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-048": {
+    "scores": [
+      0.0,
+      46.0,
+      46.0,
+      50.0,
+      42.0,
+      46.0,
+      50.0,
+      49.0,
+      56.0,
+      46.0
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-069": {
+    "scores": [
+      0.0,
+      46.315789473684205,
+      46.315789473684205,
+      35.1578947368421,
+      41.578947368421055,
+      46.315789473684205,
+      35.1578947368421,
+      58.94736842105263,
+      68.42105263157895,
+      14.210526315789473
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-080": {
+    "scores": [
+      0.0,
+      61.263157894736835,
+      61.263157894736835,
+      40.0,
+      40.0
+    ],
+    "stagnation_count": 3,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-067": {
+    "scores": [
+      0.0,
+      57.41176470588235,
+      57.41176470588235,
+      0.0,
+      0.0
+    ],
+    "stagnation_count": 3,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-022": {
+    "scores": [
+      0.0,
+      89.71428571428572,
+      89.71428571428572,
+      57.14285714285714,
+      79.42857142857142,
+      89.71428571428572,
+      57.14285714285714,
+      32.0,
+      40.0,
+      95.71428571428572
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-035": {
+    "scores": [
+      0.0,
+      44.0,
+      44.0,
+      40.0,
+      44.0,
+      44.0,
+      40.0,
+      44.0,
+      48.0,
+      42.0
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-041": {
+    "scores": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "stagnation_count": 3,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-092": {
+    "scores": [
+      0.0,
+      53.75,
+      53.75,
+      45.0,
+      68.0,
+      53.75,
+      45.0,
+      42.0,
+      43.5
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-070": {
+    "scores": [
+      0.0,
+      36.73684210526316,
+      36.73684210526316,
+      56.10526315789473,
+      30.210526315789473,
+      36.73684210526316,
+      56.10526315789473,
+      44.63157894736842,
+      37.89473684210526,
+      40.26315789473684
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-078": {
+    "scores": [
+      0.0,
+      36.833333333333336,
+      36.833333333333336,
+      34.0,
+      38.5,
+      36.833333333333336,
+      34.0,
+      42.333333333333336,
+      39.666666666666664,
+      39.666666666666664
+    ],
+    "stagnation_count": 2,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-098": {
+    "scores": [
+      0.0,
+      53.33333333333333,
+      53.33333333333333,
+      45.0,
+      50.33333333333333,
+      53.33333333333333,
+      45.0,
+      30.5,
+      44.666666666666664,
+      54.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-029": {
+    "scores": [
+      47.78947368421052,
+      52.63157894736842,
+      79.47368421052633,
+      14.210526315789473,
+      53.78947368421052
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-093": {
+    "scores": [
+      82.0,
+      72.5,
+      50.0,
+      32.0,
+      32.0
+    ],
+    "stagnation_count": 4,
+    "failure_type": "knowledge_gap",
+    "status": "hard"
+  },
+  "dacomp-076": {
+    "scores": [
+      86.15384615384616,
+      65.6923076923077,
+      36.61538461538461,
+      73.07692307692308,
+      40.61538461538461
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-094": {
+    "scores": [
+      53.33333333333333,
+      40.66666666666667,
+      83.83333333333333,
+      37.66666666666667,
+      47.66666666666667
+    ],
+    "stagnation_count": 0,
+    "failure_type": "data_limitation",
+    "status": "active"
+  },
+  "dacomp-066": {
+    "scores": [
+      69.0,
+      43.0,
+      49.0,
+      57.0,
+      49.0
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-027": {
+    "scores": [
+      40.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-013": {
+    "scores": [
+      55.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "execution_error",
+    "status": "active"
+  },
+  "dacomp-090": {
+    "scores": [
+      44.5
+    ],
+    "stagnation_count": 0,
+    "failure_type": "execution_error",
+    "status": "active"
+  },
+  "dacomp-089": {
+    "scores": [
+      56.94736842105263
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-100": {
+    "scores": [
+      47.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-018": {
+    "scores": [
+      48.421052631578945
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-008": {
+    "scores": [
+      48.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-071": {
+    "scores": [
+      32.5
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-017": {
+    "scores": [
+      41.130434782608695
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-061": {
+    "scores": [
+      33.0
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-001": {
+    "scores": [
+      41.36363636363636
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-057": {
+    "scores": [
+      0.0
+    ],
+    "stagnation_count": 1,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-019": {
+    "scores": [
+      49.63636363636363
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-005": {
+    "scores": [
+      46.57142857142857
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  },
+  "dacomp-079": {
+    "scores": [
+      29.142857142857142
+    ],
+    "stagnation_count": 0,
+    "failure_type": "knowledge_gap",
+    "status": "active"
+  }
+}

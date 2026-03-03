@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Explicitly map required benchmark definitions before analysis",
+    "when_to_use": "When the task provides benchmark targets (e.g., ≥5, ≥15%) that require specific definitions.",
+    "experience": "*  **Decompose ambiguous metrics:** Break down each benchmark metric into explicit data fields and logic. For example, 'Decision-Maker Ratio' requires a precise list of job titles or keywords (e.g., CEO, CFO, COO, CTO, Chief, VP, Vice President, President).\n*  **Cross-reference with data vocabulary:** Immediately sample the relevant data column (e.g., 'title', 'department') to verify the real-world values match your assumed categories (e.g., 'IT' vs 'Information Technology', 'Engineering').\n*  **Document mapping rules:** Before any aggregation, create a mapping table or CASE statement that defines how raw data values map to the required categories. Treat missing or ambiguous values as a distinct 'Unknown' category for impact assessment.\n*  **Validate benchmark applicability:** Assess whether the provided benchmark targets are realistic given the data distribution (e.g., if 0% of contacts are classified as decision-makers, the 15% target may be impossible). Flag this as a data quality or definition issue upfront.",
+    "checklist": [
+      "Decompose each benchmark into a precise operational definition",
+      "Sample actual data values to validate category mapping",
+      "Create a mapping rule (e.g., SQL CASE) for categorizing data",
+      "Assess the feasibility of benchmarks given the data distribution"
+    ],
+    "common_failure_prevented": "Prevents implementing incomplete or incorrect metric definitions (like missing VP-level contacts or mis-mapping departments), which invalidates the entire analysis.",
+    "keywords": [
+      "benchmark",
+      "metric",
+      "definition",
+      "coverage",
+      "ratio",
+      "target",
+      "standard"
+    ],
+    "tags": [
+      "requirements_gathering",
+      "data_mapping",
+      "metric_definition"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-089"
+  },
+  {
+    "title": "Implement rubric-specified methodologies, not ad-hoc alternatives",
+    "when_to_use": "When the evaluation rubric or task instructions specify a particular method (e.g., 'use P25 threshold method').",
+    "experience": "*  **Parse instructions for mandatory methods:** Before writing code, explicitly list every methodological requirement stated in the task or rubric (e.g., 'differentiated assessment standards', 'use the 25th percentile of each segment as the threshold').\n*  **Create a methodology compliance checklist:** For each step in your analysis (threshold setting, scoring, segmentation), verify it aligns with a specified method. If the method is ambiguous, propose a clear interpretation and note it.\n*  **Justify deviations only if necessary:** If a specified method cannot be applied due to data constraints (e.g., insufficient sample size), document the constraint, state the alternative method you will use, and explain the implications. Do not silently substitute a different method (e.g., using the 75th percentile when P25 is required).",
+    "checklist": [
+      "Extract and list all methodological requirements from the task/rubric",
+      "For each analysis step, check alignment with the required method",
+      "Document any necessary deviations and their justification"
+    ],
+    "common_failure_prevented": "Prevents losing points by using an intuitive but incorrect analytical approach (e.g., using median/75th percentile when the rubric required P25 or a scaling method).",
+    "keywords": [
+      "methodology",
+      "threshold",
+      "percentile",
+      "differentiated",
+      "scaling",
+      "assessment standard",
+      "rubric"
+    ],
+    "tags": [
+      "requirements_analysis",
+      "methodology",
+      "compliance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-089"
+  },
+  {
+    "title": "Define explicit output tables matching rubric structure",
+    "when_to_use": "When the task requires a specific deliverable like a 'list of high-risk accounts' with enumerated fields.",
+    "experience": "*  **Reverse-engineer the expected output format:** From the rubric's description of the deliverable (e.g., 'a list of at least 10 high-risk accounts with account name, industry, size, and risk scores'), draft the exact column headers and data types.\n*  **Build output as a separate, verifiable step:** After your analysis, create a final output object (DataFrame, CSV, markdown table) that directly matches this format. Do not leave the results embedded in code comments or print statements.\n*  **Validate output completeness:** Before finishing, ensure the output contains the minimum required rows (e.g., 10 accounts) and all specified columns, with no placeholder or error values.",
+    "checklist": [
+      "Define the exact columns and format for required deliverables",
+      "Generate the final output as a standalone data structure or file",
+      "Verify the output meets all specified quantity and field requirements"
+    ],
+    "common_failure_prevented": "Prevents failing to produce the required tangible result (like a list of high-risk accounts), even if the underlying analysis was partially correct.",
+    "keywords": [
+      "list",
+      "output",
+      "table",
+      "deliverable",
+      "report",
+      "high-risk",
+      "accounts"
+    ],
+    "tags": [
+      "deliverable_management",
+      "output_specification",
+      "validation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-089"
+  }
+]

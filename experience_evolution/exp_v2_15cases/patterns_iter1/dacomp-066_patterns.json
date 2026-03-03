@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Decompose performance change into mix and rate effects",
+    "when_to_use": "When analyzing changes in aggregate metrics over time across segments.",
+    "experience": "When a business metric like a conversion rate changes for a department or category:\n- **Define the aggregate metric** (e.g., overall conversion rate) as a weighted average of segment-level rates, where weights are the segment's share of a base (e.g., applications).\n- **Calculate the mix effect** by holding segment conversion rates constant (e.g., at Q3 rates) and recalculating the aggregate using changed segment weights (e.g., Q4 application shares). This isolates the impact of shifting volume between segments.\n- **Calculate the rate effect** by holding segment weights constant (e.g., Q3 shares) and applying changed segment rates (e.g., Q4 rates). This isolates the impact of performance changes within segments.\n- **Sum the mix and rate effects** and verify they equal the total observed change in the aggregate metric.\n- **Present results** to explain whether the overall change is driven more by shifting application volume (mix) or by changes in segment-specific performance (rate).",
+    "checklist": [
+      "Calculate segment-level rates and weights for each time period.",
+      "Hold rates constant, recalculate aggregate with new weights to compute mix effect.",
+      "Hold weights constant, recalculate aggregate with new rates to compute rate effect.",
+      "Verify mix + rate effect equals total change.",
+      "Conclude which effect is the primary driver."
+    ],
+    "common_failure_prevented": "This prevents missing the structural drivers of an aggregate change, such as attributing a drop entirely to performance declines when it could be due to a shift in volume to lower-performing segments.",
+    "keywords": [
+      "conversion rate change",
+      "performance decline",
+      "mix shift",
+      "attribution",
+      "decomposition",
+      "segment analysis"
+    ],
+    "tags": [
+      "analytical_method",
+      "attribution",
+      "time_series"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Control for segment differences when comparing managers",
+    "when_to_use": "When evaluating individual performance across heterogeneous groups or assignments.",
+    "experience": "To fairly compare managers (or any agents) whose assigned tasks differ in difficulty:\n- **Identify relevant segmentation factors** that influence the outcome metric, such as job role, seniority level, quarter, or location.\n- **Calculate a baseline expected performance** for each segment, e.g., the average conversion rate for all managers within a specific role and quarter.\n- **Compute the manager's residual** by comparing their actual performance against the segment baseline.\n- **Aggregate residuals across all assignments** for each manager to assess their performance relative to expectation, controlling for the segment mix they were assigned.\n- **Rank managers** based on their average residual, not their raw average performance, to identify true over- or under-performers.",
+    "checklist": [
+      "List segmentation factors that could confound performance comparisons.",
+      "Calculate segment baselines (e.g., average metric per role-quarter).",
+      "For each manager's assignment, compute residual = actual - segment baseline.",
+      "Aggregate residuals per manager (e.g., weighted average by assignments).",
+      "Rank managers by residual to identify systematic differences."
+    ],
+    "common_failure_prevented": "This prevents incorrectly attributing poor performance to a manager when their low scores are due to being assigned harder roles or time periods.",
+    "keywords": [
+      "manager performance",
+      "performance comparison",
+      "control for",
+      "fair evaluation",
+      "residual analysis",
+      "heterogeneous groups"
+    ],
+    "tags": [
+      "causal_inference",
+      "performance_evaluation",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Specify regression model to avoid leakage and multicollinearity",
+    "when_to_use": "When building a regression model to quantify the impact of multiple factors.",
+    "experience": "To build a robust explanatory regression model:\n- **Avoid target leakage**: Ensure predictor variables are not direct mathematical transformations of the target variable or are measured after the outcome is known. For example, do not include 'interviews per application' when the target is 'application to interview rate', as they are often directly calculated from each other.\n- **Check for multicollinearity**: Before interpreting coefficients, compute Variance Inflation Factors (VIFs) for predictors. If VIF > 5-10, consider removing or combining highly correlated variables.\n- **Use logical variable transformations**: Apply transformations like log to skewed variables (e.g., application counts) and include interaction terms where theorized (e.g., manager tenure * role type).\n- **Validate model specification**: Compare the sign and magnitude of key coefficients with domain expectations. Unrealistically large coefficients (e.g., >100) often indicate a specification error.\n- **Present a clean, interpretable model**: Report coefficients for the most important, non-leaky variables, along with their confidence intervals or p-values.",
+    "checklist": [
+      "Identify and exclude predictors that are direct transformations of the target.",
+      "Calculate VIFs to diagnose and address multicollinearity.",
+      "Apply appropriate transformations to predictors.",
+      "Compare coefficient signs and magnitudes to domain logic.",
+      "Report a final, validated model with key drivers."
+    ],
+    "common_failure_prevented": "This prevents drawing incorrect or unstable conclusions from regression models due to statistical issues like target leakage or multicollinearity.",
+    "keywords": [
+      "regression",
+      "quantify impact",
+      "factors",
+      "correlation",
+      "driver analysis",
+      "model"
+    ],
+    "tags": [
+      "statistical_modeling",
+      "validation",
+      "feature_engineering"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.3",
+    "source_case": "dacomp-066"
+  }
+]

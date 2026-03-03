@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Anchor time windows to a fixed reference date",
+    "when_to_use": "When the task requires computing metrics over a rolling window (e.g., last 30 days, last 12 months) relative to a cohort event.",
+    "experience": "- **Identify the reference date**: Determine the fixed point in time (e.g., analysis date, contract renewal date) from which the lookback window is calculated. Do not use the max date in the dataset.\n- **Explicitly define the window**: Write the exact date range (start and end inclusive) for each metric before querying.\n- **Validate window coverage**: Check that the data contains sufficient records within the defined window for the target cohort. If sparse, adjust the window or note the limitation.\n- **Use the same reference date consistently**: Apply the same anchor date across all rolling-window features to ensure temporal alignment.",
+    "checklist": [
+      "Define the analysis reference date",
+      "Calculate window start and end dates",
+      "Verify data exists in the window",
+      "Use the same anchor for all time-based features"
+    ],
+    "common_failure_prevented": "Prevents computing metrics over incorrect or empty time periods, leading to zero values and invalid analysis.",
+    "keywords": [
+      "last 30 days",
+      "rolling window",
+      "lookback period",
+      "time since",
+      "historical cycles"
+    ],
+    "tags": [
+      "time-series",
+      "cohort-analysis",
+      "feature-engineering",
+      "data-validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-100"
+  },
+  {
+    "title": "Define outcome labels using explicit business rules",
+    "when_to_use": "When the task requires classifying entities (e.g., churned vs renewed) based on historical data or derived signals.",
+    "experience": "- **Locate the definitive label source**: Identify the column or field that directly indicates the outcome (e.g., renewal status, churn flag). If not present, find the business rule documented in tags or metadata.\n- **Document the labeling logic**: Write a clear, reproducible rule (e.g., 'expansion_signal = Risk Mitigation' → churn). Avoid using proxy variables without validation.\n- **Validate label distribution**: After applying the rule, check the count and proportion of each class to ensure it matches business expectations.\n- **Cross-check with alternative sources**: If possible, verify the label by comparing with other related fields (e.g., renewal_history, sentiment_trend) for consistency.",
+    "checklist": [
+      "Find the primary outcome field",
+      "Write explicit labeling rule",
+      "Check class balance",
+      "Verify against secondary signals"
+    ],
+    "common_failure_prevented": "Prevents mislabeling the target variable, which invalidates all subsequent predictive analysis and segmentation.",
+    "keywords": [
+      "renewed customers",
+      "churned customers",
+      "successfully renewed",
+      "outcome",
+      "label",
+      "risk prediction"
+    ],
+    "tags": [
+      "target-definition",
+      "classification",
+      "business-rules",
+      "data-quality"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-100"
+  },
+  {
+    "title": "Parse and validate semi-structured data before aggregation",
+    "when_to_use": "When key metrics are embedded in delimited text fields (e.g., tags, JSON) and need to be extracted for analysis.",
+    "experience": "- **Inspect the raw field format**: Examine sample values to understand the delimiter (e.g., '|', ',') and key-value structure (e.g., 'key=value').\n- **Write a parsing function**: Create a reproducible method (SQL substring, regex, or Python split) to extract each needed attribute into separate columns.\n- **Handle missing or malformed data**: Define a default value (e.g., NULL, 'Unknown') for records where the key is absent or the format is unexpected.\n- **Validate extracted values**: After parsing, compute summary statistics (min, max, distinct values) to spot anomalies (e.g., percentages >100, negative numbers).",
+    "checklist": [
+      "Examine raw tag format",
+      "Create parsing logic",
+      "Set defaults for missing data",
+      "Sanity-check extracted values"
+    ],
+    "common_failure_prevented": "Prevents incorrect metric calculations (e.g., feature adoption percentage) due to unparsed or misinterpreted tag data.",
+    "keywords": [
+      "tags",
+      "parsing",
+      "extract",
+      "key-value",
+      "semi-structured",
+      "metadata"
+    ],
+    "tags": [
+      "data-wrangling",
+      "text-parsing",
+      "validation",
+      "feature-engineering"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-100"
+  }
+]

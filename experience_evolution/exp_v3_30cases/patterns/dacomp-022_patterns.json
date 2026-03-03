@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Explicitly link analysis dimensions to the primary target metric",
+    "when_to_use": "When a task asks for strategies to improve a key performance indicator (KPI).",
+    "experience": "1. After identifying the primary target metric (e.g., earnings per kilometer), list all available data dimensions (e.g., vehicle type, rating, time, location, ride distance, payment method). \n2. For each dimension, formulate a specific hypothesis about its relationship with the target metric (e.g., 'Fare per km varies by pickup location').\n3. Systematically perform a univariate analysis for each dimension against the target metric before conducting combined or in-depth analysis on select dimensions.\n4. Record and report results for all examined dimensions, including null findings, to ensure completeness.",
+    "checklist": [
+      "List all potential influencing dimensions from the data schema.",
+      "State a hypothesis for each dimension's impact on the target KPI.",
+      "Conduct and document at least a basic univariate analysis for each dimension."
+    ],
+    "common_failure_prevented": "Missing a required analysis dimension (e.g., location or distance) that influences the target metric.",
+    "keywords": [
+      "improve",
+      "strategy",
+      "optimize",
+      "increase",
+      "earnings",
+      "revenue",
+      "metric",
+      "KPI"
+    ],
+    "tags": [
+      "planning",
+      "completeness",
+      "hypothesis",
+      "requirements"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2 and 3.1.A.3",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Analyze core operational dimensions: location, time, distance, and volume",
+    "when_to_use": "When analyzing operational or gig-economy data (e.g., rides, deliveries, transactions).",
+    "experience": "1. **Location**: Segment by geographic/pickup/drop-off areas and analyze performance metrics (e.g., average fare, completion rate) across segments.\n2. **Distance**: Categorize trips into ranges (e.g., short vs. long) and compare metrics like per-unit earnings between categories.\n3. **Time**: Analyze trends by hour, day, or season to identify high-value periods.\n4. **Volume/Throughput**: Consider the interaction between the metric rate (e.g., fare/km) and the volume of transactions (e.g., number of rides) to assess total impact.",
+    "checklist": [
+      "Segment and analyze data by geographic location.",
+      "Categorize and analyze data by distance ranges.",
+      "Analyze temporal patterns (hourly, daily, seasonal)."
+    ],
+    "common_failure_prevented": "Failing to investigate fundamental operational factors (location, distance) that directly affect key metrics.",
+    "keywords": [
+      "ride",
+      "delivery",
+      "driver",
+      "operational",
+      "performance",
+      "geographic",
+      "distance",
+      "time"
+    ],
+    "tags": [
+      "segmentation",
+      "spatial",
+      "temporal",
+      "operations"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2 and 3.1.A.3",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Use a rubric or requirement checklist to validate analysis scope",
+    "when_to_use": "When the task evaluation is known to follow a detailed rubric or scoring criteria.",
+    "experience": "1. At the start of analysis, parse the task instructions and any provided evaluation criteria to extract explicit analysis requirements.\n2. Map each required analysis dimension or metric to a concrete data query or calculation.\n3. Before finalizing the report, cross-check your completed analyses against the requirement list to ensure all items have been addressed.\n4. If a required analysis is not feasible with the available data, explicitly document this limitation.",
+    "checklist": [
+      "Extract explicit analysis requirements from instructions/rubric.",
+      "Create a mapping from requirement to planned analysis step.",
+      "Verify completion of all required steps before reporting."
+    ],
+    "common_failure_prevented": "Missing rubric-subcriterions (e.g., location or distance analysis) leading to lost points.",
+    "keywords": [
+      "rubric",
+      "evaluation",
+      "criteria",
+      "scoring",
+      "requirement",
+      "checklist"
+    ],
+    "tags": [
+      "planning",
+      "validation",
+      "compliance",
+      "evaluation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  }
+]

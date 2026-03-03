@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Anchor percentile calculations with weighted aggregates and distribution validation",
+    "when_to_use": "When the task requires classifying entities based on percentile thresholds of rate metrics (CTR, CVR, etc.).",
+    "experience": "1. **Define the exact metric formula and aggregation level** – Specify whether the percentile is computed from entity-level rates (e.g., per-ad-group CTR) or from raw totals (weighted average).\n2. **Compute both weighted and unweighted percentiles** – First calculate the aggregated metric per entity (e.g., sum(clicks)/sum(impressions) per ad group). Then compute the distribution's percentiles (e.g., 75th percentile of CTR). Validate against task expectations if benchmark values are implied.\n3. **Check for zero denominators and missing data** – Exclude entities with insufficient data (e.g., zero impressions or clicks) before percentile calculation to avoid skew.\n4. **Reconcile with expected counts** – After filtering entities based on percentile thresholds, compare the number of flagged entities to expected or industry benchmarks; if discrepant, re-evaluate the aggregation or threshold logic.\n5. **Document the calculation method and thresholds** – Clearly report the computed threshold values and the resulting entity counts to enable reproducibility and verification.",
+    "checklist": [
+      "Define metric formula and aggregation level",
+      "Compute both weighted and unweighted percentiles",
+      "Exclude entities with insufficient data",
+      "Compare flagged entity count to expectations",
+      "Document thresholds and method"
+    ],
+    "common_failure_prevented": "This prevents misidentification of problematic entities due to incorrect percentile calculations (e.g., using unweighted vs. weighted rates) leading to inaccurate group counts and thresholds.",
+    "keywords": [
+      "percentile",
+      "threshold",
+      "CTR",
+      "CVR",
+      "classification",
+      "metric calculation"
+    ],
+    "tags": [
+      "statistics",
+      "metric calculation",
+      "validation",
+      "thresholds"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Design control groups explicitly when comparing performance segments",
+    "when_to_use": "When the task requires analyzing the characteristics of a 'problem' segment (e.g., high CTR/low CVR) by comparing it to a 'control' segment.",
+    "experience": "1. **Define the problem segment precisely** – Use explicit criteria (e.g., CTR > P75 AND CVR < P25) to select the problematic entities.\n2. **Define a relevant control group** – Select a comparable group that shares key attributes but differs on the performance metric of interest (e.g., high CTR but normal/high CVR). Ensure the control group is from the same population (e.g., same time period, same campaign types).\n3. **Compare weighted performance metrics** – For both segments, compute volume-weighted metrics (e.g., weighted CTR, CVR, CPC, CPA) to account for scale differences.\n4. **Analyze differences across key dimensions** – Compare the problem and control groups across dimensions like keyword match type, audience, channel, etc., using statistical tests or visualizations to identify significant discrepancies.\n5. **Validate segmentation integrity** – Check that the control group is sufficiently large and comparable; if not, adjust the selection criteria (e.g., use random sampling or propensity score matching).",
+    "checklist": [
+      "Define problem segment with explicit criteria",
+      "Define a comparable control group",
+      "Compute weighted metrics for both segments",
+      "Compare across key dimensions",
+      "Validate segmentation integrity"
+    ],
+    "common_failure_prevented": "This prevents incomplete analysis by ensuring that the characteristics of the problem segment are contrasted with a proper baseline, avoiding false conclusions about root causes.",
+    "keywords": [
+      "control group",
+      "segment comparison",
+      "benchmark",
+      "performance analysis",
+      "high low"
+    ],
+    "tags": [
+      "experimental design",
+      "segmentation",
+      "comparative analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Map analysis dimensions explicitly to rubric-defined requirements before coding",
+    "when_to_use": "When the task instructions reference specific evaluation criteria, a scoring rubric, or a detailed expected output structure.",
+    "experience": "1. **Extract required dimensions and metrics from the rubric** – Before any coding, list all required analysis steps, metrics (e.g., Intent Match Ratio, click share, waste cost), segmentations (e.g., by advertising channel, keyword match type), and output formats (e.g., dashboard, prioritization list).\n2. **Create a mapping table** – For each rubric requirement, note the specific data sources, SQL queries, calculations, and validation checks needed to produce the required output.\n3. **Verify data availability for each dimension** – Check that the necessary columns and granularity exist in the available tables (e.g., keyword_match_type, advertising_channel_type).\n4. **Follow the rubric's methodological specifications** – If the rubric prescribes a specific formula (e.g., weighted CTR, Empirical Bayes smoothing for expected CVR), implement it exactly as described, not a simplified approximation.\n5. **Cross-check outputs against rubric expectations** – After producing results, compare key values (e.g., number of flagged ad groups, percentile thresholds, IMR distribution) to the rubric's expected values; investigate discrepancies before finalizing.",
+    "checklist": [
+      "Extract required dimensions from rubric",
+      "Create mapping table for each requirement",
+      "Verify data availability for each dimension",
+      "Implement prescribed formulas exactly",
+      "Cross-check outputs against expected values"
+    ],
+    "common_failure_prevented": "This prevents missing critical analysis components or using incorrect methodologies that lead to low rubric scores, even if the overall analysis seems reasonable.",
+    "keywords": [
+      "rubric",
+      "requirements mapping",
+      "evaluation criteria",
+      "scoring framework",
+      "expected output"
+    ],
+    "tags": [
+      "project planning",
+      "requirements analysis",
+      "validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.2, Requirement 3/Criterion 3.3, Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-060"
+  }
+]

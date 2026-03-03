@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Parse Complex Data Structs Before Proceeding with Analysis",
+    "when_to_use": "When the data you need for analysis is stored in an opaque, semi-structured field (e.g., JSON string, key-value pairs in a single column).",
+    "experience": "- **First, fully extract and flatten the embedded data.** Use a systematic method (e.g., recursive CTE, JSON parsing, or a robust key-value split) to convert all records into a structured table.\n- **Validate the extraction** by checking row counts and distinct keys against expected anchors or sample rows.\n- **Identify and standardize the critical metrics** (e.g., revenue, score, region) from the flattened data, ensuring correct data types and scaling.\n- **Document the parsing logic** clearly in your code or report, so the transformation is reproducible and can be audited.",
+    "checklist": [
+      "Fully flatten all semi-structured data into a clean, wide table before analysis.",
+      "Verify the number of resulting records matches an expected anchor count.",
+      "Explicitly list which extracted fields will be used as core metrics.",
+      "Test the parsing on a sample to confirm value mapping (e.g., 'value_570' -> 5.70)."
+    ],
+    "common_failure_prevented": "Prevents basing the entire analysis on incorrect, unvalidated assumptions about data structure, leading to inaccurate segmentation and metrics.",
+    "keywords": [
+      "embedded_data",
+      "custom_field",
+      "key-value",
+      "parse",
+      "flatten",
+      "semi-structured"
+    ],
+    "tags": [
+      "data_preparation",
+      "validation",
+      "parsing"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-081"
+  },
+  {
+    "title": "Validate Segment Definitions Against Anchor Metrics",
+    "when_to_use": "When the task requires segmenting data into groups (e.g., high/low revenue) based on a calculated or derived metric.",
+    "experience": "- **Define segmentation criteria precisely** (e.g., 'revenue > 7', 'revenue < 3') using the validated metric.\n- **Immediately after segmentation, compute and report anchor metrics** for each group: sample size, average of the segmentation metric, and key secondary metrics (e.g., average rating, survey progress).\n- **Compare these computed anchors to any expected values** provided in the task or rubric. If they differ significantly, investigate the data or criteria for errors.\n- **Only proceed with deeper analysis (e.g., regional breakdowns) once the segment definitions are stable and validated.**",
+    "checklist": [
+      "Calculate and display group counts immediately after segmentation.",
+      "Report the average value of the segmentation variable per group.",
+      "Check that group sizes are reasonable and align with expectations.",
+      "If anchor metrics are provided, ensure your results are within a small tolerance."
+    ],
+    "common_failure_prevented": "Prevents building an analysis on incorrectly defined segments, which causes all subsequent comparisons (e.g., regional performance) to be meaningless.",
+    "keywords": [
+      "segment",
+      "high low",
+      "revenue",
+      "anchor",
+      "validation",
+      "threshold"
+    ],
+    "tags": [
+      "segmentation",
+      "validation",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-081"
+  },
+  {
+    "title": "Align Analysis Dimensions with Explicit Task Instructions",
+    "when_to_use": "When the task specifies the exact dimensions (e.g., 'geographical regions', 'distribution_channel') to use for breakdowns.",
+    "experience": "- **Explicitly map the requested dimension to a specific column** in your dataset (e.g., 'geographical regions' -> `user_language`). If uncertain, check the data schema and sample values for the most logical match.\n- **Before performing the breakdown, verify that the column contains the expected values** (e.g., language codes like 'ZH', 'FR').\n- **Structure your analysis outputs** (counts, proportions, averages) directly around this specified dimension. Do not substitute a different dimension (e.g., lat/long for region) without justification and explicit note.\n- **If the required dimension is missing, state this limitation clearly** before proceeding with a proxy.",
+    "checklist": [
+      "Identify the exact data column corresponding to each requested analysis dimension.",
+      "List the distinct values for that column to confirm it's suitable.",
+      "Structure all group-by operations and results using the specified dimension.",
+      "If using a proxy, explicitly justify the choice and note the limitation."
+    ],
+    "common_failure_prevented": "Prevents performing an insightful analysis on the wrong dimension, which fails to answer the stakeholder's core question.",
+    "keywords": [
+      "region",
+      "geographical",
+      "dimension",
+      "breakdown",
+      "channel",
+      "segment by"
+    ],
+    "tags": [
+      "requirements",
+      "dimension_analysis",
+      "specification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-081"
+  }
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Map Rubric Sub-Criteria to Analysis Outputs Before Coding",
+    "when_to_use": "When the task instructions reference a scoring rubric or evaluation criteria.",
+    "experience": "Markdown bullets: \n- Extract all specific sub-criteria (e.g., formulas, required tables, significance tests) from the rubric before writing any code.\n- Create a checklist mapping each sub-criterion to a planned output (e.g., '1.2.A.1 requires computing share_high_disease per level; define formula').\n- Validate that all required metrics, units, and annotations (e.g., p-values, confidence intervals) are explicitly planned.\n- Before finalizing, cross-check each analysis output against the rubric checklist to ensure all items are addressed.\n- If a rubric criterion involves multiple steps (e.g., winsorization, anomaly handling), implement and report each step separately.",
+    "checklist": [
+      "Parse rubric into sub-criteria list",
+      "Map each sub-criterion to a specific analysis component",
+      "Verify required outputs (tables, formulas, tests) are planned",
+      "Implement and report each step explicitly",
+      "Cross-check final report against rubric"
+    ],
+    "common_failure_prevented": "Missing required analysis components (e.g., winsorization, significance tests, specific tables) because the agent dove into exploratory coding without aligning with the rubric.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "evaluation criteria",
+      "sub-criteria",
+      "requirements"
+    ],
+    "tags": [
+      "planning",
+      "requirements-analysis",
+      "checklist"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Formalize Statistical Tests and Effect Sizes for Comparisons",
+    "when_to_use": "When the analysis task involves comparing groups (e.g., across disaster levels) or assessing relationships.",
+    "experience": "Markdown bullets: \n- Determine the appropriate statistical test (e.g., ANOVA for parametric, Kruskal-Wallis for non-parametric) based on data distribution and group number.\n- Always report test statistic, degrees of freedom, p-value, and effect size (e.g., eta-squared for ANOVA).\n- For post-hoc pairwise comparisons (e.g., Tukey HSD, Dunn-Bonferroni), report adjusted p-values and confidence intervals.\n- Annotate findings with statistical evidence (e.g., 'F(3,96)=5.21, p<0.01, η²=0.14').\n- Check assumptions (normality, homogeneity of variances) and report if robust methods are used.",
+    "checklist": [
+      "Select appropriate group comparison test",
+      "Report test statistic, df, p-value, effect size",
+      "Conduct and report post-hoc pairwise tests",
+      "Annotate conclusions with statistical evidence",
+      "Check and report test assumptions"
+    ],
+    "common_failure_prevented": "Reporting observed differences (e.g., 'Level 5 has highest disease risk') without supporting statistical tests, p-values, or effect sizes.",
+    "keywords": [
+      "compare groups",
+      "significant difference",
+      "ANOVA",
+      "Kruskal-Wallis",
+      "p-value",
+      "effect size"
+    ],
+    "tags": [
+      "statistics",
+      "hypothesis-testing",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Design Actionable Recommendations with Trigger Thresholds and Ownership",
+    "when_to_use": "When the task requires providing targeted recommendations or interventions.",
+    "experience": "Markdown bullets: \n- Structure recommendations as a matrix linking conditions (e.g., disaster level/type) to specific actions.\n- For each action, define a clear, measurable trigger threshold (e.g., 'Disease Risk > 40%').\n- Assign a responsible party (role or team) and a deadline (e.g., 'within 48 hours').\n- Include resource dependencies (e.g., inventory, personnel) and priority rules (e.g., 'allocate X if Y').\n- Validate recommendations against constraints (budget, logistics) and conduct sensitivity analysis if needed.",
+    "checklist": [
+      "Create condition-action matrix",
+      "Define measurable trigger thresholds",
+      "Assign responsible party and deadline",
+      "List resource dependencies and priority rules",
+      "Validate against constraints"
+    ],
+    "common_failure_prevented": "Providing generic advice (e.g., 'improve disease surveillance') without specific triggers, ownership, or actionable steps.",
+    "keywords": [
+      "recommendations",
+      "interventions",
+      "action plan",
+      "trigger",
+      "responsible",
+      "deadline"
+    ],
+    "tags": [
+      "decision-support",
+      "operationalization",
+      "project-management"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-027"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Explicitly reconcile promotion records with transaction data for validation",
+    "when_to_use": "When the analysis requires linking campaign data (e.g., promotions) to outcome data (e.g., sales) to measure effectiveness.",
+    "experience": "- **Link datasets on key identifiers** (e.g., SKU ID, time window) before computing effectiveness metrics.\n- **Validate join completeness**: Check for missing records or zero outcomes in the linked data; investigate and resolve mismatches (e.g., date format issues, different data sources).\n- **Define promotion event clearly**: Ensure the operational definition (e.g., 'single-item direct price reduction') matches both the promotion metadata filter and the linked transaction discount logic.\n- **Confirm metric alignment**: Verify that the computed metrics from linked data (e.g., average GMV per promotion) match the rubric's expected definition and baseline values.\n- **Document linkage assumptions and data gaps**, and note any limitations in the analysis.",
+    "checklist": [
+      "Link promotion and transaction tables on SKU and date",
+      "Check for promotions with zero sales after linkage",
+      "Ensure discount depth calculation matches promotion definition",
+      "Compare computed average GMV to rubric anchor values"
+    ],
+    "common_failure_prevented": "Using transaction data as a proxy for promotion data without validating linkage, leading to misaligned metrics and failing rubric prerequisites.",
+    "keywords": [
+      "promotion effectiveness",
+      "campaign analysis",
+      "sales impact",
+      "linked data",
+      "validation"
+    ],
+    "tags": [
+      "data-integration",
+      "metric-calibration",
+      "rubric-alignment"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-034"
+  },
+  {
+    "title": "Apply rubric-defined segmentation and binning rules precisely",
+    "when_to_use": "When the task or rubric specifies exact segmentation thresholds or bin ranges for analysis.",
+    "experience": "- **Extract bin definitions verbatim** from the rubric or task instructions (e.g., discount bins: 0-10%, 10-20%).\n- **Map data values to these bins** exactly, even if other binning schemes seem more intuitive.\n- **Compute required metrics per bin** (e.g., average GMV, discount efficiency) without aggregating across bins unless instructed.\n- **Verify bin-level outputs** against rubric-provided baseline values or expected patterns.\n- **Report results using the rubric's terminology and bin labels** to facilitate direct scoring.",
+    "checklist": [
+      "List rubric-defined bins exactly",
+      "Create mapping function for data to bins",
+      "Compute metrics per bin separately",
+      "Check results against rubric anchors"
+    ],
+    "common_failure_prevented": "Using analyst-defined bins (e.g., 0-5%, 5-10%) instead of rubric-defined bins, causing mismatch with evaluation criteria.",
+    "keywords": [
+      "segmentation",
+      "bins",
+      "thresholds",
+      "categories",
+      "grouping"
+    ],
+    "tags": [
+      "rubric-compliance",
+      "data-binning",
+      "specification-adherence"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-034"
+  },
+  {
+    "title": "Derive category classifications from required responsiveness metrics, not correlations",
+    "when_to_use": "When tasked with classifying segments based on responsiveness to a treatment (e.g., discount sensitivity).",
+    "experience": "- **Identify the exact responsiveness metric** defined in the rubric (e.g., sales change per discount bin, discount efficiency).\n- **Compute this metric for each segment** at the required granularity (e.g., per Level 1 Category per discount bin).\n- **Apply classification logic** (e.g., high sensitivity if metric exceeds a threshold) as specified or logically derived from the metric's distribution.\n- **Validate classification** by comparing segment list and rationale to rubric baseline categories if provided.\n- **Base all subsequent recommendations** (e.g., optimal discount ranges) on this classification, not on alternative metrics like simple correlation.",
+    "checklist": [
+      "Compute rubric-defined responsiveness metric per segment",
+      "Rank or threshold segments based on this metric",
+      "Compare classification to rubric baseline",
+      "Use classification for downstream analysis"
+    ],
+    "common_failure_prevented": "Classifying categories using simple correlation from transaction data instead of the rubric-defined sales responsiveness metric, leading to incorrect segment identification.",
+    "keywords": [
+      "responsiveness",
+      "sensitivity",
+      "classification",
+      "segmentation",
+      "optimization"
+    ],
+    "tags": [
+      "metric-driven-classification",
+      "rubric-alignment",
+      "segmentation-analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-034"
+  }
+]

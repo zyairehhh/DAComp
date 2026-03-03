@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Map task requirements to explicit rubric dimensions before analysis",
+    "when_to_use": "When the task instruction includes a hidden scoring rubric or detailed requirement list.",
+    "experience": "- Before writing any code, parse the task instruction for all explicit metrics, dimensions, and required outputs.\n- Cross-reference these requirements with the actual data schema to identify which ones are feasible.\n- For each metric (e.g., 'conversion rate'), explicitly define the formula using the available data fields, even if you need to create a proxy.\n- For each dimension (e.g., 'segment by paying customers'), define the exact logic for identification (e.g., `monthly_spend > 0`).\n- Create a checklist table matching each rubric criterion to your planned analysis step and data source.\n- If a required metric cannot be directly computed, document the limitation and propose a proxy, explaining its validity and potential bias.",
+    "checklist": [
+      "List all required metrics from the task",
+      "Define precise calculation formulas",
+      "Map each rubric dimension to a data source",
+      "Document any gaps and propose proxies"
+    ],
+    "common_failure_prevented": "Missing critical analysis dimensions (e.g., retention rates, 72-hour conversion) because the agent focused only on the obvious parts of the task.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "evaluation criteria",
+      "required metrics",
+      "segmentation"
+    ],
+    "tags": [
+      "requirement mapping",
+      "rubric analysis",
+      "metric definition"
+    ],
+    "source_criterion": "Multiple failures across Requirements 2 and 3 due to not computing required metrics like 72-hour conversion, retention, and multi-dimensional panel.",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Operationalize abstract metrics with precise data definitions",
+    "when_to_use": "When the task uses abstract business terms like 'conversion', 'retention', or 'activation'.",
+    "experience": "- For every abstract metric in the task (e.g., 'conversion rate'), identify the exact event timestamps or status fields needed.\n- If exact timestamps are missing (e.g., `demo_booked_at`), systematically search for alternative indicators (e.g., tags, stage fields, custom attributes).\n- Define a clear mapping logic from the alternative data to the target metric (e.g., 'stage:demo_booked' tag implies a demo booking).\n- Validate your mapping by checking sample data and calculating coverage (e.g., what percentage of target entities have the proxy indicator?).\n- Document the proxy's limitations and, if possible, perform sensitivity analysis (e.g., compare results using different proxy definitions).\n- Do not proceed with core analysis until you have a defensible, documented operational definition for each key metric.",
+    "checklist": [
+      "Identify target event for each abstract metric",
+      "Search for proxy fields if direct data is missing",
+      "Define mapping logic for proxies",
+      "Validate coverage and limitations"
+    ],
+    "common_failure_prevented": "Failing to compute metrics like '72-hour feature usage conversion' because the agent didn't operationalize 'feature usage' using available `last_activity_at` or similar fields.",
+    "keywords": [
+      "operationalize",
+      "proxy",
+      "definition",
+      "mapping",
+      "event",
+      "timestamp"
+    ],
+    "tags": [
+      "metric definition",
+      "data mapping",
+      "proxy logic"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2 (missing 72-hour conversion) and Requirement 1/Criterion 1.1 (missing time window definition).",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Construct required summary panels before diving into relationships",
+    "when_to_use": "When the task requires analyzing performance across multiple, interacting dimensions (e.g., segment × seat × region).",
+    "experience": "- Identify the independent dimensions for segmentation from the task (e.g., segment, region, ARR bracket).\n- For each dimension, define its bins or categories (e.g., ARR thresholds).\n- Create a Cartesian product of all dimension categories to form the full analysis panel.\n- For each cell in the panel, compute all required aggregate metrics (counts, rates, averages) before performing any comparative or correlation analysis.\n- Ensure the panel includes all metrics specified in the rubric (e.g., 'companies_total', 'conv_cnt', 'avg_resp_min', 'bot_first_resp_share', 'conv_to_feature_rate', 'retention').\n- Use this panel as the primary data source for all subsequent analyses (e.g., correlation, high/low group comparisons) to ensure consistency and completeness.",
+    "checklist": [
+      "List all segmentation dimensions",
+      "Define bins/categories for each dimension",
+      "Create full Cartesian product panel",
+      "Populate panel with all required base metrics"
+    ],
+    "common_failure_prevented": "Producing incomplete analysis because the agent did not first build the required multi-dimensional summary table, leading to missing key combinations.",
+    "keywords": [
+      "panel",
+      "cross-tab",
+      "dimensions",
+      "segmentation",
+      "summary table",
+      "multi-dimensional"
+    ],
+    "tags": [
+      "data aggregation",
+      "panel construction",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1 (missing Segment × Seat × ARR panel) and Requirement 4/Criterion 4.1 (missing correlation based on panel metrics).",
+    "source_case": "dacomp-098"
+  }
+]

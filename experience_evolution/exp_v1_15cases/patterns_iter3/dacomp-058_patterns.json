@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Anchor analysis to the exact time window and entity filter",
+    "when_to_use": "When the task specifies a specific time period (e.g., 'latest month', 'June 2024') or a filtered subset of entities for analysis.",
+    "experience": "1. **Explicitly parse the time filter** from the task instructions and verify the available data range matches it.\n2. **Apply the filter first** before any aggregation or scoring to ensure the analysis sample is correct.\n3. **Count the filtered entities** and compare against any expected counts or anchors provided in the rubric.\n4. **Use the filtered subset as the primary dataset** for all subsequent dimensional analysis and scoring, not the full historical dataset.\n5. **If the required time window is ambiguous (e.g., '18 months'), clarify by checking the latest data point or the most recent complete period.**",
+    "checklist": [
+      "Parse and note the exact time filter",
+      "Apply filter and verify record count",
+      "Compare count to rubric anchors",
+      "Use filtered set for all downstream steps"
+    ],
+    "common_failure_prevented": "Performing analysis on an incorrect data sample (e.g., all historical months instead of the latest month), leading to irrelevant results and missing the required entities.",
+    "keywords": [
+      "latest month",
+      "June 2024",
+      "time window",
+      "filtered subset",
+      "specific period"
+    ],
+    "tags": [
+      "data filtering",
+      "time analysis",
+      "sample integrity",
+      "requirement anchoring"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Map rubric-defined metric formulas and weights precisely",
+    "when_to_use": "When the task or rubric provides a specific scoring model, composite metric, or weighting scheme (e.g., 'three-dimensional health score model consisting of Cost Efficiency (40%), Conversion Quality (35%), and Competitiveness (25%)').",
+    "experience": "1. **Extract the exact structure** of the composite metric from the instructions, including dimension names, weights, and any specified sub-metrics.\n2. **Verify the available raw data columns** needed to compute each sub-metric. If a required metric is missing, propose a reasonable proxy and document the assumption.\n3. **Implement the scoring formula exactly as described**, including normalization method (e.g., winsorizing, percentile rank) and any internal weight splits within a dimension.\n4. **Do not invent your own weighting or sub-metric structure** unless the task explicitly allows for flexibility. Stick to the provided framework.\n5. **Test the computed scores** on a few sample records to ensure they behave as intended (e.g., higher scores for better performance).",
+    "checklist": [
+      "Extract scoring model structure from task",
+      "Verify data availability for each metric",
+      "Implement formula exactly",
+      "Test on sample records"
+    ],
+    "common_failure_prevented": "Designing an arbitrary scoring model that deviates from the required structure, making results incomparable and failing to meet the rubric's evaluation criteria.",
+    "keywords": [
+      "scoring model",
+      "composite metric",
+      "weighted score",
+      "health score",
+      "dimension weights"
+    ],
+    "tags": [
+      "metric design",
+      "scoring framework",
+      "requirement compliance",
+      "formula implementation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Perform entity-level diagnostic analysis before aggregation",
+    "when_to_use": "When the task requires identifying sub-optimal segments (e.g., device, geography) within specific problematic entities (e.g., campaigns, products).",
+    "experience": "1. **First, identify the target entities** (e.g., the 11 problematic campaigns) as a distinct list.\n2. **For each target entity, retrieve its granular data** (e.g., device-level or geo-level performance) before aggregating across all entities.\n3. **Apply the required diagnostic logic per entity** (e.g., 'flag devices where cost share > 30% and ROAS < 0.8').\n4. **Aggregate the results across entities only after the per-entity analysis is complete**, if needed for overall insights.\n5. **Present findings with clear entity-level examples** that illustrate the diagnostic pattern, not just overall averages.",
+    "checklist": [
+      "Identify target entity list",
+      "Retrieve granular data per entity",
+      "Apply diagnostic logic per entity",
+      "Aggregate results after analysis"
+    ],
+    "common_failure_prevented": "Aggregating data across all entities first, which obscures the per-entity patterns and prevents the required campaign-specific device or geo analysis.",
+    "keywords": [
+      "per campaign",
+      "within each",
+      "device breakdown",
+      "geo distribution",
+      "segment analysis"
+    ],
+    "tags": [
+      "granular analysis",
+      "entity-level diagnostics",
+      "drill-down",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-058"
+  }
+]

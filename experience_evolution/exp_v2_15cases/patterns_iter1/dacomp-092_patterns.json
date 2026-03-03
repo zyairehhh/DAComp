@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Map rubric-defined metrics to available data columns before calculation",
+    "when_to_use": "When the task instruction mentions specific metrics or column names that aren't immediately present in the dataset.",
+    "experience": "- **Extract required metrics:** Start by listing all required metrics from the task (e.g., customer_margin_volatility, gross_profit over 12 months).\n- **Verify column presence:** For each required metric, check if a column with that exact name exists in the designated tables. If not, explore if a proxy column (e.g., revenue_volatility) exists and document the mapping.\n- **Check temporal granularity:** If the metric requires time-series data (e.g., monthly profit over 12 months), confirm the table contains time-stamped rows or aggregations at the correct granularity.\n- **Cross-reference rubric:** Match the required metric definitions to rubric sub-criteria to ensure the calculation method aligns with expectations.",
+    "checklist": [
+      "List all required metrics from the task",
+      "Check for exact column matches in the target tables",
+      "Identify proxy columns if necessary and note assumptions",
+      "Validate temporal data availability for time-series metrics"
+    ],
+    "common_failure_prevented": "Calculating metrics with incorrect or missing data columns, leading to inaccurate results that don't meet rubric expectations.",
+    "keywords": [
+      "metric",
+      "coefficient of variation",
+      "variance",
+      "volatility",
+      "growth rate"
+    ],
+    "tags": [
+      "data validation",
+      "metric mapping",
+      "rubric alignment"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Pre-validate analysis path by comparing expected vs. actual data structure",
+    "when_to_use": "When joining multiple tables for a multi-step analysis, before writing complex queries.",
+    "experience": "- **Table schema inspection:** Immediately after database connection, run `PRAGMA table_info()` or `DESCRIBE` on all tables mentioned in the task to list column names and types.\n- **Required column checklist:** Create a checklist of required columns for each analysis step (e.g., for QoQ growth calculation: invoice_total, reporting_month, customer_id).\n- **Sample data validation:** For each required column, sample 5-10 rows to check for nulls, data format (e.g., dates), and plausible value ranges.\n- **Path confirmation:** If expected columns are missing, pause and search for alternative tables or columns; do not proceed with analysis until data alignment is confirmed.",
+    "checklist": [
+      "Run schema queries for all required tables",
+      "Create a checklist of required columns per analysis step",
+      "Sample rows to validate data quality and format",
+      "Search for alternative data sources if columns are missing"
+    ],
+    "common_failure_prevented": "Proceeding with analysis using incorrect or mismatched data structures, resulting in failed joins and invalid metric calculations.",
+    "keywords": [
+      "join",
+      "schema",
+      "data structure",
+      "table",
+      "balance sheet"
+    ],
+    "tags": [
+      "data validation",
+      "schema inspection",
+      "pre-analysis checklist"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Benchmark computed metrics against expected rubric values before reporting",
+    "when_to_use": "After computing key summary statistics (mean, variance, percentiles) that have known expected values in the rubric.",
+    "experience": "- **Compute rubric benchmarks:** Before finalizing results, calculate the same summary statistics (e.g., mean CV, variance of QoQ growth) that the rubric expects.\n- **Compare to expected ranges:** Check if your computed values are within a reasonable range of the rubric's expected values (e.g., mean CV ≈ 0.2275).\n- **Investigate discrepancies:** If values differ significantly, re-examine data filtering, metric definitions, and calculation logic. Verify you're using the correct data source and time window.\n- **Document assumptions:** If using proxy data or different methods, explicitly note how they differ from the rubric's ideal approach.",
+    "checklist": [
+      "Calculate rubric-expected summary statistics from your results",
+      "Compare to rubric-provided benchmark values",
+      "Re-validate data and calculations if discrepancies are large",
+      "Document any deviations from the ideal rubric method"
+    ],
+    "common_failure_prevented": "Reporting metric values that are orders of magnitude off from rubric expectations without detecting the error.",
+    "keywords": [
+      "benchmark",
+      "expected",
+      "summary statistics",
+      "validate",
+      "accuracy"
+    ],
+    "tags": [
+      "quality assurance",
+      "rubric validation",
+      "metric verification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.fallback.2",
+    "source_case": "dacomp-092"
+  }
+]

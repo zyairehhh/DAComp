@@ -1,0 +1,90 @@
+[
+  {
+    "title": "Map analysis tasks to rubric-defined metrics and dimensions",
+    "when_to_use": "When the task instructions or rubric explicitly define specific formulas, indicators, or a scoring framework",
+    "experience": "*   Before coding, extract all required metrics and dimensions from the task description and any scoring rubric.\n*   Verify that your planned calculations match the exact definitions (formulas, data sources, aggregations) provided.\n*   If the rubric offers multiple analysis paths (e.g., Path A, Path B), explicitly choose one and note your choice.\n*   Structure your code to compute the required metrics as separate, clearly labeled variables or columns.\n*   Validate your final outputs against the rubric's expected metric names and calculation logic.",
+    "checklist": [
+      "Extract all rubric-specified metrics and formulas",
+      "Compare planned calculations to rubric definitions",
+      "Explicitly select an analysis path if multiple are defined",
+      "Code and label metrics according to rubric names"
+    ],
+    "common_failure_prevented": "Producing analysis based on self-derived metrics that do not satisfy the task's defined evaluation criteria.",
+    "keywords": [
+      "rubric",
+      "metric",
+      "formula",
+      "indicator",
+      "dimension",
+      "scoring",
+      "evaluation",
+      "criteria"
+    ],
+    "tags": [
+      "requirements",
+      "specifications",
+      "compliance",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Verify data schema and joins align with analysis entities",
+    "when_to_use": "When the analysis requires linking records across multiple tables to compute per-entity metrics",
+    "experience": "*   Before writing complex joins, map the primary key/foreign key relationships between all relevant tables.\n*   Explicitly check for one-to-one, one-to-many, or many-to-many relationships that could cause duplication or incorrect aggregations.\n*   Test join logic on a small sample to verify it produces the expected grain (e.g., one row per user, per login event).\n*   When calculating rates (e.g., incidents per user), ensure the denominator (e.g., user count) is derived from the correct, non-duplicated source table.",
+    "checklist": [
+      "Map PK/FK relationships between tables",
+      "Identify the cardinality of relationships",
+      "Test join logic on a sample",
+      "Verify aggregation grain matches metric definition"
+    ],
+    "common_failure_prevented": "Incorrectly joining tables leading to miscounted numerators or denominators for rates and proportions.",
+    "keywords": [
+      "join",
+      "relationship",
+      "schema",
+      "primary key",
+      "foreign key",
+      "aggregation",
+      "grain",
+      "denominator"
+    ],
+    "tags": [
+      "data-modeling",
+      "sql",
+      "integrity"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Prioritize rubric-specified analysis paths over novel methodologies",
+    "when_to_use": "When a scoring rubric provides specific, graded analysis methods or answer patterns",
+    "experience": "*   Identify if the rubric provides 'paths' (e.g., Path A, Path B) with associated scores or reference answers.\n*   Before devising a novel analytical method, check if your planned approach aligns with one of the provided paths.\n*   If your novel method diverges, explicitly justify why the rubric path is insufficient or incorrect for the task.\n*   When in doubt, implement the rubric's specified method first to ensure baseline task compliance, then add novel analysis as supplementary.",
+    "checklist": [
+      "Identify all predefined analysis paths in the rubric",
+      "Compare your planned method to the predefined paths",
+      "Justify any deviation from the rubric's methods",
+      "Implement the rubric's method as a primary baseline"
+    ],
+    "common_failure_prevented": "Developing a creative but ungraded analysis that results in a score of zero for not following the required method.",
+    "keywords": [
+      "path",
+      "method",
+      "reference answer",
+      "grading",
+      "scoring",
+      "baseline",
+      "compliance"
+    ],
+    "tags": [
+      "evaluation",
+      "grading",
+      "instructions",
+      "methodology"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-035"
+  }
+]

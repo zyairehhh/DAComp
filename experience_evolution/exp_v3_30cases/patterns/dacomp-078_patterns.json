@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Define explicit time windows for training and evaluation",
+    "when_to_use": "When a task requires predicting future outcomes or trends from historical data.",
+    "experience": "1. Before feature engineering, explicitly partition your data into a strict training (past) period, a forecast horizon (future), and an optional hold-out test period.\n2. Verify that all features for a given entity are computed using data **only** from its training window, ensuring no data leakage from the forecast horizon.\n3. Define your target labels using data **only** from the forecast horizon to reflect future behavior.\n4. Report the date ranges and entity counts for each window, noting any sparsity issues that could affect model viability.\n5. When splitting data for validation, use a time-based split (e.g., the most recent period for testing) rather than a random split to simulate real-world deployment.",
+    "checklist": [
+      "Define past and future window boundaries",
+      "Check feature calculation uses only past window data",
+      "Check label derivation uses only future window data",
+      "Report sample counts per window",
+      "Use time-series cross-validation"
+    ],
+    "common_failure_prevented": "Training a model with data leakage (using future information to predict the future) or evaluating on a non-representative temporal split, leading to overestimated performance.",
+    "keywords": [
+      "future",
+      "predict",
+      "trend",
+      "forecast",
+      "time",
+      "window",
+      "leakage"
+    ],
+    "tags": [
+      "time-series",
+      "validation",
+      "data-splitting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Derive predictive targets from future performance windows",
+    "when_to_use": "When building a model to identify future high-value entities or predict future trends.",
+    "experience": "1. Define the target variable (e.g., 'high-value', 'growth') based on metrics calculated **exclusively** from a defined future period (e.g., the next 3-6 months).\n2. Use statistical methods (e.g., percentile thresholds, clustering) on the future metrics to create robust, data-driven labels, rather than using arbitrary historical cutoffs.\n3. Report the distribution of the derived labels (e.g., class balance) to ensure sufficient data for modeling.\n4. For trend prediction, define a trend metric (e.g., slope, percent change) comparing a future period to a past period, and categorize it into meaningful classes (e.g., growth, stable, decline).",
+    "checklist": [
+      "Define future period for target creation",
+      "Calculate target metric using only future data",
+      "Set label thresholds based on future data distribution",
+      "Check label distribution balance",
+      "For trends, calculate change between future and past windows"
+    ],
+    "common_failure_prevented": "Creating labels based on historical data or arbitrary rules, which do not accurately represent the future state the model is intended to predict.",
+    "keywords": [
+      "label",
+      "target",
+      "high-value",
+      "trend",
+      "future",
+      "performance"
+    ],
+    "tags": [
+      "target-engineering",
+      "supervised-learning"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Validate model on a temporally held-out test set",
+    "when_to_use": "When evaluating a predictive model's real-world performance.",
+    "experience": "1. Reserve the most recent time period as a test set, simulating how the model will perform on unseen future data. Do not shuffle data randomly.\n2. Report key performance metrics (e.g., accuracy, precision, recall, F1) specifically on this held-out test set.\n3. For classification, generate and analyze a confusion matrix on the test set to understand error types.\n4. For scoring models, evaluate the predictive power by calculating the correlation between the model's score and the actual future metric on the test set, or by analyzing performance within score bins.\n5. If the task requires a specific accuracy threshold (e.g., >85%), report the test set performance and adjust the model or threshold accordingly.",
+    "checklist": [
+      "Hold out the latest time period for testing",
+      "Report all performance metrics on the test set",
+      "Generate a confusion matrix for classification",
+      "Analyze score vs. future outcome correlation",
+      "Compare test performance to required threshold"
+    ],
+    "common_failure_prevented": "Overestimating model accuracy by evaluating on the training data or a non-temporal split, leading to poor real-world performance.",
+    "keywords": [
+      "evaluate",
+      "accuracy",
+      "test",
+      "performance",
+      "validate",
+      "held-out"
+    ],
+    "tags": [
+      "model-evaluation",
+      "validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-078"
+  }
+]

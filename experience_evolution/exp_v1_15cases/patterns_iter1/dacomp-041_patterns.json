@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define a formal, versioned parameter table for thresholds",
+    "when_to_use": "When the task involves classifying data into risk or quality levels based on configurable thresholds.",
+    "experience": "*   Before tagging data, explicitly create a structured parameter table (e.g., `risk_thresholds_v1`) in your analysis or as a configuration object.\n*   For each indicator, specify at least: the column name, a descriptive indicator name, a lower bound (if applicable), an upper bound, a risk level (e.g., Green, Yellow, Red), a source (e.g., 'ASHRAE 2023', 'Internal Policy v2.1'), and a version number.\n*   Document your unit conversion and harmonization rules. For example, state that all temperature values are treated in °C.\n*   Implement logic that references this table, allowing thresholds to be easily updated or swapped (e.g., `use_threshold_set('conservative')` vs. `use_threshold_set('relaxed')`).\n*   In your outputs, include fields that trace back to the applied rule (e.g., `triggered_threshold`, `threshold_source`, `evidence_field`).",
+    "checklist": [
+      "Created a structured, documented threshold table with source and version",
+      "Defined risk levels (e.g., Green/Yellow/Red) for each indicator",
+      "Implemented code that references the table, not hard-coded values",
+      "Output includes traceability fields for tagging decisions"
+    ],
+    "common_failure_prevented": "Prevents the omission of a formal, configurable risk framework, leading to non-reproducible, untraceable analysis that fails to meet structured rubric requirements.",
+    "keywords": [
+      "threshold",
+      "risk level",
+      "parameter",
+      "standard",
+      "exceedance",
+      "indicator"
+    ],
+    "tags": [
+      "data governance",
+      "reproducibility",
+      "risk analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-041"
+  },
+  {
+    "title": "Map and publish the full data processing pipeline before executing",
+    "when_to_use": "When the task requires multiple analytical steps (filtering, joining, scoring, ranking) that must be documented and validated.",
+    "experience": "*   Before writing any analysis code, outline the end-to-end pipeline from raw data to final deliverables. Define each major component (e.g., 'High-traffic Filter', 'Environmental Risk Tagging', 'Composite Scoring', 'Top-N Ranking').\n*   For each component, specify the required inputs, the processing logic (e.g., formula, join keys, weighting scheme), and the explicit outputs (including all required output fields mentioned in the task).\n*   Create placeholder functions or code blocks for each component with clear docstrings describing their purpose, parameters, and return values.\n*   Explicitly handle edge cases and missing data for each component (e.g., 'If material_sensitivity is missing, use default weight X').\n*   Execute the pipeline step-by-step, validating the output schema of each step against the predefined structure before proceeding to the next.",
+    "checklist": [
+      "Created a high-level pipeline diagram or list of components",
+      "Defined explicit inputs, logic, and outputs for each component",
+      "Documented handling for missing data and edge cases",
+      "Validated the output schema of each step before proceeding"
+    ],
+    "common_failure_prevented": "Prevents premature execution on incomplete understanding, which leads to missing key analytical steps (e.g., correlation analysis, final ranking list) and produces an incomplete deliverable.",
+    "keywords": [
+      "pipeline",
+      "scoring",
+      "ranking",
+      "component",
+      "deliverable",
+      "analysis step"
+    ],
+    "tags": [
+      "project planning",
+      "data pipeline",
+      "validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-041"
+  },
+  {
+    "title": "Explicitly address every rubric sub-criterion as a deliverable",
+    "when_to_use": "When working on a complex, multi-part task described in a structured rubric or detailed instruction.",
+    "experience": "*   Parse the task instruction and any provided rubric (if available) to extract a list of all explicit and implied deliverables (e.g., 'provide a parameter table', 'compute correlations', 'propose monitoring KPIs').\n*   Create a checklist matching these deliverables and cross-reference it as you work. Treat each criterion as a section that must be explicitly answered in your final output.\n*   For criteria that involve multiple sub-points (e.g., 'define KPI system... including calculation formula, time window, aggregation criteria'), ensure your response contains elements that satisfy each sub-point.\n*   If a required analysis step cannot be performed due to data limitations, explicitly state this, propose a mitigation or assumption, and note the impact on the conclusion.\n*   Structure your final report or output with clear headers that map to the rubric's requirements, making it easy for an evaluator to locate each component.",
+    "checklist": [
+      "Extracted a list of required deliverables from the task/rubric",
+      "Created a tracking checklist for all deliverables",
+      "Ensured final output contains a clear section addressing each item",
+      "Explicitly noted and justified any omissions or assumptions"
+    ],
+    "common_failure_prevented": "Prevents missing entire sections of required analysis (e.g., intervention strategies, monitoring systems, evaluation methods) because they were overlooked or deprioritized.",
+    "keywords": [
+      "rubric",
+      "requirement",
+      "deliverable",
+      "criterion",
+      "comprehensive",
+      "evaluation"
+    ],
+    "tags": [
+      "task management",
+      "quality assurance",
+      "requirements analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, 3.2, 3.3",
+    "source_case": "dacomp-041"
+  }
+]

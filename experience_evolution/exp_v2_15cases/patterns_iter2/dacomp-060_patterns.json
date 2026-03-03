@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Segment and validate performance by all relevant business dimensions",
+    "when_to_use": "When the analysis requires comparing performance across segments (e.g., problematic vs. control groups) or explaining variance.",
+    "experience": "- **Inventory Available Dimensions:** Before segmenting, systematically check your data schema and task context for all plausible segmentation axes (e.g., `ad_group_type`, `advertising_channel_type`, `keyword_match_type`).\n- **Validate Segment-Level Metrics:** When reporting metrics for a segment (e.g., 'problematic ad groups'), compute weighted averages (e.g., sum(spend)/sum(clicks) for CPC) using the correct denominator to ensure accuracy, not simple averages.\n- **Compare Segments Systematically:** For each key metric (CTR, CVR, CPA, CPC), calculate it for both the target segment and its logical counterpart (e.g., non-problematic high-CTR ads, overall average) to contextualize performance.\n- **Check for Missing Segment Data:** If a key dimension for segmentation is missing from your data (e.g., landing page IDs not in `url_report`), explicitly note this gap and its implications for the analysis.",
+    "checklist": [
+      "List all segmentation dimensions suggested by data schema and task",
+      "Compute segment metrics using correct weighted aggregation formulas",
+      "Create side-by-side comparisons for all relevant segments",
+      "Document any missing dimensions that limit segmentation"
+    ],
+    "common_failure_prevented": "The agent performed segmentation but missed key dimensions (`advertising_channel_type`) and did not validate weighted metrics, leading to inaccurate comparisons and incomplete analysis.",
+    "keywords": [
+      "segment",
+      "compare",
+      "performance",
+      "characteristics",
+      "groups",
+      "dimensions"
+    ],
+    "tags": [
+      "segmentation",
+      "validation",
+      "business_metrics"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Define and apply explicit tiered classifications for derived metrics",
+    "when_to_use": "When the task requires classifying entities based on calculated ratios or scores (e.g., Intent Match Ratio, quality scores).",
+    "experience": "- **Define Tiers Before Analysis:** Based on domain logic or task goals, pre-define meaningful thresholds for your derived metric (e.g., IMR < 0.5 = 'Poor', 0.5-0.9 = 'Moderate', ≥0.9 = 'Good').\n- **Apply Tiers to Entire Population:** Classify all relevant entities (e.g., all ad groups) into these tiers, not just the segment of interest.\n- **Analyze Tier Distribution:** For each tier, calculate its size, share of key activities (clicks, spend), and average performance metrics to understand impact.\n- **Link Tiers to Core Problem:** Determine which tier is most over-represented in your problematic group (e.g., '65% of problem groups are in the Poor IMR tier').",
+    "checklist": [
+      "Define clear, actionable thresholds for your derived metric",
+      "Classify the entire relevant dataset into these tiers",
+      "Report each tier's size and share of key volume/outcome metrics",
+      "Quantify the tier's association with the core problem"
+    ],
+    "common_failure_prevented": "The agent computed IMR but did not create tiered segments, missing the insight that most problem groups fell into the lowest IMR tier, which is crucial for prioritization.",
+    "keywords": [
+      "classify",
+      "tiers",
+      "ratio",
+      "threshold",
+      "score",
+      "segmentation"
+    ],
+    "tags": [
+      "classification",
+      "prioritization",
+      "thresholds"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Prioritize recommendations using a quantitative impact scoring formula",
+    "when_to_use": "When tasked to propose optimizations across multiple segments or levers and need to rank them by potential impact.",
+    "experience": "- **Design an Impact Formula:** Define a simple, transparent formula for 'potential impact' that combines scale (e.g., click share) and opportunity (e.g., performance gap vs. benchmark). Example: `Impact = Segment_Click_Share * (Benchmark_CVR - Segment_CVR)`.\n- **Compute Impact for Each Candidate Segment:** Apply the formula to all identified segments (e.g., each advertising channel, keyword match type tier).\n- **Rank and Report Top Segments:** Present the results in a ranked list, highlighting the highest-impact segments for immediate action.\n- **Link Recommendations to Rankings:** Explicitly tie each proposed optimization action to the high-impact segments identified by this scoring.",
+    "checklist": [
+      "Create a quantifiable impact formula combining scale and opportunity gap",
+      "Calculate impact score for each identified segment or lever",
+      "Rank segments by impact score from highest to lowest",
+      "Align specific recommendations with the top-ranked segments"
+    ],
+    "common_failure_prevented": "The agent proposed general recommendations without quantifying and ranking the potential impact of fixing different problem areas (e.g., different advertising channels), making prioritization unclear.",
+    "keywords": [
+      "prioritize",
+      "impact",
+      "optimization",
+      "recommendation",
+      "ranking",
+      "levers"
+    ],
+    "tags": [
+      "recommendation",
+      "prioritization",
+      "impact_analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-060"
+  }
+]

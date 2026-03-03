@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Define custom analysis metrics using rubric-specified formulas",
+    "when_to_use": "The task or rubric defines specific metrics or calculations (e.g., consistency error, normalized entropy) required for analysis.",
+    "experience": "1. **Parse the rubric carefully** for explicit formulas (e.g., `txn_consistency_error = |transaction_count - expected_transactions| / expected_transactions`).  \n2. **Create a mapping table** in your code linking rubric metric names to your derived column names and formulas.  \n3. **Implement each formula exactly** before proceeding to filtering, clustering, or modeling.  \n4. **Validate the computed metrics** by checking descriptive statistics and edge cases.  \n5. **Use the rubric-defined metric names** in your analysis outputs and conclusions.",
+    "checklist": [
+      "Extract all rubric-defined metric formulas",
+      "Implement formulas verbatim before analysis",
+      "Validate metrics with summary stats",
+      "Use correct metric names in reporting"
+    ],
+    "common_failure_prevented": "Incorrectly derived or missing custom metrics leading to partial credit loss despite completing similar analysis.",
+    "keywords": [
+      "metric",
+      "formula",
+      "calculate",
+      "consistency",
+      "entropy",
+      "ratio"
+    ],
+    "tags": [
+      "metric_definition",
+      "rubric_adherence",
+      "data_validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Generate cross-tabulations for categorical dimensions before modeling",
+    "when_to_use": "The task asks to explore 'characteristics' or 'dimensions' across groups, especially when categorical variables exist.",
+    "experience": "1. **Identify all categorical columns** relevant to the analysis dimensions (e.g., `seasonal_preference`, `lifecycle_stage`).  \n2. **For each categorical column, create a contingency table** with the target grouping variable (e.g., anomaly vs non-anomaly).  \n3. **Calculate proportions and counts** for each combination.  \n4. **Interpret the distributions** to identify over‑ or under‑representation.  \n5. **Include these tables in the analysis report** before proceeding to advanced modeling like clustering or decision trees.",
+    "checklist": [
+      "List all categorical analysis columns",
+      "Build cross-tabulation with target group",
+      "Compute proportions per category",
+      "Interpret distribution differences",
+      "Report tables before modeling"
+    ],
+    "common_failure_prevented": "Omitting basic distribution analysis of categorical variables, missing obvious segmentation insights.",
+    "keywords": [
+      "characteristics",
+      "dimensions",
+      "categorical",
+      "distribution",
+      "cross-tabulation",
+      "contingency"
+    ],
+    "tags": [
+      "exploratory_analysis",
+      "categorical_data",
+      "distribution_analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Design controlled experiments when evaluating feature impact",
+    "when_to_use": "The task requires evaluating whether 'new dimensions should be introduced' or comparing model performance with/without specific features.",
+    "experience": "1. **Define a baseline model** using only original/core features.  \n2. **Define an enhanced model** that incorporates the new proposed dimensions.  \n3. **Use the same train/test split and evaluation metrics** for both models.  \n4. **Compare performance** (e.g., accuracy, lift, silhouette score) between baseline and enhanced.  \n5. **Test statistical significance** if possible (e.g., paired t‑test).  \n6. **Report the incremental benefit** of the new dimensions clearly.",
+    "checklist": [
+      "Build baseline model without new dimensions",
+      "Build enhanced model with new dimensions",
+      "Use identical train/test splits",
+      "Compare metrics directly",
+      "Assess significance"
+    ],
+    "common_failure_prevented": "Building only one model without a proper comparison, making claims about feature importance unsupported by controlled evidence.",
+    "keywords": [
+      "new dimensions",
+      "improve",
+      "predictive accuracy",
+      "feature importance",
+      "compare",
+      "baseline"
+    ],
+    "tags": [
+      "experimental_design",
+      "model_comparison",
+      "feature_evaluation"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1, Requirement 5/Criterion 5.2",
+    "source_case": "dacomp-076"
+  }
+]

@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Decompose aggregate changes into segment-level contributions",
+    "when_to_use": "When analyzing a drop or rise in an aggregate metric (e.g., department conversion rate) over time",
+    "experience": "- Calculate the metric for each sub-segment (e.g., role, team) in the baseline and comparison periods\n- Compute each segment's contribution to the overall change using weighted averages (segment proportion * segment change)\n- Rank segments by absolute contribution to identify the largest drivers\n- Validate that segment proportions (mix) are stable; if not, separate mix effect from rate effect\n- Report top segments causing the decline/increase with their contribution magnitude",
+    "checklist": [
+      "Identify all relevant sub-segments in the data",
+      "Calculate period-over-period metric for each segment",
+      "Compute segment's weight in total population",
+      "Calculate contribution = weight * (metric_period2 - metric_period1)",
+      "Sort by absolute contribution"
+    ],
+    "common_failure_prevented": "Missing which specific roles drove the Engineering department's conversion rate drop (e.g., not quantifying Frontend vs. Backend contributions)",
+    "keywords": [
+      "decline",
+      "drop",
+      "increase",
+      "aggregate",
+      "contribution",
+      "driver",
+      "segment"
+    ],
+    "tags": [
+      "decomposition",
+      "mix-effect",
+      "attribution"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Control for confounding factors when comparing manager performance",
+    "when_to_use": "When evaluating individual performance metrics (e.g., conversion rates) across different managers or teams",
+    "experience": "- Identify potential confounders: job types/roles, experience levels, time periods, or resource differences\n- Use regression with fixed effects (e.g., manager dummy variables + role controls) to isolate manager impact\n- Calculate residuals (actual - predicted) for each manager after controlling for confounders\n- Rank managers by residuals to identify systematic over/under-performance\n- Check for interaction effects (e.g., does manager performance vary by role type?)",
+    "checklist": [
+      "List all non-manager factors that could affect the metric",
+      "Build regression: metric ~ manager_dummies + control_variables",
+      "Extract manager coefficients or residuals",
+      "Test for manager*role interactions if relevant",
+      "Report managers with significantly low/high adjusted performance"
+    ],
+    "common_failure_prevented": "Concluding a manager has low performance without adjusting for the different roles/conditions they handle",
+    "keywords": [
+      "manager",
+      "performance",
+      "compare",
+      "systematic",
+      "impact",
+      "factor",
+      "control"
+    ],
+    "tags": [
+      "causal inference",
+      "fixed effects",
+      "regression"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Quantify intensity changes when analyzing process metrics",
+    "when_to_use": "When analyzing conversion rates in a multi-stage process (e.g., application → interview → hire)",
+    "experience": "- Map the process stages and identify intensity metrics (e.g., interviews per application, time between stages)\n- Calculate intensity for each period and segment (e.g., quarterly, by role)\n- Test correlation between intensity changes and conversion rate changes\n- Use regression to quantify impact: conversion_rate ~ intensity + controls\n- Report whether changes in intensity explain the conversion rate drop",
+    "checklist": [
+      "Define process stages and intermediate metrics",
+      "Compute intensity metrics per period/segment",
+      "Plot intensity vs. conversion rate over time",
+      "Run correlation analysis",
+      "Build regression model with intensity as predictor"
+    ],
+    "common_failure_prevented": "Not measuring whether the drop in conversion rate is due to fewer interviews per application or other process changes",
+    "keywords": [
+      "process",
+      "intensity",
+      "interview",
+      "pipeline",
+      "throughput",
+      "stages"
+    ],
+    "tags": [
+      "process analysis",
+      "correlation",
+      "operational metrics"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-066"
+  }
+]

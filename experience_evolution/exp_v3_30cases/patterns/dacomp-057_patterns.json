@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Align time windows and campaign definitions to rubric specifications",
+    "when_to_use": "When the task or rubric provides explicit definitions for time periods, cohort windows, or entity selection criteria",
+    "experience": "1. Immediately map the rubric's required cohort definitions (e.g., 'campaigns running >120 days') to the available data columns and compute accordingly.\n2. Identify and use the globally-defined analysis date (e.g., 'global max date 2024-12-31') for all window calculations, rather than deriving a max date from the dataset.\n3. Explicitly compute the required metrics (e.g., CAC_growth_rate, LTV/CAC_decline_rate) using the rubric's formulas and specified windows before any filtering or segmentation.\n4. Validate that the calculated metrics match the rubric's expected outputs (e.g., the three specific campaigns) before proceeding to multidimensional analysis.\n5. If the rubric provides a specific join path or aggregation level (e.g., 'join campaign_report to compute run_days'), follow that exact methodology instead of exploring alternatives.",
+    "checklist": [
+      "Map rubric definitions to SQL logic",
+      "Use global dates not dataset max",
+      "Compute metrics exactly as defined",
+      "Validate outputs against rubric examples"
+    ],
+    "common_failure_prevented": "Calculating metrics with incorrect time windows or entity definitions, leading to zero scores on completeness and accuracy criteria.",
+    "keywords": [
+      "time window",
+      "cohort",
+      "run_days",
+      "global date",
+      "rubric definition"
+    ],
+    "tags": [
+      "time-series",
+      "cohort-analysis",
+      "specification-adherence"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-057"
+  },
+  {
+    "title": "Produce required numerical outputs before advancing to multidimensional analysis",
+    "when_to_use": "When the task requires specific filtered lists, metric values, or sample outputs as a foundation for further analysis",
+    "experience": "1. Before any exploratory analysis, generate the exact list of entities (e.g., campaigns) and their calculated metrics as specified in the rubric.\n2. Output these foundational results in a clear, structured format (e.g., a table with columns for key identifiers and the required metrics).\n3. Verify that the output matches the rubric's expected format and content (e.g., 'three campaigns' with specific values).\n4. Only after confirming the correct foundational output, proceed to the multidimensional diagnosis or modeling steps.\n5. If the initial output is empty or incorrect, diagnose the data or calculation logic immediately—do not proceed with downstream analysis.",
+    "checklist": [
+      "Generate required entity list",
+      "Output metric values in structured table",
+      "Verify against rubric examples",
+      "Diagnose empty results before proceeding"
+    ],
+    "common_failure_prevented": "Skipping the generation of required primary outputs, resulting in zero scores for all subsequent analysis steps.",
+    "keywords": [
+      "filtered list",
+      "sample output",
+      "metric values",
+      "foundational results"
+    ],
+    "tags": [
+      "output-verification",
+      "rubric-adherence",
+      "staged-analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-057"
+  },
+  {
+    "title": "Design and implement scoring models when risk assessment is required",
+    "when_to_use": "When the task asks for a 'risk assessment model,' 'scoring framework,' or 'prioritization' based on multiple metrics",
+    "experience": "1. Explicitly define a scoring formula that combines the specified multidimensional metrics (e.g., acquisition_sophistication_score, cac_efficiency_percentile) into a single risk score.\n2. Normalize and weight metrics according to business logic or rubric guidance.\n3. Apply the scoring model to all relevant entities and output a prioritized list (e.g., high-risk campaigns).\n4. Define risk thresholds (e.g., High, Medium, Low) and conduct sensitivity analysis on those thresholds.\n5. Ensure the scoring model's output directly informs the subsequent optimization recommendations and budget reallocation plan.",
+    "checklist": [
+      "Define explicit scoring formula",
+      "Normalize and weight metrics",
+      "Output prioritized risk list",
+      "Define thresholds and sensitivity",
+      "Link scores to recommendations"
+    ],
+    "common_failure_prevented": "Omitting the construction of a quantitative risk model, leading to zero scores on risk assessment and recommendation criteria.",
+    "keywords": [
+      "risk assessment",
+      "scoring model",
+      "prioritization",
+      "weighted score",
+      "risk threshold"
+    ],
+    "tags": [
+      "risk-modeling",
+      "scoring-framework",
+      "prioritization"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-057"
+  }
+]

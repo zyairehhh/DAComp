@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Explicitly demonstrate score derivation for at least two sample units",
+    "when_to_use": "When the analysis requires calculating a composite performance score for individuals or entities.",
+    "experience": "* **Create a traceability table:** For at least two representative sample units (e.g., people, products), present a table that shows: raw metric values, any normalization steps (like Z-scores), dimension weights, weighted sub-scores, and the final composite score.\n* **Recalculate manually for verification:** Using the sample's raw values, manually re-calculate the final score step-by-step following your defined formula to verify the calculation's accuracy (error ≤ 1%).\n* **Document a single-unit aggregation chain:** For one unit, detail how each underlying data point (e.g., a single task's quality, priority, rework) contributes to its aggregated metrics (e.g., personal average quality).\n* **Confirm formula consistency:** Ensure the demonstrated calculations use the exact same logic and constants as the automated analysis applied to the full population.",
+    "checklist": [
+      "Build traceability table for 2+ samples",
+      "Recalculate final score from raw values",
+      "Document single-unit aggregation path",
+      "Verify calculation matches automated logic"
+    ],
+    "common_failure_prevented": "Prevents scoring well on technical metrics but failing to provide transparent, verifiable evidence of the calculation process, leading to rubric penalties.",
+    "keywords": [
+      "composite score",
+      "performance evaluation",
+      "weighted metrics",
+      "verification",
+      "transparency"
+    ],
+    "tags": [
+      "validation",
+      "reproducibility",
+      "scoring",
+      "traceability"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-013"
+  },
+  {
+    "title": "Perform sensitivity analysis on scoring model weights and parameters",
+    "when_to_use": "When your evaluation plan uses a weighted scoring model to rank or classify entities.",
+    "experience": "* **Identify key tunable parameters:** List all weights, normalization constants (e.g., Z-score baselines), and thresholds in your scoring model.\n* **Define perturbation scenarios:** Systematically vary key parameters (e.g., ±10% on dimension weights) and rerun the classification/ranking.\n* **Report stability metrics:** For each scenario, calculate the impact—report the proportion of entities whose performance level changes, the Spearman correlation of rankings, or which specific 'top performers' remain stable.\n* **Conclude on robustness:** State whether your model's conclusions (especially the classification of 'Excellent' and 'Needs Improvement') are sensitive or robust to reasonable changes in assumptions.",
+    "checklist": [
+      "List all tunable model parameters",
+      "Define weight perturbation scenarios",
+      "Calculate rank/classification stability metrics",
+      "Draw robustness conclusion"
+    ],
+    "common_failure_prevented": "Prevents proposing a single scoring model without testing if its outputs are stable, missing required sensitivity checks in the rubric.",
+    "keywords": [
+      "sensitivity analysis",
+      "robustness",
+      "weight tuning",
+      "model stability",
+      "ranking"
+    ],
+    "tags": [
+      "model validation",
+      "uncertainty",
+      "scoring"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-013"
+  },
+  {
+    "title": "Compare at least two distinct evaluation paradigms before finalizing",
+    "when_to_use": "When the task is to design an evaluation or classification system that must be 'fair' or 'reasonable'.",
+    "experience": "* **Design alternative methods:** Create at least two fundamentally different evaluation approaches (e.g., rule-based fixed weights vs. statistical Z-score ranking; weighted sum vs. TOPSIS multi-criteria decision analysis).\n* **Apply both methods to the full dataset:** Run the complete analysis pipeline for each method to generate final scores and classifications.\n* **Create a cross-method comparison table:** Show, for key entities (e.g., the 'Excellent' group), their scores and classification under each method. Calculate agreement statistics (e.g., top-K overlap, correlation).\n* **Justify final selection:** Based on the comparison, explicitly state which method is chosen for the final plan and why (e.g., better fairness, simpler interpretation, higher robustness).",
+    "checklist": [
+      "Design 2+ distinct evaluation methods",
+      "Run full analysis for each method",
+      "Create cross-method comparison table",
+      "Justify final method selection"
+    ],
+    "common_failure_prevented": "Prevents delivering a single evaluation method without demonstrating its validity against alternatives, failing to meet rubric requirements for method comparison.",
+    "keywords": [
+      "evaluation method",
+      "paradigm comparison",
+      "fairness",
+      "validation",
+      "multi-criteria"
+    ],
+    "tags": [
+      "methodology",
+      "comparative analysis",
+      "evaluation design"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-013"
+  }
+]

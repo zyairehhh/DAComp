@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Explicitly map rubric analysis dimensions to your analysis plan",
+    "when_to_use": "When a task or rubric specifies required metrics, dimensions, or a scoring framework.",
+    "experience": "1. **Deconstruct the rubric**: Before coding, parse the evaluation rubric (if provided) and list all required analysis dimensions, specific metrics, and required grouping bins or thresholds.\n2. **Cross-reference task requirements**: Compare rubric dimensions with the task instructions. Ensure your analysis plan addresses each specified dimension (e.g., 'vehicle age,' 'mileage segments,' 'electric range segment,' 'color').\n3. **Create a mapping table**: Document which parts of your analysis (queries, computed columns, groupings) satisfy each rubric criterion.\n4. **Validate completeness before finalizing**: After preliminary analysis, check your outputs against the rubric's required dimensions to ensure none are missing before drafting the final report.",
+    "checklist": [
+      "List required dimensions from rubric/task",
+      "Create mapping between requirements and planned analysis",
+      "Check for completeness of dimensions before final report"
+    ],
+    "common_failure_prevented": "This prevents missing key analysis dimensions (like color or electric range segments) required by the rubric, leading to lower completeness scores.",
+    "keywords": [
+      "rubric",
+      "dimensions",
+      "criteria",
+      "evaluation",
+      "required",
+      "analysis",
+      "score"
+    ],
+    "tags": [
+      "planning",
+      "requirement-analysis",
+      "rubric-compliance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Formalize multivariate modeling steps beyond correlation analysis",
+    "when_to_use": "When the task requires analyzing how multiple factors collectively influence an outcome (e.g., 'which configurations have higher value').",
+    "experience": "1. **Define the target metric and candidate features**: Explicitly state the dependent variable (e.g., 'value retention ratio') and all independent variables (features) to be tested.\n2. **Encode categorical features**: Plan and implement one-hot encoding or other appropriate encoding for all categorical variables before modeling.\n3. **Build and document a regression model**: Use a modeling library (e.g., sklearn, statsmodels) to run a regression (linear or other). Extract key outputs: coefficients (standardized if possible), p-values, and model fit metrics (R², adjusted R²).\n4. **Interpret results holistically**: Report the direction, magnitude, and statistical significance of each factor's influence, explaining how they collectively impact the outcome.\n5. **Compare model results with simple correlation**: Validate that the multivariate model's findings are consistent with or add nuance to simple single-factor correlations.",
+    "checklist": [
+      "Define target and features",
+      "Encode categorical variables",
+      "Run regression, capture coefficients & p-values",
+      "Interpret direction, magnitude, significance",
+      "Compare with single-factor results"
+    ],
+    "common_failure_prevented": "This prevents providing only simple correlation analysis when a full multivariate model is required, leading to incomplete conclusions about collective factor importance.",
+    "keywords": [
+      "multivariate",
+      "regression",
+      "modeling",
+      "factors",
+      "collective influence",
+      "coefficients",
+      "significance"
+    ],
+    "tags": [
+      "modeling",
+      "statistical-analysis",
+      "feature-importance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Structure final recommendations around explicit factor ranking and impact",
+    "when_to_use": "When the task requires deriving specific, actionable recommendations from a multi-factor analysis.",
+    "experience": "1. **Generate a consolidated importance ranking**: After analyzing all factors, rank them by their impact on the target metric, using both statistical significance (p-value) and effect size (coefficient magnitude).\n2. **Explicitly state the top N factors**: List the top factors identified (e.g., 'top 3 factors influencing buyback value are: X, Y, Z').\n3. **For each top factor, explain its directional impact and business implication**: Describe *how* the factor influences the outcome (e.g., 'higher mileage negatively impacts value') and why it matters for the recommendation.\n4. **Anchor recommendations to the ranking**: Ensure your specific suggestions (e.g., which models to buy) are directly justified by the factor importance analysis.",
+    "checklist": [
+      "Rank all analyzed factors by impact",
+      "Explicitly list top factors",
+      "Explain direction and business reason for each top factor",
+      "Link recommendations to factor ranking"
+    ],
+    "common_failure_prevented": "This prevents giving recommendations without clearly stating which factors were most important and how they guide the specific suggestions, leading to unconvincing or incomplete conclusions.",
+    "keywords": [
+      "recommendations",
+      "ranking",
+      "top factors",
+      "impact",
+      "actionable",
+      "justification"
+    ],
+    "tags": [
+      "conclusions",
+      "business-insights",
+      "recommendation-engineering"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-029"
+  }
+]

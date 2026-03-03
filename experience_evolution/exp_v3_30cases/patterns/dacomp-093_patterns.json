@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Verify rubric anchor values and required metrics with exact formulas",
+    "when_to_use": "Task instructions include specific benchmark values, tolerances, or formula definitions that must be matched.",
+    "experience": "- Extract all numeric anchors (e.g., 'discount=62', 'open ~0.3517') from the rubric or task description before analysis.\n- Map each required metric (e.g., weighted open rate, orders_per_1k) to its precise SQL/Python formula and validate it yields the expected anchor within tolerance.\n- For derived categories (e.g., subject keyword groups), compute exact counts to confirm classification logic matches rubric.\n- If anchor values are not provided, compute basic aggregates (counts, sums, ranges) for key columns as a sanity check.\n- After analysis, explicitly compare your computed results to the required anchors and note discrepancies.",
+    "checklist": [
+      "Extract all numeric benchmarks from task/rubric",
+      "Define exact formula for each derived metric",
+      "Compute anchors and verify tolerance",
+      "Report deviations if anchors not matched"
+    ],
+    "common_failure_prevented": "Missing precision verification leading to low scores on criteria that require exact numeric anchors.",
+    "keywords": [
+      "anchor",
+      "tolerance",
+      "verify",
+      "benchmark",
+      "required",
+      "precision",
+      "rubric"
+    ],
+    "tags": [
+      "validation",
+      "metrics",
+      "rubric",
+      "precision"
+    ],
+    "source_criterion": "Multiple criteria (e.g., Requirement 1/Criterion 1.2, Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2, Requirement 4/Criterion 4.1)",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Explicitly define and implement all stratification dimensions from the task",
+    "when_to_use": "Task requires breaking down results by multiple segmentation factors (e.g., time windows, audience size, campaign status).",
+    "experience": "- Parse the task for all explicit stratification dimensions (e.g., 'break down by is_archived', 'stratify by audience size quartiles').\n- For each dimension, define exact logic: time windows (morning/afternoon), subject keyword rules, audience size thresholds (percentiles), status flags.\n- Create derived columns for each dimension and compute aggregates for every meaningful combination.\n- Ensure stratification uses the correct aggregation level (campaign, person) and accounts for weighting if needed.\n- Report sample sizes and volumes for each segment combination to validate segment validity.",
+    "checklist": [
+      "List all required stratification dimensions",
+      "Define logic for each (SQL CASE, binning)",
+      "Compute aggregates per segment combination",
+      "Report segment sample sizes and volumes"
+    ],
+    "common_failure_prevented": "Omitting required stratification (e.g., high send windows, scale quartiles) leading to incomplete analysis.",
+    "keywords": [
+      "stratify",
+      "break down",
+      "segment",
+      "quartile",
+      "window",
+      "dimension",
+      "combination"
+    ],
+    "tags": [
+      "segmentation",
+      "aggregation",
+      "analysis design"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Correlate engagement metrics with downstream retention using proper joins",
+    "when_to_use": "Task asks to evaluate how upstream actions (e.g., email opens) influence downstream outcomes (e.g., retention, revenue).",
+    "experience": "- Identify the join key between action dataset (e.g., campaigns) and outcome dataset (e.g., persons). If no direct key exists, consider proxy linkage (e.g., time windows, cohorts).\n- Compute person-level engagement (e.g., opened emails per person) aggregated across relevant campaigns.\n- Merge engagement metrics with person-level retention metrics (e.g., active_retention_rate_week).\n- Calculate correlation coefficients (Pearson) between engagement and retention for each relevant segment.\n- If correlation is infeasible, perform cohort analysis: compare retention rates for high vs low engagement groups.",
+    "checklist": [
+      "Identify join key or proxy linkage",
+      "Aggregate engagement metrics per person",
+      "Merge with outcome dataset",
+      "Compute correlation or cohort comparison"
+    ],
+    "common_failure_prevented": "Reporting retention rates in isolation without linking to campaign engagement, failing to measure association.",
+    "keywords": [
+      "retention",
+      "correlation",
+      "downstream",
+      "influence",
+      "association",
+      "cohort",
+      "join"
+    ],
+    "tags": [
+      "correlation",
+      "retention",
+      "data merge",
+      "causality"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-093"
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "title": "Explicitly design short-haul vs long-haul segmentation when analyzing per-unit fares",
+    "when_to_use": "When the task involves optimizing a per-unit metric (e.g., fare per km, revenue per hour) and trip distance or duration is available.",
+    "experience": "1.  **Identify the per-unit metric** (e.g., fare per kilometer, revenue per minute) as the primary KPI for optimization.\n2.  **Segment trips by distance/duration thresholds** (e.g., short-haul vs. long-haul). Create at least two distinct groups based on natural breaks in the distribution or business logic (e.g., trips under 5 km vs. over 5 km).\n3.  **Compute the target metric for each segment** and compare them. Calculate average per-unit earnings for each distance segment.\n4.  **Analyze the relationship between segment and other variables**. Examine if the optimal strategy (e.g., vehicle type, time of day) differs for short-haul vs. long-haul trips.\n5.  **Generate separate recommendations** for each distance segment if their performance drivers differ significantly.",
+    "checklist": [
+      "Define distance/duration thresholds for segmentation",
+      "Compute the target per-unit metric for each segment",
+      "Compare metric performance across segments",
+      "Check if other factors (type, time) interact differently per segment"
+    ],
+    "common_failure_prevented": "Prevents missing the crucial insight that per-unit earnings strategies differ for short vs. long trips, leading to oversimplified recommendations.",
+    "keywords": [
+      "per-kilometer",
+      "per-hour",
+      "per-unit fare",
+      "trip distance",
+      "short-haul",
+      "long-haul",
+      "optimize earnings",
+      "ride-hailing"
+    ],
+    "tags": [
+      "segmentation",
+      "metric analysis",
+      "operational strategy",
+      "transportation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.3",
+    "source_case": "dacomp-022"
+  }
+]

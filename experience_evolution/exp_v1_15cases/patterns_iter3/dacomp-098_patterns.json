@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Anchor analysis on explicit time windows before computing metrics",
+    "when_to_use": "When the task requires analyzing performance over time or comparing rates across periods.",
+    "experience": "1. **Explicitly declare an analysis window** – define a clear start and end date (e.g., 'last full calendar month') based on data availability or task context.\n2. **Verify data coverage** – confirm the number of relevant events (conversations, customers) within the declared window matches expectations or known anchors.\n3. **Align all time-based calculations** – ensure any date diff, conversion rate, or average duration uses timestamps bounded by the declared window.\n4. **Document the window in output** – state the window used for all aggregated metrics to ensure reproducibility.",
+    "checklist": [
+      "Define a specific calendar or rolling window",
+      "Count relevant events within window",
+      "Use window for all date calculations",
+      "Report window in results"
+    ],
+    "common_failure_prevented": "Prevents computing rates across inconsistent or unbounded time periods, leading to unreliable comparisons.",
+    "keywords": [
+      "time window",
+      "period",
+      "anchor",
+      "calendar",
+      "baseline"
+    ],
+    "tags": [
+      "time-series",
+      "data-scoping",
+      "reproducibility"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Map data fields to rubric-defined terms before segmentation",
+    "when_to_use": "When a rubric or task defines specific segmentation criteria using named fields or metrics.",
+    "experience": "1. **Parse rubric definitions** – extract all explicit segmentation dimensions (e.g., 'segment', 'seat', 'ARR', 'paying customers') and their required definitions.\n2. **Locate corresponding data** – find the exact table and column(s) in the dataset that match each rubric dimension; if missing, document a fallback strategy.\n3. **Verify alignment** – compare the values in the data (e.g., 'monthly_spend' vs. 'paid_at') to ensure they satisfy the rubric's logical definition (e.g., paying customer = monthly_spend > 0).\n4. **Report mapping decisions** – in the analysis, state which data fields were used to implement each rubric dimension and any assumptions made.",
+    "checklist": [
+      "Extract rubric segmentation terms",
+      "Map each term to a data field",
+      "Validate mapping logic",
+      "Document mapping decisions"
+    ],
+    "common_failure_prevented": "Prevents segmentation based on different or incorrect fields, causing misalignment with rubric scoring criteria.",
+    "keywords": [
+      "segment",
+      "definition",
+      "criteria",
+      "rubric",
+      "mapping"
+    ],
+    "tags": [
+      "segmentation",
+      "requirement-mapping",
+      "data-dictionary"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Compute required rubric metrics before generating recommendations",
+    "when_to_use": "When a rubric specifies particular performance metrics (e.g., 72-hour conversion, retention rates) that must inform conclusions.",
+    "experience": "1. **Identify all rubric-required metrics** – list the specific KPIs the rubric expects to be calculated (e.g., '72‑hour feature usage conversion rate', 'weekly retention rate').\n2. **Define each metric formula** – specify the exact numerator, denominator, and any time or entity filters as defined in the rubric.\n3. **Compute metrics for all relevant segments** – calculate each required KPI for the overall population and for each segmentation slice required by the rubric.\n4. **Use computed metrics in conclusions** – base strategic recommendations and observations directly on the values of these rubric-defined metrics, not on alternative or derived metrics.",
+    "checklist": [
+      "List rubric-required KPIs",
+      "Define each KPI's formula",
+      "Compute KPIs for all segments",
+      "Base conclusions on these KPIs"
+    ],
+    "common_failure_prevented": "Prevents generating recommendations based on irrelevant or unrequested metrics, leading to a low score on rubric-driven tasks.",
+    "keywords": [
+      "metric",
+      "KPI",
+      "rubric",
+      "rate",
+      "calculate"
+    ],
+    "tags": [
+      "metrics",
+      "rubric-adherence",
+      "recommendations"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-098"
+  }
+]

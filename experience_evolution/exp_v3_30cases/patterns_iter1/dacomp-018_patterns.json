@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Compute comparison metrics before reporting trends",
+    "when_to_use": "When the task requires analyzing the influence of binary behaviors (like clicks, shares, purchases) on an outcome metric",
+    "experience": "*   **Isolate Groups:** First, filter your dataset to create two clean groups for comparison (e.g., users who performed the action vs. those who did not).\n*   **Calculate Key Metric:** Compute the target business metric (e.g., average profit, total revenue) for each group separately.\n*   **Run Significance Check:** Perform a simple statistical test (e.g., t-test) or calculate the percentage difference to validate if the observed difference is meaningful.\n*   **Report with Context:** Present the comparison with the calculated values, the difference, and its potential business significance.",
+    "checklist": [
+      "Have I defined the binary behavior variable clearly?",
+      "Have I calculated the target metric for both the 'Yes' and 'No' groups?",
+      "Is the difference between groups statistically or practically significant?",
+      "Does my conclusion directly reference the computed comparison metrics?"
+    ],
+    "common_failure_prevented": "Reporting a relationship (e.g., 'likes correlate with profit') without quantifying the difference in average profit between users who liked and those who did not.",
+    "keywords": [
+      "behavior",
+      "impact",
+      "effect",
+      "influence",
+      "correlation",
+      "compare",
+      "binary"
+    ],
+    "tags": [
+      "quantification",
+      "comparison",
+      "statistical testing",
+      "metric calculation"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.5/best_path_analysis/Criterion 1.5.A.2",
+    "source_case": "dacomp-018"
+  },
+  {
+    "title": "Distinguish between total and per-unit contributions",
+    "when_to_use": "When segmenting data by categories (like region, customer segment) to identify 'best' performers",
+    "experience": "*   **Calculate Both Metrics:** For each segment, always compute both the **total contribution** (sum) and the **per-unit efficiency** (average) of the key metric.\n*   **Rank Segments Twice:** Create two ranked lists: one by total contribution and one by per-unit efficiency.\n*   **Align with Business Goal:** Determine which metric (volume or efficiency) is more relevant to the specific business question (e.g., 'focus on' for growth vs. 'achieve good profit' for margin).\n*   **State Primary Driver:** In your conclusion, explicitly name whether the primary target is driven by high volume or high efficiency, and note if a different segment leads on the other metric.",
+    "checklist": [
+      "Have I calculated total and average metrics for each segment?",
+      "Which metric is most aligned with the action verb in the task (e.g., 'focus on', 'optimize', 'improve')?",
+      "Does my conclusion specify if the recommended segment is best by total, by average, or both?",
+      "Have I acknowledged the leader in the other metric if it's different?"
+    ],
+    "common_failure_prevented": "Recommending a segment because it has the highest average profit, while ignoring another segment that contributes the most total profit and is therefore the primary business driver.",
+    "keywords": [
+      "segment",
+      "focus",
+      "target",
+      "profile",
+      "category",
+      "region",
+      "contribution",
+      "efficiency"
+    ],
+    "tags": [
+      "segmentation",
+      "business interpretation",
+      "metric selection"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.4/best_path_analysis/Criterion 1.4.A.3",
+    "source_case": "dacomp-018"
+  },
+  {
+    "title": "Validate data joins for one-to-many relationships",
+    "when_to_use": "When merging datasets using a common key where records might be duplicated",
+    "experience": "*   **Profile Key Tables:** Before joining, run `COUNT(DISTINCT key)` and `COUNT(*)` on each table to check for duplicate key values.\n*   **Choose Aggregation Level:** Decide the correct grain for your analysis (e.g., per customer, per order). If a table has multiple rows per key, aggregate it to that grain first or use a DISTINCT subset of attributes.\n*   **Test Join Results:** After joining, verify the row count matches expectations. Check for inflation (cartesian products) or loss of records.\n*   **Document Assumptions:** Note any assumptions made about data relationships (e.g., 'using the first recorded profile per customer') in your analysis log.",
+    "checklist": [
+      "What is the grain (level) of my final analysis table?",
+      "Do the keys I'm joining on have a one-to-one or one-to-many relationship?",
+      "Have I aggregated or deduplicated data to the correct grain before joining?",
+      "Does the post-join row count make sense given the pre-join counts?"
+    ],
+    "common_failure_prevented": "Incorrectly joining customer profile data that has multiple rows per customer, leading to inflated metrics and inaccurate segment-level calculations.",
+    "keywords": [
+      "join",
+      "merge",
+      "relationship",
+      "duplicate",
+      "key",
+      "grain",
+      "aggregate"
+    ],
+    "tags": [
+      "data preparation",
+      "data modeling",
+      "SQL joins"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-018"
+  }
+]

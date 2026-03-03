@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Define and validate metric calculation windows before filtering",
+    "when_to_use": "When a task requires filtering or segmenting based on metric changes over specific time periods (e.g., 'last 30 days', 'growth rate').",
+    "experience": "- **Explicitly define the time windows** for baseline and comparison periods (e.g., 'last 30 days' vs. 'previous 30 days') before any calculation.\n- **Validate data availability** within these windows for all relevant entities (e.g., campaigns must have data in both periods).\n- **Calculate the metric separately for each defined window** (e.g., average CAC in period A, average CAC in period B) before computing the growth/decline rate.\n- **Document the exact date ranges used** and ensure they align with the task's intent (e.g., relative to max date in dataset).\n- **Cross-check the calculation logic** against the task's implied formula (e.g., is growth rate `(new-old)/old` or `(new/old)-1`?).",
+    "checklist": [
+      "Define baseline and comparison time windows",
+      "Check data coverage for each entity in both windows",
+      "Calculate metric per window, then compute change",
+      "Document date ranges and formula"
+    ],
+    "common_failure_prevented": "Prevents misidentifying qualifying entities due to incorrect or inconsistent time-window calculations, leading to inaccurate filtering.",
+    "keywords": [
+      "growth rate",
+      "last X days",
+      "decline",
+      "change over time",
+      "period comparison"
+    ],
+    "tags": [
+      "time-series",
+      "metric-calculation",
+      "filtering",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-057"
+  },
+  {
+    "title": "Build a formal scoring model before risk assessment",
+    "when_to_use": "When the task requires building a 'risk assessment model', 'scoring formula', or 'prioritization framework' based on multiple metrics.",
+    "experience": "- **Explicitly define the risk score formula** (e.g., weighted sum, rule-based tiers) before applying it to data.\n- **Normalize input metrics** to a common scale if combining them in a weighted model.\n- **Assign weights or rules** based on business logic or correlation analysis, and document the rationale.\n- **Calculate the risk score for each entity** using the defined formula.\n- **Validate the score distribution** and calibrate thresholds (e.g., high/medium/low risk) if needed.\n- **Output the scores and the contributing factors** for each entity to explain the risk.",
+    "checklist": [
+      "Define scoring formula (weights, rules)",
+      "Normalize input metrics",
+      "Calculate score per entity",
+      "Set risk tiers based on score distribution",
+      "Output scores with drivers"
+    ],
+    "common_failure_prevented": "Prevents reporting only correlations or binary flags instead of a quantifiable, actionable risk score for each entity.",
+    "keywords": [
+      "risk assessment model",
+      "scoring formula",
+      "prioritization",
+      "weighted",
+      "risk score",
+      "comprehensive model"
+    ],
+    "tags": [
+      "modeling",
+      "risk-assessment",
+      "scoring",
+      "prioritization"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-057"
+  },
+  {
+    "title": "Quantify budget reallocation plans with specific source and recipient mapping",
+    "when_to_use": "When a task requires 'budget reallocation plans', 'shift budget', or 'resource migration' recommendations.",
+    "experience": "- **Identify specific source entities** (e.g., campaigns, channels) proposed for budget reduction, with exact current spend.\n- **Calculate the proposed budget change** for each source (e.g., reduce by 20% or $X).\n- **Identify specific recipient entities** for the freed budget, with justification based on performance metrics.\n- **Map the freed amount to recipients** (e.g., allocate $Y to campaign Z).\n- **Provide a monitoring plan** with specific KPIs and review timelines (e.g., weekly CAC, 2-week review).\n- **Present the plan as a clear matrix or table** showing source, reduction, recipient, increase, and net change.",
+    "checklist": [
+      "List source entities and current budget",
+      "Specify reduction amount/percentage per source",
+      "List recipient entities and performance rationale",
+      "Map freed budget to recipients",
+      "Define monitoring KPIs and review schedule"
+    ],
+    "common_failure_prevented": "Prevents vague, qualitative recommendations lacking concrete amounts, sources, and recipients, making the plan unactionable.",
+    "keywords": [
+      "budget reallocation",
+      "shift budget",
+      "migration plan",
+      "reallocate",
+      "optimize spend",
+      "budget adjustment"
+    ],
+    "tags": [
+      "budgeting",
+      "recommendation",
+      "action-plan",
+      "quantitative"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-057"
+  }
+]

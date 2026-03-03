@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Define and compute exact rubric-required metrics before analysis",
+    "when_to_use": "The task instructions or rubric prescribe specific metrics or formulas for analysis (e.g., weighted average, unit cost, tercile shares).",
+    "experience": "* **Extract all required metrics from the task/rubric text**—list each required metric (e.g., unit freight, weighted discount, product-tier shares, RFM quintiles) with its exact definition before coding.\n* **Operationalize each metric**—write the precise SQL/Python formula (e.g., unit freight = Shipping Cost / Quantity, weighted discount = SUM(Discount * Sales) / SUM(Sales)).\n* **Compute all prescribed metrics first**—before any segmentation or trend analysis, produce a table containing every required metric at the grain specified (e.g., per year, per category, per product).\n* **Cross-check metric definitions against rubric paths**—ensure the formula matches the rubric's detailed definition (e.g., terciles, quintiles) and not just a similar concept.",
+    "checklist": [
+      "List all rubric‑required metrics",
+      "Write an exact SQL/Python formula for each",
+      "Compute each metric at the prescribed grain first",
+      "Validate definitions against rubric details"
+    ],
+    "common_failure_prevented": "Prevents performing an analysis that is similar but not identical to what the rubric explicitly required, leading to low completeness scores.",
+    "keywords": [
+      "rubric",
+      "prescribe",
+      "metrics",
+      "required",
+      "formula",
+      "weighted",
+      "unit",
+      "quintile",
+      "tercile"
+    ],
+    "tags": [
+      "rubric alignment",
+      "metric definition",
+      "specification adherence"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1; Requirement 2/Criterion 2.2; Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-017"
+  },
+  {
+    "title": "Align temporal and cohort dimensions for multi‑year comparisons",
+    "when_to_use": "The task requires comparing trends across years or tracking cohorts over time (e.g., year‑over‑year customer engagement).",
+    "experience": "* **Explicitly define the time grain**—determine whether comparisons are year‑over‑year, quarter‑over‑quarter, or period‑to‑period.\n* **Anchor cohorts consistently**—when analyzing customer‑level metrics over time, first define a cohort (e.g., customers who ordered each year) before aggregating metrics for each period.\n* **Ensure metrics are computed at the same temporal granularity**—if the analysis is year‑over‑year, compute all indicators (e.g., engagement averages) per year, not as overall cross‑sectional averages.\n* **Use time‑series aggregation**—for each metric, group by the defined time period (year) and, if applicable, by cohort identifier.",
+    "checklist": [
+      "Set explicit time‑grain for comparisons",
+      "Define cohorts before aggregation",
+      "Aggregate metrics per time‑period, not cross‑sectionally",
+      "Ensure each metric is aligned to the same time grain"
+    ],
+    "common_failure_prevented": "Prevents mixing cross‑sectional averages with longitudinal trends, which leads to incorrect conclusions and fails rubric requirements for year‑over‑year comparisons.",
+    "keywords": [
+      "year‑over‑year",
+      "temporal",
+      "cohort",
+      "longitudinal",
+      "trend",
+      "comparison",
+      "engagement over time"
+    ],
+    "tags": [
+      "time series",
+      "cohort analysis",
+      "temporal alignment"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.4",
+    "source_case": "dacomp-017"
+  },
+  {
+    "title": "Verify rubric‑prescribed aggregation and segmentation methods",
+    "when_to_use": "The rubric or task specifies a particular segmentation scheme (e.g., terciles, quintiles) or aggregation rule (e.g., weighted average, unit calculation).",
+    "experience": "* **Extract segmentation rules from the rubric**—note exact bin definitions (e.g., terciles based on average gross margin, quintiles based on RFM scores).\n* **Validate data preparation**—ensure the underlying metric used for segmentation is computed correctly (e.g., average gross margin per product over entire period).\n* **Implement exact binning logic**—use percentiles/quantiles as specified (e.g., 33rd/66th percentiles for terciles, 20th/40th/60th/80th for quintiles).\n* **Produce verification tables**—output a small table showing the bin thresholds and a sample of entities assigned to each bin.",
+    "checklist": [
+      "List rubric‑prescribed segmentation rules",
+      "Compute the base metric for segmentation correctly",
+      "Apply exact binning percentiles",
+      "Produce a verification table"
+    ],
+    "common_failure_prevented": "Prevents using similar but incorrect segmentation (e.g., quartiles instead of quintiles) that leads to incomplete or inaccurate analysis.",
+    "keywords": [
+      "segmentation",
+      "tercile",
+      "quintile",
+      "percentile",
+      "binning",
+      "aggregation rule",
+      "weighted"
+    ],
+    "tags": [
+      "segmentation",
+      "binning",
+      "rubric adherence"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2; Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-017"
+  }
+]

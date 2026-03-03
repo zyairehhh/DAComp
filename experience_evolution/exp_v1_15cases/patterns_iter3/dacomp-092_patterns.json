@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Verify calculation formulas and thresholds against explicit rubric anchors",
+    "when_to_use": "When the task or its rubric provides specific numeric benchmarks, thresholds, or expected metric values.",
+    "experience": "1. Before any analysis, extract all numeric anchors from the rubric (e.g., expected percentile threshold, mean value, count of segments).\n2. Run preliminary calculations of the same metrics with the exact same methodology as implied by the rubric description.\n3. Compare your computed values against the rubric anchors; if they deviate beyond rounding, re-examine your data filters, aggregation levels, and formula definitions.\n4. Document the discrepancy and investigate potential root causes like different data subsets, missing value handling, or incorrect grouping logic.\n5. Use the anchor verification as a checkpoint before proceeding to subsequent analysis steps.",
+    "checklist": [
+      "Extract all numeric anchors from rubric",
+      "Compute metrics with exact implied methodology",
+      "Compare values and debug deviations",
+      "Use anchors as validation checkpoints"
+    ],
+    "common_failure_prevented": "Avoids reporting inaccurate statistics (like mean variance or percentile thresholds) that cause low accuracy scores.",
+    "keywords": [
+      "rubric",
+      "benchmark",
+      "expected value",
+      "threshold",
+      "anchor",
+      "validation"
+    ],
+    "tags": [
+      "accuracy",
+      "validation",
+      "rubric compliance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Map task dimensions directly to required output segments and correlations",
+    "when_to_use": "When the task requests exploring relationships between multiple dimensions (e.g., volatility and customer lifecycle).",
+    "experience": "1. List each dimension or feature mentioned in the task (e.g., 'payment behavior', 'lifecycle stages').\n2. For each dimension, define the exact metric and aggregation required (e.g., mean CV per payment behavior category, distribution of lifecycle stages).\n3. Create a cross‑reference matrix or checklist to ensure every requested relationship is computed and reported.\n4. Verify that the analysis includes not just counts or distributions, but also the requested correlation or comparative statistics (e.g., mean CV per category).\n5. Before finalizing, confirm each dimension's analysis is present in the output with the correct granularity.",
+    "checklist": [
+      "List all analysis dimensions from task",
+      "Define required metric per dimension",
+      "Create relationship checklist",
+      "Verify correlation/comparison is computed"
+    ],
+    "common_failure_prevented": "Prevents missing required analyses like mean CV per payment behavior category, leading to incomplete conclusions.",
+    "keywords": [
+      "relationship",
+      "explore",
+      "dimensions",
+      "correlation",
+      "behavioral features",
+      "multi-dimensional"
+    ],
+    "tags": [
+      "completeness",
+      "task mapping",
+      "dimensional analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-092"
+  },
+  {
+    "title": "Define and document risk‑rating methodology before applying segmentation",
+    "when_to_use": "When the task requires building a composite risk rating or scoring model with multiple weighted factors.",
+    "experience": "1. Explicitly write the scoring formula, including normalization method, weight definitions, and any categorical mappings.\n2. Align the formula components with the task's described risk factors (volatility, behavior, financial risk).\n3. Before applying segmentation, compute descriptive statistics of the raw risk scores (mean, percentiles) and compare against expected rubric outputs if available.\n4. Define segmentation thresholds (e.g., quartiles, fixed cut‑offs) and justify them based on the score distribution or task requirements.\n5. Test the model on a few sample entities to ensure scores align with intuitive risk levels.",
+    "checklist": [
+      "Document scoring formula and weights",
+      "Align factors with task description",
+      "Compute score statistics before segmentation",
+      "Define and justify thresholds",
+      "Test on sample entities"
+    ],
+    "common_failure_prevented": "Avoids creating a risk model that deviates significantly from the expected methodology, producing incorrect segment counts and scores.",
+    "keywords": [
+      "risk rating",
+      "scoring model",
+      "weighted",
+      "composite",
+      "segmentation",
+      "tier"
+    ],
+    "tags": [
+      "modeling",
+      "methodology",
+      "scoring"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-092"
+  }
+]

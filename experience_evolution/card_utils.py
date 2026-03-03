@@ -25,6 +25,8 @@ _CONFIDENCE_REGRESS_DELTA: float = -0.3
 # Rubric-percentage deltas (absolute, e.g. 0.02 = 2 percentage-points)
 IMPROVEMENT_THRESHOLD: float = 0.02
 REGRESSION_THRESHOLD: float = -0.02
+# Max allowed drop vs previous iteration's score (relative safety net)
+RELATIVE_REGRESSION_THRESHOLD: float = -0.05
 
 
 def confidence_to_priority(confidence: float) -> int:

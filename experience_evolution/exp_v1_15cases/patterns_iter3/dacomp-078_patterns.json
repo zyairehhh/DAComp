@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Enforce time-based data splitting before modeling future trends",
+    "when_to_use": "The task requires predicting future trends or evaluating performance over time.",
+    "experience": "*   Before any feature engineering or modeling, explicitly define a cutoff date to separate historical data (for feature construction) from future data (for label construction or validation).\n*   Verify that the future window has sufficient data coverage for the prediction horizon (e.g., 3-6 months).\n*   Ensure no information from after the cutoff date leaks into the feature set (e.g., only use features calculated from data strictly before the cutoff).\n*   When evaluating model accuracy, test the model on data from a distinct, out-of-time period that was not used for training.",
+    "checklist": [
+      "Define and document the cutoff date and future window.",
+      "Audit features to confirm they are based only on historical data.",
+      "Split dataset into training (historical) and testing (future) sets before modeling.",
+      "Validate that the test set represents the intended prediction horizon."
+    ],
+    "common_failure_prevented": "Prevents inflated accuracy scores from data leakage and invalidates trend predictions built on non-temporal splits.",
+    "keywords": [
+      "predict",
+      "trend",
+      "future",
+      "next",
+      "forecast",
+      "time-based"
+    ],
+    "tags": [
+      "time-series",
+      "data-leakage",
+      "validation",
+      "modeling"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Construct model evaluation metrics beyond simple accuracy",
+    "when_to_use": "The task specifies a target model performance (e.g., accuracy >85%).",
+    "experience": "*   Use multiple evaluation metrics appropriate for the task (e.g., precision, recall, F1, AUC-ROC) to provide a comprehensive performance view.\n*   For classification tasks, generate a confusion matrix and calculate metrics for each class, especially the target class (e.g., high-value customers).\n*   If the model produces a score, evaluate performance across thresholds (e.g., top-K identification rate) rather than a single threshold.\n*   Report results on a properly held-out test set, not on the training data.",
+    "checklist": [
+      "Calculate precision, recall, and F1-score for the target class.",
+      "Generate and interpret a confusion matrix.",
+      "Plot ROC curve and report AUC if applicable.",
+      "Report performance on a separate test set."
+    ],
+    "common_failure_prevented": "Prevents claiming success based on a single, potentially misleading accuracy metric calculated on the wrong data.",
+    "keywords": [
+      "accuracy",
+      "identify",
+      "performance",
+      "evaluate",
+      "model",
+      "score"
+    ],
+    "tags": [
+      "model-evaluation",
+      "metrics",
+      "validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Define target labels using future outcomes before modeling",
+    "when_to_use": "The task requires building a model to predict a future state or trend.",
+    "experience": "*   Before building a predictive model, operationalize the target variable (label) using data from the *future* period defined in your time split.\n*   For trend prediction, define the label as a measurable change (e.g., ratio, classification) between a historical baseline and the future outcome window.\n*   Explicitly compute and document the label for each entity in the training set using only post-cutoff data.\n*   Ensure the label construction logic is reproducible and matches the business goal (e.g., 'high-value' defined by future revenue, not past behavior).",
+    "checklist": [
+      "Operationalize the prediction target using future-period data.",
+      "Define a clear formula or rule for the label (e.g., future value > threshold).",
+      "Calculate the label for each entity in the training dataset.",
+      "Document the label construction logic."
+    ],
+    "common_failure_prevented": "Prevents building models that merely describe current states instead of genuinely predicting future outcomes.",
+    "keywords": [
+      "predict",
+      "trend",
+      "future",
+      "label",
+      "target",
+      "outcome"
+    ],
+    "tags": [
+      "label-engineering",
+      "prediction",
+      "target-definition"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-078"
+  }
+]

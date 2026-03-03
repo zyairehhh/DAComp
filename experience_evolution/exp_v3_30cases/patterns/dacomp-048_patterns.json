@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Extract key entities from all potential text fields, not just structured columns",
+    "when_to_use": "When the analysis requires identifying items (like skills or benefits) that may be described in free-text columns.",
+    "experience": "* **Identify all text columns** that could contain the target entities (e.g., 'Job Description', 'Requirements', 'Notes').\n* **Search for keywords and synonyms** across these columns using pattern matching or NLP techniques (e.g., LIKE '%vocational%' OR '中專' OR '中職').\n* **Combine results from all sources** to build a complete set, applying consistent deduplication and standardization rules.\n* **Validate completeness** by checking the count of extracted items against known benchmarks or by manually sampling the raw text to see if important entries were missed.",
+    "checklist": [
+      "List all relevant text columns in the schema",
+      "Define a comprehensive list of keywords and synonyms for the target entity",
+      "Query each text column for these keywords",
+      "Merge and deduplicate results from all columns"
+    ],
+    "common_failure_prevented": "Missing a significant portion of relevant data because extraction was limited to a single structured column.",
+    "keywords": [
+      "extract",
+      "skills",
+      "benefits",
+      "keywords",
+      "text fields",
+      "description"
+    ],
+    "tags": [
+      "data_extraction",
+      "text_analysis",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Handle missing data separately for each analysis component to avoid unintended filtering",
+    "when_to_use": "When a dataset has missing values in different columns and the task requires multiple independent analyses (e.g., salary distribution and benefits distribution).",
+    "experience": "* **Isolate the analysis components** of the task (e.g., salary analysis, benefits analysis).\n* **For each component, filter only on the missingness of the required columns** (e.g., drop rows where salary is null only for salary analysis).\n* **Do not apply a single filter for the entire dataset** if it would remove rows needed for other analyses.\n* **Document the sample size used for each component** and note any differences from the full dataset.",
+    "checklist": [
+      "List each distinct metric or distribution to be calculated",
+      "For each metric, identify the columns it depends on",
+      "Apply null-filtering only on those dependent columns for that specific calculation",
+      "Keep the original dataset intact for other calculations"
+    ],
+    "common_failure_prevented": "Unintentionally losing data for one analysis by filtering for another, leading to incomplete or biased results.",
+    "keywords": [
+      "missing data",
+      "null handling",
+      "filter",
+      "separate analysis",
+      "distribution"
+    ],
+    "tags": [
+      "data_cleaning",
+      "analysis_design",
+      "bias_prevention"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Define and compute explicit lift metrics when identifying significant factors",
+    "when_to_use": "When the task asks 'which qualities significantly increase' a metric and requires a ranked or prioritized list.",
+    "experience": "* **Define 'lift' quantitatively** (e.g., absolute difference, percentage change) between groups (e.g., with vs. without a quality).\n* **Compute lift for each candidate factor** using the target metric (e.g., average salary difference).\n* **Establish a significance threshold** (e.g., minimum lift amount, statistical test p-value) to classify factors as 'significant'.\n* **Rank factors by lift** and report the top contributors, not just descriptive averages.",
+    "checklist": [
+      "Define the lift metric (e.g., Δ mean, % change)",
+      "Calculate lift for each potential factor",
+      "Apply a threshold to filter significant factors",
+      "Present a ranked list of factors with the highest lift"
+    ],
+    "common_failure_prevented": "Providing only descriptive averages without a clear, comparative measure of impact, making it hard to identify which factors matter most.",
+    "keywords": [
+      "significant increase",
+      "impact",
+      "lift",
+      "difference",
+      "rank",
+      "factor"
+    ],
+    "tags": [
+      "impact_analysis",
+      "prioritization",
+      "metric_calculation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-048"
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Explicitly Map Task Requirements to Rubric-Defined Dimensions",
+    "when_to_use": "When the task or rubric specifies required analysis dimensions, metrics, or a scoring framework.",
+    "experience": "Before starting analysis, the agent should:\n- Extract all explicit dimensions (e.g., time period, location, vehicle type, rating) from the task description.\n- Cross-reference these dimensions with the rubric's scoring criteria to ensure coverage.\n- Define a mapping table linking each required dimension to specific data columns and planned analyses.\n- Validate that the analysis plan addresses each dimension with appropriate metrics (e.g., correlation, segmentation, trends).\n- Schedule a checkpoint to verify all rubric-required dimensions have been analyzed before finalizing the report.",
+    "checklist": [
+      "List all analysis dimensions mentioned in the task and rubric.",
+      "Create a mapping table: dimension -> data column -> analysis method.",
+      "Verify the analysis plan covers each dimension before execution.",
+      "Include a final review step against the rubric criteria."
+    ],
+    "common_failure_prevented": "Prevents missing required analysis dimensions (e.g., operating region, ride distance) that lead to rubric scoring penalties.",
+    "keywords": [
+      "rubric",
+      "dimensions",
+      "requirements",
+      "criteria",
+      "scoring"
+    ],
+    "tags": [
+      "planning",
+      "requirements mapping",
+      "rubric compliance"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2 and Criterion 3.1.A.3",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Analyze All Key Dimensions Before Focusing on Details",
+    "when_to_use": "When the task instruction mentions multiple potential analysis dimensions (e.g., types, ratings, time, location).",
+    "experience": "The agent should:\n- Perform a high-level exploratory analysis for each key dimension (vehicle type, time, location, distance, ratings) before diving deep into any single one.\n- Compute summary statistics (counts, averages, distributions) for each dimension to understand data coverage and relevance.\n- Identify correlations or interactions between dimensions (e.g., how fare per km varies by vehicle type AND time of day).\n- Prioritize dimensions based on business impact (e.g., earnings potential) but ensure all are at least briefly addressed.\n- Document findings for each dimension to support later strategic recommendations.",
+    "checklist": [
+      "List all key dimensions from the task.",
+      "Run basic summaries (count, avg, distribution) for each.",
+      "Check for correlations between dimensions and target metrics.",
+      "Ensure each dimension is addressed in the final insights."
+    ],
+    "common_failure_prevented": "Prevents overlooking important dimensions (like location or ride distance) that could offer strategic insights, leading to incomplete recommendations.",
+    "keywords": [
+      "dimensions",
+      "exploratory analysis",
+      "summary statistics",
+      "correlation",
+      "multi-dimensional"
+    ],
+    "tags": [
+      "exploratory data analysis",
+      "coverage",
+      "comprehensiveness"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Define Clear Segmentation Rules Before Comparative Analysis",
+    "when_to_use": "When the task defines specific segmentation thresholds or grouping rules for comparative analysis.",
+    "experience": "When analyzing segments like 'short-haul vs long-haul' or 'high vs low rating':\n- Explicitly define segmentation thresholds based on data distribution, business rules, or common sense (e.g., short-haul < 5 km, long-haul >= 10 km).\n- Create a new derived column in the dataset to label each record with its segment.\n- Compute key metrics (fare per km, total earnings) for each segment separately.\n- Compare segments using appropriate statistical measures (average, median, proportion).\n- Visualize or tabulate results to highlight differences and inform strategies.",
+    "checklist": [
+      "Define segmentation rules with clear thresholds.",
+      "Create a derived segment column in the data.",
+      "Compute target metrics per segment.",
+      "Compare segments and interpret differences."
+    ],
+    "common_failure_prevented": "Prevents vague or missing segment analysis (e.g., not analyzing ride distance segmentation) which fails to provide actionable strategies for different ride types.",
+    "keywords": [
+      "segmentation",
+      "thresholds",
+      "comparative analysis",
+      "short-haul",
+      "long-haul",
+      "grouping"
+    ],
+    "tags": [
+      "data segmentation",
+      "derived columns",
+      "comparative metrics"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.3",
+    "source_case": "dacomp-022"
+  }
+]

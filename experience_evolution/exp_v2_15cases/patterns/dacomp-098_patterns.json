@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define time windows and anchors before aggregating metrics",
+    "when_to_use": "The task involves analyzing trends or performance over time or comparing against benchmarks.",
+    "experience": "- **Establish a clear analysis time window** (e.g., rolling 6 months, last quarter) before any aggregation.\n- **Identify key anchor points** (e.g., MAX(date) for relative windows, specific cohort dates) and document them.\n- **Align all date calculations** (like conversion windows, response delays) to the same time zone and anchor.\n- **Report the window and anchor** in results to ensure reproducibility and alignment with rubric expectations.",
+    "checklist": [
+      "Define the analysis time window explicitly",
+      "Identify and note the primary date anchor (e.g., max date in dataset)",
+      "Apply the time window filter to all relevant tables before joining",
+      "Report the filtered sample size and window in outputs"
+    ],
+    "common_failure_prevented": "Performing analysis on the entire dataset without temporal filtering, causing metric misalignment with expected benchmarks.",
+    "keywords": [
+      "time",
+      "window",
+      "duration",
+      "cohort",
+      "period",
+      "anchor"
+    ],
+    "tags": [
+      "temporal_analysis",
+      "benchmarking",
+      "data_filtering"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Explicitly define segmentation dimensions from the rubric",
+    "when_to_use": "The task asks to segment or compare groups and a rubric provides specific segmentation criteria.",
+    "experience": "- **Extract all segmentation dimensions** (e.g., company size, region, lead source) directly from the task description and rubric.\n- **Map raw data columns to each required dimension**, noting any transformations (e.g., binning numeric values into buckets).\n- **Validate segmentation coverage** by reporting counts per segment and identifying missing or fallback values.\n- **Create a final segmentation table** that includes all required dimensions before calculating segment-specific metrics.",
+    "checklist": [
+      "List all segmentation dimensions mentioned in the rubric",
+      "Define the logic to create each segment from raw data",
+      "Report sample counts per segment and note coverage gaps",
+      "Output a segmentation summary table before analysis"
+    ],
+    "common_failure_prevented": "Using an oversimplified segmentation (e.g., only bot/human) and missing required segments like company scale or revenue buckets.",
+    "keywords": [
+      "segment",
+      "group",
+      "category",
+      "dimension",
+      "breakdown",
+      "cohort"
+    ],
+    "tags": [
+      "segmentation",
+      "data_transformation",
+      "requirement_mapping"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Operationalize conversion definitions with precise time windows",
+    "when_to_use": "The task defines conversion rates based on specific time intervals (e.g., within 72 hours).",
+    "experience": "- **Parse the conversion definition** to identify the start event, end event, and allowable time window.\n- **Create explicit flags** for conversions that occurred within the specified window (e.g., `converted_72h = 1 if (end_timestamp - start_timestamp) <= 72 hours`).\n- **Report conversion counts and rates** using the windowed flag, not just the presence of an event.\n- **Discuss the impact of the window** on sample size and statistical significance in conclusions.",
+    "checklist": [
+      "Identify the start and end timestamp columns for the conversion",
+      "Calculate the exact time difference between events",
+      "Create a binary flag based on the specified window (e.g., 72 hours)",
+      "Report conversion rates using the flag, not just event existence"
+    ],
+    "common_failure_prevented": "Calculating conversion rates based solely on event occurrence, ignoring the required time-bound definition (e.g., 72-hour usage).",
+    "keywords": [
+      "conversion",
+      "window",
+      "within",
+      "hours",
+      "days",
+      "time-bound"
+    ],
+    "tags": [
+      "metric_definition",
+      "time_series",
+      "event_analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-098"
+  }
+]

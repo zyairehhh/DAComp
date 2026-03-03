@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Plan and execute multi-dimensional analysis covering all task hints",
+    "when_to_use": "When the task mentions multiple strategy levers (e.g., vehicle type, rating, time, location) or suggests exploring relationships.",
+    "experience": "- **Inventory analysis dimensions**: List every variable mentioned in the task (e.g., vehicle type, rating, time, location) and any other relevant columns in the dataset (e.g., distance, payment method).\n- **Define required analyses**: For each dimension, specify the exact analysis (e.g., correlation with target KPI, segmentation effect).\n- **Prioritize joint analyses**: Plan at least one analysis combining two or more key dimensions (e.g., fare per km by vehicle type AND time of day).\n- **Execute systematically**: Run the planned analyses before drawing conclusions, ensuring no dimension is left unexplored.\n- **Document omissions**: If a planned analysis cannot be performed due to data limitations, note this explicitly in the final report.",
+    "checklist": [
+      "List all task-relevant dimensions",
+      "Define a specific analysis for each dimension",
+      "Plan at least one combined multi-dimensional analysis",
+      "Execute all planned analyses before concluding"
+    ],
+    "common_failure_prevented": "Failing to analyze key strategy levers mentioned in the task (e.g., time period, location) and missing joint insights.",
+    "keywords": [
+      "strategies",
+      "which",
+      "what level",
+      "time",
+      "location",
+      "multi-dimensional",
+      "combined analysis"
+    ],
+    "tags": [
+      "planning",
+      "multi-dimensional analysis",
+      "requirement coverage",
+      "task scoping"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Verify and clean data before performing metric calculations",
+    "when_to_use": "When initial data exploration reveals columns with potential data quality issues (e.g., nulls, zeros, inconsistent formats).",
+    "experience": "- **Profile key columns**: For columns needed for KPI calculation (e.g., 'Booking Value', 'Ride Distance'), compute summary statistics (count, mean, min, max, null count).\n- **Handle invalid values**: Identify and decide on treatment for nulls, zeros, or negative values in denominator columns (e.g., filter out rides with zero distance).\n- **Check for logical consistency**: Validate that derived metrics (e.g., fare per km) fall within a plausible range; investigate outliers.\n- **Document data cleaning steps**: Record any filters or transformations applied before analysis to ensure reproducibility.",
+    "checklist": [
+      "Profile key columns for nulls and invalid values",
+      "Define and apply filters for invalid data",
+      "Validate derived metric ranges",
+      "Document all cleaning steps"
+    ],
+    "common_failure_prevented": "Proceeding with analysis on dirty data leading to incorrect or misleading metrics (e.g., dividing by zero or null).",
+    "keywords": [
+      "data",
+      "quality",
+      "cleaning",
+      "validate",
+      "profile",
+      "nulls",
+      "outliers"
+    ],
+    "tags": [
+      "data quality",
+      "data preparation",
+      "validation",
+      "metric calculation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1 (implied from data handling issues)",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Structure analysis to answer the business question, not just compute metrics",
+    "when_to_use": "When the task asks for actionable strategies or recommendations to improve a business outcome.",
+    "experience": "- **Map metrics to decisions**: For each computed metric (e.g., avg fare per km), explicitly state what strategic decision it informs (e.g., 'choose vehicle type X').\n- **Prioritize by impact**: Rank recommendations based on the magnitude of metric differences (e.g., 'Vehicle type A yields 20% higher fare than B').\n- **Consider operational constraints**: Discuss feasibility of recommendations (e.g., maintaining a 4.5+ rating may be difficult).\n- **Provide clear, prescriptive advice**: Formulate final recommendations as concrete, actionable steps for the stakeholder.",
+    "checklist": [
+      "Explicitly link each metric to a strategic decision",
+      "Rank recommendations by impact size",
+      "Discuss feasibility and trade-offs",
+      "Deliver clear, prescriptive advice"
+    ],
+    "common_failure_prevented": "Reporting metric tables without interpreting them into actionable, prioritized business strategies.",
+    "keywords": [
+      "strategies",
+      "achieve",
+      "better",
+      "improve",
+      "recommendations",
+      "actionable",
+      "decisions"
+    ],
+    "tags": [
+      "business insights",
+      "recommendation",
+      "interpretation",
+      "stakeholder communication"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1 (implied from lack of actionable multi-dimensional insights)",
+    "source_case": "dacomp-022"
+  }
+]

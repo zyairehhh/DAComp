@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Define and apply an explicit time window at analysis start",
+    "when_to_use": "When the task specifies a temporal scope (e.g., 'past 6 months', 'last quarter') for analysis.",
+    "experience": "*   **Parse temporal language**: Immediately identify all time-related phrases in the task (e.g., 'past 6 months', 'last 30 days').\n*   **Define a concrete filter**: Determine if the task implies a rolling window or fixed period, and define the exact date range (e.g., last 182 days from max date) with SQL/Python logic.\n*   **Apply filter uniformly**: Use the defined filter on all relevant source tables before merging or analysis. Verify data coverage for the entire period.\n*   **Document the window**: In your report, explicitly state the date range used and justify any deviations.",
+    "checklist": [
+      "Identify all time-based constraints in the task",
+      "Write a function or SQL variable to compute the exact date range",
+      "Filter all source tables by this range before joining",
+      "Verify filtered data spans the intended window"
+    ],
+    "common_failure_prevented": "Performing analysis on available but temporally misaligned data, failing to meet the task's specified scope.",
+    "keywords": [
+      "past N months",
+      "last X days",
+      "over the period",
+      "temporal trend",
+      "time window"
+    ],
+    "tags": [
+      "time_filter",
+      "scope_definition",
+      "data_prep"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Formally construct multi-dimensional metrics before analyzing trends",
+    "when_to_use": "When the task requires analyzing combined metrics across categories (e.g., 'for each region and device type combination').",
+    "experience": "*   **Decompose the requirement**: Identify the distinct dimensions (e.g., Region, Device) and the target metric (e.g., cost-efficiency).\n*   **Define a formula**: Propose a concrete formula for the combined metric (e.g., `Region_Conversion_Rate * Device_Install_Share`). Justify its business logic.\n*   **Create the metric dataset**: Write a query that joins data at the correct grain (e.g., daily, region, device, app) to calculate this metric.\n*   **Validate uniqueness**: Confirm that each dimension combination has a unique value and that the metric's behavior aligns with expectations before trend analysis.",
+    "checklist": [
+      "List the required dimensions from the task",
+      "Write a precise formula for the combined metric",
+      "Implement query/calculation to create dataset",
+      "Check for duplicate rows or null values in the new metric"
+    ],
+    "common_failure_prevented": "Analyzing dimensions separately or using flawed joins that produce meaningless combinations, leading to incorrect trend conclusions.",
+    "keywords": [
+      "each combination",
+      "multi-dimensional",
+      "cross-segment",
+      "break down by",
+      "by region and by device"
+    ],
+    "tags": [
+      "metric_definition",
+      "data_merging",
+      "dimensional_analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Benchmark your model against rubric expectations or control variables",
+    "when_to_use": "When the analysis involves building predictive models (regression, classification) with known outcome variables.",
+    "experience": "*   **Identify expected relationships**: Before modeling, hypothesize the expected sign and magnitude of key coefficients (e.g., crash rate should negatively impact conversion).\n*   **Run sanity checks**: Compare your model's coefficients and goodness-of-fit (R²) to simple baselines (e.g., mean predictor) and domain logic.\n*   **Test with control variables**: Ensure your model includes necessary control variables (e.g., time trend, app-specific effects) to isolate the effect of the variables of interest.\n*   **Perform out-of-sample validation**: If possible, split data to test if relationships hold on unseen data, or check for overfitting with high R² and low feature significance.",
+    "checklist": [
+      "State your hypothesis for each key variable's effect",
+      "Compare your model's R² and coefficients to a naive baseline",
+      "Add control variables to isolate the primary relationship",
+      "Check for multicollinearity if key coefficients have wrong signs"
+    ],
+    "common_failure_prevented": "Reporting model results (like positive correlation where negative is expected) that are statistically valid but domain-nonsensical, due to omitted variables or data issues.",
+    "keywords": [
+      "non-linear relationship",
+      "interaction effect",
+      "predict",
+      "model",
+      "regression"
+    ],
+    "tags": [
+      "model_validation",
+      "sanity_check",
+      "hypothesis_testing"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1 & Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-070"
+  }
+]

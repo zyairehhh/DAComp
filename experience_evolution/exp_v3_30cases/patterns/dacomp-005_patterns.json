@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Analyze segment composition beyond average metrics",
+    "when_to_use": "When tasked to characterize a problematic group (e.g., low-margin, high-risk, low-performance) compared to a broader population.",
+    "experience": "- **Examine the distribution of key categorical or binary flags within the segment** (e.g., % of orders with Sales Quantity = 1, % from a specific region).\n- **Compare the segment's composition to the overall population's composition** to identify over/under-representation.\n- **Report both the rate (e.g., proportion) and volume (e.g., count) of key sub-segments** to understand business impact.\n- **Avoid stopping at average values for numeric fields**; also check for modal values, common categories, or extreme values that define the segment.",
+    "checklist": [
+      "Identify key binary/categorical flags relevant to the business context (e.g., 'retail customer', 'remote region').",
+      "Calculate the proportion of the target segment that belongs to each flag.",
+      "Calculate the same proportion for the overall population or a comparison group.",
+      "Report both the segment rate and the count of affected items.",
+      "Highlight flags where the segment's composition differs significantly from the norm."
+    ],
+    "common_failure_prevented": "Missing that a segment is primarily defined by a specific categorical characteristic (e.g., retail customers) because analysis focused only on average numeric metrics.",
+    "keywords": [
+      "characteristics",
+      "distinguish",
+      "salient",
+      "segment",
+      "population",
+      "composition"
+    ],
+    "tags": [
+      "segment analysis",
+      "distribution",
+      "categorical analysis",
+      "proportion"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.16, Criterion 1.2.A.17",
+    "source_case": "dacomp-005"
+  },
+  {
+    "title": "Validate population definitions for benchmark comparisons",
+    "when_to_use": "When comparing a target group's metrics (e.g., average) against a benchmark like the 'overall population' or 'broader population'.",
+    "experience": "- **Clarify the exact definition of the comparison population** (e.g., 'all orders', 'all non-target orders', 'all orders from a previous period').\n- **Ensure the metric calculation for the benchmark uses the correct, consistent formula** and data subset.\n- **Explicitly test the calculation** by computing the benchmark metric from the defined population and cross-checking against any provided reference values.\n- **Document any discrepancies** between your calculated benchmark and expected values, and investigate potential causes (e.g., filtering, data quality).",
+    "checklist": [
+      "Explicitly define the comparison group in SQL or code (e.g., CREATE VIEW normal_orders).",
+      "Re-calculate the benchmark metric (e.g., overall average) directly from the defined group.",
+      "Compare your calculated benchmark to any provided reference or rubric value.",
+      "If a discrepancy exists, verify filters, joins, and data completeness.",
+      "Use the validated benchmark for all subsequent comparative analyses."
+    ],
+    "common_failure_prevented": "Producing comparative figures (e.g., overall average Sales Quantity) that are inaccurate because the 'overall' population was incorrectly defined or calculated.",
+    "keywords": [
+      "broader population",
+      "compare",
+      "average",
+      "overall",
+      "benchmark",
+      "versus"
+    ],
+    "tags": [
+      "benchmarking",
+      "validation",
+      "comparison group",
+      "data calculation"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.2",
+    "source_case": "dacomp-005"
+  },
+  {
+    "title": "Explicitly map analysis dimensions to rubric sub-requirements",
+    "when_to_use": "When the task instruction or known rubric lists specific analysis dimensions or required metrics.",
+    "experience": "- **Parse the task instruction and any provided rubric** to extract a list of required analysis dimensions (e.g., 'geographic distribution', 'customer segments', 'product composition').\n- **For each required dimension, list the specific metrics or breakdowns expected** (e.g., for 'geographic distribution', report percentage of low-margin orders by region).\n- **Create a tracking table** linking each dimension to the SQL query or calculation needed and mark its completion status.\n- **Before final reporting, verify that outputs are provided for every explicitly requested dimension** and metric.",
+    "checklist": [
+      "Extract all explicitly mentioned analysis dimensions from the task and rubric.",
+      "For each dimension, define the specific metric(s) to compute (e.g., proportion, average, count).",
+      "Create a checklist or table to track the completion of each metric.",
+      "During analysis, systematically address each item on the checklist.",
+      "In the final summary, explicitly reference how each requested dimension was addressed."
+    ],
+    "common_failure_prevented": "Omitting a required analysis dimension (e.g., not breaking down geographic distribution by broad regions) because it was not explicitly recalled during the ad-hoc analysis.",
+    "keywords": [
+      "salient characteristics",
+      "analyze",
+      "dimensions",
+      "e.g.,",
+      "by",
+      "such as"
+    ],
+    "tags": [
+      "requirement mapping",
+      "rubric alignment",
+      "systematic analysis",
+      "completeness"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.11",
+    "source_case": "dacomp-005"
+  }
+]

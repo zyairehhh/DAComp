@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Proactively analyze all key dimensions suggested by the task",
+    "when_to_use": "When the task instruction mentions multiple potential analysis dimensions (e.g., types, ratings, time, location) but does not require all.",
+    "experience": "1. Before starting analysis, explicitly list all analysis dimensions mentioned or implied in the task (e.g., Vehicle Type, Driver Rating, time period, location, ride distance, payment method).\n2. For each dimension, define a specific, measurable analysis question (e.g., 'Does fare per km vary by hour of day?' or 'Is there a correlation between pickup region and driver earnings?').\n3. Prioritize and schedule analyses for each dimension, starting with the most critical ones for the business question.\n4. Ensure at least basic descriptive statistics (e.g., average, distribution) are computed for each key dimension, even if a full deep-dive isn't performed.\n5. Document any dimensions that were considered but not analyzed due to data limitations or time constraints.\n6. When reporting, explicitly state which dimensions were analyzed and which were not, with a brief justification.",
+    "checklist": [
+      "List all potential analysis dimensions from the task",
+      "Define a measurable question for each dimension",
+      "Schedule and perform at least basic analysis for each",
+      "Document analysis coverage and exclusions"
+    ],
+    "common_failure_prevented": "This prevents missing entire analysis dimensions (like time of day or location) that were implied in the task but not explicitly required, leading to a score of zero for those criteria.",
+    "keywords": [
+      "dimensions",
+      "time period",
+      "location",
+      "multi-dimensional",
+      "joint analysis",
+      "correlation"
+    ],
+    "tags": [
+      "data_analysis",
+      "completeness",
+      "requirement_parsing"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Decompose high-level tasks into concrete, executable analysis steps",
+    "when_to_use": "When the task asks for strategies or recommendations based on data analysis.",
+    "experience": "1. Translate the high-level goal (e.g., 'achieve better annual earnings') into specific, quantifiable metrics (e.g., 'maximize fare per kilometer', 'minimize cancellation rate', 'maximize number of completed rides').\n2. For each metric, identify the levers a user can control (e.g., vehicle type, service rating, operating hours, location).\n3. Formulate a separate analysis plan for each lever-metric pair (e.g., 'Compare average fare per km across Vehicle Types').\n4. Execute each planned analysis step sequentially, ensuring each produces a clear, interpretable result.\n5. Synthesize results across all levers to form holistic, actionable recommendations.",
+    "checklist": [
+      "Translate goal to specific metrics",
+      "Identify user-controllable levers",
+      "Create analysis plan for each lever-metric pair",
+      "Execute plans sequentially",
+      "Synthesize cross-lever recommendations"
+    ],
+    "common_failure_prevented": "This prevents the agent from getting stuck on initial explorations and failing to execute the core analyses needed for recommendations, especially for multi-dimensional tasks.",
+    "keywords": [
+      "strategies",
+      "recommendations",
+      "levers",
+      "actionable",
+      "metrics",
+      "analysis plan"
+    ],
+    "tags": [
+      "planning",
+      "execution",
+      "task_decomposition"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Validate data availability and structure before committing to an analysis method",
+    "when_to_use": "When starting analysis on a new dataset or after discovering data quality issues.",
+    "experience": "1. After initial schema inspection, perform a systematic data profiling: check for missing values, data types, unique values, and basic distributions for all key columns.\n2. Verify that the columns needed for planned analyses (e.g., 'Ride Distance', 'Booking Value' for fare per km) contain valid, non-null data in sufficient volume.\n3. Test a small, representative query for each major planned analysis to confirm the data supports it.\n4. If data issues are found (e.g., many nulls, incorrect types), adjust the analysis plan immediately—don't proceed with assumptions.\n5. Document data limitations and how they affect the analysis scope and confidence in results.",
+    "checklist": [
+      "Profile key columns (missing, types, distributions)",
+      "Test queries for each analysis",
+      "Adjust plan based on data quality",
+      "Document limitations"
+    ],
+    "common_failure_prevented": "This prevents wasted effort on analyses that fail due to unexpected data issues (e.g., nulls, wrong data types) and ensures the agent adapts the plan based on actual data.",
+    "keywords": [
+      "data quality",
+      "profiling",
+      "validation",
+      "missing values",
+      "data structure",
+      "adjust plan"
+    ],
+    "tags": [
+      "data_validation",
+      "robustness",
+      "adaptation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  }
+]

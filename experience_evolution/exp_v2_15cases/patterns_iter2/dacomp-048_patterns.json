@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Explicitly decompose requirements into rubric criteria before analysis",
+    "when_to_use": "When the task is derived from or scored against a known rubric with detailed criteria.",
+    "experience": "Markdown bullets:\n- Before starting analysis, systematically map each task requirement to its corresponding rubric dimensions and sub-criteria.\n- For each rubric criterion, identify the required analysis path (e.g., 'extract from job description', 'deduplicate synonyms'), not just the high-level goal.\n- Verify that your planned analysis steps explicitly satisfy each required sub-step (e.g., data source extraction, cleaning, calculation method).\n- Design queries and code to produce outputs that directly match the rubric's expected format (e.g., counts, percentages).\n- After preliminary results, cross-check against rubric scoring examples to ensure alignment on definitions and scope.",
+    "checklist": [
+      "Map task phrase to rubric criteria",
+      "Identify required analysis paths per criterion",
+      "Verify analysis covers all data sources listed in rubric",
+      "Align calculation methodology with rubric examples",
+      "Cross-check output format against rubric expectations"
+    ],
+    "common_failure_prevented": "Missing key data sources (e.g., job descriptions for benefits) or analysis dimensions because the rubric's detailed sub-requirements were not explicitly followed.",
+    "keywords": [
+      "rubric",
+      "criteria",
+      "scoring",
+      "requirements",
+      "dimensions"
+    ],
+    "tags": [
+      "planning",
+      "requirements_analysis",
+      "rubric_alignment"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.2",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Standardize and deduplicate extracted text entities before aggregation",
+    "when_to_use": "When aggregating counts of entities (e.g., skills, benefits) extracted from free-text or semi-structured fields.",
+    "experience": "Markdown bullets:\n- After extracting entity lists from text, implement a standardization step: lowercasing, removing punctuation, and trimming whitespace.\n- Create a synonym mapping table (e.g., 'high-temperature allowance' -> 'high temperature allowance') based on domain knowledge or manual review of frequent variants.\n- Before counting frequencies, apply the synonym mapping to merge equivalent entries.\n- Validate that the deduplication logic does not incorrectly merge distinct entities (e.g., 'Python' programming vs. 'Python' snake).\n- Report both raw and standardized counts to ensure transparency in the cleaning process.",
+    "checklist": [
+      "Lowercase and normalize extracted entities",
+      "Create and apply synonym mapping",
+      "Merge counts for standardized entities",
+      "Validate merges do not lose semantic distinction",
+      "Report cleaning methodology"
+    ],
+    "common_failure_prevented": "Incorrect frequency counts due to separate entries for semantically identical items (e.g., 'Five social insurances' vs. 'Five Social Insurances').",
+    "keywords": [
+      "extract",
+      "benefits",
+      "skills",
+      "entities",
+      "deduplication",
+      "synonyms",
+      "standardize"
+    ],
+    "tags": [
+      "data_cleaning",
+      "text_analysis",
+      "aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Define calculation methodology for derived metrics before implementation",
+    "when_to_use": "When computing distributions, percentages, or other derived metrics where the denominator or unit of analysis is ambiguous.",
+    "experience": "Markdown bullets:\n- Before coding, explicitly define the denominator for any percentage or ratio (e.g., 'percentage of positions' vs 'percentage of mentions').\n- Document whether the metric is computed per row/entity or per mention/occurrence.\n- Validate the definition against task intent and rubric examples to ensure alignment.\n- Implement the calculation with clear comments referencing the chosen methodology.\n- In the final report, explicitly state the denominator and calculation method for each derived metric.",
+    "checklist": [
+      "Define denominator for percentages/ratios",
+      "Document per-entity vs per-mention basis",
+      "Align definition with rubric/task intent",
+      "Code with methodology comments",
+      "Report methodology in outputs"
+    ],
+    "common_failure_prevented": "Computing percentages incorrectly (e.g., percentage of total benefit mentions instead of percentage of positions offering a benefit) leading to distribution mismatches.",
+    "keywords": [
+      "percentage",
+      "distribution",
+      "ratio",
+      "metric",
+      "methodology",
+      "denominator"
+    ],
+    "tags": [
+      "metric_definition",
+      "calculation",
+      "documentation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.4",
+    "source_case": "dacomp-048"
+  }
+]

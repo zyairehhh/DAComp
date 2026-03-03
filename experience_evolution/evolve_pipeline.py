@@ -81,6 +81,7 @@ sys.path.insert(0, str(_HERE))
 from card_utils import (
     IMPROVEMENT_THRESHOLD,
     REGRESSION_THRESHOLD,
+    RELATIVE_REGRESSION_THRESHOLD,
     load_index,
     rollback_cards,
     rollback_specific_cards,
@@ -128,6 +129,7 @@ def _instance_id_to_0based_index(iid: str) -> int:
 def run_agent_on_cases(
     case_ids: List[str],
     suffix: str,
+    cards_dir: Optional[Path] = None,
     python: str = DEFAULT_PYTHON,
     model: str = "deepseek-v3.2",
     max_steps: int = 80,
@@ -149,6 +151,8 @@ def run_agent_on_cases(
         "--max_steps", str(max_steps),
         "-w", str(max_workers),
     ]
+    if cards_dir is not None:
+        cmd += ["--experience_dir", str(cards_dir.resolve())]
     print(f"\n[agent] Running: {' '.join(cmd)}", file=sys.stderr)
     subprocess.run(cmd, cwd=str(_AGENT_DIR), check=True)
 
@@ -170,7 +174,7 @@ def run_llm_judge(
     python: str = DEFAULT_PYTHON,
     max_workers: int = 4,
 ) -> Path:
-    """Run llm_judge.py and return the output CSV path."""
+    """Run llm_judge.py then get_score.py, return the enriched CSV path."""
     cmd = [
         python,
         str(_EVAL_DIR / "llm_judge.py"),
@@ -182,6 +186,13 @@ def run_llm_judge(
     ]
     print(f"[judge] Running: {' '.join(cmd)}", file=sys.stderr)
     subprocess.run(cmd, cwd=str(_EVAL_DIR), check=True)
+
+    # get_score.py computes weighted_total_score / rubrics_percentage and writes
+    # them back into the CSV in-place.  Without this step those columns are absent
+    # and compare_scores() will read 0 for every case.
+    get_score_cmd = [python, str(_EVAL_DIR / "get_score.py")]
+    print(f"[judge] Post-processing scores: {' '.join(get_score_cmd)}", file=sys.stderr)
+    subprocess.run(get_score_cmd, cwd=str(_EVAL_DIR), check=True)
 
     dir_name = agent_results_dir.name
     candidates = list((_EVAL_DIR / "model_scores").glob(f"{dir_name}*.csv"))
@@ -297,6 +308,7 @@ def _log_iteration(
     deltas: Dict[str, float],
     kept: bool,
     note: str = "",
+    prev_iter_avg_delta: Optional[float] = None,
 ) -> None:
     entry = {
         "iteration": iteration,
@@ -306,6 +318,8 @@ def _log_iteration(
         "kept": kept,
         "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S"),
     }
+    if prev_iter_avg_delta is not None:
+        entry["avg_delta_vs_prev_iter"] = round(prev_iter_avg_delta, 4)
     if note:
         entry["note"] = note
     history: List[Dict] = []
@@ -343,8 +357,20 @@ def run_pipeline(
     baseline_csv = Path(args.baseline_csv)
     patterns_dir = Path(args.patterns_dir)
     patterns_dir.mkdir(parents=True, exist_ok=True)
-    log_path = _HERE / "evolution_log.json"
-    state_file = _HERE / "case_state.json"
+    iteration_id = args.iteration
+
+    # --run sets the root folder for all run-specific state
+    if args.run:
+        run_dir = _HERE / args.run
+        run_dir.mkdir(parents=True, exist_ok=True)
+        cards_dir = run_dir / "cards"
+        patterns_dir = run_dir / "patterns"
+        patterns_dir.mkdir(parents=True, exist_ok=True)
+        log_path = run_dir / "evolution_log.json"
+        state_file = run_dir / "case_state.json"
+    else:
+        log_path = _HERE / "evolution_log.json"
+        state_file = _HERE / "case_state.json"
 
     # Trajectory dir and extraction CSV (support override for multi-iteration chaining)
     traj_dir = override_traj_dir or Path(args.traj_dir)
@@ -491,6 +517,14 @@ def run_pipeline(
         return None
     print(f"  Added: {added_ids}")
 
+    # Stamp added_in_iteration on each new card for version traceability
+    idx_stamped = load_index(cards_dir)
+    stamped_cards = [
+        {**c, "added_in_iteration": iteration_id} if c["id"] in set(added_ids) else c
+        for c in idx_stamped.get("cards", [])
+    ]
+    save_index({**idx_stamped, "cards": stamped_cards}, cards_dir)
+
     # ---- Step 5.5: Validate retrieval coverage ----
     print(f"\n[Step 5.5] Validating retrieval coverage for new cards…")
     hits = validate_new_cards(added_ids, test_case_ids, cards_dir, instructions)
@@ -505,13 +539,14 @@ def run_pipeline(
         return None
 
     # ---- Step 6: Run agent on test sample ----
-    iteration_id = args.iteration
-    suffix = f"evolve_iter{iteration_id}"
+    run_tag = f"_{args.run}" if args.run else ""
+    suffix = f"evolve{run_tag}_iter{iteration_id}"
     print(f"\n[Step 6] Running DA-agent on {len(test_case_ids)} test cases (suffix={suffix})…")
     try:
         agent_results_dir = run_agent_on_cases(
             test_case_ids,
             suffix=suffix,
+            cards_dir=cards_dir,
             python=args.python,
             max_workers=args.max_workers,
         )
@@ -538,9 +573,23 @@ def run_pipeline(
     print(f"\n[Step 8] Comparing scores…")
     avg_delta, deltas = compare_scores(baseline_csv, new_scores_csv, test_case_ids)
     avg_delta_frac = avg_delta / 100.0
-    print(f"  Avg weighted delta: {avg_delta:+.2f}pp ({avg_delta_frac:+.4f})")
+    print(f"  Avg weighted delta vs baseline: {avg_delta:+.2f}pp ({avg_delta_frac:+.4f})")
     for iid, d in sorted(deltas.items()):
         print(f"  {iid}: {d:+.2f}pp")
+
+    # Dual-criterion: also compare vs previous iteration's scores when available.
+    # override_extract_csv is the prev iteration's CSV (None on first iteration).
+    prev_iter_avg_delta: Optional[float] = None
+    prev_iter_avg_delta_frac: Optional[float] = None
+    if override_extract_csv is not None and override_extract_csv != baseline_csv:
+        prev_avg, _ = compare_scores(override_extract_csv, new_scores_csv, test_case_ids)
+        prev_iter_avg_delta = prev_avg
+        prev_iter_avg_delta_frac = prev_avg / 100.0
+        print(
+            f"  Avg weighted delta vs prev iter: {prev_avg:+.2f}pp "
+            f"({prev_iter_avg_delta_frac:+.4f}) "
+            f"[threshold: {RELATIVE_REGRESSION_THRESHOLD*100:+.0f}pp]"
+        )
 
     # Update confidence for each new card
     index_after = load_index(cards_dir)
@@ -590,16 +639,34 @@ def run_pipeline(
         note = f"Surgical rollback of {sorted(actually_removed)}"
         print(f"  Removed: {actually_removed}")
 
-    # 9b: Avg-delta rollback as final safety net
-    if avg_delta_frac < REGRESSION_THRESHOLD:
+    # 9b: Avg-delta rollback as final safety net (dual-criterion)
+    # Criterion (a): must not regress below original baseline
+    baseline_regression = avg_delta_frac < REGRESSION_THRESHOLD
+    # Criterion (b): must not drop significantly vs previous iteration (catches slow drift)
+    relative_regression = (
+        prev_iter_avg_delta_frac is not None
+        and prev_iter_avg_delta_frac < RELATIVE_REGRESSION_THRESHOLD
+    )
+
+    if baseline_regression or relative_regression:
+        reasons: List[str] = []
+        if baseline_regression:
+            reasons.append(
+                f"baseline regression ({avg_delta:+.2f}pp < {REGRESSION_THRESHOLD*100:+.0f}pp)"
+            )
+        if relative_regression:
+            reasons.append(
+                f"iter-over-iter regression "
+                f"({prev_iter_avg_delta:+.2f}pp < {RELATIVE_REGRESSION_THRESHOLD*100:+.0f}pp)"
+            )
         print(
-            f"\n[Step 9b] Avg regression detected ({avg_delta:+.2f}pp). "
+            f"\n[Step 9b] Rollback triggered: {'; '.join(reasons)}. "
             f"Rolling back remaining {added_ids}…"
         )
         final_index = rollback_cards(added_ids, index_after, cards_dir)
         save_index(final_index, cards_dir)
         kept = False
-        note = (note + " | avg-delta rollback").lstrip(" | ")
+        note = (note + " | avg-delta rollback: " + "; ".join(reasons)).lstrip(" | ")
         print("  Rollback complete.")
     else:
         print(
@@ -607,8 +674,22 @@ def run_pipeline(
             f"Confidence updated."
         )
 
-    _log_iteration(log_path, iteration_id, added_ids, avg_delta_frac, deltas, kept, note)
+    _log_iteration(
+        log_path, iteration_id, added_ids, avg_delta, deltas, kept, note,
+        prev_iter_avg_delta=prev_iter_avg_delta,
+    )
     print(f"\nIteration {iteration_id} complete. Log: {log_path}")
+
+    # Save index snapshot for this iteration (only when cards were kept)
+    if kept:
+        snapshots_dir = cards_dir / "snapshots"
+        snapshots_dir.mkdir(exist_ok=True)
+        snapshot_path = snapshots_dir / f"index_iter{iteration_id}.json"
+        final_snap = load_index(cards_dir)
+        snapshot_path.write_text(
+            json.dumps(final_snap, indent=2, ensure_ascii=False), encoding="utf-8"
+        )
+        print(f"  Snapshot saved: {snapshot_path.relative_to(_REPO_ROOT)}")
 
     return (agent_results_dir, new_scores_csv)
 
@@ -634,11 +715,23 @@ def main() -> None:
                         help="Max auto iterations (auto mode only)")
 
     # Paths
+    parser.add_argument(
+        "--run",
+        default=None,
+        metavar="NAME",
+        help=(
+            "Run name. Creates experience_evolution/<NAME>/ containing cards/, "
+            "patterns/, evolution_log.json, and case_state.json. "
+            "Overrides --cards-dir and --patterns-dir when set."
+        ),
+    )
     parser.add_argument("--baseline-csv", default=DEFAULT_BASELINE_CSV)
     parser.add_argument("--task-file", default=DEFAULT_TASK_FILE)
     parser.add_argument("--traj-dir", default=DEFAULT_TRAJ_DIR)
-    parser.add_argument("--cards-dir", default=DEFAULT_CARDS_DIR)
-    parser.add_argument("--patterns-dir", default=DEFAULT_PATTERNS_DIR)
+    parser.add_argument("--cards-dir", default=DEFAULT_CARDS_DIR,
+                        help="Ignored when --run is set")
+    parser.add_argument("--patterns-dir", default=DEFAULT_PATTERNS_DIR,
+                        help="Ignored when --run is set")
     parser.add_argument("--case-file", default=None,
                         help="Use pre-existing case list instead of selecting from CSV")
 
@@ -659,10 +752,12 @@ def main() -> None:
 
     if args.mode == "auto" and args.max_iterations > 1:
         prev_result: Optional[Tuple[Path, Path]] = None
-        for i in range(1, args.max_iterations + 1):
+        start = args.iteration
+        end = start + args.max_iterations
+        for i in range(start, end):
             args.iteration = i
             print(f"\n{'#'*60}")
-            print(f"# AUTO ITERATION {i}/{args.max_iterations}")
+            print(f"# AUTO ITERATION {i}  ({i - start + 1}/{args.max_iterations})")
             print(f"{'#'*60}")
 
             traj_override = prev_result[0] if prev_result else None
@@ -670,9 +765,15 @@ def main() -> None:
 
             prev_result = run_pipeline(args, traj_override, csv_override)
 
-            # Archive patterns to avoid re-processing in next iteration
-            patterns_dir = Path(args.patterns_dir)
-            archive = patterns_dir.parent / f"patterns_iter{i}"
+            # Archive patterns to avoid re-processing in next iteration.
+            # When --run is set, archive lives inside the run folder.
+            if args.run:
+                patterns_dir = _HERE / args.run / "patterns"
+                archive_base = _HERE / args.run
+            else:
+                patterns_dir = Path(args.patterns_dir)
+                archive_base = patterns_dir.parent
+            archive = archive_base / f"patterns_iter{i}"
             if patterns_dir.exists():
                 patterns_dir.rename(archive)
             patterns_dir.mkdir(parents=True, exist_ok=True)

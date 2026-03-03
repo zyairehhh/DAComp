@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Always validate extracted counts against explicit task definitions",
+    "when_to_use": "When the task requires filtering data using a specific definition that may be ambiguous in the dataset",
+    "experience": "To ensure extracted data matches the rubric's intended scope:\n- First, examine all unique values in the relevant filtering column.\n- Second, search for synonyms or partial matches in free-text columns (like 'Job Description') that also satisfy the task's definition.\n- Third, compare the total count of extracted rows with an expected baseline or a quick manual check to identify significant under/over-extraction before proceeding with analysis.",
+    "checklist": [
+      "List all unique values in the primary filtering column",
+      "Search free-text fields for keywords matching the task definition",
+      "Compare final extracted count to a known benchmark or perform a sanity check on sample records"
+    ],
+    "common_failure_prevented": "Prevents extracting an incomplete dataset (e.g., only using a strict column filter and missing records defined in free text, causing a >20% error in the base population).",
+    "keywords": [
+      "filter",
+      "definition",
+      "scope",
+      "extract",
+      "validate",
+      "count"
+    ],
+    "tags": [
+      "data-extraction",
+      "task-scoping",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1/best_path_analysis",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Perform a multi-source extraction for key qualitative entities",
+    "when_to_use": "When the task requires compiling a list of entities (e.g., benefits, skills, qualities) that may appear across multiple structured and unstructured columns",
+    "experience": "To build a comprehensive and accurate list:\n- Identify all potential data sources (structured columns like 'Benefits' and unstructured columns like 'Job Description').\n- Extract entities from each source using appropriate methods (regex, keyword lists, NLP).\n- Standardize the extracted list by merging synonyms, removing duplicates, and handling variations in phrasing before counting frequencies or performing analysis.",
+    "checklist": [
+      "Map all potential data sources containing the target entities",
+      "Apply extraction methods tailored to each source's format",
+      "Create a standardization step to consolidate synonyms and variants"
+    ],
+    "common_failure_prevented": "Prevents an incomplete or inaccurate distribution (e.g., missing benefits from job descriptions and failing to merge 'high-temperature allowance' with 'high temperature allowance').",
+    "keywords": [
+      "entities",
+      "extraction",
+      "multi-source",
+      "benefits",
+      "skills",
+      "standardize"
+    ],
+    "tags": [
+      "data-wrangling",
+      "entity-extraction",
+      "text-analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Map analysis dimensions explicitly to the rubric's required structure",
+    "when_to_use": "When the evaluation rubric specifies a detailed analysis framework or path with required dimensions and methods",
+    "experience": "To ensure the analysis meets all scoring criteria:\n- Before coding, parse the rubric to identify required analysis dimensions, data sources, and specific methods (e.g., 'build a multidimensional dictionary', 'use frequency thresholds').\n- Design your analysis pipeline to output each required component explicitly.\n- Cross-reference your final outputs against the rubric's checklist before concluding.",
+    "checklist": [
+      "Deconstruct the rubric into required analysis components and methods",
+      "Design analysis steps to produce each required output",
+      "Verify final results address all specified rubric dimensions"
+    ],
+    "common_failure_prevented": "Prevents missing major analysis categories or methods (e.g., not building a skills dictionary or not performing significance testing when required by the rubric).",
+    "keywords": [
+      "rubric",
+      "framework",
+      "dimensions",
+      "requirements",
+      "scoring",
+      "checklist"
+    ],
+    "tags": [
+      "task-planning",
+      "rubric-alignment",
+      "quality-assurance"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis",
+    "source_case": "dacomp-048"
+  }
+]

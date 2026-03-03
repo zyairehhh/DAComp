@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly define derived metrics before using them",
+    "when_to_use": "A task requires analyzing a metric that needs redefinition or is missing in the raw data.",
+    "experience": "- **Clarify the new metric's formula and data sources** before any calculation.\n- **Document the calculation logic** (e.g., SQL/Python expression) and any thresholds (e.g., percentile, fixed value).\n- **Compute the metric for all relevant entities** before filtering or segmenting the data.\n- **Validate the new metric's distribution** (e.g., range, mean, quartiles) to catch calculation errors.\n- **Report anchor values** (e.g., values for key entities or segments) to benchmark the metric's behavior.",
+    "checklist": [
+      "Write explicit formula for derived metric",
+      "Compute metric for all entities",
+      "Check distribution summary statistics",
+      "Report example values for key segments"
+    ],
+    "common_failure_prevented": "Prevents incomplete metric definitions and missing anchor values, which led to low scores on team stability calculation.",
+    "keywords": [
+      "redefine",
+      "metric",
+      "proxy",
+      "calculate",
+      "derive",
+      "definition"
+    ],
+    "tags": [
+      "metric_definition",
+      "data_preparation",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-061"
+  },
+  {
+    "title": "Align aggregate metrics with the rubric's required dimensions",
+    "when_to_use": "A task or rubric specifies a set of required metrics or dimensions to analyze.",
+    "experience": "- **Explicitly map each rubric dimension** to a specific metric or variable in the dataset.\n- **For each required dimension, compute all requested aggregations** (e.g., mean, sum, ratio) at the correct entity level.\n- **Report the computed values for all key segments** (e.g., fast vs. slow projects) as anchor values.\n- **Verify completeness** by checking that every rubric dimension has a corresponding result in your analysis.",
+    "checklist": [
+      "Map rubric dimensions to data columns",
+      "Compute all required aggregates per segment",
+      "Report anchor values for each dimension",
+      "Verify no dimension is missing"
+    ],
+    "common_failure_prevented": "Prevents missing key metrics (e.g., estimate_accuracy, sprint_completion_rate) and incomplete segment comparisons.",
+    "keywords": [
+      "aggregate",
+      "dimensions",
+      "segments",
+      "compare",
+      "rubric",
+      "metrics"
+    ],
+    "tags": [
+      "requirement_traceability",
+      "reporting",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-061"
+  },
+  {
+    "title": "Conduct full comparative analysis across all defined segments",
+    "when_to_use": "A task requires comparing performance, quality, or sustainability between different groups.",
+    "experience": "- **Define all comparison segments** clearly (e.g., fast projects vs. slow projects, high-stability vs. low-stability).\n- **For each segment, compute the full set of analysis metrics** (not just a subset).\n- **Perform statistical comparisons** (e.g., correlation, regression, mean difference) between segments for key outcome variables.\n- **Interpret the direction and magnitude of differences** explicitly in the conclusion.",
+    "checklist": [
+      "List all segments for comparison",
+      "Compute all analysis metrics per segment",
+      "Perform statistical tests between segments",
+      "Interpret differences in findings"
+    ],
+    "common_failure_prevented": "Prevents incomplete segment analysis (e.g., only analyzing two fast projects instead of all five) and missing correlation interpretation.",
+    "keywords": [
+      "compare",
+      "segments",
+      "groups",
+      "correlation",
+      "regression",
+      "difference"
+    ],
+    "tags": [
+      "comparative_analysis",
+      "statistics",
+      "interpretation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2 & 3.3",
+    "source_case": "dacomp-061"
+  }
+]

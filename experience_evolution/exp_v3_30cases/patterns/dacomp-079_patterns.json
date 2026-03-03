@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Calculate within-segment concentration metrics for any user group analysis",
+    "when_to_use": "When the task involves analyzing user behavior patterns within a specific segment.",
+    "experience": "For a user segment analysis (e.g., 'single-feature-use'), compute:\n*   **Dominance Ratio:** For each user, calculate the share of total interactions (clicks, minutes) attributed to their top-1 feature. Then aggregate (mean/median) across the segment.\n*   **Primary Feature Coverage:** For the segment, calculate the percentage of users whose most-used feature is the same specific feature (e.g., 'logout'). This reveals uniformity.\n*   **Diversity Index:** Compute a simple metric (e.g., 1/feature_count) for each user, then average across the segment to quantify low diversity.\n*   **Contrast with Broader Population:** Compare these concentration metrics (e.g., dominance ratio) between the target segment and a relevant baseline group (e.g., all other users).",
+    "checklist": [
+      "Calculate per-user concentration metrics (e.g., top-feature share)",
+      "Aggregate concentration metrics across the segment (mean, median, distribution)",
+      "Identify the most common primary feature and its coverage within the segment",
+      "Compare segment concentration metrics to a relevant baseline group"
+    ],
+    "common_failure_prevented": "Failure to quantify how focused a user segment is on specific features, missing a key characteristic of their 'single-feature' behavior.",
+    "keywords": [
+      "behavioral characteristics",
+      "usage pattern",
+      "feature focus",
+      "user segment",
+      "concentration"
+    ],
+    "tags": [
+      "segmentation",
+      "feature analytics",
+      "user behavior"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-079"
+  },
+  {
+    "title": "Report distribution statistics and bucketed proportions for key metrics",
+    "when_to_use": "When analyzing continuous metrics (e.g., time spent, usage intensity) to understand user engagement.",
+    "experience": "Beyond reporting averages, always include distribution metrics to understand variance and tails:\n*   **Core Distribution Stats:** Calculate median, quartiles (Q1, Q3), and standard deviation.\n*   **Create Meaningful Buckets:** Define relevant ranges (e.g., 'low', 'medium', 'high' engagement) based on domain knowledge or percentiles. Report the proportion of users in each bucket.\n*   **Identify Outliers:** Flag extreme values (e.g., top/bottom 5%) and assess their impact on the average.\n*   **Visualize (if reporting):** Consider adding a histogram or box plot to the analysis narrative.\n*   **Segment Comparison:** Compare these distribution metrics (buckets, medians) across user groups, not just averages.",
+    "checklist": [
+      "Calculate median and quartiles in addition to the mean",
+      "Create bucketed ranges (e.g., low/medium/high) and report user proportions",
+      "Compare distribution metrics (buckets, medians) across segments",
+      "Note if averages are skewed by outliers"
+    ],
+    "common_failure_prevented": "Reporting only average values for usage intensity, which masks the underlying distribution and potential skew.",
+    "keywords": [
+      "average daily minutes",
+      "usage intensity",
+      "behavioral characteristics",
+      "anomalous",
+      "distribution"
+    ],
+    "tags": [
+      "descriptive statistics",
+      "data distribution",
+      "engagement metrics"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-079"
+  },
+  {
+    "title": "Analyze retention using multiple thresholds and time-based metrics",
+    "when_to_use": "When tasked with evaluating the long-term retention or churn risk of a user segment.",
+    "experience": "To robustly analyze retention, go beyond a single metric or threshold:\n*   **Multi-Threshold Analysis:** Calculate the proportion of users retained beyond multiple time horizons (e.g., 3, 6, 9, 12 months).\n*   **Compute Lifespan Metrics:** Calculate key time-based metrics like user tenure (last_event_on - first_event_on), average active months, and average active days.\n*   **Correlation with Engagement:** Examine the correlation between retention metrics (e.g., tenure) and key engagement metrics (e.g., feature diversity, average daily minutes) within the segment.\n*   **Comparative Analysis:** Perform all the above (multiple thresholds, lifespan, correlations) for both the target segment and a relevant baseline/control group.",
+    "checklist": [
+      "Calculate retention rates at multiple time thresholds (e.g., 3, 6, 9 months)",
+      "Compute user lifespan/tenure and average active periods",
+      "Analyze correlation between retention and engagement metrics within the segment",
+      "Compare all retention metrics between the target segment and a baseline group"
+    ],
+    "common_failure_prevented": "Assessing retention with only a single metric (e.g., average active months) or a single binary threshold, providing an incomplete picture of long-term risk.",
+    "keywords": [
+      "long-term retention",
+      "impact on retention",
+      "active months",
+      "user segment",
+      "churn risk"
+    ],
+    "tags": [
+      "retention analysis",
+      "cohort analysis",
+      "user lifecycle"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-079"
+  }
+]

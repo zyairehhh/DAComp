@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly map each rubric requirement to a concrete analysis step",
+    "when_to_use": "When the task involves multi-part requirements or is associated with a scoring rubric.",
+    "experience": "- **Step 1: Decompose the rubric.** Break down the rubric's high-level requirements (e.g., 'Assess the expected ROI') into specific, named criteria (e.g., Criterion 5.1 - Build a joint cost model).\n- **Step 2: Match criteria to data.** For each rubric criterion, identify the specific dataset(s) and key columns needed for the required analysis (e.g., for 'interviewer configuration', find tables linking interviewers and hiring managers).\n- **Step 3: Design analysis plan.** For each matched criterion, draft the exact SQL query or calculation method that will produce the required output (e.g., 'compute avg_interviews_per_application per department').\n- **Step 4: Validate completeness.** Before beginning exploratory queries, verify your analysis plan covers all rubric criteria. If a criterion cannot be addressed with available data, note the limitation explicitly.",
+    "checklist": [
+      "List all rubric criteria",
+      "Link each criterion to a table/column",
+      "Define the calculation for each",
+      "Verify no criteria are missed"
+    ],
+    "common_failure_prevented": "Prevents missing entire rubric sections (e.g., sensitivity analysis, interviewer alignment) because they were overlooked during unstructured exploration.",
+    "keywords": [
+      "rubric",
+      "requirement",
+      "scoring framework",
+      "criterion",
+      "task instruction"
+    ],
+    "tags": [
+      "requirements",
+      "planning",
+      "rubric-alignment"
+    ],
+    "source_criterion": "Multiple criteria (e.g., Requirement 3/Criterion 3.2, Requirement 2/Criterion 2.3)",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Calculate key metrics before generating strategic recommendations",
+    "when_to_use": "When tasked with making optimization recommendations (e.g., reallocation, process change) based on performance metrics.",
+    "experience": "- **Step 1: Define the metric.** Precisely define the formula for the core metric needed for the recommendation (e.g., 'minutes-per-hire proxy' = (avg_process_days * 8*60) / total_hires). Do not use approximations.\n- **Step 2: Compute for all segments.** Calculate the defined metric for every relevant segment (e.g., for each sourcing channel, each department, each interview round bin).\n- **Step 3: Rank or score.** Use the computed metrics to create a ranked list or a composite score according to the task's goal (e.g., efficiency, cost).\n- **Step 4: Base recommendation on ranking.** Make your specific recommendation (e.g., channel weight allocation) directly from the ranked/segmented results, explaining the causal link.",
+    "checklist": [
+      "Formula definition",
+      "Segment-level calculation",
+      "Ranking/Scoring",
+      "Recommendation justification"
+    ],
+    "common_failure_prevented": "Prevents making recommendations based on incomplete or incorrectly aggregated metrics, leading to unsubstantiated conclusions (e.g., channel allocation without a proper efficiency index).",
+    "keywords": [
+      "optimize",
+      "reallocate",
+      "recommend",
+      "strategy",
+      "efficiency",
+      "cost reduction"
+    ],
+    "tags": [
+      "metric design",
+      "optimization",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2/best_path_analysis",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Verify data scope and anchor values before baseline analysis",
+    "when_to_use": "When the task references a specific time period, baseline values, or performance targets.",
+    "experience": "- **Step 1: Identify anchors.** Extract all explicit numerical anchors from the task and rubric (e.g., '15% cost reduction', 'interviewer satisfaction score above 4.0', '2024 data').\n- **Step 2: Query for verification.** Run targeted queries to confirm the data matches these anchors (e.g., confirm the data year is 2024, calculate current interviewer satisfaction).\n- **Step 3: Document discrepancies.** If calculated values differ from stated anchors, note the discrepancy and its implications for the analysis.\n- **Step 4: Scope all subsequent analysis.** Apply filters (e.g., `WHERE application_year = 2024`) consistently in all queries to ensure a coherent baseline.",
+    "checklist": [
+      "List all numerical anchors",
+      "Run verification queries",
+      "Note discrepancies",
+      "Apply consistent filters"
+    ],
+    "common_failure_prevented": "Prevents mixing data from different time periods or using incorrect baseline values, which invalidates trend analysis and target calculations.",
+    "keywords": [
+      "baseline",
+      "target",
+      "year",
+      "quarter",
+      "current",
+      "historical",
+      "scope"
+    ],
+    "tags": [
+      "data validation",
+      "baseline",
+      "anchoring"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-067"
+  }
+]

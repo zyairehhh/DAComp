@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Define required statistical breakdowns beyond simple aggregates",
+    "when_to_use": "When the task requests analyzing bottlenecks, drop-offs, or efficiency of a process.",
+    "experience": "- Before reporting final results, explicitly list all metrics and dimensions required by the task or rubric.\n- For each reported aggregate (e.g., average days, attrition rate), plan to compute supporting statistics (e.g., counts of progressed vs. attrited, pass rates, stage-to-hire conversion).\n- Ensure analysis includes both progression-based and attribution-based perspectives if applicable (e.g., compute both counts of candidates who advanced and counts for each attrition reason).\n- Validate that your computed metrics match anchor points or expected ranges provided in the rubric.\n- If analyzing time-based bottlenecks, also compute percentiles and time-bin attrition rates to detect long-tail delays.",
+    "checklist": [
+      "Identify required supporting statistics beyond main metrics",
+      "Compute both progression and attribution perspectives",
+      "Verify against rubric anchor points"
+    ],
+    "common_failure_prevented": "Reports only aggregated attrition rates without supporting progression counts or stage-to-hire conversion, leading to incomplete bottleneck analysis.",
+    "keywords": [
+      "bottleneck",
+      "attrition",
+      "drop-off",
+      "conversion",
+      "stage efficiency"
+    ],
+    "tags": [
+      "analysis-planning",
+      "metrics-definition",
+      "rubric-alignment"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-071"
+  },
+  {
+    "title": "Analyze time-spent structure beyond the average",
+    "when_to_use": "When evaluating process duration or identifying time-related bottlenecks.",
+    "experience": "- Do not rely solely on average days; compute percentiles (e.g., 75th, 90th) to understand spread.\n- Segment average days by outcome (e.g., avg days for progressed vs. attrited candidates).\n- Create time bins (e.g., <10 days, 10–25 days, >25 days) and calculate attrition/pass rates per bin.\n- Report the proportion of candidates in the long tail (e.g., exceeding a threshold).\n- Use this detailed structure to pinpoint whether long delays are correlated with attrition.",
+    "checklist": [
+      "Compute percentiles of time spent",
+      "Segment average days by outcome groups",
+      "Calculate attrition rates per time bin"
+    ],
+    "common_failure_prevented": "Only reports average time spent, missing insights into long-tail delays and their correlation with attrition.",
+    "keywords": [
+      "average time",
+      "duration",
+      "delays",
+      "time spent",
+      "long tail"
+    ],
+    "tags": [
+      "time-analysis",
+      "distribution-analysis",
+      "bottleneck-detection"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-071"
+  },
+  {
+    "title": "Establish a clear business-stage order before funnel analysis",
+    "when_to_use": "When analyzing a multi-stage funnel or pipeline with sequential steps.",
+    "experience": "- Before computing stage metrics, determine the correct sequential order of stages (e.g., from application to hire).\n- Use business logic, stage IDs, or timestamp patterns to define a mapping (e.g., assign ranks 1 to N).\n- Validate the order by checking median timestamps or known business flow.\n- If using raw records, explicitly note the risk of timestamp reversals (e.g., due to data corrections) and how your mapping mitigates it.\n- Report the defined stage order as part of the methodology.",
+    "checklist": [
+      "Define sequential order of stages",
+      "Map each stage to a rank",
+      "Validate order with timestamps or business logic"
+    ],
+    "common_failure_prevented": "Analyzes stages without establishing their logical sequence, undermining funnel progression analysis.",
+    "keywords": [
+      "hiring funnel",
+      "stage order",
+      "pipeline",
+      "sequential",
+      "funnel analysis"
+    ],
+    "tags": [
+      "funnel-analysis",
+      "data-modeling",
+      "business-logic"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-071"
+  }
+]

@@ -1,0 +1,91 @@
+[
+  {
+    "title": "Explicitly compute and decompose derived metrics defined in the rubric",
+    "when_to_use": "When the task or rubric requires analysis of derived metrics (e.g., unit cost, weighted average) defined by specific formulas.",
+    "experience": "* Before any analysis, parse the rubric or task instruction for explicit metric definitions (e.g., 'unit freight = Σ(Shipping Cost) ÷ Σ(Quantity)').\n* Compute each required derived metric separately and verify its components are correctly aggregated.\n* If a proxy or alternative metric is used, justify why the required metric could not be computed and document the substitution.\n* Always decompose derived metrics to understand their drivers (e.g., changes in unit freight can be due to changes in shipping cost mix vs. quantity mix).\n* Compare the computed derived metric against simpler proxies (e.g., average shipping cost) to validate sensitivity.",
+    "checklist": [
+      "List required derived metrics from the rubric/task",
+      "Compute each derived metric with the exact formula",
+      "If data is unreliable, note it and use proxy with justification",
+      "Document how the derived metric differs from a simple proxy",
+      "Include derived metric in all diagnostic steps it is required for"
+    ],
+    "common_failure_prevented": "This prevents missing the precise metric required for scoring, as happened with unit freight and weighted unit price, leading to rubric failures.",
+    "keywords": [
+      "unit",
+      "weighted",
+      "per",
+      "rate",
+      "formula",
+      "derived",
+      "normalized"
+    ],
+    "tags": [
+      "metric_definition",
+      "rubric_alignment",
+      "formula_calculation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-017"
+  },
+  {
+    "title": "Perform comprehensive diagnostic analysis across all entities before zooming in",
+    "when_to_use": "When the task requires investigating a fluctuation or change across a category (e.g., product category, region).",
+    "experience": "* After identifying a target entity (e.g., a product category with the largest swing), compute diagnostic metrics for all sub-entities (e.g., all products, all SKUs, all shipping methods) within that category.\n* Aggregate or rank sub-entities by their contribution to the overall fluctuation (e.g., which products contribute most to margin change).\n* Before drilling down into a single entity (e.g., one product), verify it is the primary driver by comparing its impact to the sum of all others.\n* Use segmentation (e.g., terciles, quartiles) to group sub-entities by performance (e.g., high-margin vs. low-margin) and analyze shifts between segments.\n* If focusing on a single entity, explicitly state that it was selected as the top contributor and summarize the diagnostic for all others.",
+    "checklist": [
+      "Identify all relevant sub-entities within the target category",
+      "Compute diagnostic metric for each sub-entity",
+      "Rank or segment sub-entities by contribution to change",
+      "Confirm selected focus entity is the primary driver",
+      "If not, analyze the top contributors collectively"
+    ],
+    "common_failure_prevented": "This prevents narrow analysis of a single sub-entity (e.g., only Beds) when the rubric requires a comprehensive product-level or SKU-level diagnosis for the entire category.",
+    "keywords": [
+      "category",
+      "product",
+      "driver",
+      "volatility",
+      "diagnose",
+      "contribution",
+      "across",
+      "all"
+    ],
+    "tags": [
+      "comprehensive_analysis",
+      "driver_identification",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-017"
+  },
+  {
+    "title": "Align segmentation and join logic with the task's temporal scope",
+    "when_to_use": "When the task requires analyzing customer behavior (e.g., RFM) or engagement metrics over a specific time period (e.g., 2022–2024).",
+    "experience": "* Define the analysis time window explicitly (e.g., 'from 2022 through 2024').\n* When creating segments (e.g., RFM), ensure all underlying data (orders, browsing) is filtered to the relevant time window unless otherwise stated.\n* For engagement metrics tied to orders, join customer or product data only for the relevant time window and customer set (e.g., customers who bought the category in the period).\n* If comparing core vs. non-core customers, define core using behavior within the same time window.\n* When reporting trends per year, ensure yearly customer sets are defined separately (e.g., customers active each year) before aggregating metrics.",
+    "checklist": [
+      "Explicitly note the required time window for analysis",
+      "Filter all source tables to the time window before joins/aggregates",
+      "When comparing groups (core/non-core), define them using window-specific data",
+      "For yearly trends, create separate yearly subsets before computing metrics",
+      "Document any deviations from window-based filtering"
+    ],
+    "common_failure_prevented": "This prevents analyzing engagement or customer segments with incorrectly aligned temporal logic, leading to misinterpretation of trends, as happened with browsing metrics not joined to yearly customer sets.",
+    "keywords": [
+      "annual",
+      "yearly",
+      "segmentation",
+      "RFM",
+      "core",
+      "period",
+      "time",
+      "window"
+    ],
+    "tags": [
+      "temporal_alignment",
+      "customer_segmentation",
+      "time_window"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.4, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-017"
+  }
+]

@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Define past and future windows for predictive modeling",
+    "when_to_use": "The task requires predicting future customer behavior or value trends based on historical data.",
+    "experience": "- **Explicitly partition timeline**: Define a fixed cutoff date or use a rolling window scheme to split data into a 'past' (feature) window and a 'future' (label) window.\n- **Engineer features from past window only**: Compute all model features (e.g., frequency, recency) using data strictly from the past window. Ensure no future information leaks via aggregated lifetime totals.\n- **Construct labels from future window**: Define the target variable (e.g., 'high-value', 'trend') using metrics calculated solely from the future window (e.g., total minutes in the next 3 months).\n- **Verify window integrity**: Write a validation script to confirm that for each entity, feature dates are strictly before the label window start date.",
+    "checklist": [
+      "Define a clear cutoff date or rolling window logic.",
+      "Calculate features using only data within the defined past window.",
+      "Calculate target labels using only data within the defined future window.",
+      "Run a script to validate that no feature uses future-period data."
+    ],
+    "common_failure_prevented": "Prevents data leakage and invalid model evaluation by ensuring features are built only from historical data relative to the prediction target.",
+    "keywords": [
+      "predict",
+      "future",
+      "trend",
+      "forecast",
+      "next 3 months",
+      "time window"
+    ],
+    "tags": [
+      "time-series",
+      "predictive-modeling",
+      "data-leakage"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Build and evaluate a supervised model for classification tasks",
+    "when_to_use": "The task requires identifying or classifying entities (e.g., high-value customers) and reports a target accuracy metric.",
+    "experience": "- **Formalize the prediction problem**: Define a binary or multi-class target variable based on the business goal (e.g., high-value = top 20% of future usage).\n- **Split data into train/validation/test sets** using time-based or random splits, ensuring no leakage.\n- **Train a supervised model** (e.g., logistic regression, XGBoost) using the engineered features.\n- **Evaluate on a held-out set**: Report standard classification metrics (Precision, Recall, F1, AUC) and compare against a baseline.\n- **Adjust decision threshold** to meet business requirements (e.g., precision > 85%) and analyze feature importance.",
+    "checklist": [
+      "Define a clear, measurable target variable for classification.",
+      "Split data properly for training and evaluation.",
+      "Train at least one supervised learning model.",
+      "Calculate and report precision, recall, and AUC.",
+      "Tune the model or threshold to meet the specified accuracy goal."
+    ],
+    "common_failure_prevented": "Prevents reliance on simple heuristic scores and ensures robust, validated model performance that meets stated accuracy targets.",
+    "keywords": [
+      "identify",
+      "accuracy",
+      "classification",
+      "model",
+      "high-value",
+      "precision",
+      "recall"
+    ],
+    "tags": [
+      "supervised-learning",
+      "model-evaluation",
+      "classification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Create trend labels from actual future vs past comparison",
+    "when_to_use": "The task requires predicting a directional trend (e.g., customer value increasing or declining) over a future period.",
+    "experience": "- **Quantify the trend metric**: Choose a core metric (e.g., total usage minutes) for trend calculation.\n- **Calculate past and future activity**: For each entity, compute the metric in a defined past window and a subsequent future window.\n- **Define trend categories**: Use a rule based on the ratio or difference (e.g., future/past > 1.1 = 'upward', < 0.9 = 'declining', else 'stable').\n- **Validate label distribution**: Check the proportion of entities in each trend category to ensure it's reasonable.\n- **Build a predictive model**: Use past-window features to predict the categorized trend label or a continuous trend ratio.",
+    "checklist": [
+      "Select a key performance metric for trend analysis.",
+      "Compute the metric in both a past and a future window for each entity.",
+      "Define a quantitative rule (e.g., ratio threshold) to assign trend labels.",
+      "Build and evaluate a model to predict the assigned trend label."
+    ],
+    "common_failure_prevented": "Prevents creating trend labels based on heuristic rules or single time-point snapshots, ensuring trends reflect actual measured changes over time.",
+    "keywords": [
+      "trend",
+      "direction",
+      "increase",
+      "decline",
+      "next 3-6 months",
+      "momentum"
+    ],
+    "tags": [
+      "time-series-analysis",
+      "trend-prediction",
+      "label-engineering"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-078"
+  }
+]

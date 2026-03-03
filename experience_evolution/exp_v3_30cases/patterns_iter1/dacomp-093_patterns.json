@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Explicitly compute all rubric metrics before reporting results",
+    "when_to_use": "When task instructions specify multiple output metrics that will be scored against a rubric.",
+    "experience": "- Review the scoring rubric or task requirements to extract a comprehensive list of required metrics.\n- Before generating final insights, compute all required metrics in a structured table (e.g., open rate, click-through rate, orders per 1k, GMV per 1k).\n- Verify the presence and accuracy of each metric for every analysis dimension (e.g., segment, time window, variant).\n- If a metric cannot be computed due to data constraints, document the limitation and propose an acceptable proxy.\n- Use computed metric tables as the sole source for deriving recommendations and conclusions.",
+    "checklist": [
+      "List required metrics from rubric",
+      "Compute all metrics for all segments",
+      "Validate metric values against known anchors",
+      "Explicitly flag missing metrics before concluding"
+    ],
+    "common_failure_prevented": "Failing to report required metrics (e.g., CTOR, orders per 1k, GMV per 1k) despite having the data, resulting in low rubric scores.",
+    "keywords": [
+      "rubric",
+      "metrics",
+      "score",
+      "evaluate",
+      "performance",
+      "KPI"
+    ],
+    "tags": [
+      "rubric",
+      "metrics",
+      "completeness",
+      "scoring"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Define explicit anchor thresholds for segmentation decisions",
+    "when_to_use": "When segmentation requires grouping continuous variables (e.g., high/low volume, send frequency, audience size).",
+    "experience": "- Identify any continuous variable mentioned in the task that requires categorical grouping (e.g., 'high send window', 'scale stratification').\n- Determine appropriate anchor points (e.g., median, quartiles, top/bottom 10%) based on data distribution and business logic.\n- Create a clear parameter table defining each segment's threshold and label.\n- Compute sample sizes and performance metrics for each defined segment.\n- In the final report, explicitly state the thresholds used and justify them.",
+    "checklist": [
+      "Identify continuous variables needing segmentation",
+      "Determine threshold method (quartiles, median, custom)",
+      "Define explicit cutoffs and labels",
+      "Report sample sizes per segment",
+      "Justify threshold choices"
+    ],
+    "common_failure_prevented": "Skipping explicit segmentation (e.g., 'high send day') or using arbitrary/implicit thresholds, which violates rubric requirements.",
+    "keywords": [
+      "stratify",
+      "high/low",
+      "window",
+      "quartile",
+      "scale",
+      "segment"
+    ],
+    "tags": [
+      "segmentation",
+      "threshold",
+      "anchors",
+      "stratification"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-093"
+  },
+  {
+    "title": "Integrate all required data sources for multi-table analysis",
+    "when_to_use": "When the analysis depends on combining multiple tables to compute required metrics.",
+    "experience": "- Map each required metric in the task to the specific column(s) and table(s) needed to compute it.\n- Design a join strategy (e.g., key-based, time-based, aggregation) to combine tables at the appropriate grain.\n- Validate join quality (e.g., match rate, nulls) before proceeding with analysis.\n- If direct joins are impossible, explicitly propose and implement an acceptable approximation (e.g., campaign-level proxy for user-level retention).\n- Document any data limitations and their impact on result validity.",
+    "checklist": [
+      "Map metrics to source tables and columns",
+      "Design and test join strategy",
+      "Validate join completeness",
+      "Document approximations if needed"
+    ],
+    "common_failure_prevented": "Using incomplete data (e.g., ignoring the persons table) leading to missing critical metrics like retention rates.",
+    "keywords": [
+      "join",
+      "combine",
+      "multiple tables",
+      "integrate",
+      "sources",
+      "link"
+    ],
+    "tags": [
+      "data integration",
+      "multi-table",
+      "joins",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-093"
+  }
+]

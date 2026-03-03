@@ -1,0 +1,76 @@
+[
+  {
+    "title": "Explicitly align screening logic with defined time and entity scope",
+    "when_to_use": "When a task requires screening data using specific thresholds (e.g., monthly cost > $X, ROI < Y).",
+    "experience": "*   **Clarify the unit of analysis**: Determine if screening should be applied to a specific time point (e.g., latest month) or aggregated across a period (e.g., any month). Confirm if analysis should focus on entities meeting criteria at that point.\n*   **Document the exact filter query**: Before executing, write the precise SQL/Python filtering logic, ensuring date filters and entity selection match the task's implied scope.\n*   **Validate the initial list against anchor examples**: If the task includes example counts or campaign IDs, test your filter to ensure it produces the same list; if results differ, re-examine the definition of the screening criteria.",
+    "checklist": [
+      "Define screening scope (period vs point-in-time)",
+      "Write exact filter query",
+      "Validate results against expected counts"
+    ],
+    "common_failure_prevented": "Prevents using historical data for screening when a specific time period (e.g., a single month) is required, leading to an incorrect or oversized candidate set.",
+    "keywords": [
+      "screening criteria",
+      "initial filter",
+      "risk identification",
+      "threshold"
+    ],
+    "tags": [
+      "data_preparation",
+      "filtering",
+      "scope"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Translate rubric-defined methods directly into your analysis steps",
+    "when_to_use": "When a rubric explicitly details a required methodology (e.g., robust normalization, winsorizing).",
+    "experience": "*   **Map rubric steps to your code**: Explicitly create code variables or comments that correspond to each step described in the rubric (e.g., 'winsorizing P5-P95', 'impute missing with Q2 mean').\n*   **Verify key parameters**: Document the specific thresholds, values, or anchors provided in the rubric and use them directly, rather than deriving new ones (e.g., use P20/P40 for risk tiering, not custom quartiles).\n*   **Quote the rubric in your reasoning**: When explaining your method, refer directly to the rubric language to demonstrate alignment.",
+    "checklist": [
+      "Map rubric steps to code",
+      "Use rubric-provided parameters",
+      "Cite rubric in explanation"
+    ],
+    "common_failure_prevented": "Prevents implementing a different, plausible-sounding method (e.g., percentile ranking) when the rubric mandates a specific, detailed technique (e.g., robust normalization with winsorizing).",
+    "keywords": [
+      "scoring model",
+      "normalization",
+      "winsorizing",
+      "imputation",
+      "risk tiering"
+    ],
+    "tags": [
+      "methodology",
+      "rubric_alignment",
+      "scoring"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Execute diagnostic analysis at the required granularity",
+    "when_to_use": "When a task requires identifying sub-optimal segments (e.g., device, geography) within specific problematic entities.",
+    "experience": "*   **Identify the target entities first**: Isolate the problematic campaigns/entities defined in the screening step. Do not analyze the entire dataset for this step.\n*   **Apply segment analysis per entity**: For each problematic entity, calculate segment-level metrics (e.g., cost share, ROAS) and compare against thresholds or campaign averages.\n*   **Extract the required outputs**: Report the exact metrics for the top segments per entity, ensuring values match the specified output format (e.g., top 3 geos by cost share).",
+    "checklist": [
+      "Filter to target entities first",
+      "Calculate segment metrics per entity",
+      "Report top segments with required metrics"
+    ],
+    "common_failure_prevented": "Prevents aggregating segment performance across all campaigns instead of analyzing segments for each flagged campaign, which fails to provide campaign-specific diagnostic insights.",
+    "keywords": [
+      "segment performance",
+      "device optimization",
+      "geographic adjustment",
+      "cost share",
+      "within-campaign"
+    ],
+    "tags": [
+      "segmentation",
+      "diagnostics",
+      "drill_down"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-058"
+  }
+]

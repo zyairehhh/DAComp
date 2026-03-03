@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly define segmentation criteria before analysis",
+    "when_to_use": "When the task requires comparing performance between groups defined by a metric threshold.",
+    "experience": "- **Clarify the segmentation metric**: Before querying, formally state which column or derived metric will be used to split the data (e.g., 'key revenue metric' = `average_revenue_per_user`).\n- **Confirm threshold availability**: Check the actual distribution of the segmentation metric to see if the specified thresholds (e.g., >$7, <$3) produce viable sample sizes.\n- **Document the grouping logic**: In your analysis plan, explicitly note the filter conditions and the resulting group labels (e.g., 'High-ARPU markets', 'Low-ARPU markets').\n- **Cross-check with alternative metrics**: If the primary metric does not yield meaningful segments, propose and justify an alternative (e.g., `revenue_tier`, `avg_daily_revenue`).\n- **Report group counts and anchor values**: After segmentation, immediately report the number of entities in each group and key descriptive statistics (mean, min, max) for the segmentation metric.",
+    "checklist": [
+      "Define segmentation metric",
+      "Check data distribution for thresholds",
+      "Document group definitions",
+      "Report group counts and anchors"
+    ],
+    "common_failure_prevented": "Prevents ambiguous or incomplete group comparisons, ensuring analysis is built on a clear, validated segmentation.",
+    "keywords": [
+      "segmentation",
+      "groups",
+      "threshold",
+      "compare",
+      "markets",
+      "tier"
+    ],
+    "tags": [
+      "data_prep",
+      "segmentation",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Map required outputs to explicit metric definitions early",
+    "when_to_use": "When the analysis requires calculating and reporting specific KPIs from a dataset with many columns.",
+    "experience": "- **Create a metric dictionary**: At project start, list every KPI mentioned in the task or rubric, map it to the exact database column(s), and note its formula if derived.\n- **Verify calculations with sample data**: Compute each metric for a small sample (e.g., one region) to confirm the logic matches the intended business definition.\n- **Align with rubric anchors**: If a rubric provides expected values (anchors), compute those specific metrics first to validate your data pipeline.\n- **Document any assumptions**: Note any assumptions about data granularity, time windows, or filters applied.\n- **Use the dictionary to structure final outputs**: Organize results sections using the defined KPIs to ensure comprehensive coverage.",
+    "checklist": [
+      "List required KPIs",
+      "Map to database columns",
+      "Validate with sample calculations",
+      "Check against rubric anchors"
+    ],
+    "common_failure_prevented": "Prevents omission of key metrics and ensures calculated values are accurate and aligned with task expectations.",
+    "keywords": [
+      "KPI",
+      "metric",
+      "definition",
+      "calculate",
+      "report",
+      "anchor"
+    ],
+    "tags": [
+      "planning",
+      "documentation",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Structure causal analysis with a hypothesis-driven framework",
+    "when_to_use": "When the task asks to explain performance divergence or identify drivers of a trend.",
+    "experience": "- **Formulate clear hypotheses**: Before analysis, state testable hypotheses for the observed change (e.g., 'Performance drop is driven by increased crash rates in high-revenue markets').\n- **Select appropriate statistical tests**: For each hypothesis, define the method (e.g., correlation, regression, A/B test) and the required data.\n- **Execute and interpret the test**: Run the analysis, report coefficients/p-values, and interpret the practical significance.\n- **Quantify impact**: Where possible, estimate the contribution of each driver to the overall change (e.g., 'X% of the revenue decline is associated with churn increase').\n- **Triangulate with segmentation**: Cross-check findings across different segments (e.g., high vs low revenue) to validate robustness.",
+    "checklist": [
+      "State hypotheses",
+      "Choose analysis method",
+      "Execute statistical test",
+      "Interpret and quantify impact"
+    ],
+    "common_failure_prevented": "Prevents superficial analysis that merely reports trends without investigating underlying causes or quantifying relationships.",
+    "keywords": [
+      "driver",
+      "cause",
+      "correlation",
+      "regression",
+      "impact",
+      "hypothesis"
+    ],
+    "tags": [
+      "causal_analysis",
+      "statistics",
+      "interpretation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-069"
+  }
+]

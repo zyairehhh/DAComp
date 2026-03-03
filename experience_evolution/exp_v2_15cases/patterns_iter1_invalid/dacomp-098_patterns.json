@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Map rubric-defined metrics to data before analysis",
+    "when_to_use": "When the task requires answering a set of performance questions defined in an evaluation rubric or success criteria.",
+    "experience": "Before writing any code:\n- **Extract and document all target metrics** from the rubric (e.g., '72-hour conversion rate', 'weekly retention', 'panel with Segment×Seat×ARR').\n- **For each metric, define a precise operational formula** including the numerator, denominator, filters, and time window (e.g., 'conversion within 72 hours of conversation start').\n- **Check each required data element** against the available schema: confirm timestamps, categorical fields, and linking keys exist. Flag missing data early.\n- **Create a mapping table** that links each rubric metric to a SQL/Python computation step and notes any assumptions or proxies needed.\n- **Validate the first few computed results** against sample counts or known totals to ensure alignment with the rubric's expected outputs.",
+    "checklist": [
+      "List all rubric metrics explicitly",
+      "Define exact formula for each",
+      "Map each formula to a data source and column",
+      "Test computation on a small sample"
+    ],
+    "common_failure_prevented": "Missing key required analyses (like 72-hour conversion, retention) because the agent focused on the task narrative but ignored the detailed evaluation rubric.",
+    "keywords": [
+      "rubric",
+      "evaluation criteria",
+      "required metrics",
+      "scoring framework",
+      "performance questions"
+    ],
+    "tags": [
+      "planning",
+      "requirement mapping",
+      "data validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Define analysis cohorts and time windows explicitly",
+    "when_to_use": "When the analysis involves comparing groups (e.g., bot vs human) or tracking performance over time.",
+    "experience": "- **Declare the cohort definition** precisely: which entities are included (e.g., 'paying customers' = monthly_spend > 0) and the time window (e.g., 'conversations initiated in last rolling 90 days').\n- **State any segmentation dimensions** and their binning logic (e.g., 'segment from tags; if missing, fallback to company segment').\n- **Create a master cohort table** that lists each entity (conversation/contact/company) with all its grouping attributes and eligibility flags.\n- **Use this cohort table as the base** for all subsequent metric calculations to ensure consistency across different analyses.\n- **Report cohort sizes and key characteristics** (counts, date ranges) in the analysis output to validate data coverage.",
+    "checklist": [
+      "Define inclusion criteria",
+      "Set time window and anchor",
+      "Build a master cohort table",
+      "Report cohort statistics"
+    ],
+    "common_failure_prevented": "Analyzing an inconsistent or poorly defined population (e.g., all conversations without filtering to paying customers or a specific time window), leading to uninterpretable results.",
+    "keywords": [
+      "cohort",
+      "segment",
+      "time window",
+      "anchor date",
+      "filter",
+      "population"
+    ],
+    "tags": [
+      "data preparation",
+      "cohort analysis",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Design a structured output panel for multi-dimensional analysis",
+    "when_to_use": "When the task asks for a breakdown by multiple dimensions (e.g., segment, region, plan) and comparison of key metrics.",
+    "experience": "- **Identify the core dimensions** for stratification (e.g., Segment, Seat size, ARR bracket).\n- **List all target metrics** to be computed per stratum (e.g., conversion rate, average response time, retention).\n- **Create a skeleton results table** with all combinations of dimensions (or a representative subset) as rows and metrics as columns.\n- **Compute metrics systematically** by iterating over each stratum and populating the table.\n- **Include summary statistics** (e.g., overall totals, grand averages) to anchor the breakdown.\n- **Analyze the panel** to identify patterns (e.g., 'high ARR segments have lower bot share') and use these for strategic recommendations.",
+    "checklist": [
+      "List stratification dimensions",
+      "Define metrics per stratum",
+      "Build empty results table",
+      "Compute and populate all cells",
+      "Summarize overall patterns"
+    ],
+    "common_failure_prevented": "Producing disjointed or incomplete segment-level insights because metrics were computed separately per dimension rather than in a unified multi-dimensional panel.",
+    "keywords": [
+      "panel",
+      "breakdown",
+      "stratification",
+      "dimensions",
+      "segments",
+      "cross-tab"
+    ],
+    "tags": [
+      "reporting",
+      "data visualization",
+      "business intelligence"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-098"
+  }
+]

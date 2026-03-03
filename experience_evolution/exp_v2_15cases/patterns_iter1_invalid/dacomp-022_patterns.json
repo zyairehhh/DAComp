@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Explicitly map rubric criteria to analysis dimensions before starting",
+    "when_to_use": "When the task rubric defines specific required analysis dimensions or scoring frameworks",
+    "experience": "- **Parse the rubric carefully** to identify all explicit criteria and sub-criteria.\n- **Extract every required analysis dimension** (e.g., vehicle type, driver rating, time period, location, ride distance, multi-dimensional combinations).\n- **Create a mapping table** linking each criterion to the specific data columns, metrics, and analyses needed to address it.\n- **Prioritize analyses** based on rubric weight or logical dependency, ensuring none are missed.\n- **Validate coverage** before finalizing the analysis plan to confirm all rubric requirements are addressed.",
+    "checklist": [
+      "List all rubric criteria and sub-criteria",
+      "Identify corresponding data columns and metrics for each",
+      "Plan specific analyses (e.g., correlation, segmentation) for each dimension",
+      "Verify planned analyses cover all required dimensions"
+    ],
+    "common_failure_prevented": "Prevents missing required multi-dimensional or joint analyses that are explicitly specified in the rubric.",
+    "keywords": [
+      "rubric",
+      "criteria",
+      "dimensions",
+      "required",
+      "scoring",
+      "framework"
+    ],
+    "tags": [
+      "requirement_mapping",
+      "analysis_planning",
+      "rubric_awareness"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Define analysis dimensions from task instruction before exploring data",
+    "when_to_use": "When the task instruction mentions multiple potential analysis dimensions (e.g., types, ratings, time, location)",
+    "experience": "- **Extract all dimension keywords** from the task instruction (e.g., 'vehicle type', 'service quality rating', 'time', 'location', 'distance').\n- **For each dimension**, brainstorm specific analytical questions (e.g., 'How does fare per km vary by time of day?' for time dimension).\n- **Check data availability** for each dimension immediately after initial data exploration.\n- **Create a dimension checklist** and tick off each as analysis is completed.\n- **Report explicitly** which dimensions were analyzed and which were not feasible due to data constraints.",
+    "checklist": [
+      "List all dimension keywords from task",
+      "Formulate specific analytical questions per dimension",
+      "Verify data columns exist for each dimension",
+      "Schedule analyses for all dimensions",
+      "Document coverage gaps"
+    ],
+    "common_failure_prevented": "Prevents overlooking obvious analysis dimensions mentioned in the task but not required by the rubric.",
+    "keywords": [
+      "dimensions",
+      "multi-dimensional",
+      "time",
+      "location",
+      "segmentation",
+      "factors"
+    ],
+    "tags": [
+      "task_interpretation",
+      "dimension_analysis",
+      "coverage"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.notfound.1-4",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Structure analysis around business metrics before diving into computations",
+    "when_to_use": "When the task requires optimizing a business outcome (e.g., earnings, fare per kilometer)",
+    "experience": "- **Define the target metric** precisely (e.g., 'annual earnings', 'fare per km').\n- **Identify all factors** that could influence this metric from domain knowledge and data columns.\n- **Prioritize factors** by expected impact and data availability.\n- **Compute the metric** at the appropriate granularity (e.g., per ride, per driver, per vehicle type).\n- **Analyze each factor's relationship** to the target metric systematically before making recommendations.",
+    "checklist": [
+      "Clarify the exact target metric",
+      "List all potential influencing factors",
+      "Rank factors by hypothesized impact",
+      "Compute target metric for segmentation",
+      "Analyze factor correlations systematically"
+    ],
+    "common_failure_prevented": "Prevents narrow analysis that only examines one or two factors while ignoring other important drivers of the target metric.",
+    "keywords": [
+      "earnings",
+      "optimize",
+      "metric",
+      "factors",
+      "influence",
+      "driver",
+      "recommendation"
+    ],
+    "tags": [
+      "business_metric",
+      "factor_analysis",
+      "optimization_framework"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  }
+]

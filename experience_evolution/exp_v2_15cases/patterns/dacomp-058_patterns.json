@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Anchor analysis to the exact time period specified",
+    "when_to_use": "The task instruction specifies a particular reference date or time window (e.g., 'latest month', 'June 2024').",
+    "experience": "- At the start of analysis, explicitly identify the exact time period required for filtering and reporting.\n- Before applying any screening criteria, filter the dataset to this specific period.\n- Perform all primary analyses (e.g., identifying unhealthy campaigns, computing benchmarks) on this anchored subset first.\n- When performing time-series comparisons (e.g., YoY), ensure the baseline period is correctly aligned with the specified reference period.\n- Clearly label all outputs to indicate the reference period used.",
+    "checklist": [
+      "Identify the reference period in the task",
+      "Filter data to that period before screening",
+      "Use this period to compute benchmarks and targets",
+      "Align trend comparisons (e.g., YoY) to this anchor"
+    ],
+    "common_failure_prevented": "Using an overly broad time filter (e.g., all months) which dilutes results and fails to identify the specific entities of interest for the required period.",
+    "keywords": [
+      "latest month",
+      "reference period",
+      "June 2024",
+      "specific month",
+      "time window"
+    ],
+    "tags": [
+      "time filter",
+      "screening",
+      "benchmarking"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Verify and implement the precise calculation method for key metrics",
+    "when_to_use": "The task or rubric defines a specific formula, imputation rule, or aggregation method for a critical metric.",
+    "experience": "- Extract the exact formula or rule (e.g., 'impression-weighted average', 'use 2024-Q2 mean for imputation') from the requirements.\n- Before coding, write out the calculation logic in pseudo-code to confirm alignment.\n- For imputation or handling of missing/extreme values, explicitly define the source of the replacement value (e.g., segment average, fixed threshold).\n- Test the calculation on a small sample to verify outputs match expected anchor values if provided.\n- Document any deviations from the specified method and the rationale.",
+    "checklist": [
+      "Extract and document the precise formula",
+      "Define the source for imputation values",
+      "Test calculation on a sample",
+      "Compare results to provided anchor points if available"
+    ],
+    "common_failure_prevented": "Using a generic or different calculation method (e.g., simple average vs. impression-weighted average) leading to inaccurate metrics and failing rubric checks.",
+    "keywords": [
+      "impression-weighted",
+      "imputation rule",
+      "specific formula",
+      "calculation method",
+      "anchor points"
+    ],
+    "tags": [
+      "metric definition",
+      "calculation",
+      "data processing"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Structure multi-dimensional analysis at the correct entity level",
+    "when_to_use": "The task requires comparing performance across dimensions (e.g., device, geo) for a specific subset of entities (e.g., high-risk campaigns).",
+    "experience": "- First, isolate the target entity subset (e.g., problematic campaigns for the latest month).\n- For each analysis dimension (device, geo, etc.), join the subset's data with the dimension-specific data at the appropriate grain.\n- Compute dimension-level metrics (e.g., cost share, ROAS) specifically for the target subset, not for the entire dataset.\n- Summarize results per target entity (e.g., for each campaign, list its top 3 inefficient geo targets).\n- Avoid aggregating across all entities first, as this obscures the per-entity insights required.",
+    "checklist": [
+      "Isolate the target entity subset first",
+      "Join dimension data at the correct grain for this subset",
+      "Compute dimension metrics per target entity",
+      "Summarize findings at the per-entity level"
+    ],
+    "common_failure_prevented": "Performing aggregate-level dimensional analysis (e.g., average health score per device type across all campaigns) instead of campaign-specific analysis, missing the required per-entity breakdown.",
+    "keywords": [
+      "per campaign",
+      "for each problematic",
+      "top three geos",
+      "device-specific",
+      "campaign-level"
+    ],
+    "tags": [
+      "segmentation",
+      "drill-down",
+      "multi-dimensional analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3",
+    "source_case": "dacomp-058"
+  }
+]

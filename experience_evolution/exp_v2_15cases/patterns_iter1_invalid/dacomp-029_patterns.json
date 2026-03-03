@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Conduct explicit multivariate analysis for multi-factor questions",
+    "when_to_use": "When the task asks to analyze the impact of multiple variables or 'factors' on an outcome.",
+    "experience": "- **Explicitly plan for multivariate analysis** at the start if the question mentions 'multi-factor' or 'configuration' analysis.\n- **Build a simple regression model** (e.g., linear, logistic) or a tree-based model to quantify the joint effect of predictors.\n- **Report model coefficients, significance (p-values), and overall fit (R²)** to validate findings.\n- **Rank factors by standardized coefficients** or feature importance to identify which configurations matter most.\n- **Cross-check single-factor group means with multivariate results** to ensure consistency and explain any discrepancies.\n- **Present a summary table of significant factors** with their effect direction and magnitude.",
+    "checklist": [
+      "Identify dependent and multiple independent variables from task",
+      "Build a multivariate model and check fit metrics",
+      "Extract and rank variable importance",
+      "Compare model results with simple grouped averages"
+    ],
+    "common_failure_prevented": "Providing only single-factor grouped trends when the task requires understanding the combined influence of multiple configurations.",
+    "keywords": [
+      "multi-factor",
+      "configuration",
+      "multiple variables",
+      "combined effect",
+      "regression"
+    ],
+    "tags": [
+      "modeling",
+      "multivariate",
+      "correlation",
+      "significance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Formalize entity grouping with a dictionary to ensure consistency",
+    "when_to_use": "When analysis requires grouping data by names or free-text identifiers (e.g., product models, brand variants).",
+    "experience": "- **Create a mapping dictionary** that defines canonical names for all entities (e.g., 'Hongguang MINI EV' maps to 'Wuling Hongguang MINIEV').\n- **Apply the mapping** before any aggregation to ensure consistent grouping.\n- **Validate group sizes** after mapping to ensure no small, spurious groups remain.\n- **Document the mapping logic** (e.g., based on first N words, regex patterns) as part of your method.\n- **If available, use a separate master table** or official list to standardize entity names.\n- **Report the final grouped entity list** in results to ensure clarity and reproducibility.",
+    "checklist": [
+      "Define canonical entity names via a mapping dictionary",
+      "Apply mapping before grouping and aggregating",
+      "Check group sample sizes and merge minor variants",
+      "Document mapping rules in the analysis report"
+    ],
+    "common_failure_prevented": "Inconsistent aggregation due to minor name variations (e.g., 'Hongguang MINI EV' vs. 'Wuling Hongguang MINIEV'), leading to inaccurate model-level metrics.",
+    "keywords": [
+      "model",
+      "group",
+      "series",
+      "brand",
+      "variant",
+      "standardize"
+    ],
+    "tags": [
+      "data cleaning",
+      "aggregation",
+      "consistency",
+      "mapping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Translate implicit business risks into explicit, actionable avoidance recommendations",
+    "when_to_use": "When the task asks for 'recommendations' that should include risk mitigation or operational guidance.",
+    "experience": "- **Explicitly identify risks** implied by your analysis (e.g., high depreciation models, low sample sizes).\n- **Convert each risk into a specific, directive recommendation** using words like 'avoid', 'prioritize', 'cautious', 'shorten', 'diversify'.\n- **Link each recommendation directly to an analytical finding** (e.g., 'Avoid models with depreciation ratio > X because they lose value quickly').\n- **Provide concrete operational steps** (e.g., 'Shorten turnover cycle for luxury EVs to 60 days').\n- **Structure recommendations as a numbered or bulleted list** with clear action owners (e.g., 'Dealer should...').\n- **Balance positive suggestions** (what to buy) with negative cautions (what to avoid) for a complete strategy.",
+    "checklist": [
+      "List potential business risks derived from analysis",
+      "Formulate each as a clear 'do' or 'do not' directive",
+      "Connect each directive to a specific data point",
+      "Provide operational steps for implementation"
+    ],
+    "common_failure_prevented": "Only reporting positive findings (high-value models) without advising on what to avoid or how to operate, missing the 'risk avoidance' component of recommendations.",
+    "keywords": [
+      "recommendation",
+      "strategy",
+      "avoid",
+      "risk",
+      "operational",
+      "caution"
+    ],
+    "tags": [
+      "business insight",
+      "actionable",
+      "risk management",
+      "recommendation"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-029"
+  }
+]

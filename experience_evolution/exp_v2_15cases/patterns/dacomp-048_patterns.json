@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Extract and deduplicate free-text entries using a synonym dictionary",
+    "when_to_use": "When the task requires analyzing distributions or frequencies from unstructured text fields like job descriptions or benefits.",
+    "experience": "- Identify all relevant columns that may contain target entities (e.g., `Benefits`, `Job Description`).\n- Extract all unique text entries from those columns and manually review a sample to understand variations.\n- Create a synonym mapping table that groups semantically equivalent entries (e.g., 'Five social insurances', 'Five insurances and one housing fund' → 'social insurance').\n- Apply the mapping to standardize entries before counting frequencies or calculating percentages.\n- Validate the deduplication by checking that the total count of original entries matches the sum of counts per standardized category.\n- Report both the raw extracted list and the grouped distribution, noting the mapping rules used.",
+    "checklist": [
+      "Identify all source columns containing free-text data",
+      "Review sample entries to spot synonyms and variations",
+      "Build a synonym dictionary for standardization",
+      "Apply dictionary to clean and group entries",
+      "Verify counts before and after grouping"
+    ],
+    "common_failure_prevented": "Incomplete or inaccurate distribution analysis due to not merging synonymous entries (e.g., benefits listed differently).",
+    "keywords": [
+      "benefits distribution",
+      "free-text extraction",
+      "categorization",
+      "frequency count",
+      "synonym"
+    ],
+    "tags": [
+      "data cleaning",
+      "text analysis",
+      "categorization"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/A.2 and Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Define and apply explicit thresholds for statistical significance",
+    "when_to_use": "When the task requires identifying which factors 'significantly' increase an outcome like salary.",
+    "experience": "- Before analysis, define what 'significant' means: e.g., minimum sample size (e.g., count >=5), minimum effect size (e.g., salary lift >=500 RMB), or statistical test (e.g., t-test p-value <0.05).\n- Compute the outcome metric (e.g., average starting salary) for each factor level and also for the baseline (e.g., factor not mentioned).\n- Calculate the lift (difference or percentage change) between factor-present and baseline groups.\n- Apply the predefined thresholds to filter factors: only report those meeting both sample size and effect size criteria.\n- If using statistical tests, ensure assumptions (e.g., normality, equal variance) are checked or use non-parametric alternatives.\n- In the conclusion, explicitly state the thresholds used and how many factors passed them.",
+    "checklist": [
+      "Define thresholds for sample size and effect size/statistical test",
+      "Compute baseline and factor-level averages",
+      "Calculate lift (difference or percentage)",
+      "Filter factors using thresholds",
+      "Report methodology and results transparently"
+    ],
+    "common_failure_prevented": "Reporting factors as 'significant' based on arbitrary or implicit criteria rather than robust, defined rules.",
+    "keywords": [
+      "significant increase",
+      "factor analysis",
+      "threshold",
+      "statistical significance",
+      "salary lift"
+    ],
+    "tags": [
+      "statistical analysis",
+      "hypothesis testing",
+      "threshold"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3/A and 2.3/B.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Use keyword extraction from unstructured text to complement structured fields",
+    "when_to_use": "When the task requires analyzing qualities, skills, or attributes that may be embedded in free-text descriptions.",
+    "experience": "- Identify all unstructured text columns (e.g., `Job Description`, `Requirements`) that may contain relevant information not captured in structured fields.\n- Define a comprehensive keyword list for each category of interest (e.g., certificates: 'certificate', 'license', 'qualification'; soft skills: 'communication', 'teamwork').\n- Use case‑insensitive pattern matching (including common synonyms and abbreviations) to flag rows containing each keyword.\n- Count occurrences per keyword and per category, and compute associated outcome metrics (e.g., average salary for rows mentioning each keyword).\n- Validate extraction by manually reviewing a random sample of flagged rows to check precision.\n- Report results alongside structured field analysis, noting the source column and extraction method.",
+    "checklist": [
+      "Inventory all unstructured text columns",
+      "Build keyword lists for each category of interest",
+      "Perform case-insensitive pattern matching",
+      "Validate extraction precision with manual review",
+      "Compute metrics for keyword presence",
+      "Combine with structured data findings"
+    ],
+    "common_failure_prevented": "Missing important factors because they were only mentioned in free‑text descriptions and not in structured columns.",
+    "keywords": [
+      "keyword extraction",
+      "unstructured text",
+      "skills",
+      "qualities",
+      "job description"
+    ],
+    "tags": [
+      "text mining",
+      "feature extraction",
+      "natural language processing"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/notfound.2",
+    "source_case": "dacomp-048"
+  }
+]

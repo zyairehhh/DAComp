@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Extract target entities from all relevant text columns",
+    "when_to_use": "When the task requires identifying entities (skills, benefits, qualifications) that may be described in free-text fields.",
+    "experience": "- **Explicitly list all data sources**: Identify which columns contain relevant information (e.g., specific requirement columns, job descriptions).\n- **Plan keyword extraction for each source**: Use targeted keyword lists (e.g., synonyms, industry terms) to parse narrative fields for required entities.\n- **Combine and deduplicate results**: Merge entities found across columns to create a comprehensive list before analysis.",
+    "checklist": [
+      "Identify all candidate columns for entity mentions",
+      "Define synonym lists for key entity categories",
+      "Execute extraction from each column",
+      "Combine and deduplicate results into a master list"
+    ],
+    "common_failure_prevented": "Missing relevant data points because analysis only relied on structured categorical columns, not parsing free-text descriptions.",
+    "keywords": [
+      "qualities",
+      "skills",
+      "benefits",
+      "extract",
+      "free-text",
+      "description"
+    ],
+    "tags": [
+      "data extraction",
+      "text mining",
+      "entity recognition",
+      "multiple sources"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.3, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Validate entity counts against benchmark or expected magnitudes",
+    "when_to_use": "When the task involves counting a specific subset of records (e.g., vocational school graduates, high-risk users) from a dataset.",
+    "experience": "- **Estimate the expected proportion**: Quickly compute the total dataset size and approximate the expected count of the target entity based on domain knowledge.\n- **Cross-validate using alternative identification methods**: If count seems low, check if entities could be identified via other columns (e.g., job descriptions) using keyword searches.\n- **Audit a sample of excluded records**: Manually review a random sample of records excluded by your primary filter to verify they should indeed be excluded.",
+    "checklist": [
+      "Calculate total dataset size",
+      "Compute proportion of target entity",
+      "Implement alternative identification logic",
+      "Sample-audit excluded records for missed cases"
+    ],
+    "common_failure_prevented": "Under-counting target population due to overly narrow filtering, leading to biased subsequent analyses.",
+    "keywords": [
+      "count",
+      "filter",
+      "subset",
+      "population",
+      "validate",
+      "benchmark"
+    ],
+    "tags": [
+      "data validation",
+      "sampling",
+      "filter logic",
+      "bias prevention"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Use robust parsing and outlier handling before dropping missing data",
+    "when_to_use": "When extracting numeric ranges (e.g., salaries, prices) from semi-structured text fields for distribution analysis.",
+    "experience": "- **Parse all raw values first, keeping originals**: Extract numeric bounds using flexible regex that captures variations (e.g., 'X-Y', 'base: X', '面议').\n- **Flag and investigate non-standard formats**: Log patterns that couldn't be parsed and decide on handling (e.g., treat 'negotiable' as missing, not drop).\n- **Apply distribution-based outlier thresholds after parsing**: Use percentiles (e.g., 1st, 99th) or IQR to cap extreme values before binning, but only after the full set of parsed values is available.\n- **Compute distributions on the cleaned, parsed set**: Do not drop rows with missing parsed values until after the primary analysis if they are needed for other calculations (e.g., benefits distribution).",
+    "checklist": [
+      "Parse all raw text entries into structured numeric fields",
+      "Log and review unparseable patterns",
+      "Define outlier thresholds based on parsed distribution",
+      "Clean outliers, then compute final distribution"
+    ],
+    "common_failure_prevented": "Generating an incorrect distribution due to premature row dropping or inadequate handling of edge cases and outliers in text parsing.",
+    "keywords": [
+      "salary range",
+      "extract",
+      "parse",
+      "distribution",
+      "outlier",
+      "bins"
+    ],
+    "tags": [
+      "data parsing",
+      "outlier detection",
+      "distribution analysis",
+      "data cleaning"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-048"
+  }
+]

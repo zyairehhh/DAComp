@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly map rubric scoring criteria to analysis outputs",
+    "when_to_use": "When the task or rubric explicitly defines required metrics and analysis dimensions for scoring.",
+    "experience": "- Before writing any code, parse the task instructions and identify all rubric categories (e.g., Speed Metrics, Sequence Analysis).\n- For each rubric criterion, write down the exact metric definition and expected output format.\n- Map each required metric to the corresponding data source columns and aggregation logic.\n- After analysis, verify your outputs match the rubric's specified anchor points (e.g., sample counts, baseline values).\n- If data doesn't support a rubric requirement, document the gap and propose an alternative method aligned with the rubric's intent.",
+    "checklist": [
+      "List all rubric criteria",
+      "Define required metric formulas",
+      "Map metrics to data sources",
+      "Validate against anchor points",
+      "Document data gaps"
+    ],
+    "common_failure_prevented": "Missing required analysis dimensions (e.g., speed metrics, sequence analysis) because they were not explicitly addressed in the code.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "criteria",
+      "evaluation",
+      "anchor points"
+    ],
+    "tags": [
+      "rubric-alignment",
+      "requirements-gathering",
+      "validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Formally define required derived metrics before segmentation",
+    "when_to_use": "When the analysis requires computing complex performance or speed metrics across segmented groups.",
+    "experience": "- Identify all derived metrics required for the analysis (e.g., open_rate, click_rate, active_retention_rate_week, speed-to-activity).\n- Write the exact SQL or code formula for each metric using the correct entity-level aggregation.\n- Compute these metrics for the entire population to establish a baseline before segmentation.\n- Then segment the data by the required dimensions (e.g., time windows, subject themes) and recompute metrics per segment.\n- Compare segment metrics against the overall baseline to compute deltas and relative performance.",
+    "checklist": [
+      "List derived metrics",
+      "Define aggregation formula",
+      "Compute overall baseline",
+      "Segment and recompute",
+      "Calculate deltas from baseline"
+    ],
+    "common_failure_prevented": "Reporting segment-level metrics without baseline comparison, or missing required derived metrics entirely.",
+    "keywords": [
+      "derived metrics",
+      "baseline",
+      "segmentation",
+      "performance comparison",
+      "aggregation"
+    ],
+    "tags": [
+      "metric-definition",
+      "segmentation",
+      "baseline-analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Design and implement sequence analysis for event data",
+    "when_to_use": "When the task requires analyzing user journey sequences or event transitions.",
+    "experience": "- Identify event tables and key sequence columns (e.g., person_id, occurred_at, event_type).\n- Create a chronological event sequence per user (or user-session) using window functions.\n- Compute transition matrices between event types (e.g., email_open → order) and calculate transition probabilities.\n- Analyze sequence patterns for key segments (e.g., high-retention users) and compare against overall patterns.\n- Report findings such as most common paths, conversion rates from specific touchpoints, and sequence length distributions.",
+    "checklist": [
+      "Identify sequence columns",
+      "Create chronological sequence",
+      "Compute transition matrix",
+      "Analyze segment patterns",
+      "Report key sequence insights"
+    ],
+    "common_failure_prevented": "Overlooking sequence analysis requirements despite having event-level data, resulting in incomplete analysis.",
+    "keywords": [
+      "sequence",
+      "transition",
+      "event path",
+      "user journey",
+      "conversion funnel"
+    ],
+    "tags": [
+      "sequence-analysis",
+      "event-data",
+      "transition-matrix"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-094"
+  }
+]

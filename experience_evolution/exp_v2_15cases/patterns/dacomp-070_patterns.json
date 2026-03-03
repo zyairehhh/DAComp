@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Define analysis window consistently across all data sources",
+    "when_to_use": "The task asks for analysis over a specific time period (e.g., 'past 6 months') and data spans multiple tables.",
+    "experience": "1. **Explicitly state the time window** – Determine the exact start and end dates using the available data and task instruction (e.g., rolling window vs. fixed calendar months).\n2. **Apply the same window filter to all relevant tables** – Ensure the same date range is used when aggregating from different sources (e.g., country, device, time series tables).\n3. **Check for missing data within the window** – Verify that each required entity (region, device) has sufficient data points across the entire period.\n4. **Document the window definition and any adjustments** (e.g., handling of incomplete months or leading/lagging indicators).",
+    "checklist": [
+      "Declare exact start and end dates",
+      "Apply uniform date filter to all tables",
+      "Validate coverage for all segments"
+    ],
+    "common_failure_prevented": "Inconsistent or undefined time window leading to incomplete or incomparable trend analysis across dimensions.",
+    "keywords": [
+      "past X months",
+      "over time",
+      "time window",
+      "date range",
+      "historical",
+      "trend"
+    ],
+    "tags": [
+      "time-series",
+      "data-alignment",
+      "aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Operationalize abstract concepts with measurable metrics before modeling",
+    "when_to_use": "The task uses business‑level terms like 'cost‑efficiency', 'market maturity', or 'user value decay' without specifying their calculation.",
+    "experience": "1. **Map each abstract term to a concrete, computable metric** using the available data schema (e.g., 'cost‑efficiency' → conversion rate, 'market maturity' → cumulative installs per region share).\n2. **Validate metric definitions against domain expectations** – if multiple proxies exist, choose the one that best aligns with the business question.\n3. **Document the mapping and any assumptions** before proceeding to modeling or segmentation.\n4. **Ensure the metric can be computed at the required granularity** (e.g., per region‑device combination). If not, state the limitation and adapt the scope.",
+    "checklist": [
+      "Translate each abstract term into a measurable variable",
+      "Justify the chosen proxy",
+      "Verify computability at needed granularity",
+      "Document assumptions"
+    ],
+    "common_failure_prevented": "Using incorrect or inconsistent proxies for key concepts, leading to misaligned analysis and unmet rubric criteria.",
+    "keywords": [
+      "cost‑efficiency",
+      "maturity",
+      "value decay",
+      "optimization",
+      "performance",
+      "strategy"
+    ],
+    "tags": [
+      "metric-definition",
+      "business-logic",
+      "requirements-clarification"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Build the model specified in the rubric, not a simpler substitute",
+    "when_to_use": "The rubric prescribes a specific modeling technique (e.g., 'multi‑dimensional user value decay model with lagged variables' or 'interaction effect quantification').",
+    "experience": "1. **Parse the rubric for explicit modeling requirements** – identify the dependent variable, independent variables, functional form (linear, non‑linear, interaction), and grouping/segmentation.\n2. **Implement the exact model structure** before exploring alternatives. If the rubric describes a regression with lagged terms, build that regression.\n3. **Report all model outputs required by the rubric** – coefficients, slopes, R², p‑values, group‑wise comparisons – even if they seem insignificant.\n4. **If data limitations prevent exact implementation, explicitly state the gap and propose a defensible approximation**, while noting the deviation from the rubric.",
+    "checklist": [
+      "Extract modeling specs from the rubric",
+      "Construct the prescribed model first",
+      "Output all requested statistics",
+      "Document any deviations"
+    ],
+    "common_failure_prevented": "Replacing a required multivariate or lagged model with a simple correlation or trend analysis, causing rubric failure.",
+    "keywords": [
+      "model",
+      "relationship",
+      "interaction effect",
+      "predict",
+      "decay model",
+      "regression"
+    ],
+    "tags": [
+      "rubric-compliance",
+      "modeling",
+      "specification-adherence"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-070"
+  }
+]

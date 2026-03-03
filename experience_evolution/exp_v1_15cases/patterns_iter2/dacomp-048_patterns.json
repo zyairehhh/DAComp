@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Exhaustively search all possible data sources for required entities",
+    "when_to_use": "A task asks you to extract items like skills, benefits, or requirements that are often embedded in unstructured text.",
+    "experience": "*   **Map entity types to potential columns**: If the task mentions 'benefits' or 'skills', immediately identify all columns that could contain this information (e.g., a dedicated column, job descriptions, titles).\n*   **Conduct a preliminary scan** of candidate text columns (e.g., using `SELECT DISTINCT` or a sample) to assess the structure and prevalence of the target entities.\n*   **Do not assume a single source**: For each entity type (e.g., benefits), plan to extract and then **merge data from multiple columns** (e.g., 'Benefits' column and 'Job Description' column).\n*   **Define extraction logic** for each source (e.g., splitting delimiters, using keyword dictionaries, or regex patterns) before running the final aggregation.\n*   **Document the coverage** from each source to ensure you haven't missed a significant portion of the data.",
+    "checklist": [
+      "List all columns that could contain target entities",
+      "Sample unstructured text columns for entity patterns",
+      "Merge extracted entities from multiple sources",
+      "Report coverage per source"
+    ],
+    "common_failure_prevented": "Missing a key source of data (e.g., not extracting benefits from job descriptions), leading to an incomplete and incorrect distribution.",
+    "keywords": [
+      "extract",
+      "distribution",
+      "benefits",
+      "skills",
+      "requirements",
+      "qualities",
+      "list",
+      "frequency"
+    ],
+    "tags": [
+      "data_extraction",
+      "multiple_sources",
+      "unstructured_data",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.2",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Deduplicate and normalize extracted categorical values before analysis",
+    "when_to_use": "You have extracted categorical values from free-text fields (like benefits or skills) and need to count or group them.",
+    "experience": "*   **Examine the top extracted values** to identify obvious synonyms, typos, and formatting variations (e.g., 'Five social insurances' vs '5 social insurances', 'high-temperature allowance' vs 'high temperature allowance').\n*   **Create a standardization mapping** (a dictionary or function) to merge synonymous entries into a single canonical form.\n*   **Apply the standardization** to all extracted values before performing any counting or aggregation.\n*   **Verify the impact** by comparing counts before and after standardization to ensure merging is appropriate.\n*   **Document your standardization rules** for transparency and reproducibility.",
+    "checklist": [
+      "Inspect raw extracted values for synonyms/variants",
+      "Create a mapping dictionary for canonical forms",
+      "Apply mapping before counting",
+      "Check impact on top N items"
+    ],
+    "common_failure_prevented": "Presenting a distribution with artificially inflated counts due to separate entries for the same underlying item, misleading the interpretation.",
+    "keywords": [
+      "deduplicate",
+      "normalize",
+      "standardize",
+      "categorical",
+      "synonyms",
+      "free-text",
+      "count",
+      "distribution"
+    ],
+    "tags": [
+      "data_cleaning",
+      "categorical_data",
+      "text_normalization",
+      "aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Align aggregation method with the task's implied unit of analysis",
+    "when_to_use": "You need to compute a distribution or percentage where the denominator (e.g., total mentions vs. total positions) is ambiguous.",
+    "experience": "*   **Clarify the unit of analysis**: Determine if the distribution should be based on the total number of *records* (e.g., job postings) or total number of *instances* (e.g., benefit mentions).\n*   **Explicitly state your choice and rationale** based on the task's goal (e.g., 'percentage of positions offering a benefit' vs. 'percentage of total benefit mentions').\n*   **Cross-check with a reference or common sense**: If the task is about 'distribution for graduates', the unit is likely the job postings (graduates), not the mentions.\n*   **Validate your method** by computing a simple check (e.g., ensure percentages sum to 100% for a single-record metric, or that counts per record are plausible).",
+    "checklist": [
+      "Define the unit of analysis (records vs instances)",
+      "State the aggregation method explicitly",
+      "Perform a sanity check on the results (e.g., sum of percentages)"
+    ],
+    "common_failure_prevented": "Calculating a distribution incorrectly (e.g., using percentage of total mentions instead of percentage of positions), resulting in fundamentally wrong metrics.",
+    "keywords": [
+      "distribution",
+      "percentage",
+      "aggregation",
+      "unit of analysis",
+      "denominator",
+      "count"
+    ],
+    "tags": [
+      "aggregation_logic",
+      "metric_definition",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.4",
+    "source_case": "dacomp-048"
+  }
+]

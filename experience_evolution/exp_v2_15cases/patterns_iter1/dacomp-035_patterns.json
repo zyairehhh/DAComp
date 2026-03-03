@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Align analysis metrics with a rubric or predefined framework",
+    "when_to_use": "When the task request or rubric specifies required analysis dimensions, metrics, or a scoring framework.",
+    "experience": "- At the start of analysis, explicitly list all required dimensions or metrics from the task description or rubric.\n- Cross-reference your planned calculations with the required list, and flag any missing or mismatched metrics before proceeding.\n- Do not substitute required metrics with your own derived or similar-looking metrics without explicit justification.\n- If a required metric cannot be computed due to data limitations, explicitly state this limitation and adjust the analytical plan accordingly, but do not silently ignore it.\n- Ensure your final analysis output includes every required metric and dimension specified.",
+    "checklist": [
+      "List required metrics from task/rubric",
+      "Map each metric to a SQL query or calculation plan",
+      "Verify output includes all required metrics before finalizing",
+      "Document any metrics that cannot be computed"
+    ],
+    "common_failure_prevented": "Prevents scoring zero on rubric criteria because the agent's metrics do not match the explicitly required ones.",
+    "keywords": [
+      "required",
+      "dimensions",
+      "framework",
+      "rubric",
+      "specific indicators",
+      "metrics"
+    ],
+    "tags": [
+      "requirement alignment",
+      "metric definition",
+      "rubric compliance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Design recommendations with concrete, measurable actions",
+    "when_to_use": "When the analysis requires providing actionable recommendations or governance measures.",
+    "experience": "- For each recommendation, specify a clear, measurable target (e.g., percentage improvement, rate reduction).\n- Define a realistic timeline for achieving the target (e.g., within 1 month, by end of quarter).\n- Assign responsibility to a specific role or team (e.g., department head, security team).\n- Use the specific data points from your analysis as the baseline to justify the target.\n- Structure recommendations as phased initiatives if the changes are complex or require significant coordination.",
+    "checklist": [
+      "Recommendation includes a quantitative target",
+      "Recommendation includes a timeline",
+      "Recommendation assigns responsibility",
+      "Recommendation is justified using analysis results"
+    ],
+    "common_failure_prevented": "Prevents generic, qualitative recommendations that lack clear targets and timelines, reducing their actionable value.",
+    "keywords": [
+      "recommendations",
+      "governance measures",
+      "action plan",
+      "target",
+      "timeline",
+      "initiative"
+    ],
+    "tags": [
+      "actionable insights",
+      "recommendation design",
+      "implementation planning"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Verify and use established analytical paths before creating new ones",
+    "when_to_use": "When the task rubric provides explicit, predefined analysis paths or methods.",
+    "experience": "- Before beginning analysis, check if the rubric or task context provides a standard analytical path (e.g., filtering method, scoring model).\n- Attempt to implement the standard path first, even if you suspect a different method might be better.\n- If the standard path cannot be implemented due to data constraints, document the reason explicitly.\n- Only create a custom analytical method if the rubric explicitly allows it or if the standard path is infeasible.\n- When creating a custom method, explicitly compare its logic and outputs to the standard path to ensure they align in intent.",
+    "checklist": [
+      "Identify any predefined analysis paths in the rubric",
+      "Attempt to implement the standard path first",
+      "Document deviations from the standard path",
+      "Justify custom methods if used"
+    ],
+    "common_failure_prevented": "Prevents scoring zero because the agent failed to follow the rubric's prescribed analytical method.",
+    "keywords": [
+      "path",
+      "method",
+      "standard",
+      "prescribed",
+      "model",
+      "approach"
+    ],
+    "tags": [
+      "analytical methodology",
+      "rubric adherence",
+      "path selection"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-035"
+  }
+]

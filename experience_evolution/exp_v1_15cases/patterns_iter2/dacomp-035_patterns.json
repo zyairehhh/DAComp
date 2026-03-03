@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Extract and compute rubric-specific metrics before aggregation",
+    "when_to_use": "When the task or rubric specifies exact indicator names and definitions.",
+    "experience": "* At the start, explicitly list each required metric from the rubric and define its SQL calculation.\n* Validate that each computed value matches the rubric's formula (e.g., `Department Abnormal Login Rate = COUNT(abnormal_logins) / COUNT(total_logins) per department`, not just per-user abnormal counts).\n* Store intermediate results in CTEs or temporary tables, labeling each column with the exact rubric metric name.\n* Compare your computed results with any reference values or sample outputs provided in the rubric to verify alignment.",
+    "checklist": [
+      "List rubric metrics",
+      "Write SQL for each metric exactly",
+      "Verify against rubric examples"
+    ],
+    "common_failure_prevented": "Deriving custom metrics that don't match the rubric, resulting in zero credit for metric computation.",
+    "keywords": [
+      "rubric",
+      "indicator",
+      "metric",
+      "required",
+      "defined"
+    ],
+    "tags": [
+      "rubric_compliance",
+      "metric_definitions",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Align composite scoring with rubric-defined ranking and rationale",
+    "when_to_use": "When the task requires ranking entities based on a multi‑metric composite score.",
+    "experience": "* Identify the rubric's expected top‑ranked entities and the stated rationale (e.g., 'Marketing highest due to severe anomalies proportion').\n* Design a composite scoring formula that, when applied to the data, reproduces the expected ranking order and rationale.\n* If the rubric provides a specific weighting scheme (e.g., equal weights) or normalization method, adopt it exactly.\n* After computing scores, verify that your ranking matches the reference answer; if not, adjust the formula or check metric definitions.",
+    "checklist": [
+      "Check expected ranking",
+      "Design scoring to match rationale",
+      "Verify ranking alignment"
+    ],
+    "common_failure_prevented": "Producing a plausible but incorrect ranking because the composite model deviated from the rubric's implicit logic.",
+    "keywords": [
+      "ranking",
+      "composite score",
+      "priority",
+      "weighted",
+      "rationale"
+    ],
+    "tags": [
+      "composite_scoring",
+      "rubric_alignment",
+      "ranking_validation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Use rubric-supplied data points in narrative recommendations",
+    "when_to_use": "When the task asks for recommendations and the rubric includes specific numeric values to cite.",
+    "experience": "* Extract the exact numeric values that the rubric provides for each entity (e.g., 'Marketing's Severe Anomalies Proportion 39.5%').\n* In your recommendations, explicitly reference these numbers and tie them directly to the proposed action (e.g., 'Because Marketing has a 39.5% severe‑anomaly rate, implement targeted training on high‑risk login patterns').\n* Ensure that every data‑driven recommendation is anchored to a rubric‑supplied statistic, not to your own derived metrics.\n* If the rubric specifies measurable targets (e.g., 'raise Two‑Factor Authentication enablement rate to over 90%'), incorporate those targets verbatim.",
+    "checklist": [
+      "Extract rubric data points",
+      "Cite numbers in recommendations",
+      "Incorporate rubric targets"
+    ],
+    "common_failure_prevented": "Giving generic recommendations that lack the specific, rubric‑expected data references, leading to low scores.",
+    "keywords": [
+      "recommendation",
+      "data points",
+      "cite",
+      "target",
+      "specific"
+    ],
+    "tags": [
+      "narrative_grounding",
+      "rubric_reference",
+      "actionable_insights"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-035"
+  }
+]

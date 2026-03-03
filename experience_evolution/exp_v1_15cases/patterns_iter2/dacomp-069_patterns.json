@@ -1,0 +1,95 @@
+[
+  {
+    "title": "Anchor analysis to explicit segmentation rules from the task",
+    "when_to_use": "The task instruction defines specific segmentation thresholds (e.g., 'over $7', 'under $3') for comparative analysis.",
+    "experience": "*   **Explicitly extract segmentation rules** from the task statement and list them as the primary basis for grouping.\n*   **Validate the segmentation metric** by checking data distribution (min, max, sample counts) to confirm the thresholds are applicable.\n*   **If thresholds are ambiguous**, identify the most plausible metric by cross-referencing business context and data schema (e.g., 'revenue metric' likely refers to ARPU or transaction value).\n*   **Document the segmentation** used (metric name, thresholds, group labels) before performing any comparative analysis.\n*   **Stick to the defined segmentation** for all subsequent group comparisons, even if an alternative grouping seems insightful.",
+    "checklist": [
+      "Extract segmentation rules from task",
+      "Identify corresponding data column",
+      "Validate threshold applicability with data distribution",
+      "Document segmentation logic",
+      "Use only this segmentation for group comparisons"
+    ],
+    "common_failure_prevented": "Using ad-hoc, unverified segmentation criteria that misaligns with the task's specified thresholds.",
+    "keywords": [
+      "segmentation",
+      "threshold",
+      "over",
+      "under",
+      "high vs low",
+      "compare",
+      "top markets",
+      "key metric"
+    ],
+    "tags": [
+      "segmentation",
+      "requirements",
+      "validation",
+      "task alignment"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Map analysis steps to rubric-defined criteria and metrics",
+    "when_to_use": "The task or its evaluation rubric outlines specific analysis dimensions, required metrics, or scoring criteria.",
+    "experience": "*   **Parse the rubric or task requirements** to list every required analysis dimension (e.g., geographical breakdown, correlation analysis).\n*   **For each dimension, list the required metrics and outputs** (e.g., weighted averages, top 10 lists, correlation coefficients).\n*   **Create a mapping table** linking each required output to the necessary data source, calculation, and grouping.\n*   **Prioritize the analysis of rubric-specified components** before exploring tangential insights.\n*   **Explicitly label outputs** with the corresponding rubric criteria to ensure complete coverage.",
+    "checklist": [
+      "Parse rubric for required dimensions",
+      "List required metrics and outputs",
+      "Create a requirement-to-calculation mapping table",
+      "Prioritize rubric components",
+      "Label outputs with criteria"
+    ],
+    "common_failure_prevented": "Omitting analysis dimensions or specific metrics required for evaluation.",
+    "keywords": [
+      "rubric",
+      "evaluation",
+      "requirement",
+      "criteria",
+      "metrics",
+      "dimensions",
+      "outputs",
+      "required"
+    ],
+    "tags": [
+      "rubric",
+      "planning",
+      "completeness",
+      "evaluation"
+    ],
+    "source_criterion": "Multiple criteria (e.g., Requirement 2/Criterion 2.2, Requirement 2/Criterion 2.3)",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Explicitly compute and report foundational verification anchors",
+    "when_to_use": "The task provides specific baseline figures (e.g., '12 months', '$2M budget', 'score dropped from 85 to 72') that need verification.",
+    "experience": "*   **Identify all numerical anchors** in the problem statement (time window, monetary amounts, baseline metrics).\n*   **Query the data to verify each anchor** and report the result (e.g., total research budget, performance score at start/end).\n*   **Verify the data scope** matches the anchor (e.g., correct date range, correct app filter).\n*   **Report discrepancies** between the stated anchors and the data, if any.\n*   **Use the verified anchors** as the foundation for all subsequent analysis.",
+    "checklist": [
+      "Extract numerical anchors from problem statement",
+      "Query data to verify each anchor",
+      "Report verification result",
+      "Check data scope alignment",
+      "Note any discrepancies"
+    ],
+    "common_failure_prevented": "Assuming the problem statement's data context is correct without verification, leading to an analysis built on unconfirmed premises.",
+    "keywords": [
+      "verify",
+      "anchor",
+      "baseline",
+      "12 months",
+      "budget",
+      "score",
+      "drop",
+      "confirm"
+    ],
+    "tags": [
+      "data validation",
+      "baseline",
+      "scoping",
+      "fact-checking"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-069"
+  }
+]

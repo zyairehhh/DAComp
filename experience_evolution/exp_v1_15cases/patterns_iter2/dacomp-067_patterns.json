@@ -1,0 +1,91 @@
+[
+  {
+    "title": "Explicitly map rubric-defined paths to analysis steps",
+    "when_to_use": "When the problem statement includes specific requirements, constraints, or a structured evaluation rubric.",
+    "experience": "- **Extract Key Requirements First**: Before any data exploration, explicitly list the final deliverables and constraints from the task (e.g., '15% cost reduction', 'diversity targets', 'interviewer satisfaction >4.0').\n- **Map Requirements to Rubric Paths**: Identify which rubric criteria or paths (if provided) directly correspond to each requirement and note their sub-criteria.\n- **Check Path Assumptions**: For each rubric path, note the required metrics, analysis methods (e.g., sensitivity analysis), and output format. Verify if the data exists to perform them.\n- **Create a Workplan**: Structure the analysis by explicitly stating which steps address which criterion/path, ensuring no required component is omitted.\n- **Track Requirement Fulfillment**: While writing the final report, explicitly cross-reference sections with the initial requirements to ensure completeness.",
+    "checklist": [
+      "List all deliverables and constraints from the task description",
+      "Map each deliverable to a rubric criterion or analysis path",
+      "Verify required metrics and methods for each path are feasible",
+      "Structure the analysis plan to cover each mapped requirement",
+      "In the conclusion, explicitly state how each requirement was addressed"
+    ],
+    "common_failure_prevented": "Missing critical rubric elements like sensitivity analysis or specific metric calculations, leading to low scores.",
+    "keywords": [
+      "rubric",
+      "constraints",
+      "requirements",
+      "strategy",
+      "comprehensive",
+      "optimization"
+    ],
+    "tags": [
+      "requirements_analysis",
+      "rubric_mapping",
+      "planning",
+      "scoping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Define KPIs and SLAs for qualitative performance goals",
+    "when_to_use": "When the task includes qualitative improvement goals like 'enhance quality', 'maintain satisfaction', or 'improve efficiency'.",
+    "experience": "- **Quantify the Goal**: Translate the qualitative goal into a measurable KPI (e.g., 'enhance hiring quality' → quality score, retention rate). If a target value is given (e.g., '>4.0'), that's the SLA.\n- **Identify Data Sources**: Determine which table and column can proxy the KPI (e.g., interviewer satisfaction score in scorecard ratings).\n- **Establish Baseline**: Compute the current value of the KPI from the data to assess the gap to the target.\n- **Propose Specific Actions with Metrics**: For each recommendation, define how it will move the KPI (e.g., 'Implement calibration sessions to increase average score from X to Y').\n- **Set Tracking Mechanism**: Recommend a dashboard or regular report that monitors the KPI against the SLA, including alert thresholds.",
+    "checklist": [
+      "Translate each qualitative goal into a measurable KPI",
+      "Find or define a data column to measure the KPI",
+      "Calculate the current baseline value",
+      "Define a specific SLA or target value for the KPI",
+      "Link each recommendation to its expected impact on the KPI"
+    ],
+    "common_failure_prevented": "Vague recommendations without quantified targets or monitoring plans, failing to meet rubric expectations for concrete actions.",
+    "keywords": [
+      "improve",
+      "quality",
+      "satisfaction",
+      "efficiency",
+      "target",
+      "maintain",
+      "strategy"
+    ],
+    "tags": [
+      "kpi_definition",
+      "sla",
+      "performance_management",
+      "recommendation_specification"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.3, Requirement 4/Criterion 4.1, Requirement 5/Criterion 5.2",
+    "source_case": "dacomp-067"
+  },
+  {
+    "title": "Validate data scope and temporal alignment for baseline metrics",
+    "when_to_use": "When the analysis requires establishing a baseline or comparing performance across time periods.",
+    "experience": "- **Identify the Baseline Period**: Explicitly note the time period for baseline metrics from the task (e.g., 'past year', '2024').\n- **Check Data Granularity**: Determine if the data contains timestamps (year, quarter, month) and aggregate accordingly.\n- **Filter Data to Baseline Period**: Apply a strict temporal filter to all data used for baseline calculations. Do not mix data from other periods.\n- **Document Scope Decisions**: If aggregated views (like yearly tables) are used, verify they align with the required period and note any assumptions.\n- **Confirm Metric Definitions**: Ensure calculated metrics (e.g., hire rate, representation percentages) match the definitions implied by the task or rubric.\n- **Cross-Check with Multiple Sources**: If possible, compute the baseline metric from raw data to validate aggregated view numbers.",
+    "checklist": [
+      "Identify the required baseline time period from the task",
+      "Apply a temporal filter to all source data for baseline calculations",
+      "Verify aggregated views (e.g., yearly tables) are for the correct period",
+      "Document any scope assumptions or data limitations",
+      "Cross-check key baseline metrics with raw data if discrepancies are suspected"
+    ],
+    "common_failure_prevented": "Using mixed or incorrect time windows for baseline metrics, leading to inaccurate conclusions and failing rubric accuracy checks.",
+    "keywords": [
+      "baseline",
+      "past year",
+      "annual",
+      "quarterly",
+      "trend",
+      "comparison",
+      "time window"
+    ],
+    "tags": [
+      "data_scoping",
+      "temporal_filtering",
+      "baseline_validation",
+      "data_quality"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1, Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-067"
+  }
+]

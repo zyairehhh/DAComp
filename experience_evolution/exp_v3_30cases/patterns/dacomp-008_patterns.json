@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Perform inferential statistical tests to support group comparisons",
+    "when_to_use": "When comparing group means or ranking groups (e.g., across categories, risk levels) to draw conclusions.",
+    "experience": "- For comparing more than two groups (e.g., project types, risk levels), run an ANOVA if assumptions (normality, homogeneity of variance) are met; otherwise, use the Kruskal-Wallis test.\n- If the omnibus test is significant (p < 0.05), conduct post-hoc pairwise comparisons (e.g., Tukey's HSD, Dunn's test with Bonferroni correction) to identify which specific groups differ.\n- For each pairwise comparison, report p-value, confidence interval, and effect size (e.g., Cohen's d, Hedge's g) to quantify the magnitude of the difference.\n- Do not rely solely on descriptive ranking of group means; always accompany ranking with statistical evidence.",
+    "checklist": [
+      "Conduct omnibus test (ANOVA/K-W)",
+      "If significant, run post-hoc tests",
+      "Report p-values, CIs, effect sizes",
+      "Avoid ranking without significance"
+    ],
+    "common_failure_prevented": "Stating an order relationship (e.g., Medium > High > Low) without statistical evidence, leading to unsubstantiated conclusions.",
+    "keywords": [
+      "compare",
+      "ranking",
+      "group differences",
+      "across categories",
+      "risk level",
+      "project type"
+    ],
+    "tags": [
+      "statistical testing",
+      "hypothesis testing",
+      "group comparison",
+      "post-hoc"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2/best_path_analysis/Criterion 2.2.notfound.3",
+    "source_case": "dacomp-008"
+  },
+  {
+    "title": "Build a multivariable regression model before reporting single-factor trends",
+    "when_to_use": "When exploring how multiple factors (e.g., team size, risk, satisfaction) relate to an outcome variable (e.g., cost deviation).",
+    "experience": "- Before reporting simple correlations, specify a regression model (e.g., linear regression) that includes all relevant predictors simultaneously.\n- Check for multicollinearity (VIF > 5 or 10) and address it (e.g., remove collinear variables, use regularization).\n- Report model coefficients, standard errors, p-values, and R-squared, interpreting each predictor's effect holding others constant.\n- Compare the multivariable model's insights with simple bivariate relationships to identify if apparent correlations are spurious or confounded.",
+    "checklist": [
+      "Specify regression model with all predictors",
+      "Check multicollinearity",
+      "Report coefficients, p-values, model fit",
+      "Compare with bivariate results"
+    ],
+    "common_failure_prevented": "Reporting only bivariate correlations without controlling for other variables, missing confounded or spurious relationships.",
+    "keywords": [
+      "factors",
+      "related to",
+      "influence",
+      "explore relationships",
+      "multivariable",
+      "regression"
+    ],
+    "tags": [
+      "regression",
+      "multivariable analysis",
+      "confounding",
+      "modeling"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-008"
+  },
+  {
+    "title": "Use formal outlier detection and distribution shape metrics for descriptive analysis",
+    "when_to_use": "When describing the distribution of a metric (e.g., cost deviation) across groups or overall.",
+    "experience": "- Beyond mean/median/std, compute skewness and kurtosis (or use |mean−median|/std) to quantify distribution shape. Use thresholds (e.g., |skew| > 1) to label as skewed.\n- Identify outliers using the IQR rule (Q1 – 1.5*IQR, Q3 + 1.5*IQR) and list them, noting their impact on summary statistics.\n- For each group, report the 95% confidence interval for the mean (using t-distribution) to indicate estimation uncertainty.\n- If distribution is highly skewed, consider reporting median and IQR as primary statistics instead of mean/std.",
+    "checklist": [
+      "Compute skewness/kurtosis or |mean-median|/std",
+      "Identify outliers via IQR rule",
+      "Report 95% CI for group means",
+      "Choose appropriate summary stats for skewed data"
+    ],
+    "common_failure_prevented": "Providing only basic statistics (mean, median, std) without formal outlier detection, shape quantification, or confidence intervals.",
+    "keywords": [
+      "distribution",
+      "describe",
+      "statistics",
+      "outliers",
+      "shape",
+      "variability"
+    ],
+    "tags": [
+      "descriptive statistics",
+      "outlier detection",
+      "confidence interval",
+      "distribution shape"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.1, Criterion 1.2.A.3",
+    "source_case": "dacomp-008"
+  }
+]

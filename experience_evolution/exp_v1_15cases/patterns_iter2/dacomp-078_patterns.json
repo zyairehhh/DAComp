@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define clear time‑based validation splits before modeling",
+    "when_to_use": "When the task asks to predict future outcomes or trends using historical data.",
+    "experience": "- Before any feature engineering, explicitly define the **training, validation, and future (test) periods** using calendar dates or relative windows.\n- Ensure the split respects chronological order and **prevents leakage** (e.g., future data must not influence past features).\n- **Count the number of entities** (e.g., accounts, visitors) available in each window and report them to verify data sufficiency.\n- If data is sparse, consider alternative entity levels (e.g., visitor‑ instead of account‑level) or extend windows, but document the trade‑off.\n- **Store the split definitions** as parameters in a config table so they can be easily adjusted or audited later.",
+    "checklist": [
+      "Define exact date ranges for training/validation/test windows",
+      "Verify entity counts per window meet minimum sample size",
+      "Ensure no future information leaks into training features",
+      "Document the split logic and any deviations"
+    ],
+    "common_failure_prevented": "Building a predictive model with data‑leakage from lifetime aggregates that leads to unrealistic accuracy.",
+    "keywords": [
+      "predict",
+      "future trend",
+      "next 3-6 months",
+      "forecast",
+      "value trend",
+      "training period"
+    ],
+    "tags": [
+      "temporal splitting",
+      "data leakage",
+      "validation design"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Construct and evaluate the target variable with business logic",
+    "when_to_use": "When the task requires identifying a high‑value segment or predicting a binary outcome without a predefined label.",
+    "experience": "- **Define the target variable explicitly** using business‑relevant metrics (e.g., top‑X% of engagement, revenue, or growth).\n- If multiple indicators exist, **combine them into a composite label** (e.g., high‑value = high usage AND high frequency) and justify the logic.\n- **Calculate the label separately for each time window** (e.g., training vs. future) to avoid look‑ahead bias.\n- **Analyze label distribution** across windows; if imbalanced, discuss implications for modeling and consider oversampling or threshold adjustments.\n- **Validate label stability** by checking how many entities change status across windows; high volatility may indicate a noisy target.",
+    "checklist": [
+      "Document the exact formula/computation for the target variable",
+      "Compute label statistics (count, proportion) per window",
+      "Check for label drift across time periods",
+      "If imbalanced, decide on mitigation strategy"
+    ],
+    "common_failure_prevented": "Using a static, poorly‑defined high‑value label that does not reflect temporal dynamics, leading to uninterpretable model performance.",
+    "keywords": [
+      "high‑value",
+      "identify",
+      "segment",
+      "label",
+      "target variable",
+      "classification"
+    ],
+    "tags": [
+      "target definition",
+      "business logic",
+      "label stability"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Report model performance on a hold‑out test set with required metrics",
+    "when_to_use": "When the task requires achieving a specific performance threshold (e.g., >85% accuracy) or comparing models.",
+    "experience": "- **Hold out a test set chronologically** (or via cross‑validation) that was never used during model development.\n- **Compute all required metrics** (accuracy, precision, recall, F1, etc.) **on the test set only** and report them in a clear table.\n- If a performance threshold is given (e.g., precision ≥0.85), **tune the decision threshold** on the validation set to meet it, then verify on the test set.\n- **Compare against the baseline/model** explicitly using the same test set; highlight differences in key metrics, not just overall accuracy.\n- **Provide a confusion matrix** or top‑K identification rate to give a fuller picture of model strengths and weaknesses.",
+    "checklist": [
+      "Evaluate final model on an untouched test set",
+      "Report precision, recall, F1, and accuracy",
+      "Adjust decision threshold to meet any specified target",
+      "Compare new model vs. baseline on the same test data"
+    ],
+    "common_failure_prevented": "Reporting inflated performance from training data and failing to verify that the model meets the business requirement on unseen data.",
+    "keywords": [
+      "accuracy",
+      "precision",
+      "recall",
+      "performance",
+      "threshold",
+      "compare model"
+    ],
+    "tags": [
+      "model evaluation",
+      "test set",
+      "metric reporting"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-078"
+  }
+]

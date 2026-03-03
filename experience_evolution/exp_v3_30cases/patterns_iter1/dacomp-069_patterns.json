@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Explicitly verify rubric alignment for segmentation thresholds",
+    "when_to_use": "The task defines segmentation thresholds or categorizes markets based on metric ranges.",
+    "experience": "- Before segmenting, extract and confirm the exact metric names and threshold values from the task description.\n- Map the required segmentation to the correct database column, ensuring any synonyms (e.g., 'key revenue metric' and 'revenue_per_user_usd') are validated.\n- If the rubric provides specific threshold paths (e.g., >7 vs ≤7), explicitly state your alignment with that path in your analysis and final report.\n- If using custom thresholds, justify them clearly and note the deviation from any rubric-provided paths.\n- In your report, include a summary table showing the segmentation logic and the resulting group sizes to confirm correct implementation.",
+    "checklist": [
+      "Extract segmentation thresholds from task",
+      "Map thresholds to correct column names",
+      "Verify alignment with rubric-provided paths if any",
+      "Report segmentation logic and group counts"
+    ],
+    "common_failure_prevented": "Prevents using incorrect segmentation thresholds (e.g., >30 and <10 instead of >7 and <3) which leads to invalid comparisons.",
+    "keywords": [
+      "segmentation",
+      "threshold",
+      "key metric",
+      "over $7",
+      "under $3",
+      "categories",
+      "groups"
+    ],
+    "tags": [
+      "data_segmentation",
+      "rubric_alignment",
+      "threshold_validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Perform correlation analysis for driver identification",
+    "when_to_use": "The task asks to analyze 'performance divergence', 'differences between markets', or to identify drivers of a change.",
+    "experience": "- After segmenting data, calculate correlation coefficients (e.g., Pearson) between the primary performance metric (e.g., performance_score) and potential drivers (e.g., crash rate, retention, conversion).\n- Use grouped data (e.g., by region or segment) to compute pairwise correlations, not just compare group averages.\n- Visualize or tabulate the correlation matrix and highlight strong positive/negative relationships.\n- In the report, explicitly state which metrics are most correlated with the performance change and quantify the strength of the relationship.\n- Discuss causality limitations and note if correlations align with business logic (e.g., higher crashes lead to lower retention).",
+    "checklist": [
+      "Calculate correlation matrix for key metrics",
+      "Identify strong correlations with performance",
+      "Quantify correlation strength with coefficients",
+      "Report findings linking drivers to outcomes"
+    ],
+    "common_failure_prevented": "Prevents missing quantitative driver analysis, which leads to unsubstantiated conclusions about why performance diverged.",
+    "keywords": [
+      "divergence",
+      "differences",
+      "driver",
+      "correlation",
+      "relationship",
+      "impact"
+    ],
+    "tags": [
+      "driver_analysis",
+      "correlation",
+      "quantitative_insights"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Calculate weighted metrics by business volume",
+    "when_to_use": "The analysis compares groups of unequal size or importance (e.g., markets with different user counts).",
+    "experience": "- Identify a weighting variable (e.g., active devices, total revenue, visitor count) that reflects business impact.\n- For each metric you report (e.g., average performance score, crash rate), compute the weighted average using the weighting variable, not a simple average across entities.\n- Explicitly note in your report when metrics are weighted and by what variable.\n- Compare weighted vs. unweighted results to assess the impact of scale (e.g., a small market with terrible performance may not matter overall).\n- If the rubric asks for weighted metrics, ensure you report them with the required precision.",
+    "checklist": [
+      "Identify appropriate weighting variable (e.g., active devices)",
+      "Compute weighted averages for key metrics",
+      "Compare weighted vs. unweighted results",
+      "Report weighting method explicitly"
+    ],
+    "common_failure_prevented": "Prevents reporting simple averages that misrepresent overall business impact, especially when groups have vastly different sizes.",
+    "keywords": [
+      "weighted",
+      "average",
+      "scale",
+      "impact",
+      "overall",
+      "aggregate"
+    ],
+    "tags": [
+      "weighted_metrics",
+      "aggregation",
+      "business_impact"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-069"
+  }
+]

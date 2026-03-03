@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Always define and verify analysis windows with dynamic filters",
+    "when_to_use": "The task specifies a time period (e.g., past 6 months, last quarter).",
+    "experience": "- **Identify the relevant date column(s)** in all tables to be used.\n- **Calculate the exact time window filter** (e.g., using `MAX(date) - INTERVAL '6 months'` or `BETWEEN` with a fixed start and end).\n- **Apply the filter consistently** at the start of all data extraction queries.\n- **Verify the window by checking the min and max dates** of the filtered dataset.\n- **Handle edge cases** like missing dates or tables with different date ranges.",
+    "checklist": [
+      "Identify date columns in each table",
+      "Calculate dynamic window start date",
+      "Apply filter to all base queries",
+      "Check filtered date range spans the full window"
+    ],
+    "common_failure_prevented": "Failing to consistently apply a specified time window, leading to analysis of incorrect or incomplete data periods.",
+    "keywords": [
+      "past",
+      "over the last",
+      "6 months",
+      "quarter",
+      "time window",
+      "date range",
+      "historical"
+    ],
+    "tags": [
+      "data preparation",
+      "time series",
+      "filtering"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Design combined metrics before analyzing multi-dimensional decay",
+    "when_to_use": "The task requires analyzing decay patterns across combined dimensions (e.g., region-device, channel-product).",
+    "experience": "- **Explicitly define a unified metric formula** that merges the dimensions (e.g., weighted average, ratio of metrics).\n- **Map and join the required dimension tables**, ensuring the join logic preserves all combinations.\n- **Test the combined metric** on a small sample to ensure it is not constant or flawed (e.g., identical across one dimension).\n- **Calculate the metric for each combination across the time window.**\n- **Analyze the decay trend (e.g., slope, percent change)** for each combination, not for dimensions separately.",
+    "checklist": [
+      "Define combined metric formula",
+      "Validate join logic creates unique combinations",
+      "Calculate metric for each combination",
+      "Compute decay trend per combination, not per dimension"
+    ],
+    "common_failure_prevented": "Analyzing dimensions separately instead of creating and analyzing a true combined metric, which leads to incomplete or misleading conclusions.",
+    "keywords": [
+      "each combination",
+      "region-device",
+      "channel-product",
+      "multi-dimensional",
+      "cross",
+      "by region and device"
+    ],
+    "tags": [
+      "feature engineering",
+      "dimensional analysis",
+      "metric design"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Benchmark model coefficients against expected relationships",
+    "when_to_use": "The task asks to quantify relationships (e.g., non-linear, interaction effects).",
+    "experience": "- **Before building a complex model, run simple benchmarks** like correlation or grouped averages to understand sign and magnitude.\n- **When a rubric or data description provides expected patterns**, explicitly check if your results match the expected direction and relative strength.\n- **If results deviate significantly**, investigate data preparation, join errors, or sample bias.\n- **Document the discrepancy** and reason about possible causes (e.g., omitted variables, different sample).\n- **Use the benchmark to refine the model specification** (e.g., adding interaction terms, using standardized variables).",
+    "checklist": [
+      "Calculate baseline correlations",
+      "Check sign and magnitude against expected patterns",
+      "Investigate and explain deviations",
+      "Refine model based on benchmark insights"
+    ],
+    "common_failure_prevented": "Producing model results with incorrect sign or magnitude that contradicts established data relationships, leading to invalid recommendations.",
+    "keywords": [
+      "relationship",
+      "interaction effect",
+      "quantify",
+      "coefficient",
+      "non-linear",
+      "correlation"
+    ],
+    "tags": [
+      "model validation",
+      "benchmarking",
+      "sanity check"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-070"
+  }
+]

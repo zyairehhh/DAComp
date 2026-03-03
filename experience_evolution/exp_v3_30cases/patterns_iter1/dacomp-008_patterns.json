@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Formally calculate skewness and describe its business meaning",
+    "when_to_use": "The task requires analyzing the distribution or spread of a key metric across categories.",
+    "experience": "When describing a distribution (e.g., cost deviation per project type), you must quantify its shape beyond mean and variance.\n\n1.  For each group, compute key statistics: mean, median, standard deviation (std), min, max, and quantiles.\n2.  Calculate a skewness indicator: `|mean - median| / std`. Set a threshold (e.g., >0.25) to classify distributions as 'symmetric', 'right-skewed', or 'left-skewed'.\n3.  Do not just report the numbers. Explicitly **state the classification** (e.g., 'This distribution is right-skewed').\n4.  Provide a **business interpretation**: If a distribution is skewed, explain what the tail represents (e.g., 'A right-skew indicates a few projects had large cost overruns, which could signal high-risk outliers').\n5.  Report the confidence interval for the mean to indicate estimate precision.\n6.  Document the chosen skewness threshold and justify it if needed.",
+    "checklist": [
+      "Compute mean, median, and std for each group",
+      "Calculate |mean-median|/std",
+      "Classify shape using a clear threshold",
+      "State business implication of the shape",
+      "Report confidence interval for the mean"
+    ],
+    "common_failure_prevented": "Reporting distribution statistics without interpreting shape or business impact, leading to a failure to identify skewed data and its implications.",
+    "keywords": [
+      "distribution",
+      "spread",
+      "skew",
+      "variation",
+      "shape",
+      "outlier"
+    ],
+    "tags": [
+      "distribution analysis",
+      "descriptive statistics",
+      "business intelligence",
+      "data quality"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/best_path_analysis/Criterion 1.2.A.3",
+    "source_case": "dacomp-008"
+  },
+  {
+    "title": "Test for statistically significant differences between groups",
+    "when_to_use": "The task requires comparing average outcomes across different categories (e.g., by type or risk level).",
+    "experience": "Reporting group means is not enough to claim differences are meaningful.\n\n1.  **Choose an appropriate test**: Use ANOVA for parametric assumptions (normality, homogeneity of variance) or Kruskal-Wallis for non-parametric comparisons. Perform prerequisite checks (normality, homoscedasticity) if using ANOVA.\n2.  **Report full test results**: Include the test statistic (F or H), degrees of freedom, p-value, and effect size (e.g., eta-squared).\n3.  **If significant, perform post-hoc comparisons**: Conduct pairwise tests (e.g., Tukey HSD, Mann-Whitney U with Bonferroni correction) to identify which specific groups differ. Report p-values and confidence intervals for these pairwise differences.\n4.  **Base conclusions on test evidence**: Do not state an order (e.g., 'Group A > Group B') based on descriptive means alone. The claim must be supported by statistical test results (p-value < 0.05).\n5.  **Document the entire testing protocol** from assumption checks to final conclusions.",
+    "checklist": [
+      "Select and justify group comparison test (ANOVA/K-W)",
+      "Report test statistic, df, p-value, effect size",
+      "Perform post-hoc tests if overall result is significant",
+      "State conclusions only if supported by statistical evidence"
+    ],
+    "common_failure_prevented": "Stating ranking relationships between groups without supporting statistical evidence, leading to unsubstantiated conclusions.",
+    "keywords": [
+      "compare",
+      "difference",
+      "across groups",
+      "category",
+      "versus",
+      "ranking",
+      "significant"
+    ],
+    "tags": [
+      "hypothesis testing",
+      "statistical significance",
+      "A/B testing",
+      "comparative analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2/best_path_analysis/Criterion 2.2.A.3",
+    "source_case": "dacomp-008"
+  },
+  {
+    "title": "Build a multivariate model to assess combined factor influence",
+    "when_to_use": "The task asks to explore how multiple factors relate to an outcome or to find the most influential drivers.",
+    "experience": "Single-factor correlations can be misleading due to confounding. Always model the combined effect.\n\n1.  **Specify a multivariate model** appropriate for the outcome (e.g., linear regression for continuous outcome, logistic for binary). Explicitly write the model equation.\n2.  **Include all relevant factors** mentioned in the task as predictor variables. Consider interaction terms if the task suggests exploring combined effects.\n3.  **Report full model diagnostics**: coefficient estimates with confidence intervals, p-values, model R², and checks for assumptions (multicollinearity, residual normality).\n4.  **Interpret the coefficients** in context: 'Holding other factors constant, a one-unit increase in X is associated with a [coefficient] change in Y.'\n5.  **Compare model insights to simple correlations**: Note if the relationship from univariate analysis holds after controlling for other variables.\n6.  Use the model to answer which factors have the largest independent effect on the outcome.",
+    "checklist": [
+      "Specify regression model with all key factors",
+      "Report coefficients, CI, p-values, and R²",
+      "Perform model diagnostic checks",
+      "Interpret coefficients in a multivariate context",
+      "Compare to univariate results"
+    ],
+    "common_failure_prevented": "Reporting only simple correlations without building a multivariate model, failing to isolate the independent effect of each factor.",
+    "keywords": [
+      "explore how factors are related",
+      "influence",
+      "drivers",
+      "multivariate",
+      "combined effect",
+      "regression"
+    ],
+    "tags": [
+      "regression modeling",
+      "multivariate analysis",
+      "causal inference",
+      "driver analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-008"
+  }
+]

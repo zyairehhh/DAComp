@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Map rubric metrics to specific SQL computations before analysis",
+    "when_to_use": "When a rubric defines precise calculation formulas for metrics like shares or proportions (e.g., share_high_disease, share_wq_low).",
+    "experience": "- Before writing any analysis code, parse the rubric to list all required metrics and their exact definitions.\n- Write explicit SQL queries or Python functions that compute each metric as defined (e.g., `share_high_disease = COUNT(CASE WHEN disease_risk > threshold THEN 1 END) / COUNT(*)`).\n- Validate the computed metrics against sample data to ensure they match rubric logic (e.g., proportions between 0 and 1).\n- Include these metric definitions in your documentation or as comments in your code.\n- Cross-reference your final results table to confirm it contains all rubric-specified metrics and units.",
+    "checklist": [
+      "List rubric metrics with formulas",
+      "Write SQL for each formula",
+      "Test on sample data",
+      "Verify final table columns match rubric"
+    ],
+    "common_failure_prevented": "Producing descriptive statistics (e.g., averages) that do not satisfy rubric requirements for derived proportion metrics.",
+    "keywords": [
+      "share",
+      "proportion",
+      "metric",
+      "formula",
+      "threshold",
+      "compute"
+    ],
+    "tags": [
+      "rubric compliance",
+      "metric definition",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Perform statistical significance tests before making comparative conclusions",
+    "when_to_use": "When the task requires analyzing differences across groups (e.g., disaster levels, segments) and providing evidence-supported conclusions.",
+    "experience": "- After computing group-level metrics (e.g., means per level), apply appropriate statistical tests (ANOVA, Kruskal-Wallis, t-tests) to assess significance of differences.\n- Report p-values and confidence intervals for key comparisons, not just descriptive averages.\n- Conduct robustness checks (e.g., compare median vs mean rankings) to ensure conclusions are not driven by outliers.\n- Annotate findings in the final report with statistical evidence (e.g., 'L5 had significantly higher displaced persons (p < 0.01)').\n- If tests are not feasible, explicitly state the limitation and note that conclusions are descriptive only.",
+    "checklist": [
+      "Choose appropriate statistical test",
+      "Compute p-values and CIs",
+      "Compare median vs mean",
+      "Annotate conclusions with statistical evidence"
+    ],
+    "common_failure_prevented": "Drawing conclusions about group differences based solely on descriptive averages without statistical testing.",
+    "keywords": [
+      "significance",
+      "p-value",
+      "confidence interval",
+      "difference",
+      "test",
+      "evidence"
+    ],
+    "tags": [
+      "statistical testing",
+      "conclusion validation",
+      "robustness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Design executable actions with triggers, targets, and resources",
+    "when_to_use": "When tasked to provide recommendations or actions for operational improvement (e.g., risk mitigation, response planning).",
+    "experience": "- For each recommendation, define a clear trigger condition (e.g., 'if water quality index drops below 60').\n- Specify an actionable step with responsible unit, target value (e.g., 'improve to 75'), and deadline.\n- List required resources (budget, staff, equipment) and external dependencies.\n- Organize recommendations in a structured format (e.g., risk–action matrix) that maps risks to actions.\n- Perform feasibility checks (e.g., capacity constraints) and sensitivity analysis (e.g., ±20% threshold changes) to ensure recommendations are practical.",
+    "checklist": [
+      "Define trigger condition for each action",
+      "Specify responsible unit, target, deadline",
+      "List resources and dependencies",
+      "Structure as a matrix or scorecard",
+      "Check feasibility and sensitivity"
+    ],
+    "common_failure_prevented": "Providing generic recommendations without actionable details, triggers, or resource requirements.",
+    "keywords": [
+      "recommendation",
+      "action",
+      "trigger",
+      "target",
+      "resource",
+      "feasibility"
+    ],
+    "tags": [
+      "operational planning",
+      "actionable insights",
+      "implementation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-027"
+  }
+]

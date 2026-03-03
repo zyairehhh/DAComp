@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Anchor your analysis to a defined time window",
+    "when_to_use": "Task involves analyzing performance or conversion metrics over a period (e.g., 'last quarter', 'monthly', 'rolling 30 days').",
+    "experience": "- Immediately after reading the task, identify the time frame required or define a reasonable, unified window (e.g., last complete month).\n- Before querying, filter all source tables to this window using the appropriate timestamp column (e.g., conversation_created_at).\n- Check for and handle time zone inconsistencies across date columns.\n- Report the chosen time window as a parameter in your initial exploration and include it in all aggregated results.",
+    "checklist": [
+      "Identify the time anchor or define one",
+      "Apply time filter to all relevant data before aggregation",
+      "Explicitly state the chosen window in outputs"
+    ],
+    "common_failure_prevented": "Prevents analyzing irrelevant or temporally misaligned data, ensuring metrics like monthly conversion rates are computed correctly.",
+    "keywords": [
+      "time window",
+      "last month",
+      "rolling",
+      "calendar month",
+      "time period",
+      "date range"
+    ],
+    "tags": [
+      "time_series",
+      "data_filtering",
+      "methodology"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Operationalize abstract metric definitions before computation",
+    "when_to_use": "Task defines a key metric in ambiguous terms (e.g., '72-hour conversion', 'retention rate') without a precise data specification.",
+    "experience": "- Translate the metric definition into explicit SQL or code logic using available fields before any calculation.\n- Validate that the required data fields exist and are populated for the defined logic.\n- Create a small sample verification (e.g., count of qualifying events) to confirm the logic matches the business intent.\n- Report the operational definition alongside the final metric results.",
+    "checklist": [
+      "Explicitly map metric definition to data fields",
+      "Verify data availability for the logic",
+      "Test on a sample before full calculation"
+    ],
+    "common_failure_prevented": "Prevents misinterpretation of metrics (e.g., using stage tags instead of activity timestamps for a 72-hour usage conversion).",
+    "keywords": [
+      "define",
+      "conversion rate",
+      "retention rate",
+      "metric definition",
+      "compute",
+      "specify"
+    ],
+    "tags": [
+      "metrics",
+      "specification",
+      "data_quality"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Map core analysis entities to the correct business level",
+    "when_to_use": "Task requires analyzing performance for entities like 'customers' or 'companies' but data contains related entities like 'contacts' or 'conversations'.",
+    "experience": "- Identify the primary business entity (e.g., 'paying company') from the task description.\n- Determine the correct table and key for that entity (e.g., company_id, monthly_spend).\n- Before analysis, perform and validate the necessary join or mapping (e.g., conversation→contact→company).\n- Report the mapping logic and counts (e.g., X% of conversations successfully mapped to a paying company).",
+    "checklist": [
+      "Identify primary business entity",
+      "Locate the correct primary key and table",
+      "Validate join/mapping logic and coverage"
+    ],
+    "common_failure_prevented": "Prevents analyzing data at the wrong granularity (e.g., contact-level) when company-level metrics are required.",
+    "keywords": [
+      "segment",
+      "customer",
+      "company",
+      "entity",
+      "aggregate",
+      "level"
+    ],
+    "tags": [
+      "data_modeling",
+      "aggregation",
+      "joins"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-098"
+  }
+]

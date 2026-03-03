@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Align Segmentation Dimensions with the Rubric's Explicit Definitions",
+    "when_to_use": "When the rubric or task specifies segmentation must use certain entity types or attribute combinations.",
+    "experience": "1. **Parse Rubric Criteria for Segmentation Anchors:** Before starting the analysis, extract all explicit segmentation levels (e.g., 'segment', 'seat count', 'ARR bin', 'paying customer').\n2. **Map Data Columns to Required Segmentation:** Search for columns in the data dictionary that match the required entity types. If not present, identify the closest proxy and note the limitation.\n3. **Define Segmentation Bins Explicitly:** For numeric segmentation (like ARR, seat counts), define bins based on rubric examples (e.g., thresholds) or domain logic (quartiles).\n4. **Aggregate Metrics at the Correct Segment Level:** Ensure key metrics (conversion rates, response times) are computed for each defined segment group, not just for the overall population.",
+    "checklist": [
+      "Extract segmentation dimensions from rubric",
+      "Locate corresponding data columns",
+      "Define bins for numeric segments",
+      "Aggregate metrics per segment group"
+    ],
+    "common_failure_prevented": "Segments the wrong entity type (e.g., conversation-level instead of company-level), missing required sub-analyses.",
+    "keywords": [
+      "segment",
+      "segmentation",
+      "group by",
+      "profile",
+      "paying",
+      "ARR",
+      "seat"
+    ],
+    "tags": [
+      "data-modeling",
+      "rubric-alignment",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Define All Derived Metrics with Precise Operational Formulas",
+    "when_to_use": "When the task includes metrics not directly present in the raw data tables.",
+    "experience": "1. **List All Required Metrics:** Identify every metric the analysis must compute, including conversion rates, durations, retention rates, and shares.\n2. **Write Explicit Formulas:** For each metric, define the exact SQL or code formula, specifying the numerator, denominator, filtering conditions, and time windows.\n3. **Validate Metric Feasibility:** Check that all fields needed for the formula exist in the available data tables, and identify the primary key or join keys to link the data.\n4. **Test Metric Logic on a Subset:** Compute the metric on a small, representative sample of the data and manually verify the calculation against known values or logic.\n5. **Document Assumptions:** Any assumptions about window definitions (e.g., '72-hour conversion'), entity mapping (e.g., linking conversations to companies), or missing data must be explicitly stated.",
+    "checklist": [
+      "List required derived metrics",
+      "Write precise formulas",
+      "Validate data availability",
+      "Test metric logic",
+      "Document assumptions"
+    ],
+    "common_failure_prevented": "Computes a metric that is related but not exactly what was required (e.g., overall conversion rate instead of a 72-hour post-conversation conversion rate).",
+    "keywords": [
+      "conversion rate",
+      "duration",
+      "retention",
+      "metric",
+      "define",
+      "time window",
+      "formula"
+    ],
+    "tags": [
+      "metrics-definition",
+      "data-availability",
+      "analysis-scoping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Structure Complex Multi-Dimensional Outputs as a Panel",
+    "when_to_use": "When the analysis requires reporting a final table with metrics across multiple segment combinations.",
+    "experience": "1. **Identify Panel Dimensions:** List all dimensions that must be cross-tabulated (e.g., segment, seat size, ARR bin, region).\n2. **Define Required Metrics Per Cell:** For each cell in the cross-tabulation (each unique combination of dimensions), list the metrics that must be reported (e.g., companies_total, avg_resp_min, conv_to_feature_rate).\n3. **Construct Panel Query:** Build a query that generates a row for each unique combination of dimensions, with columns for each required metric. Use CASE statements or joins to compute metrics.\n4. **Validate Panel Completeness:** Ensure every possible combination of dimensions exists in the output, and that metrics are computed correctly for each.",
+    "checklist": [
+      "List cross-tabulation dimensions",
+      "Define required metrics per cell",
+      "Construct panel-building query",
+      "Validate completeness of combinations"
+    ],
+    "common_failure_prevented": "Presents aggregated results but not in the required multi-dimensional 'panel' format, making it impossible to compare across all segment combinations.",
+    "keywords": [
+      "panel",
+      "cross-tab",
+      "segment",
+      "dimension",
+      "metric",
+      "table",
+      "combination",
+      "output"
+    ],
+    "tags": [
+      "reporting",
+      "data-structuring",
+      "rubric-compliance"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-098"
+  }
+]

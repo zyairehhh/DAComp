@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Define and calculate all required metrics before filtering",
+    "when_to_use": "When a task requires filtering or identifying outliers based on computed ratios, averages, or rates.",
+    "experience": "- Before applying any filter, write a clear definition for each required metric, including its numerator, denominator, and data source.\n- Calculate the metric for the full relevant population (e.g., all stages), and store the results in a temporary table or variable.\n- Validate the calculated metrics by spot-checking against known anchor points or performing sanity checks.\n- Only after the metric table is complete and verified, apply the task's filter criteria (e.g., 'avg_days > 25 and attrition > 40%') to identify targets.",
+    "checklist": [
+      "Explicitly define metric formulas",
+      "Calculate metrics for full dataset",
+      "Validate with anchor points",
+      "Apply filters after calculation"
+    ],
+    "common_failure_prevented": "Missing required analyses (like pass/attrition counts or conversion rates) because the agent prematurely filtered data or only computed aggregated metrics for a subset.",
+    "keywords": [
+      "filter",
+      "metric",
+      "average",
+      "rate",
+      "threshold",
+      "bottleneck",
+      "identify"
+    ],
+    "tags": [
+      "metric-calculation",
+      "filtering",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-071"
+  },
+  {
+    "title": "Conduct deep-dive diagnostics on flagged items",
+    "when_to_use": "After identifying key problem areas (like bottleneck stages or low-performance segments) in an analysis.",
+    "experience": "- For each flagged item (e.g., a bottleneck stage), perform a sub-analysis to diagnose the root cause. This includes:\n    *   Comparing distributions (e.g., time spent for passed vs. failed cases).\n    *   Breaking down aggregated metrics by relevant dimensions (e.g., top attrition reasons, team, role).\n    *   Examining percentiles or long-tail effects to understand variability.\n- Summarize the findings for each item, linking the diagnostic results back to potential improvement levers.\n- Ensure the diagnosis provides actionable insight, not just a restatement of the flagged condition.",
+    "checklist": [
+      "Compare passed vs. failed distributions",
+      "Break down by key dimensions",
+      "Analyze percentiles/variability",
+      "Link findings to actionable insights"
+    ],
+    "common_failure_prevented": "Superficial analysis that only states which items are problematic without investigating the underlying structure, causes, or correlations.",
+    "keywords": [
+      "diagnose",
+      "root cause",
+      "breakdown",
+      "distribution",
+      "percentile",
+      "bottleneck",
+      "why"
+    ],
+    "tags": [
+      "diagnostic",
+      "root-cause-analysis",
+      "actionable-insight"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-071"
+  },
+  {
+    "title": "Generate specific, evidence-based recommendations",
+    "when_to_use": "When the task asks for 'improvement recommendations,' 'suggestions,' or 'next steps' based on an analysis.",
+    "experience": "- Base each recommendation directly on a specific finding from your diagnostic analysis (e.g., 'Since 60% of attrition in the Technical Assessment stage is due to failed coding challenges, consider...').\n- Make recommendations concrete and actionable. Specify who might act (e.g., 'HR team,' 'hiring managers'), what they should do, and what the expected outcome is.\n- If possible, prioritize recommendations based on potential impact and feasibility.\n- Frame recommendations as testable hypotheses or initiatives that can be monitored (e.g., 'A/B test a new assessment format and track pass rates over the next quarter').",
+    "checklist": [
+      "Tie each recommendation to a specific data finding",
+      "Specify responsible party and action",
+      "Describe expected outcome",
+      "Prioritize if possible",
+      "Make them monitorable"
+    ],
+    "common_failure_prevented": "Providing generic, non-actionable advice or omitting recommendations altogether, which fails to deliver the business value requested.",
+    "keywords": [
+      "recommendation",
+      "improvement",
+      "suggestion",
+      "actionable",
+      "next steps",
+      "initiative"
+    ],
+    "tags": [
+      "recommendations",
+      "actionable-insight",
+      "business-impact"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-071"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Explicitly report directionality of deviations in performance gaps",
+    "when_to_use": "When analyzing groups where performance deviates from a benchmark or average.",
+    "experience": "- After calculating the deviation (e.g., actual - benchmark) for each record, explicitly count and report the number and proportion of records with **positive** and **negative** deviations.\n- In summaries, include both the overall deviation magnitude and the directional split (e.g., 'X% under-perform, Y% over-perform').\n- When discussing patterns, explicitly state whether anomalies are driven by under-performance, over-performance, or both.\n- Visualize directional splits using a stacked bar chart or a table with separate columns for positive and negative counts.\n- Ensure business conclusions address the distinct implications of positive vs. negative deviation (e.g., 'retention risk' vs. 'unexpected opportunity').",
+    "checklist": [
+      "Calculate deviation direction for each record",
+      "Count positive and negative deviations separately",
+      "Report both counts and proportions in output",
+      "Draw conclusions specific to each direction"
+    ],
+    "common_failure_prevented": "Prevents incomplete analysis where deviation magnitude is reported but the split between under- and over-performance is omitted, leading to ambiguous business insights.",
+    "keywords": [
+      "deviation",
+      "difference from average",
+      "classification anomaly",
+      "outperform",
+      "underperform"
+    ],
+    "tags": [
+      "reporting",
+      "deviation analysis",
+      "segment analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.2",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Implement and document model execution fallbacks when primary tools fail",
+    "when_to_use": "When a task requires statistical or machine learning models (e.g., cluster analysis, decision trees) but the execution environment is constrained.",
+    "experience": "- First, attempt to install and load the required libraries (e.g., `sklearn`) and document the success or failure.\n- If the primary library cannot be loaded, immediately define a clear fallback strategy using available tools (e.g., SQL aggregations, rule-based grouping, pivot tables).\n- Document the rationale for the fallback, noting how it approximates the intended model's purpose (e.g., using terciles to mimic clustering).\n- In the final report, transparently state the methodology used (fallback) and any limitations compared to the originally requested method.\n- Ensure the fallback analysis still addresses the core business question (e.g., identifying patterns, deriving new dimensions) even if the technique differs.",
+    "checklist": [
+      "Attempt primary model library import",
+      "Define and implement a fallback analytic method if import fails",
+      "Document the fallback rationale and limitations",
+      "Ensure fallback output addresses the task's core objectives"
+    ],
+    "common_failure_prevented": "Prevents analysis from stalling or being abandoned due to technical dependencies, ensuring the task progresses and delivers actionable insights.",
+    "keywords": [
+      "cluster analysis",
+      "decision tree",
+      "model",
+      "fallback",
+      "sklearn"
+    ],
+    "tags": [
+      "robustness",
+      "methodology",
+      "contingency planning"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Validate derived metric calculations against rubric specifications",
+    "when_to_use": "When the task or rubric defines specific formulas for derived metrics (e.g., consistency error, seasonality index).",
+    "experience": "- Extract the exact formula for each required derived metric from the task instructions or rubric.\n- Before using the metric in filtering or analysis, compute it explicitly and verify a few sample calculations manually.\n- Compare the distribution of your derived metric (e.g., mean, range) to any expected values or benchmarks provided in the rubric.\n- If the rubric provides example values for the metric (e.g., 'expected transaction count based on customer age'), ensure your calculation logic matches and produces similar results.\n- If discrepancies exist, debug the calculation logic (e.g., unit conversions, aggregation level) before proceeding.",
+    "checklist": [
+      "Locate the exact formula for each derived metric in the rubric",
+      "Compute the metric and manually verify sample records",
+      "Compare distribution to rubric benchmarks or expectations",
+      "Debug and correct logic if discrepancies are large"
+    ],
+    "common_failure_prevented": "Prevents using an incorrect or mis-specified derived metric, which leads to inaccurate segment identification and flawed conclusions.",
+    "keywords": [
+      "derived metric",
+      "formula",
+      "calculate",
+      "transaction consistency",
+      "seasonal pattern"
+    ],
+    "tags": [
+      "validation",
+      "metric calculation",
+      "rubric alignment"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.notfound.1",
+    "source_case": "dacomp-076"
+  }
+]

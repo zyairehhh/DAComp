@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Map explicit rubric scoring dimensions to analysis variables",
+    "when_to_use": "When the task rubric or instructions specify required analysis dimensions or scoring criteria (e.g., operating region, ride distance, vehicle type).",
+    "experience": "- **Extract required dimensions**: Parse the rubric or task instructions to identify explicitly required analysis variables (e.g., 'operating region' maps to Pickup/Drop Location fields).\n- **Create a dimension‑to‑variable mapping table**: For each required dimension, list the corresponding data columns, derived metrics, and segmentation logic.\n- **Validate data availability**: Before analysis, confirm the dataset contains the needed fields (e.g., location columns) and sufficient records for each segment.\n- **Prioritize analysis by rubric weight**: Allocate more exploratory effort to dimensions with higher score weight or explicit mention.\n- **Report coverage**: In the final output, explicitly state which rubric dimensions were analyzed and which were omitted due to data limitations.",
+    "checklist": [
+      "List all rubric‑specified analysis dimensions",
+      "Map each dimension to dataset columns or derived metrics",
+      "Check data completeness for each dimension before analysis",
+      "Include a summary of dimension coverage in conclusions"
+    ],
+    "common_failure_prevented": "Prevents missing required analysis dimensions (e.g., operating region, ride‑distance segmentation) that are explicitly scored in the rubric.",
+    "keywords": [
+      "rubric",
+      "scoring criteria",
+      "required dimensions",
+      "analysis variables",
+      "segmentation"
+    ],
+    "tags": [
+      "requirements mapping",
+      "rubric compliance",
+      "dimension coverage"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2 and Criterion 3.1.A.3",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Decompose aggregate metrics into all relevant segmentation axes",
+    "when_to_use": "When the analysis goal is to optimize a business metric (e.g., earnings) and the task mentions multiple potential influencing factors (e.g., vehicle type, time, location, ratings).",
+    "experience": "- **Identify all candidate segmentation axes**: From the problem statement and data schema, list all dimensions that could influence the target metric (e.g., vehicle type, hour, day‑of‑week, pickup/drop region, ride distance bucket, driver/customer rating tier).\n- **Prioritize by business logic**: Rank axes by expected impact (e.g., vehicle type likely affects fare; time affects demand; location affects surge pricing).\n- **Perform stratified analysis**: For each high‑priority axis, compute the target metric (e.g., fare per km) per segment and compare.\n- **Check for interaction effects**: Analyze combinations of key axes (e.g., vehicle‑type × hour) to find optimal intersections.\n- **Report actionable segments**: Highlight top‑performing segments and quantify the opportunity (e.g., ‘Go Sedan during 18:00–19:00 yields 15% higher fare/km’).",
+    "checklist": [
+      "List all plausible segmentation dimensions from task and schema",
+      "Rank dimensions by expected impact on target metric",
+      "Compute target metric per segment for top dimensions",
+      "Test interactions between top two dimensions",
+      "Recommend concrete actions based on best segments"
+    ],
+    "common_failure_prevented": "Prevents overlooking influential segmentation dimensions (e.g., location, ride‑distance) that are not immediately obvious but are suggested by the task context.",
+    "keywords": [
+      "segmentation",
+      "optimization",
+      "influencing factors",
+      "dimensional analysis",
+      "interaction effects"
+    ],
+    "tags": [
+      "segmentation",
+      "driver optimization",
+      "multivariate analysis"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Validate geographic/spatial data availability before location‑based recommendations",
+    "when_to_use": "When the task requires analyzing or optimizing based on geographic areas (e.g., operating region, pickup/drop location, city zones).",
+    "experience": "- **Check for location columns**: Confirm the dataset contains fields for geographic references (e.g., pickup/drop location, postal codes, coordinates).\n- **Assess data quality**: Determine if location values are populated, standardized, and granular enough for segmentation (e.g., city vs. neighborhood).\n- **Define operational regions**: If raw locations are too granular, cluster them into meaningful operational regions (e.g., downtown, suburbs, airport).\n- **Correlate location with performance**: Compute target metrics per region to identify high‑yield zones.\n- **Flag limitations**: If location data is missing or poor, explicitly note that geographic recommendations cannot be made.",
+    "checklist": [
+      "Verify existence of location‑related columns",
+      "Check completeness and uniqueness of location values",
+      "Define actionable region clusters if needed",
+      "Compute target metric per region",
+      "Acknowledge data limitations in conclusions"
+    ],
+    "common_failure_prevented": "Prevents making no location‑based recommendations despite the rubric requiring analysis of operating region.",
+    "keywords": [
+      "location",
+      "geographic",
+      "region",
+      "pickup",
+      "drop",
+      "zone",
+      "spatial"
+    ],
+    "tags": [
+      "data validation",
+      "geographic analysis",
+      "location segmentation"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.A.2",
+    "source_case": "dacomp-022"
+  }
+]

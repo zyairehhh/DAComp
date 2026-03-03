@@ -1,0 +1,100 @@
+[
+  {
+    "title": "Build multivariate regression models before reporting single-factor trends",
+    "when_to_use": "The task requires analyzing which factors or configurations influence a target outcome (like buyback value or performance).",
+    "experience": "1. Before concluding on the impact of single factors (e.g., fuel type, brand), build a multivariate regression model (e.g., linear, logistic) with the target metric as the dependent variable and all relevant numeric and categorical factors as independent variables.\n2. Ensure categorical variables are properly encoded (e.g., one-hot encoding) and handle potential multicollinearity by checking variance inflation factors (VIF) or using regularization.\n3. Report standardized coefficients, p-values, and overall model fit (R²). Use these results to rank factors by their relative importance and statistical significance.\n4. Cross-check single-factor analysis results (like group means) with the multivariate model's findings to ensure consistency and explain any discrepancies (e.g., confounding).\n5. If the dataset is large enough, perform train-test split or cross-validation to validate model stability.\n6. Summarize the final, actionable factor ranking in your answer, explicitly stating which configurations have the strongest positive/negative impact.",
+    "checklist": [
+      "Build a multivariate regression model",
+      "Report coefficients, significance, and model fit",
+      "Rank factors by importance",
+      "Cross-check single-factor results",
+      "Validate model stability",
+      "Summarize actionable factor ranking"
+    ],
+    "common_failure_prevented": "Reporting only simple correlations or group averages, which fails to isolate the independent effect of each factor and leads to incomplete or misleading conclusions.",
+    "keywords": [
+      "factor",
+      "influence",
+      "impact",
+      "configuration",
+      "regression",
+      "correlation",
+      "multivariate",
+      "drivers"
+    ],
+    "tags": [
+      "regression",
+      "modeling",
+      "factor_analysis",
+      "causal",
+      "importance"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Quantify recommendation thresholds directly from data distributions",
+    "when_to_use": "The task asks for specific, actionable recommendations based on data analysis (e.g., 'which conditions lead to higher value').",
+    "experience": "1. When the analysis identifies factors correlated with the desired outcome (e.g., high buyback value), examine the distribution of those factors (e.g., mileage, age) for the top-performing group.\n2. Define specific, data-driven thresholds (e.g., mileage ≤ 30,000 km, age ≤ 3 years) by calculating percentiles (e.g., 75th percentile), medians, or optimal cut-points from the data of high-value instances.\n3. Explicitly list each recommended condition as a separate, quantified item (e.g., '1. Target vehicles with mileage below X km'). Avoid embedding recommendations in prose without clear thresholds.\n4. Justify each threshold by referencing the analysis (e.g., 'The top 20% of vehicles by depreciation ratio had an average age of 2.5 years, so we recommend ≤3 years').\n5. If multiple factors are important, combine them into a composite recommendation (e.g., 'Seek vehicles meeting all: Brand A, mileage < X, age < Y').\n6. Validate that recommendations are feasible by checking the prevalence of vehicles meeting all conditions in the dataset.",
+    "checklist": [
+      "Examine factor distributions for top performers",
+      "Define data-driven thresholds (percentiles, medians)",
+      "List recommendations as separate, quantified items",
+      "Justify thresholds with analysis results",
+      "Combine factors into composite conditions",
+      "Validate feasibility in the dataset"
+    ],
+    "common_failure_prevented": "Providing vague, generic recommendations (e.g., 'low mileage, recent models') without precise, data-backed thresholds, reducing actionability.",
+    "keywords": [
+      "recommendation",
+      "condition",
+      "threshold",
+      "specific",
+      "actionable",
+      "criteria",
+      "target"
+    ],
+    "tags": [
+      "recommendation",
+      "threshold",
+      "actionable",
+      "quantification",
+      "distribution"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Map analysis dimensions explicitly to the rubric or task checklist",
+    "when_to_use": "The task or rubric implicitly or explicitly lists specific dimensions, factors, or metrics that must be analyzed.",
+    "experience": "1. Before starting analysis, carefully parse the task instructions and any provided rubric for a list of required analysis dimensions, metrics, or factors (e.g., 'analyze by model, configuration, mileage, age, fuel type').\n2. Create a checklist of these dimensions and track completion. For each dimension, define the exact metric to compute (e.g., for 'mileage segment,' define bins like 0-10k km, 10k-30k km).\n3. Perform the analysis for each dimension systematically, even if some seem less relevant. Record results in a structured format (e.g., a table).\n4. In the final report, explicitly state conclusions for each required dimension, highlighting top/bottom performers and overall trends.\n5. If a dimension cannot be analyzed due to data limitations, note this explicitly and suggest alternatives.\n6. Cross-reference your analysis against the rubric's validation baselines (if provided) to ensure alignment.",
+    "checklist": [
+      "Parse task/rubric for required dimensions",
+      "Create a completion checklist",
+      "Define metrics and bins for each dimension",
+      "Analyze each dimension systematically",
+      "Report conclusions per dimension",
+      "Note data limitations and align with baselines"
+    ],
+    "common_failure_prevented": "Missing key analysis dimensions (e.g., vehicle age bins, color) because they were not explicitly recalled during the exploratory phase, leading to an incomplete answer.",
+    "keywords": [
+      "dimension",
+      "factor",
+      "metric",
+      "checklist",
+      "rubric",
+      "required",
+      "analysis",
+      "segment"
+    ],
+    "tags": [
+      "planning",
+      "completeness",
+      "rubric_alignment",
+      "checklist",
+      "dimensions"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-029"
+  }
+]

@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Map analysis components to a formal regulatory or scoring framework",
+    "when_to_use": "When the task mentions risk levels, allocation plans, or pricing based on quantitative factors.",
+    "experience": "- Before calculations, explicitly list all required components of the final risk/price model (e.g., Probability of Default (PD), Loss Given Default (LGD), churn function, regulatory capital K).\n- Define the mathematical relationship (e.g., PD mapping from a risk score, pricing formula r = CoF + OpEx + PD×LGD + K×ROE_min).\n- Validate each component's source: derive from data (e.g., logistic regression for PD), use given tables, or state assumptions.\n- Create a summary table showing the mapping from input variables (e.g., credit rating, sales) to each intermediate component (PD, LGD, churn) to the final output (credit limit, interest rate).\n- Verify that the model's outputs are monotonic with risk where required (e.g., higher PD leads to lower limit).",
+    "checklist": [
+      "List all model components",
+      "Define mathematical formulas linking components",
+      "Identify data source for each component",
+      "Create mapping table from inputs to outputs",
+      "Test monotonicity of key relationships"
+    ],
+    "common_failure_prevented": "Producing ad-hoc allocation formulas without a grounded risk model, missing required elements like PD-LGD mapping or regulatory parameters.",
+    "keywords": [
+      "risk levels",
+      "allocation plan",
+      "pricing",
+      "credit limit",
+      "regulatory",
+      "scoring"
+    ],
+    "tags": [
+      "risk-modeling",
+      "framework-alignment",
+      "requirements-mapping"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3, Requirement 1/Criterion 1.4, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-001"
+  },
+  {
+    "title": "Design and test allocation algorithms with explicit constraints and invariants",
+    "when_to_use": "When tasked with distributing a fixed budget or limit across entities based on multiple criteria.",
+    "experience": "- Define the allocation as a multi-step chain: e.g., L_base (base limit) → adjustment factors (f) → final limit (L), ensuring each step's formula is clear.\n- Specify all constraints: total budget cap, per-entity minimum/maximum, concentration limits, and monotonicity rules (e.g., risk↑ → limit↓).\n- Develop an iterative scaling algorithm if needed to meet the total budget exactly, and document its pseudocode.\n- Perform boundary tests: apply the algorithm to extreme cases (e.g., all entities identical, one entity dominates) to check for robustness and fairness.\n- Provide a worked example tracing the calculation for 2-3 sample entities from raw data to final allocation.",
+    "checklist": [
+      "Define allocation chain with intermediate quantities",
+      "List all constraints and invariants",
+      "Provide iterative algorithm if needed",
+      "Test with boundary/edge cases",
+      "Show sample calculation trace"
+    ],
+    "common_failure_prevented": "Proposing proportional allocation formulas without ensuring they satisfy total budget constraints, concentration rules, or risk monotonicity.",
+    "keywords": [
+      "allocation",
+      "credit limit",
+      "budget",
+      "distribute",
+      "portfolio",
+      "scaling"
+    ],
+    "tags": [
+      "algorithm-design",
+      "constraint-checking",
+      "edge-case-testing"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-001"
+  },
+  {
+    "title": "Explicitly define and verify dynamic response functions",
+    "when_to_use": "When the analysis involves a response variable (like churn) that depends on a decision variable (like interest rate).",
+    "experience": "- Extract or estimate the response function from data (e.g., churn rate = f(interest rate, credit rating)). If a table is provided, note if interpolation is needed.\n- Formalize the function mathematically, specifying its domain and exogenous parameters (e.g., competitor rates, customer cutoff).\n- Compute derived metrics that depend on this function (e.g., expected return = r * (1 - churn(r))).\n- Perform anchor validation: calculate the function's output for at least two distinct input values and check against provided data or intuitive expectations.\n- Use the function to optimize the decision variable (e.g., find r that maximizes expected return) and report the optimal point.",
+    "checklist": [
+      "Extract/define response function",
+      "Formalize function with parameters",
+      "Compute dependent metrics",
+      "Validate with anchor points",
+      "Optimize decision variable"
+    ],
+    "common_failure_prevented": "Using a lookup table passively without formalizing the functional relationship or verifying its impact on optimization.",
+    "keywords": [
+      "churn",
+      "response",
+      "function",
+      "optimize",
+      "interest rate",
+      "elasticity"
+    ],
+    "tags": [
+      "functional-modeling",
+      "optimization",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.5, Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-001"
+  }
+]

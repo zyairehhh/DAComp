@@ -1,0 +1,78 @@
+[
+  {
+    "title": "Decompose aggregate metric changes into rate and mix effects",
+    "when_to_use": "When analyzing the drivers behind a change in an aggregate rate, conversion, or average over time.",
+    "experience": "1. **Define the aggregate metric** as a weighted average of segment-level metrics (e.g., overall conversion = Σ(segment applications * segment rate) / total applications).\n2. **Calculate segment-level rates and volumes** for each time period.\n3. **Perform a shift-share decomposition** using the Laspeyres or other standard formula to quantify the contribution from rate changes within segments versus the contribution from mix shifts between segments.\n4. **Rank segment contributions** to the total change, distinguishing whether a segment's low rate or growing volume drove the decline.\n5. **Report both the decomposition results and the key segments** identified, explaining whether the problem is primarily performance degradation or a changing portfolio.",
+    "checklist": [
+      "Calculate segment-level metrics and volumes",
+      "Apply shift-share formula to separate rate and mix effects",
+      "Rank segment contributions to total change"
+    ],
+    "common_failure_prevented": "This prevents reporting only the segment-level rate changes without quantifying their contribution to the aggregate decline, missing whether a change is due to poor performance or a shift in volume.",
+    "keywords": [
+      "decompose",
+      "rate vs mix",
+      "drivers of change",
+      "shift-share",
+      "contribution analysis"
+    ],
+    "tags": [
+      "decomposition",
+      "metric analysis",
+      "time series"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Control for segment differences before comparing entity performance",
+    "when_to_use": "When tasked to identify underperforming entities (e.g., managers, teams) operating across different segments.",
+    "experience": "1. **Identify confounding segment variables** (e.g., role type, region, seniority) that could influence the performance metric.\n2. **Calculate expected performance for each entity** by applying segment-level baseline rates (e.g., department average per segment) to the entity's segment mix.\n3. **Compute performance residuals** (actual - expected) for each entity, isolating the effect attributable to the entity itself.\n4. **Compare residuals across entities** to rank them and identify systematic under/over-performance.\n5. **Validate** by checking if low-performing entities are consistently low across segments or only in certain segments.",
+    "checklist": [
+      "Identify segment variables",
+      "Compute expected performance given segment mix",
+      "Calculate and rank performance residuals"
+    ],
+    "common_failure_prevented": "This prevents incorrectly attributing poor performance to an entity (e.g., a hiring manager) when the result is actually driven by the entity handling tougher segments (e.g., harder-to-fill roles).",
+    "keywords": [
+      "performance residuals",
+      "control for segment",
+      "expected vs actual",
+      "fair comparison",
+      "systematic underperformance"
+    ],
+    "tags": [
+      "segmentation",
+      "performance evaluation",
+      "causal inference"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Specify and test the full regression model before reporting coefficients",
+    "when_to_use": "When quantifying the impact of multiple factors on an outcome using regression.",
+    "experience": "1. **Formally state the regression equation** with the dependent variable, all independent variables of interest, and necessary control variables (e.g., role, time period fixed effects).\n2. **Check for multicollinearity** among predictors before running the model.\n3. **Run the full specified model** and report coefficients, significance, and model fit (R²).\n4. **Interpret coefficients in context** (e.g., 'holding role and quarter constant, each additional interviewer increases conversion by X').\n5. **Validate model assumptions** (e.g., linearity, homoscedasticity) or note limitations.",
+    "checklist": [
+      "Write the full regression equation",
+      "Check for multicollinearity",
+      "Run and report the full model",
+      "Interpret coefficients with controls"
+    ],
+    "common_failure_prevented": "This prevents reporting naive bivariate correlations or simple regressions that omit key control variables, leading to misleading causal claims.",
+    "keywords": [
+      "multivariate regression",
+      "control variables",
+      "coefficient interpretation",
+      "model specification",
+      "ceteris paribus"
+    ],
+    "tags": [
+      "regression",
+      "causal analysis",
+      "statistical modeling"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.3",
+    "source_case": "dacomp-066"
+  }
+]

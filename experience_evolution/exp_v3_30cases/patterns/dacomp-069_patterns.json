@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Explicitly map rubric sub-criteria to analysis outputs before execution",
+    "when_to_use": "When the task instruction references a specific rubric, scoring framework, or detailed criteria.",
+    "experience": "- Immediately after receiving the task, extract all rubric requirements, including required metrics, comparisons, and expected conclusions.\n- Create a cross-reference table linking each rubric criterion (e.g., Requirement 3.1) to the specific dataset columns and SQL queries needed.\n- Before writing code, confirm that the planned analysis will generate the exact outputs (anchors, visualizations, conclusions) specified in the rubric.\n- After each analysis step, verify the output against the rubric's accuracy anchors and completeness requirements.\n- If a criterion cannot be fully met (e.g., missing data), document the limitation and seek an acceptable alternative as defined by the rubric's paths.",
+    "checklist": [
+      "Extract and list all rubric sub-criteria at start",
+      "Map each criterion to required data source and metric",
+      "Verify outputs match rubric's expected anchors and conclusions"
+    ],
+    "common_failure_prevented": "Performing a different analysis than required, leading to zero scores on multiple rubric criteria.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "criteria",
+      "requirement",
+      "evaluation"
+    ],
+    "tags": [
+      "planning",
+      "requirements",
+      "alignment"
+    ],
+    "source_criterion": "Multiple (e.g., Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1)",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Define and verify all analysis dimensions and metrics before segmenting",
+    "when_to_use": "When the task requires comparing performance across groups based on a key metric.",
+    "experience": "- Identify the exact metric and threshold for segmentation as defined in the task or rubric (e.g., 'key revenue metric over $7').\n- Confirm the metric's source column, calculation, and unit in the dataset to avoid misinterpretation.\n- Validate the distribution of the metric across entities to ensure meaningful segmentation (e.g., check if groups have sufficient sample size).\n- Before proceeding, formally define the high and low groups using SQL WHERE clauses or code logic.\n- Verify the segmentation by reporting group counts and key descriptive statistics to confirm alignment with the task's intent.",
+    "checklist": [
+      "Confirm exact segmentation metric and threshold",
+      "Verify metric definition in the data schema",
+      "Check group sample sizes and distribution",
+      "Formally define groups before comparative analysis"
+    ],
+    "common_failure_prevented": "Using an incorrect or ambiguous metric for segmentation, resulting in invalid group comparisons.",
+    "keywords": [
+      "segment",
+      "group",
+      "compare",
+      "high vs low",
+      "threshold",
+      "metric"
+    ],
+    "tags": [
+      "segmentation",
+      "data understanding",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Complete a full multi-dimensional diagnostic before concluding on drivers",
+    "when_to_use": "When diagnosing the drivers behind a performance change or divergence.",
+    "experience": "- Create a checklist of all relevant performance dimensions (e.g., user quality, engagement, monetization, technical health) suggested by the task or data schema.\n- For each dimension, compute the key KPIs (rates, volumes, scores) for the comparison groups or time periods.\n- Analyze both absolute and weighted averages (e.g., weighted by active devices or revenue) to understand aggregate impact.\n- Perform correlation or trend analysis across the specified dimensions, not just a subset.\n- Synthesize findings across all dimensions before identifying the primary driver or making a recommendation.",
+    "checklist": [
+      "List all relevant performance dimensions",
+      "Compute KPIs for each dimension per group",
+      "Use weighted averages where appropriate",
+      "Analyze correlations across all specified metrics",
+      "Synthesize multi-dimensional findings"
+    ],
+    "common_failure_prevented": "Drawing conclusions based on a single metric trend while ignoring other required diagnostic dimensions.",
+    "keywords": [
+      "diagnose",
+      "driver",
+      "root cause",
+      "divergence",
+      "performance",
+      "KPI"
+    ],
+    "tags": [
+      "diagnostics",
+      "completeness",
+      "analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1, Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-069"
+  }
+]

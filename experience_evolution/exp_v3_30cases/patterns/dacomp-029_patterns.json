@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Map required analysis dimensions to rubric before cleaning data",
+    "when_to_use": "When the task or rubric specifies required grouping dimensions, bins, or metrics for analysis.",
+    "experience": "- At the start, extract all required analysis dimensions, bins, and metrics from the rubric or task description.\n- Create a mapping table linking each required dimension (e.g., binned Age, binned Mileage, Color, Electric Range) to the corresponding data column(s) and required transformation.\n- Validate data availability and structure for each required dimension before proceeding with cleaning or analysis.\n- Ensure your cleaning and transformation pipeline explicitly produces all required dimensions (e.g., create binned columns, standardize categorical values).\n- After cleaning, verify that your dataset contains all dimensions needed for the full analysis scope specified in the rubric.",
+    "checklist": [
+      "Extract required dimensions from rubric",
+      "Map dimensions to data columns",
+      "Validate data for all dimensions",
+      "Transform/create all required dimensions in cleaning",
+      "Verify final dataset includes all rubric-required fields"
+    ],
+    "common_failure_prevented": "Failing to analyze required dimensions (like binned age, color, electric range) because they were not created during data cleaning, leading to incomplete grouping analysis.",
+    "keywords": [
+      "group",
+      "dimension",
+      "bin",
+      "segment",
+      "rubric",
+      "required",
+      "analysis"
+    ],
+    "tags": [
+      "rubric alignment",
+      "data preparation",
+      "requirement mapping"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Build multivariate model before reporting single-factor correlations",
+    "when_to_use": "When the task asks to analyze which factors influence an outcome or compare configurations.",
+    "experience": "- Before reporting single-factor trends or correlations, explicitly design a multivariate model (e.g., linear regression) that includes all potential influencing factors.\n- Prepare the data by encoding categorical variables, handling missing values, and scaling if necessary for the model.\n- Fit the model and extract standardized coefficients, p-values, and model fit statistics (R²).\n- Use the model results to rank factors by their relative contribution to the outcome.\n- Report the multivariate model's findings (key drivers, effect sizes, significance) before or alongside any simple descriptive group comparisons.",
+    "checklist": [
+      "Design multivariate model",
+      "Prepare data (encode, scale)",
+      "Fit model and extract coefficients",
+      "Rank factors by contribution",
+      "Report multivariate results"
+    ],
+    "common_failure_prevented": "Reporting only simple correlations (like age vs. outcome) without a multivariate analysis, missing the relative importance of factors and their combined effect.",
+    "keywords": [
+      "factor",
+      "influence",
+      "multivariate",
+      "regression",
+      "driver",
+      "impact",
+      "configuration"
+    ],
+    "tags": [
+      "modeling",
+      "causal analysis",
+      "factor ranking"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Define and apply a standardized grouping key for model/configuration analysis",
+    "when_to_use": "When analyzing performance or value by model, series, or configuration across a dataset with free-text descriptions.",
+    "experience": "- Before grouping by model or configuration, examine the free-text field (e.g., 'Title') and define a consistent rule or dictionary to extract a standardized grouping key.\n- Test the rule on a sample to ensure it correctly aggregates all variations of the same model/configuration.\n- Apply the rule to create a new column (e.g., 'Model_Group') in your dataset.\n- Validate the grouping by checking the distinct values and counts, ensuring logical consolidation.\n- Use this standardized column for all subsequent model-level aggregations and rankings.",
+    "checklist": [
+      "Examine free-text field for variations",
+      "Define rule/dictionary for standardization",
+      "Test rule on sample",
+      "Create standardized grouping column",
+      "Validate grouping logic"
+    ],
+    "common_failure_prevented": "Using inconsistent or overly broad grouping (like first two words of a title) that fails to correctly aggregate all records for the same model, leading to inaccurate model-level averages.",
+    "keywords": [
+      "model",
+      "configuration",
+      "group",
+      "standardize",
+      "series",
+      "free-text",
+      "aggregate"
+    ],
+    "tags": [
+      "data cleaning",
+      "aggregation",
+      "entity resolution"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-029"
+  }
+]

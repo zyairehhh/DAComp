@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly analyze unit quantity to distinguish retail vs wholesale",
+    "when_to_use": "When the task involves segmenting customers or orders based on sales volume or quantity.",
+    "experience": "1. Check the distribution of `Sales Quantity` (or similar unit count fields).\n2. Calculate the proportion of orders where quantity equals 1 (single‑unit/retail) versus bulk orders.\n3. Cross‑tabulate this segmentation with the target metric (e.g., profit margin) to see if retail orders drive low‑margin outcomes.\n4. Report the share of low‑margin orders that come from single‑unit sales.\n5. If the data supports it, recommend different pricing or cost‑recovery strategies for retail vs wholesale channels.",
+    "checklist": [
+      "Plot histogram of Sales Quantity",
+      "Compute % of orders with quantity = 1",
+      "Compare average margin for single‑unit vs bulk",
+      "Calculate low‑margin rate for each segment",
+      "Include findings in final report"
+    ],
+    "common_failure_prevented": "Missing that retail (single‑unit) customers dominate low‑margin orders, which is a key characteristic for targeting remedies.",
+    "keywords": [
+      "quantity",
+      "retail",
+      "wholesale",
+      "bulk",
+      "single‑unit"
+    ],
+    "tags": [
+      "segmentation",
+      "customer‑type",
+      "volume‑analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/A.16",
+    "source_case": "dacomp-005"
+  },
+  {
+    "title": "Report both rate and volume for each segment when diagnosing problems",
+    "when_to_use": "When comparing segments (e.g., product categories, regions, demographics) to identify contributors to a business issue.",
+    "experience": "1. For each segment, compute two metrics: the **incidence rate** (e.g., low‑margin rate) and the **absolute volume** (e.g., number of low‑margin orders).\n2. Sort segments by rate to find the worst‑performing ones.\n3. Sort segments by volume to find the largest contributors to the total problem.\n4. Highlight segments that are high in both rate and volume as priority targets.\n5. In recommendations, distinguish between fixing high‑rate segments (e.g., process overhaul) and high‑volume segments (e.g., scaling proven fixes).",
+    "checklist": [
+      "Calculate low‑margin rate per segment",
+      "Count low‑margin orders per segment",
+      "Identify top 5 by rate and top 5 by volume",
+      "Flag segments appearing in both lists",
+      "Prioritize recommendations accordingly"
+    ],
+    "common_failure_prevented": "Reporting only the rate (e.g., Bathroom supplies 7.09%) without noting that Bedding Sets have the highest volume of low‑margin orders, missing the biggest impact opportunity.",
+    "keywords": [
+      "segment",
+      "rate",
+      "volume",
+      "contributor",
+      "priority"
+    ],
+    "tags": [
+      "segmentation",
+      "impact‑analysis",
+      "prioritization"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/A.21",
+    "source_case": "dacomp-005"
+  },
+  {
+    "title": "Explicitly map rubric dimensions to analysis steps before diving into SQL",
+    "when_to_use": "When the task instruction lists specific dimensions (e.g., by Sales Quantity, geographic distribution, time trends, customer segments).",
+    "experience": "1. Parse the task instruction and extract every explicit dimension mentioned (e.g., `Sales Quantity`, `Destination`, `Date`, `Customer Age`, `Age Range`, `Customer Gender`, `Consigned Product`).\n2. For each dimension, define the exact metric or breakdown you will compute (e.g., for `Sales Quantity`: distribution, average, proportion of single‑unit orders).\n3. Create a checklist in your plan to ensure each dimension is addressed in the analysis.\n4. After each SQL query, verify that the output directly answers one of the mapped dimensions.\n5. In the final report, structure the findings according to these dimensions.",
+    "checklist": [
+      "List all dimensions from the task",
+      "Define metric/breakdown per dimension",
+      "Create a coverage checklist",
+      "Verify each query aligns with a dimension",
+      "Structure report by dimension"
+    ],
+    "common_failure_prevented": "Omitting an explicit analysis of retail vs wholesale (a `Sales Quantity` dimension) because the agent only looked at average quantity without breaking down by unit‑count categories.",
+    "keywords": [
+      "dimension",
+      "breakdown",
+      "coverage",
+      "checklist",
+      "rubric"
+    ],
+    "tags": [
+      "task‑analysis",
+      "planning",
+      "completeness"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2/A.16",
+    "source_case": "dacomp-005"
+  }
+]

@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Match rubric-defined criteria and metrics exactly",
+    "when_to_use": "When the task instruction includes a scoring rubric or detailed performance evaluation framework.",
+    "experience": "Markdown bullets:\n- **Before analysis, map each rubric criterion to your planned steps** to ensure no requirement is missed.\n- **Validate that computed metrics use the same formulas** (e.g., ROAS vs. ROI, normalization intervals like P5-P95).\n- **Extract and report anchor values specified** in the rubric for verification (e.g., exact campaign IDs, percentages).\n- **If time periods are specified (e.g., 'latest month'), filter data accordingly** before applying thresholds.\n- **Cross-check dimensions of analysis** (e.g., per-campaign vs. per-category) to match rubric expectations.",
+    "checklist": [
+      "Map rubric items to analysis steps",
+      "Verify formula definitions",
+      "Filter to specified time granularity",
+      "Include anchor values in outputs"
+    ],
+    "common_failure_prevented": "Producing analysis that is conceptually correct but fails rubric scoring because criteria or metrics deviate subtly.",
+    "keywords": [
+      "rubric",
+      "scoring",
+      "criteria",
+      "evaluation framework",
+      "anchor points"
+    ],
+    "tags": [
+      "rubric alignment",
+      "evaluation compliance",
+      "metric validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 3/Criterion 3.2, Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Conduct granular, entity-level analysis before aggregating",
+    "when_to_use": "When the task requires identifying problems or making recommendations for specific entities (e.g., campaigns, products).",
+    "experience": "Markdown bullets:\n- **Aggregate metrics per target entity first** (e.g., per campaign, per device per campaign) before computing overall averages.\n- **Flag issues at the entity level** using entity-specific thresholds (e.g., cost share >35% per campaign, not overall).\n- **Join all necessary granular data** (e.g., device, geo, keyword) to each entity before analysis.\n- **Retain entity identifiers** throughout the analysis to ensure traceable recommendations.",
+    "checklist": [
+      "Compute per-entity metrics",
+      "Apply entity-specific risk thresholds",
+      "Maintain entity IDs in all datasets",
+      "Join granular dimensions early"
+    ],
+    "common_failure_prevented": "Aggregating across all entities and losing the ability to diagnose and recommend actions for individual problematic items.",
+    "keywords": [
+      "per campaign",
+      "specific recommendations",
+      "entity-level",
+      "granular analysis",
+      "individual diagnosis"
+    ],
+    "tags": [
+      "granularity",
+      "entity-level analysis",
+      "traceability"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Explicitly compute required derived metrics for each segment",
+    "when_to_use": "When the task requires calculating variation, trends, or specific indices (e.g., coefficient of variation, seasonal index).",
+    "experience": "Markdown bullets:\n- **Identify all required derived metrics** from the task description (e.g., YoY growth, CV, seasonal index).\n- **Compute them for each relevant segment** (e.g., per campaign, per industry, per month).\n- **Handle missing data explicitly** (e.g., impute using a stated rule, flag incomplete segments).\n- **Report the computed values** in your output, not just the method.",
+    "checklist": [
+      "List all required derived metrics",
+      "Compute per specified segment",
+      "Document missing data handling",
+      "Include computed values in final output"
+    ],
+    "common_failure_prevented": "Omitting or only partially calculating complex metrics (like coefficient of variation, seasonal index) leading to incomplete analysis.",
+    "keywords": [
+      "derived metrics",
+      "coefficient of variation",
+      "seasonal index",
+      "year-over-year",
+      "trend analysis"
+    ],
+    "tags": [
+      "metric calculation",
+      "time series analysis",
+      "data completeness"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-058"
+  }
+]

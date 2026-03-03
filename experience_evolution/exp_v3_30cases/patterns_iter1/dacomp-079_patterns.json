@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly calculate concentration metrics for feature usage analysis",
+    "when_to_use": "When analyzing user behavior patterns related to feature adoption or engagement depth.",
+    "experience": "- **Define concentration metrics** before analysis: e.g., top feature click share (clicks on most-used feature / total clicks), primary product area share, or Herfindahl-Hirschman Index for feature usage.\n- **Compute these metrics for the target segment** and compare them to a baseline or normal group.\n- **Analyze the distribution of these concentration metrics** (e.g., histogram, percentiles) to identify thresholds or patterns.\n- **Correlate concentration metrics with outcomes** like satisfaction (NPS) or retention to quantify the impact of narrow usage.\n- **Report specific concentration values** (e.g., 'Top feature accounts for 40% of clicks') rather than only counts of distinct features.",
+    "checklist": [
+      "Define 2-3 specific concentration metrics",
+      "Calculate metrics for target and comparison segments",
+      "Analyze distribution and thresholds",
+      "Correlate with outcome variables",
+      "Report quantitative results"
+    ],
+    "common_failure_prevented": "Providing only counts of distinct features without measuring how clicks are concentrated on specific features.",
+    "keywords": [
+      "feature concentration",
+      "usage pattern",
+      "engagement depth",
+      "click share",
+      "product area"
+    ],
+    "tags": [
+      "behavioral analysis",
+      "metric definition",
+      "segmentation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-079"
+  },
+  {
+    "title": "Map analysis dimensions directly to rubric-defined paths before execution",
+    "when_to_use": "When the task evaluation uses a detailed rubric with specific scoring paths or criteria.",
+    "experience": "- **Parse the rubric or task instructions** to identify all explicitly required analysis dimensions, metrics, and comparison methods.\n- **Create a mapping table** linking each rubric criterion to the specific SQL queries, calculations, or visualizations needed.\n- **Prioritize executing analyses that match the highest-scoring rubric paths** (e.g., 'best_path_analysis').\n- **Verify that each required metric is computed and reported** in the format expected by the rubric (e.g., means, medians, distributions, correlations).\n- **Cross-check final outputs** against the rubric's anchor points or expected values before finalizing the report.",
+    "checklist": [
+      "Extract all required dimensions from rubric",
+      "Map criteria to specific queries/calculations",
+      "Prioritize high-scoring analysis paths",
+      "Compute all required metrics explicitly",
+      "Validate against rubric anchor points"
+    ],
+    "common_failure_prevented": "Missing rubric-specific analysis requirements (e.g., not calculating top feature click share distribution).",
+    "keywords": [
+      "rubric alignment",
+      "scoring criteria",
+      "analysis dimensions",
+      "required metrics",
+      "evaluation framework"
+    ],
+    "tags": [
+      "task planning",
+      "quality assurance",
+      "evaluation"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-079"
+  },
+  {
+    "title": "Quantify retention impact using multiple operational definitions",
+    "when_to_use": "When the task requires analyzing the long-term retention or lifespan of a user segment.",
+    "experience": "- **Define at least two operational definitions of retention**: e.g., usage lifespan (days between first and last event), proportion active beyond a threshold (e.g., ≥180 days), active months count, or churn probability.\n- **Calculate each retention metric for both the target segment and a comparison group**.\n- **Perform statistical tests or calculate differences** to assess significance.\n- **Analyze correlations** between feature diversity/usage depth and each retention metric.\n- **Report retention findings with specific values and comparisons** (e.g., 'Segment users have 9-day shorter average lifespan').",
+    "checklist": [
+      "Define 2+ retention metrics",
+      "Calculate for target and comparison groups",
+      "Test for significant differences",
+      "Correlate with behavioral variables",
+      "Report specific values and comparisons"
+    ],
+    "common_failure_prevented": "Providing only qualitative insights about retention without multiple quantitative measures.",
+    "keywords": [
+      "retention analysis",
+      "user lifespan",
+      "long-term engagement",
+      "churn",
+      "active duration"
+    ],
+    "tags": [
+      "retention",
+      "metric definition",
+      "comparative analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-079"
+  }
+]
