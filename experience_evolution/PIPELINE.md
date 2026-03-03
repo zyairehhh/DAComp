@@ -8,6 +8,7 @@ DAComp/
 │   ├── experience_cards/        卡片仓库（index.json + cards/*.md）
 │   └── tasks/dacomp-da.jsonl    100 个测试 case
 ├── experience_evolution/        本 pipeline 目录
+│   ├── pipeline_state.py        断点恢复 checkpoint I/O
 │   ├── retrieval.py             纯字符串检索模拟（无 LLM）
 │   ├── regression_guard.py      预写入回退保护 + surgical rollback
 │   ├── classify_failures.py     失败根因分类（4 种类型）
@@ -17,7 +18,18 @@ DAComp/
 │   ├── extract_patterns.py      LLM 提取失败 pattern
 │   ├── synthesize_cards.py      LLM 合成新 experience card
 │   ├── evolve_pipeline.py       主流程编排
-│   └── patterns/                LLM 输出缓存目录（per-case JSON）
+│   └── <run_name>/              --run 模式下的运行目录
+│       ├── iter1/               断点文件（按 iteration 隔离）
+│       │   ├── patterns/        per-case pattern 缓存（替代顶层 patterns/）
+│       │   ├── synthesis_cache.json
+│       │   ├── guard_cache.json
+│       │   ├── cards_written.json
+│       │   └── iter_complete.json
+│       ├── iter2/
+│       │   └── ...
+│       ├── cards/               本次 run 的 experience cards
+│       ├── case_state.json
+│       └── evolution_log.json
 └── methods/da-agent/            DA-Agent 推理入口
 ```
 
@@ -36,9 +48,9 @@ DAComp/
 | **Step 5** 人工审核 | `interactive_review()` | 仅 `interactive` 模式：逐卡展示并等待用户批准 / 跳过 | — |
 | **Step 6** 写入卡片 | `write_new_cards()` | 写 `.md` 文件，原子更新 `index.json`；初始 confidence=0.3，priority=3 | 否 |
 | **Step 6.5** 检索验证 | `validate_new_cards()` | 确认每张新卡能被测试集中至少一个 case 检索到，0 命中则打 WARN | 否 |
-| **Step 7** Agent 推理 | `run_agent_on_cases()` | 以 `--use_experience` 跑 DA-Agent（上限 80 步，4 并发），导出轨迹 | 否 |
+| **Step 7** Agent 推理 | `run_agent_on_cases()` | 以 `--use_experience` 跑 DA-Agent（上限 80 步，4 并发）；支持 `--agent-timeout-minutes` 超时保护（默认 40 min）；超时 case 被排除在后续评分之外，其余 case 正常计分 | 否 |
 | **Step 8** LLM 评分 | `run_llm_judge()` | 对 Agent 输出打 Rubrics + GSB 分，生成 `new_scores.csv` | 是 |
-| **Step 9** 比较 + 更新 | `compare_scores()` | 计算 per-case `weighted_total_score` delta；更新卡置信度；更新 stagnation 状态 | 否 |
+| **Step 9** 比较 + 更新 | `compare_scores()` | 只针对**已完成**的 case（超时 case 不计入，防止误触发 rollback）计算 per-case `weighted_total_score` delta；更新卡置信度；更新 stagnation 状态 | 否 |
 | **Step 10a** Surgical Rollback | `find_culprit_cards()` | 对 baseline > 60 且 delta < -15pp 的 case，模拟定位并删除罪魁新卡，保留其余 | 否 |
 | **Step 10b** 全量兜底 | `rollback_cards()` | 若平均 delta < -2pp，删除本轮所有剩余新卡，保证整体不退步 | 否 |
 | **记录日志** | `_log_iteration()` | 将本轮 added_ids / per-case delta / kept 状态写入 `evolution_log.json` | 否 |
@@ -400,16 +412,35 @@ rollback_specific_cards(culprit_ids, index, cards_dir)
 `--mode auto --max-iterations N` 时，`main()` 执行多轮循环，每轮调用 `run_pipeline()`：
 
 ```python
+base_dir = _HERE / args.run if args.run else _HERE
 prev_result = None
-for i in range(1, max_iterations + 1):
+for i in range(start, start + max_iterations):
+    # 断点恢复：已完成的 iteration 直接跳过
+    if is_iter_complete(base_dir, i):
+        rec = load_iter_complete(iter_dir(base_dir, i))
+        prev_result = (Path(rec["agent_results_dir"]), Path(rec["new_scores_csv"]))
+        continue
+
     traj_override = prev_result[0] if prev_result else None   # 上轮 agent 输出目录
     csv_override  = prev_result[1] if prev_result else None   # 上轮评分 CSV
-    prev_result = run_pipeline(args, traj_override, csv_override)
-
-    # 归档本轮 patterns，避免下轮重复提取
-    patterns_dir.rename(f"patterns_iter{i}")
-    patterns_dir.mkdir()
+    result = run_pipeline(args, traj_override, csv_override)
+    if result:
+        prev_result = result
+# patterns 存放在 iter{N}/patterns/ 目录，无需 rename
 ```
+
+**断点恢复机制：**
+
+- `iter{N}/iter_complete.json` 存在 → 该轮已完成，跳过（含 rollback 的轮次也算完成）
+- `prev_result` 从 `iter_complete.json` 中的 `agent_results_dir`/`new_scores_csv` 字段重建，确保 iter-over-iter chaining 在重启后正确衔接
+
+**Step 内断点（单 iteration 内崩溃重启）：**
+
+| 步骤 | 缓存文件 | 命中时行为 |
+|------|---------|-----------|
+| Step 3 合成 | `iter{N}/synthesis_cache.json` | 跳过 LLM 调用，加载缓存卡片列表 |
+| Step 4.5 Guard | `iter{N}/guard_cache.json` | 跳过检索模拟，加载 refined_cards |
+| Step 5 写卡 | `iter{N}/cards_written.json` | 跳过写入，使用已记录的 added_ids |
 
 **两个 CSV 的区别：**
 
@@ -419,6 +450,8 @@ for i in range(1, max_iterations + 1):
 | `extract_csv` | pattern 提取时的 rubrics row | 首轮用 baseline，后续轮用上轮输出 |
 
 **链式效果：** 第 N+1 轮从第 N 轮 agent 输出中提取 pattern，看到的是**注入上轮 cards 后的残余失败**，避免重复提取相同 pattern。
+
+**Pattern 目录隔离：** Pattern 文件存储在 `iter{N}/patterns/`（`--run` 模式），不再通过 rename 实现归档。重启后缓存文件仍在原位置，可被正确命中。
 
 ---
 
@@ -487,9 +520,11 @@ python evolve_pipeline.py \
   --baseline-csv <path>     # 固定基准 CSV
   --traj-dir    <path>      # agent 轨迹目录
   --cards-dir   <path>      # experience_cards 目录
-  --patterns-dir <path>     # patterns 缓存目录
+  --patterns-dir <path>     # patterns 缓存目录（--run 未设置时生效）
   --case-file   <path>      # 指定 case 列表（跳过自动排序）
+  --run         <name>      # 运行目录名（创建 <name>/iter{N}/ 存放 checkpoint 文件）
   --max-workers 4           # agent + judge 并发数
+  --agent-timeout-minutes 40  # run_parallel 超时（分钟），0=无限制
   --skip-agent-run          # 只写卡不跑 agent（快速验证）
   --force-extract           # 强制重提取（忽略已有缓存）
   --use-contrast            # 启用对比学习

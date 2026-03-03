@@ -40,6 +40,7 @@ import argparse
 import csv
 import json
 import os
+import signal
 import subprocess
 import sys
 import time
@@ -78,6 +79,18 @@ DEFAULT_PYTHON = sys.executable
 # ---------------------------------------------------------------------------
 sys.path.insert(0, str(_HERE))
 
+from pipeline_state import (
+    iter_dir as _iter_dir,
+    is_iter_complete,
+    load_iter_complete,
+    load_synthesis_cache,
+    save_synthesis_cache,
+    load_guard_cache,
+    save_guard_cache,
+    load_cards_written,
+    save_cards_written,
+    mark_iter_complete,
+)
 from card_utils import (
     IMPROVEMENT_THRESHOLD,
     REGRESSION_THRESHOLD,
@@ -134,11 +147,19 @@ def run_agent_on_cases(
     model: str = "deepseek-v3.2",
     max_steps: int = 80,
     max_workers: int = 4,
-) -> Path:
-    """Invoke run_parallel.py on the given cases and return the agent output dir."""
+    timeout_seconds: Optional[int] = None,
+) -> Tuple[Path, List[str]]:
+    """Invoke run_parallel.py on the given cases.
+
+    Returns:
+        (agent_results_dir, completed_case_ids)
+
+    On timeout the process group is killed and only cases with output on disk
+    are included in completed_case_ids.  On a hard (non-timeout) failure a
+    CalledProcessError is raised as before.
+    """
     indices = ",".join(str(_instance_id_to_0based_index(iid)) for iid in case_ids)
     experiment_id = f"{model}-{suffix}"
-    output_dir = _AGENT_DIR / "output"
 
     cmd = [
         python,
@@ -154,9 +175,28 @@ def run_agent_on_cases(
     if cards_dir is not None:
         cmd += ["--experience_dir", str(cards_dir.resolve())]
     print(f"\n[agent] Running: {' '.join(cmd)}", file=sys.stderr)
-    subprocess.run(cmd, cwd=str(_AGENT_DIR), check=True)
 
-    # Export results to evaluation_suite/agent_results/
+    timed_out = False
+    # start_new_session creates a new process group so os.killpg covers all workers
+    proc = subprocess.Popen(cmd, cwd=str(_AGENT_DIR), start_new_session=True)
+    try:
+        proc.wait(timeout=timeout_seconds)
+    except subprocess.TimeoutExpired:
+        print(
+            f"\n[agent] TIMEOUT after {timeout_seconds}s. Killing process group…",
+            file=sys.stderr,
+        )
+        try:
+            os.killpg(os.getpgid(proc.pid), signal.SIGKILL)
+        except ProcessLookupError:
+            proc.kill()
+        proc.wait()
+        timed_out = True
+
+    if not timed_out and proc.returncode != 0:
+        raise subprocess.CalledProcessError(proc.returncode, cmd)
+
+    # Export results (idempotent — exports whatever output exists on disk)
     get_results_cmd = [
         python,
         str(_AGENT_DIR / "get_results.py"),
@@ -164,9 +204,20 @@ def run_agent_on_cases(
         "--output_dir", str(_EVAL_DIR / "agent_results"),
     ]
     print(f"[agent] Exporting: {' '.join(get_results_cmd)}", file=sys.stderr)
-    subprocess.run(get_results_cmd, cwd=str(_AGENT_DIR), check=True)
+    subprocess.run(get_results_cmd, cwd=str(_AGENT_DIR), check=True, timeout=120)
 
-    return _EVAL_DIR / "agent_results" / experiment_id
+    # Determine which cases actually produced output
+    agent_dir = _EVAL_DIR / "agent_results" / experiment_id
+    completed = [
+        iid for iid in case_ids
+        if (agent_dir / iid).exists() and any((agent_dir / iid).iterdir())
+    ]
+    if timed_out:
+        missing = [iid for iid in case_ids if iid not in set(completed)]
+        if missing:
+            print(f"[agent] Timed-out cases (excluded from scoring): {missing}", file=sys.stderr)
+
+    return agent_dir, completed
 
 
 def run_llm_judge(
@@ -364,11 +415,13 @@ def run_pipeline(
         run_dir = _HERE / args.run
         run_dir.mkdir(parents=True, exist_ok=True)
         cards_dir = run_dir / "cards"
-        patterns_dir = run_dir / "patterns"
-        patterns_dir.mkdir(parents=True, exist_ok=True)
+        # patterns live under iter{N}/patterns/ to avoid rename/archive issues
+        idir = _iter_dir(run_dir, iteration_id)
+        patterns_dir = idir / "patterns"
         log_path = run_dir / "evolution_log.json"
         state_file = run_dir / "case_state.json"
     else:
+        idir = _iter_dir(_HERE, iteration_id)
         log_path = _HERE / "evolution_log.json"
         state_file = _HERE / "case_state.json"
 
@@ -457,39 +510,55 @@ def run_pipeline(
         return None
     print(f"  Loaded {len(all_patterns)} total candidate patterns")
 
-    synthesized = synthesize_cards_with_llm(all_patterns, existing_summary, model=args.model)
-    print(f"  LLM proposed {len(synthesized)} consolidated cards")
+    _cached_synth = load_synthesis_cache(idir)
+    if _cached_synth is not None:
+        synthesized = _cached_synth
+        print(f"  [checkpoint] Loaded {len(synthesized)} cards from synthesis cache.")
+    else:
+        synthesized = synthesize_cards_with_llm(all_patterns, existing_summary, model=args.model)
+        save_synthesis_cache(idir, iteration_id, case_ids, synthesized)
+        print(f"  LLM proposed {len(synthesized)} consolidated cards")
 
     if not synthesized:
         print("  Nothing to add.")
         return None
 
-    # Assign temporary IDs for guard simulation (will be reassigned on write)
-    from card_utils import next_card_id
-    _temp_index = load_index(cards_dir)
-    for card in synthesized:
-        if not card.get("id"):
-            card["id"] = next_card_id(_temp_index)
-            _temp_index = {**_temp_index, "cards": [*_temp_index.get("cards", []),
-                                                     {"id": card["id"]}]}
-
     # ---- Step 4.5: Pre-write regression guard ----
     if args.mode != "dry-run":
         print(f"\n[Step 4.5] Running pre-write regression guard…")
-        current_cards = load_index(cards_dir).get("cards", [])
-        guard_result = run_pre_write_guard(
-            candidate_cards=synthesized,
-            current_index=current_cards,
-            tasks=instructions,
-            baseline_scores=baseline_weighted,
-        )
-        synthesized = guard_result.refined_cards
-        if guard_result.tightened_card_ids:
-            print(f"  Keywords tightened on: {guard_result.tightened_card_ids}")
-        if guard_result.blocked_card_ids:
-            print(f"  Blocked (risk too high): {guard_result.blocked_card_ids}")
-            synthesized = [c for c in synthesized
-                           if c.get("id") not in guard_result.blocked_card_ids]
+        _cached_guard = load_guard_cache(idir)
+        if _cached_guard is not None:
+            # refined_cards already has temp IDs stripped; write_new_cards will assign real IDs
+            synthesized = _cached_guard["refined_cards"]
+            print(f"  [checkpoint] Guard result loaded from cache ({len(synthesized)} cards).")
+        else:
+            # Assign temporary IDs for guard simulation (will be reassigned on write)
+            from card_utils import next_card_id
+            _temp_index = load_index(cards_dir)
+            for card in synthesized:
+                if not card.get("id"):
+                    card["id"] = next_card_id(_temp_index)
+                    _temp_index = {**_temp_index, "cards": [*_temp_index.get("cards", []),
+                                                             {"id": card["id"]}]}
+
+            current_cards = load_index(cards_dir).get("cards", [])
+            guard_result = run_pre_write_guard(
+                candidate_cards=synthesized,
+                current_index=current_cards,
+                tasks=instructions,
+                baseline_scores=baseline_weighted,
+            )
+            synthesized = guard_result.refined_cards
+            if guard_result.tightened_card_ids:
+                print(f"  Keywords tightened on: {guard_result.tightened_card_ids}")
+            if guard_result.blocked_card_ids:
+                print(f"  Blocked (risk too high): {guard_result.blocked_card_ids}")
+                synthesized = [c for c in synthesized
+                               if c.get("id") not in guard_result.blocked_card_ids]
+            # Strip temp IDs before caching so write_new_cards can assign real IDs on resume
+            for card in synthesized:
+                card.pop("id", None)
+            save_guard_cache(idir, iteration_id, guard_result)
 
     # ---- Step 4 (interactive): Review proposals ----
     if args.mode == "interactive":
@@ -506,24 +575,27 @@ def run_pipeline(
         return None
 
     # ---- Step 5: Write cards ----
-    # Strip temp IDs so write_new_cards assigns real IDs
-    for card in synthesized:
-        card.pop("id", None)
-
-    print(f"\n[Step 5] Writing {len(synthesized)} cards to {cards_dir}…")
-    added_ids, updated_index = write_new_cards(synthesized, cards_dir, dry_run=False)
-    if not added_ids:
-        print("  No valid cards written.")
-        return None
+    print(f"\n[Step 5] Writing cards to {cards_dir}…")
+    _cached_written = load_cards_written(idir)
+    if _cached_written is not None:
+        added_ids = _cached_written
+        updated_index = load_index(cards_dir)
+        print(f"  [checkpoint] Cards already written: {added_ids}")
+    else:
+        # Guard cache already stripped temp IDs; write_new_cards assigns real IDs
+        added_ids, updated_index = write_new_cards(synthesized, cards_dir, dry_run=False)
+        if not added_ids:
+            print("  No valid cards written.")
+            return None
+        # Stamp added_in_iteration on each new card for version traceability
+        idx_stamped = load_index(cards_dir)
+        stamped_cards = [
+            {**c, "added_in_iteration": iteration_id} if c["id"] in set(added_ids) else c
+            for c in idx_stamped.get("cards", [])
+        ]
+        save_index({**idx_stamped, "cards": stamped_cards}, cards_dir)
+        save_cards_written(idir, iteration_id, added_ids)
     print(f"  Added: {added_ids}")
-
-    # Stamp added_in_iteration on each new card for version traceability
-    idx_stamped = load_index(cards_dir)
-    stamped_cards = [
-        {**c, "added_in_iteration": iteration_id} if c["id"] in set(added_ids) else c
-        for c in idx_stamped.get("cards", [])
-    ]
-    save_index({**idx_stamped, "cards": stamped_cards}, cards_dir)
 
     # ---- Step 5.5: Validate retrieval coverage ----
     print(f"\n[Step 5.5] Validating retrieval coverage for new cards…")
@@ -541,18 +613,29 @@ def run_pipeline(
     # ---- Step 6: Run agent on test sample ----
     run_tag = f"_{args.run}" if args.run else ""
     suffix = f"evolve{run_tag}_iter{iteration_id}"
+    timeout_secs = args.agent_timeout_minutes * 60 if args.agent_timeout_minutes else None
     print(f"\n[Step 6] Running DA-agent on {len(test_case_ids)} test cases (suffix={suffix})…")
     try:
-        agent_results_dir = run_agent_on_cases(
+        agent_results_dir, completed_case_ids = run_agent_on_cases(
             test_case_ids,
             suffix=suffix,
             cards_dir=cards_dir,
             python=args.python,
             max_workers=args.max_workers,
+            timeout_seconds=timeout_secs,
         )
     except subprocess.CalledProcessError as exc:
         print(f"  ERROR: agent run failed: {exc}", file=sys.stderr)
         print("  Rolling back cards…")
+        rolled = rollback_cards(added_ids, updated_index, cards_dir)
+        save_index(rolled, cards_dir)
+        return None
+
+    timed_out_ids = [iid for iid in test_case_ids if iid not in set(completed_case_ids)]
+    if timed_out_ids:
+        print(f"  [agent] {len(timed_out_ids)} cases timed out, excluded from scoring: {timed_out_ids}")
+    if not completed_case_ids:
+        print("  ERROR: no cases completed (all timed out). Rolling back cards…")
         rolled = rollback_cards(added_ids, updated_index, cards_dir)
         save_index(rolled, cards_dir)
         return None
@@ -571,7 +654,8 @@ def run_pipeline(
 
     # ---- Step 8: Compare scores + update confidence ----
     print(f"\n[Step 8] Comparing scores…")
-    avg_delta, deltas = compare_scores(baseline_csv, new_scores_csv, test_case_ids)
+    # Use only completed cases — timed-out cases are excluded to avoid unfair rollback
+    avg_delta, deltas = compare_scores(baseline_csv, new_scores_csv, completed_case_ids)
     avg_delta_frac = avg_delta / 100.0
     print(f"  Avg weighted delta vs baseline: {avg_delta:+.2f}pp ({avg_delta_frac:+.4f})")
     for iid, d in sorted(deltas.items()):
@@ -582,7 +666,7 @@ def run_pipeline(
     prev_iter_avg_delta: Optional[float] = None
     prev_iter_avg_delta_frac: Optional[float] = None
     if override_extract_csv is not None and override_extract_csv != baseline_csv:
-        prev_avg, _ = compare_scores(override_extract_csv, new_scores_csv, test_case_ids)
+        prev_avg, _ = compare_scores(override_extract_csv, new_scores_csv, completed_case_ids)
         prev_iter_avg_delta = prev_avg
         prev_iter_avg_delta_frac = prev_avg / 100.0
         print(
@@ -597,10 +681,10 @@ def run_pipeline(
         index_after = update_confidence(card_id, avg_delta_frac, index_after)
     save_index(index_after, cards_dir)
 
-    # Update case state
+    # Update case state (only completed cases; timed-out cases not penalised)
     updated_state = case_state
-    new_scores_by_case = load_scores_for_cases(new_scores_csv, test_case_ids)
-    for iid in test_case_ids:
+    new_scores_by_case = load_scores_for_cases(new_scores_csv, completed_case_ids)
+    for iid in completed_case_ids:
         updated_state = update_case_state(
             updated_state, iid,
             new_scores_by_case.get(iid, 0.0),
@@ -691,6 +775,16 @@ def run_pipeline(
         )
         print(f"  Snapshot saved: {snapshot_path.relative_to(_REPO_ROOT)}")
 
+    # Write iteration-complete sentinel (enables cross-iteration resume)
+    mark_iter_complete(
+        idir, iteration_id,
+        kept=kept,
+        added_ids=added_ids if kept else [],
+        avg_delta=avg_delta,
+        agent_results_dir=agent_results_dir,
+        new_scores_csv=new_scores_csv,
+    )
+
     return (agent_results_dir, new_scores_csv)
 
 
@@ -747,14 +841,31 @@ def main() -> None:
                         help="Re-extract patterns even if *_patterns.json already exists")
     parser.add_argument("--use-contrast", action="store_true",
                         help="Attach similar successful cases to extraction prompt for contrast")
+    parser.add_argument(
+        "--agent-timeout-minutes", type=int, default=40,
+        help=(
+            "Timeout in minutes for the run_parallel agent subprocess (0 = no limit). "
+            "Timed-out cases are excluded from scoring; pipeline continues with partial results. "
+            "Default 40 min (covers ~5 cases/4 workers with 2× safety margin)."
+        ),
+    )
 
     args = parser.parse_args()
 
     if args.mode == "auto" and args.max_iterations > 1:
+        base_dir = _HERE / args.run if args.run else _HERE
         prev_result: Optional[Tuple[Path, Path]] = None
         start = args.iteration
         end = start + args.max_iterations
         for i in range(start, end):
+            # Skip iterations that completed in a previous run
+            if is_iter_complete(base_dir, i):
+                rec = load_iter_complete(_iter_dir(base_dir, i))
+                if rec and rec.get("agent_results_dir") and rec.get("new_scores_csv"):
+                    prev_result = (Path(rec["agent_results_dir"]), Path(rec["new_scores_csv"]))
+                print(f"\n[auto] Iteration {i} already complete — skipping.")
+                continue
+
             args.iteration = i
             print(f"\n{'#'*60}")
             print(f"# AUTO ITERATION {i}  ({i - start + 1}/{args.max_iterations})")
@@ -763,20 +874,10 @@ def main() -> None:
             traj_override = prev_result[0] if prev_result else None
             csv_override = prev_result[1] if prev_result else None
 
-            prev_result = run_pipeline(args, traj_override, csv_override)
-
-            # Archive patterns to avoid re-processing in next iteration.
-            # When --run is set, archive lives inside the run folder.
-            if args.run:
-                patterns_dir = _HERE / args.run / "patterns"
-                archive_base = _HERE / args.run
-            else:
-                patterns_dir = Path(args.patterns_dir)
-                archive_base = patterns_dir.parent
-            archive = archive_base / f"patterns_iter{i}"
-            if patterns_dir.exists():
-                patterns_dir.rename(archive)
-            patterns_dir.mkdir(parents=True, exist_ok=True)
+            result = run_pipeline(args, traj_override, csv_override)
+            if result:
+                prev_result = result
+        # Patterns now live under iter{N}/patterns/ — no rename needed
     else:
         run_pipeline(args)
 
