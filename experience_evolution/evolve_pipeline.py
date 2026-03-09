@@ -96,6 +96,8 @@ from card_utils import (
     REGRESSION_THRESHOLD,
     RELATIVE_REGRESSION_THRESHOLD,
     load_index,
+    prune_disabled_cards,
+    prune_zero_hit_cards,
     rollback_cards,
     rollback_specific_cards,
     save_index,
@@ -110,7 +112,7 @@ from extract_patterns import (
     load_task_instructions,
 )
 from synthesize_cards import load_all_patterns, synthesize_cards_with_llm, write_new_cards
-from retrieval import simulate_retrieval_map, validate_new_cards
+from retrieval import get_embeddings, simulate_retrieval_map, validate_new_cards
 from regression_guard import (
     HIGH_BASELINE_THRESHOLD,
     CASE_REGRESSION_THRESHOLD,
@@ -148,6 +150,7 @@ def run_agent_on_cases(
     max_steps: int = 80,
     max_workers: int = 4,
     timeout_seconds: Optional[int] = None,
+    compress_context: bool = False,
 ) -> Tuple[Path, List[str]]:
     """Invoke run_parallel.py on the given cases.
 
@@ -174,6 +177,8 @@ def run_agent_on_cases(
     ]
     if cards_dir is not None:
         cmd += ["--experience_dir", str(cards_dir.resolve())]
+    if compress_context:
+        cmd += ["--compress_context"]
     print(f"\n[agent] Running: {' '.join(cmd)}", file=sys.stderr)
 
     timed_out = False
@@ -309,6 +314,35 @@ def compare_scores(
     return avg, deltas
 
 
+def _write_averaged_csv(run_csvs: List[Path], case_ids: List[str], out_path: Path) -> Path:
+    """Average weighted_total_score across multiple run CSVs; write to out_path.
+
+    Cases missing from a run CSV are treated as score=0 for that run's count,
+    but only counted if they appear in at least one run (avoids penalising
+    cases that simply weren't scheduled in a given run).
+    """
+    import collections
+    score_sums: Dict[str, float] = collections.defaultdict(float)
+    score_counts: Dict[str, int] = collections.defaultdict(int)
+    for csv_path in run_csvs:
+        scores = load_scores_for_cases(csv_path, case_ids)
+        for iid, score in scores.items():
+            score_sums[iid] += score
+            score_counts[iid] += 1
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    with out_path.open("w", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=["instance_id", _SCORE_COLUMN])
+        writer.writeheader()
+        for iid in case_ids:
+            cnt = score_counts[iid]
+            if cnt > 0:
+                writer.writerow({
+                    "instance_id": iid,
+                    _SCORE_COLUMN: round(score_sums[iid] / cnt, 4),
+                })
+    return out_path
+
+
 # ---------------------------------------------------------------------------
 # Interactive review
 # ---------------------------------------------------------------------------
@@ -391,6 +425,7 @@ def run_pipeline(
     args: argparse.Namespace,
     override_traj_dir: Optional[Path] = None,
     override_extract_csv: Optional[Path] = None,
+    best_kept_csv: Optional[Path] = None,
 ) -> Optional[Tuple[Path, Path]]:
     """Run one iteration of the evolution pipeline.
 
@@ -400,6 +435,10 @@ def run_pipeline(
                               for pattern extraction (enables multi-iteration chaining).
         override_extract_csv: If set, use this CSV for rubric scores in pattern extraction
                               (iteration N+1 sees residual failures after iteration N's cards).
+        best_kept_csv:        If set, use this CSV for relative (iter-over-iter) comparison
+                              instead of override_extract_csv.  Should be the last *kept*
+                              iteration's score CSV so rolled-back iterations don't pollute
+                              the baseline for relative regression checks.
 
     Returns:
         (agent_results_dir, new_scores_csv) on success, None on early exit/rollback.
@@ -435,6 +474,38 @@ def run_pipeline(
     baseline_weighted = load_all_baseline_scores(baseline_csv)  # for guard + rollback
     index = load_index(cards_dir)
     existing_summary = summarize_existing_cards(index)
+
+    # ---- Step 0.5: Prune disabled cards from previous iterations ----
+    # Cards with priority=0 are no longer retrieved but still occupy the index.
+    # Remove them at the start of each iteration to keep the index clean and
+    # prevent accidental confidence recovery.
+    index_before_prune = load_index(cards_dir)
+    index_pruned, pruned_ids = prune_disabled_cards(index_before_prune, cards_dir)
+    if pruned_ids:
+        save_index(index_pruned, cards_dir)
+        index = index_pruned
+        existing_summary = summarize_existing_cards(index)
+        print(
+            f"[Step 0.5] Pruned {len(pruned_ids)} disabled cards "
+            f"(confidence-decayed): {pruned_ids}"
+        )
+    else:
+        print(f"[Step 0.5] No disabled cards to prune.")
+
+    # Prune auto-generated cards with zero retrieval hits across the full task corpus.
+    # These cards are never seen by any agent and are pure dead weight.
+    index_before_zero = load_index(cards_dir)
+    index_zero, zero_pruned_ids = prune_zero_hit_cards(index_before_zero, cards_dir, instructions)
+    if zero_pruned_ids:
+        save_index(index_zero, cards_dir)
+        index = index_zero
+        existing_summary = summarize_existing_cards(index)
+        print(
+            f"[Step 0.5] Pruned {len(zero_pruned_ids)} zero-hit cards "
+            f"(never retrieved by any task): {zero_pruned_ids}"
+        )
+    else:
+        print(f"[Step 0.5] No zero-hit cards to prune.")
 
     # ---- Load case state (stagnation tracking) ----
     case_state = load_case_state(state_file)
@@ -547,6 +618,7 @@ def run_pipeline(
                 current_index=current_cards,
                 tasks=instructions,
                 baseline_scores=baseline_weighted,
+                all_instructions=instructions,  # enables corpus coverage cap check
             )
             synthesized = guard_result.refined_cards
             if guard_result.tightened_card_ids:
@@ -594,6 +666,27 @@ def run_pipeline(
             for c in idx_stamped.get("cards", [])
         ]
         save_index({**idx_stamped, "cards": stamped_cards}, cards_dir)
+
+        # Compute and store embeddings for hybrid retrieval at inference time.
+        # Texts = when_to_use + title (matches what experience.py embeds at query time).
+        _new_card_entries = [c for c in stamped_cards if c["id"] in set(added_ids)]
+        _embed_texts = [
+            f"{c.get('when_to_use', '')} {c.get('title', '')}".strip()
+            for c in _new_card_entries
+        ]
+        _embed_vecs = get_embeddings(_embed_texts)
+        _emb_map = {
+            c["id"]: vec
+            for c, vec in zip(_new_card_entries, _embed_vecs)
+        }
+        _all_cards_emb = [
+            {**c, "embedding": _emb_map[c["id"]]} if (c["id"] in _emb_map and _emb_map[c["id"]]) else c
+            for c in stamped_cards
+        ]
+        save_index({**idx_stamped, "cards": _all_cards_emb}, cards_dir)
+        _embedded_count = sum(1 for v in _emb_map.values() if v)
+        print(f"  Embedded {_embedded_count}/{len(_new_card_entries)} new cards for hybrid retrieval.")
+
         save_cards_written(idir, iteration_id, added_ids)
     print(f"  Added: {added_ids}")
 
@@ -610,47 +703,85 @@ def run_pipeline(
         print("Cards written. Run agent manually and compare scores.")
         return None
 
-    # ---- Step 6: Run agent on test sample ----
+    # ---- Step 6+7: Run agent N times and judge each run ----
     run_tag = f"_{args.run}" if args.run else ""
-    suffix = f"evolve{run_tag}_iter{iteration_id}"
-    timeout_secs = args.agent_timeout_minutes * 60 if args.agent_timeout_minutes else None
-    print(f"\n[Step 6] Running DA-agent on {len(test_case_ids)} test cases (suffix={suffix})…")
-    try:
-        agent_results_dir, completed_case_ids = run_agent_on_cases(
-            test_case_ids,
-            suffix=suffix,
-            cards_dir=cards_dir,
-            python=args.python,
-            max_workers=args.max_workers,
-            timeout_seconds=timeout_secs,
-        )
-    except subprocess.CalledProcessError as exc:
-        print(f"  ERROR: agent run failed: {exc}", file=sys.stderr)
-        print("  Rolling back cards…")
-        rolled = rollback_cards(added_ids, updated_index, cards_dir)
-        save_index(rolled, cards_dir)
-        return None
+    n_runs = getattr(args, "n_runs_per_case", 1)
+    timeout_secs = (
+        args.agent_timeout_minutes * len(test_case_ids) * 60
+        if args.agent_timeout_minutes else None
+    )
 
+    all_run_results: List[Tuple[Path, List[str]]] = []  # (agent_results_dir, completed_ids)
+    all_run_csvs: List[Path] = []
+
+    for run_idx in range(n_runs):
+        run_suffix = (
+            f"evolve{run_tag}_iter{iteration_id}_r{run_idx}"
+            if n_runs > 1
+            else f"evolve{run_tag}_iter{iteration_id}"
+        )
+        print(
+            f"\n[Step 6] Run {run_idx + 1}/{n_runs}: "
+            f"suffix={run_suffix}, {len(test_case_ids)} cases…"
+        )
+        try:
+            run_dir, run_completed = run_agent_on_cases(
+                test_case_ids,
+                suffix=run_suffix,
+                cards_dir=cards_dir,
+                python=args.python,
+                max_workers=args.max_workers,
+                timeout_seconds=timeout_secs,
+                compress_context=getattr(args, "compress_context", False),
+            )
+        except subprocess.CalledProcessError as exc:
+            print(f"  ERROR: agent run {run_idx} failed: {exc}", file=sys.stderr)
+            print("  Rolling back cards…")
+            rolled = rollback_cards(added_ids, updated_index, cards_dir)
+            save_index(rolled, cards_dir)
+            return None
+
+        run_timed_out = [iid for iid in test_case_ids if iid not in set(run_completed)]
+        if run_timed_out:
+            print(f"  Run {run_idx}: {len(run_timed_out)} timed out: {run_timed_out}")
+        if not run_completed:
+            print(f"  ERROR: run {run_idx} — all cases timed out. Rolling back…")
+            rolled = rollback_cards(added_ids, updated_index, cards_dir)
+            save_index(rolled, cards_dir)
+            return None
+
+        all_run_results.append((run_dir, run_completed))
+
+        # ---- Step 7: Judge this run ----
+        print(f"\n[Step 7] Judging run {run_idx + 1}/{n_runs}…")
+        try:
+            run_csv = run_llm_judge(run_dir, python=args.python, max_workers=args.max_workers)
+        except (subprocess.CalledProcessError, FileNotFoundError) as exc:
+            print(f"  ERROR: judge failed on run {run_idx}: {exc}", file=sys.stderr)
+            print("  Rolling back cards…")
+            rolled = rollback_cards(added_ids, updated_index, cards_dir)
+            save_index(rolled, cards_dir)
+            return None
+        all_run_csvs.append(run_csv)
+
+    # Merge completed_case_ids across all runs (union, for completeness tracking)
+    completed_case_ids: List[str] = sorted(
+        set(iid for _, completed in all_run_results for iid in completed)
+    )
     timed_out_ids = [iid for iid in test_case_ids if iid not in set(completed_case_ids)]
     if timed_out_ids:
-        print(f"  [agent] {len(timed_out_ids)} cases timed out, excluded from scoring: {timed_out_ids}")
-    if not completed_case_ids:
-        print("  ERROR: no cases completed (all timed out). Rolling back cards…")
-        rolled = rollback_cards(added_ids, updated_index, cards_dir)
-        save_index(rolled, cards_dir)
-        return None
+        print(f"  [agent] {len(timed_out_ids)} cases timed out across all runs: {timed_out_ids}")
 
-    # ---- Step 7: Run LLM judge ----
-    print(f"\n[Step 7] Running LLM judge…")
-    try:
-        new_scores_csv = run_llm_judge(agent_results_dir, python=args.python,
-                                        max_workers=args.max_workers)
-    except (subprocess.CalledProcessError, FileNotFoundError) as exc:
-        print(f"  ERROR: judge failed: {exc}", file=sys.stderr)
-        print("  Rolling back cards…")
-        rolled = rollback_cards(added_ids, updated_index, cards_dir)
-        save_index(rolled, cards_dir)
-        return None
+    # For checkpointing purposes, use the last run's directory
+    agent_results_dir = all_run_results[-1][0]
+
+    # Average scores across runs when N > 1
+    if n_runs > 1 and len(all_run_csvs) > 1:
+        avg_csv_path = idir / "averaged_scores.csv"
+        new_scores_csv = _write_averaged_csv(all_run_csvs, completed_case_ids, avg_csv_path)
+        print(f"  Averaged {len(all_run_csvs)} run CSVs → {avg_csv_path.name}")
+    else:
+        new_scores_csv = all_run_csvs[0]
 
     # ---- Step 8: Compare scores + update confidence ----
     print(f"\n[Step 8] Comparing scores…")
@@ -662,23 +793,55 @@ def run_pipeline(
         print(f"  {iid}: {d:+.2f}pp")
 
     # Dual-criterion: also compare vs previous iteration's scores when available.
-    # override_extract_csv is the prev iteration's CSV (None on first iteration).
+    # Use best_kept_csv if provided (last KEPT iteration), otherwise fall back to
+    # override_extract_csv (last run, even if rolled back).  This prevents a rolled-
+    # back iteration from artificially lowering the relative-regression bar.
+    comparison_csv = best_kept_csv if best_kept_csv is not None else override_extract_csv
     prev_iter_avg_delta: Optional[float] = None
     prev_iter_avg_delta_frac: Optional[float] = None
-    if override_extract_csv is not None and override_extract_csv != baseline_csv:
-        prev_avg, _ = compare_scores(override_extract_csv, new_scores_csv, completed_case_ids)
+    if comparison_csv is not None and comparison_csv != baseline_csv:
+        prev_avg, _ = compare_scores(comparison_csv, new_scores_csv, completed_case_ids)
         prev_iter_avg_delta = prev_avg
         prev_iter_avg_delta_frac = prev_avg / 100.0
+        label = "best-kept iter" if best_kept_csv is not None else "prev iter"
         print(
-            f"  Avg weighted delta vs prev iter: {prev_avg:+.2f}pp "
+            f"  Avg weighted delta vs {label}: {prev_avg:+.2f}pp "
             f"({prev_iter_avg_delta_frac:+.4f}) "
             f"[threshold: {RELATIVE_REGRESSION_THRESHOLD*100:+.0f}pp]"
         )
 
-    # Update confidence for each new card
+    # Update confidence per card using per-card contribution analysis.
+    # Instead of using the global avg_delta for all cards, we simulate which
+    # cases each card was retrieved for and compute the avg delta for those
+    # cases.  This catches cards that cause regressions even when the overall
+    # avg barely passes the threshold.
     index_after = load_index(cards_dir)
+    retrieval_map = simulate_retrieval_map(
+        [c for c in index_after.get("cards", []) if c["id"] in set(added_ids)],
+        {iid: instructions[iid] for iid in completed_case_ids if iid in instructions},
+    )
+    # Invert: card_id → [case_ids it was retrieved for]
+    card_to_cases: Dict[str, List[str]] = {cid: [] for cid in added_ids}
+    for case_id, retrieved_cards in retrieval_map.items():
+        for cid in retrieved_cards:
+            if cid in card_to_cases:
+                card_to_cases[cid].append(case_id)
+
     for card_id in added_ids:
-        index_after = update_confidence(card_id, avg_delta_frac, index_after)
+        hit_cases = card_to_cases.get(card_id, [])
+        if hit_cases:
+            card_delta_frac = (
+                sum(deltas.get(c, 0.0) for c in hit_cases) / len(hit_cases) / 100.0
+            )
+        else:
+            # Card not retrieved by any completed case → use global avg as fallback
+            card_delta_frac = avg_delta_frac
+        index_after = update_confidence(card_id, card_delta_frac, index_after)
+        if hit_cases:
+            print(
+                f"  [confidence] {card_id}: hit {len(hit_cases)} cases, "
+                f"per-card avg delta={card_delta_frac*100:+.2f}pp"
+            )
     save_index(index_after, cards_dir)
 
     # Update case state (only completed cases; timed-out cases not penalised)
@@ -842,11 +1005,29 @@ def main() -> None:
     parser.add_argument("--use-contrast", action="store_true",
                         help="Attach similar successful cases to extraction prompt for contrast")
     parser.add_argument(
-        "--agent-timeout-minutes", type=int, default=40,
+        "--agent-timeout-minutes", type=int, default=8,
         help=(
-            "Timeout in minutes for the run_parallel agent subprocess (0 = no limit). "
+            "Per-case timeout in minutes (0 = no limit). "
+            "Total timeout = per_case_minutes × n_test_cases. "
             "Timed-out cases are excluded from scoring; pipeline continues with partial results. "
-            "Default 40 min (covers ~5 cases/4 workers with 2× safety margin)."
+            "Default 8 min/case (e.g. 30 cases → 240 min total)."
+        ),
+    )
+    parser.add_argument(
+        "--n-runs-per-case", type=int, default=1,
+        help=(
+            "Number of independent agent runs per test case. "
+            "Scores are averaged across runs to reduce evaluation noise. "
+            "Default 1 (single run, original behaviour). "
+            "Recommended: 3 for reliable signal (same total compute as 3× cases)."
+        ),
+    )
+    parser.add_argument(
+        "--compress-context", action="store_true",
+        help=(
+            "Enable context compression in agent runs: old observations are "
+            "summarized and CreateFile/EditFile code blocks are stripped from "
+            "history to reduce cumulative input tokens."
         ),
     )
 
@@ -855,6 +1036,7 @@ def main() -> None:
     if args.mode == "auto" and args.max_iterations > 1:
         base_dir = _HERE / args.run if args.run else _HERE
         prev_result: Optional[Tuple[Path, Path]] = None
+        best_kept_result: Optional[Tuple[Path, Path]] = None  # last KEPT iteration's result
         start = args.iteration
         end = start + args.max_iterations
         for i in range(start, end):
@@ -863,6 +1045,8 @@ def main() -> None:
                 rec = load_iter_complete(_iter_dir(base_dir, i))
                 if rec and rec.get("agent_results_dir") and rec.get("new_scores_csv"):
                     prev_result = (Path(rec["agent_results_dir"]), Path(rec["new_scores_csv"]))
+                    if rec.get("kept"):
+                        best_kept_result = prev_result
                 print(f"\n[auto] Iteration {i} already complete — skipping.")
                 continue
 
@@ -873,10 +1057,19 @@ def main() -> None:
 
             traj_override = prev_result[0] if prev_result else None
             csv_override = prev_result[1] if prev_result else None
+            best_kept_csv = best_kept_result[1] if best_kept_result else None
 
-            result = run_pipeline(args, traj_override, csv_override)
+            result = run_pipeline(args, traj_override, csv_override, best_kept_csv=best_kept_csv)
             if result:
                 prev_result = result
+                # Update best_kept only if this iteration was kept (read from log)
+                log_path = base_dir / "evolution_log.json"
+                if log_path.exists():
+                    import json as _json
+                    log_entries = _json.loads(log_path.read_text())
+                    last = log_entries[-1] if log_entries else {}
+                    if last.get("kept") and last.get("iteration") == i:
+                        best_kept_result = result
         # Patterns now live under iter{N}/patterns/ — no rename needed
     else:
         run_pipeline(args)

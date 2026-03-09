@@ -27,6 +27,9 @@ HIGH_BASELINE_THRESHOLD = 60.0
 # Per-case weighted delta trigger: if a high-baseline case falls by more than this → culprit search
 CASE_REGRESSION_THRESHOLD = -15.0
 
+# Coverage cap: new cards that would match more than this fraction of the task corpus are too broad
+MAX_COVERAGE_FRACTION = 0.15
+
 
 # ---------------------------------------------------------------------------
 # Data structures
@@ -104,6 +107,13 @@ def _keyword_hits_any(keyword: str, instructions: List[str]) -> bool:
     return False
 
 
+def _coverage_fraction(card: Dict, all_instructions: Dict[str, str]) -> float:
+    """Return the fraction of tasks in the corpus that would retrieve this card."""
+    rmap = simulate_retrieval_map([card], all_instructions)
+    hit_count = sum(1 for hits in rmap.values() if card.get("id") in hits)
+    return hit_count / len(all_instructions) if all_instructions else 0.0
+
+
 def tighten_keywords(
     card: Dict,
     at_risk_instructions: List[str],
@@ -147,6 +157,8 @@ def run_pre_write_guard(
     baseline_scores: Dict[str, float],
     high_threshold: float = HIGH_BASELINE_THRESHOLD,
     auto_tighten: bool = True,
+    all_instructions: Optional[Dict[str, str]] = None,
+    max_coverage_fraction: float = MAX_COVERAGE_FRACTION,
 ) -> GuardResult:
     """Run pre-write regression guard on candidate cards.
 
@@ -156,14 +168,21 @@ def run_pre_write_guard(
       3. Diff to find cases that would get new cards injected.
       4. Flag at-risk cases (high baseline, new injection).
       5. For each at-risk card, try keyword tightening.
+      6. (Optional) If all_instructions provided: check corpus coverage cap.
+         Cards matching > max_coverage_fraction of all tasks are flagged as
+         over-broad.  Tightening is attempted; if still over-broad the card
+         is blocked.
 
     Args:
-        candidate_cards: Proposed new cards (not yet in index).
-        current_index:   Existing cards list from index.json.
-        tasks:           {instance_id: instruction} for all 100 cases.
-        baseline_scores: {instance_id: weighted_total_score} from baseline CSV.
-        high_threshold:  Cases with score above this are "protected".
-        auto_tighten:    If True, automatically tighten keywords on flagged cards.
+        candidate_cards:       Proposed new cards (not yet in index).
+        current_index:         Existing cards list from index.json.
+        tasks:                 {instance_id: instruction} for all 100 cases.
+        baseline_scores:       {instance_id: weighted_total_score} from baseline CSV.
+        high_threshold:        Cases with score above this are "protected".
+        auto_tighten:          If True, automatically tighten keywords on flagged cards.
+        all_instructions:      Full {instance_id: instruction} corpus for coverage check.
+                               If None, coverage check is skipped.
+        max_coverage_fraction: Fraction of corpus a card may match before tightening.
 
     Returns:
         GuardResult with refined_cards ready for writing.
@@ -209,6 +228,42 @@ def run_pre_write_guard(
         card_id = card.get("id", "")
         at_risk_cases = card_to_at_risk.get(card_id, [])
 
+        # --- Coverage cap check (Optimization 3) ---
+        if all_instructions:
+            cov = _coverage_fraction(card, all_instructions)
+            if cov > max_coverage_fraction:
+                print(
+                    f"  [Guard] OVER-BROAD: {card_id} matches {cov:.0%} of corpus "
+                    f"(limit {max_coverage_fraction:.0%}); attempting tighten…",
+                    file=sys.stderr,
+                )
+                # Reuse tighten_keywords: at-risk = every non-source task, source = source tasks
+                source_case_ids = card.get("source_cases", [])
+                source_instructions = [all_instructions[c] for c in source_case_ids if c in all_instructions]
+                non_source = [instr for iid, instr in all_instructions.items() if iid not in set(source_case_ids)]
+                tightened = tighten_keywords(card, non_source, source_instructions)
+                if tightened is card:
+                    print(f"  [Guard] BLOCKED: {card_id} still over-broad after tighten; skipping.", file=sys.stderr)
+                    blocked_ids.append(card_id)
+                    continue
+                post_cov = _coverage_fraction(tightened, all_instructions)
+                if post_cov > max_coverage_fraction:
+                    print(
+                        f"  [Guard] BLOCKED: {card_id} still matches {post_cov:.0%} after tighten; skipping.",
+                        file=sys.stderr,
+                    )
+                    blocked_ids.append(card_id)
+                    continue
+                removed_kw = set(card.get("keywords", [])) - set(tightened.get("keywords", []))
+                print(
+                    f"  [Guard] Coverage-tightened {card_id}: {cov:.0%} → {post_cov:.0%}, "
+                    f"removed {sorted(removed_kw)}",
+                    file=sys.stderr,
+                )
+                card = tightened
+                tightened_ids.append(card_id)
+
+        # --- At-risk (high-baseline regression) check ---
         if not at_risk_cases:
             refined_cards.append(card)
             continue

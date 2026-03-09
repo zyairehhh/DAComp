@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "iteration": 3,
+  "kept": true,
+  "added_ids": [
+    "exp-da-008",
+    "exp-da-009",
+    "exp-da-010",
+    "exp-da-011",
+    "exp-da-012",
+    "exp-da-013",
+    "exp-da-014"
+  ],
+  "avg_delta": 9.5262,
+  "agent_results_dir": "/Users/zhongyiliu/Desktop/data_agent/DAComp/dacomp-da/evaluation_suite/agent_results/deepseek-v3.2-evolve_exp_v5_iter3_r2",
+  "new_scores_csv": "/Users/zhongyiliu/Desktop/data_agent/DAComp/experience_evolution/exp_v5/iter3/averaged_scores.csv",
+  "timestamp": "2026-03-07T19:31:11"
+}

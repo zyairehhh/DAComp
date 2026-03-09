@@ -1,0 +1,87 @@
+[
+  {
+    "title": "Compare cohorts using normalized rates before raw counts",
+    "when_to_use": "When analyzing performance, risk, or impact across groups of different sizes.",
+    "experience": "When a task asks to identify 'relatively weak' or 'prioritized' groups based on event data (e.g., security incidents, errors, sales):\n- First, compute the total population size (denominator) for each group (e.g., employee count per department).\n- Calculate a per-capita or normalized metric (e.g., incidents per employee, rate per 100 users) before comparing raw totals.\n- If raw counts and normalized rates give different rankings, explicitly note the discrepancy and decide which metric better answers the business question.\n- Consider weighting the normalized metric by severity or business impact if such data exists.\n- Report findings using the normalized rates as the primary ranking criterion, unless justification exists for using raw counts.",
+    "checklist": [
+      "Identify the relevant population denominator for each group",
+      "Compute normalized rate (events/population)",
+      "Rank groups by the normalized rate",
+      "Check if raw count ranking differs and explain why",
+      "Use the rate-based ranking for prioritization decisions"
+    ],
+    "common_failure_prevented": "Prioritizing a large department with many incidents simply because it's large, rather than identifying departments where individual users are most at-risk.",
+    "keywords": [
+      "relatively weak",
+      "prioritized",
+      "per department",
+      "across groups",
+      "which areas"
+    ],
+    "tags": [
+      "cohort analysis",
+      "normalization",
+      "comparative analysis",
+      "rate calculation",
+      "ranking"
+    ],
+    "source_criterion": "Analysis incorrectly prioritized departments based on raw abnormal login counts rather than rates per employee.",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Synthesize multiple risk dimensions into a single priority score",
+    "when_to_use": "When the analysis requires prioritizing groups based on multiple, potentially conflicting, metrics (e.g., frequency, severity, confirmation rate).",
+    "experience": "If the task asks for a single prioritization list (e.g., 'which departments need guidance first'), but preliminary analysis reveals different rankings across metrics:\n- List all relevant risk dimensions from the data (e.g., incident count, severity score, confirmation rate, per-capita rate).\n- For each dimension, decide if a higher value indicates higher priority (e.g., higher severity = higher priority).\n- Normalize each metric (e.g., min-max scaling, ranking) to put them on a comparable scale.\n- Assign weights to each dimension based on business logic (e.g., severity may be 2x more important than frequency).\n- Compute a composite priority score for each group (e.g., weighted sum of normalized scores).\n- Rank groups by the composite score and validate that the ranking aligns with intuitive business risk.",
+    "checklist": [
+      "Identify all relevant risk/performance metrics",
+      "Normalize metrics to a common scale",
+      "Assign business-informed weights to each metric",
+      "Compute a composite score for each group",
+      "Rank by composite score and sanity-check the results"
+    ],
+    "common_failure_prevented": "Providing an ambiguous or contradictory priority list because different metrics (e.g., total incidents vs. severity) point to different top groups.",
+    "keywords": [
+      "prioritized strengthening",
+      "which need",
+      "relatively weak",
+      "identify priority",
+      "action plan"
+    ],
+    "tags": [
+      "multi-criteria decision analysis",
+      "composite scoring",
+      "risk prioritization",
+      "weighted metrics"
+    ],
+    "source_criterion": "Agent identified conflicting rankings (Sales high in confirmed rate, Finance high in weighted risk, Technical high in severity) but did not synthesize into a unified priority list.",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Verify join logic and handle nulls before aggregating metrics",
+    "when_to_use": "When combining data from multiple tables via joins to calculate group-level statistics.",
+    "experience": "Before running aggregation queries (GROUP BY, COUNT, SUM) on joined datasets:\n- Explicitly check the join keys and relationship cardinality (one-to-one, one-to-many).\n- Run a sample query to verify that joins produce the expected number of rows and that key fields are not null.\n- Decide on join type (INNER, LEFT, RIGHT) based on whether you want to include records with missing links.\n- If using LEFT JOIN, anticipate that counts may include null groups; decide how to handle them (filter out or treat as 'Unknown').\n- After aggregation, spot-check totals against base table counts to ensure no double-counting or loss of records.",
+    "checklist": [
+      "Inspect join key columns for NULLs and uniqueness",
+      "Test join with a small sample to verify logic",
+      "Choose join type based on analysis need",
+      "Compare aggregated totals to source table counts for consistency",
+      "Explicitly handle NULL group labels in results"
+    ],
+    "common_failure_prevented": "Producing incorrect per-department counts because of unmatched join keys, leading to misallocation of incidents or null department groupings.",
+    "keywords": [
+      "based on historical data",
+      "join",
+      "which departments",
+      "group by",
+      "aggregate"
+    ],
+    "tags": [
+      "data validation",
+      "SQL joins",
+      "data integrity",
+      "aggregation"
+    ],
+    "source_criterion": "Agent's SQL joins potentially excluded records or miscounted due to unverified join logic between abnormal_logins, login_records, and user_information tables.",
+    "source_case": "dacomp-035"
+  }
+]

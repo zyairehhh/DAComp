@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Define Metrics Strictly as Stated in Requirements",
+    "when_to_use": "When the task instructs you to analyze specific constructed metrics (e.g., 'consistency between X and Y', 'level of Z', 'balance of distribution').",
+    "experience": "Before performing calculations, explicitly map the requirement's language to precise, reproducible formulas.\n- **Step 1**: Extract every metric phrase from the task (e.g., 'consistency between transaction_count and avg_transactions_per_month', 'balance of transaction distribution', 'level of transaction_value_volatility').\n- **Step 2**: For each phrase, propose at least two operational definitions (e.g., consistency could be absolute difference, ratio, or error percentage) and select the one that best matches the natural language meaning and domain logic.\n- **Step 3**: Write down the exact formula in your analysis plan, including any normalization or scaling (e.g., seasonality balance should be measured via normalized entropy or HHI).\n- **Step 4**: When reporting, explicitly state the formula you used and justify its alignment with the requirement.\n- **Step 5**: Cross-check computed metric values against simple sanity checks (e.g., ratios between 0 and 1).",
+    "checklist": [
+      "List all metric phrases from the requirement.",
+      "Document precise formula for each before coding.",
+      "Justify your chosen operationalization.",
+      "Include formula in final report."
+    ],
+    "common_failure_prevented": "Creating ad-hoc metrics that do not satisfy the rubric's specific definition, leading to partial or zero credit.",
+    "keywords": [
+      "consistency",
+      "alignment",
+      "balance",
+      "level",
+      "distribution",
+      "deviation"
+    ],
+    "tags": [
+      "metric-definition",
+      "operationalization",
+      "requirements-mapping"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Always Perform Explicit Cross-Tabulation for Categorical Dimensions",
+    "when_to_use": "When the analysis requires examining relationships between categorical groups (e.g., 'focus on customer groups', 'across dimensions', 'whether new dimensions should be introduced').",
+    "experience": "For any categorical variable mentioned in the data or derived from continuous variables (via binning/thresholds), create contingency tables against the primary outcome (e.g., anomaly flag).\n- **Step 1**: Identify all categorical columns in the dataset (e.g., `profitability_segment`, `seasonal_preference`, `lifecycle_stage`).\n- **Step 2**: For continuous variables you plan to use as new dimensions, define meaningful thresholds (e.g., high/low volatility, concentrated/balanced seasonality) to create categorical labels.\n- **Step 3**: For each categorical variable or derived label, compute a cross-tabulation (counts and percentages) with the target binary flag (e.g., anomaly vs non-anomaly).\n- **Step 4**: Calculate and report key statistics from each table: group sizes, anomaly rates per group, and lift (anomaly rate in group / overall anomaly rate).\n- **Step 5**: Draw conclusions about which categorical dimensions are most predictive of the anomaly condition.",
+    "checklist": [
+      "List all existing categorical variables.",
+      "Define thresholds to bin continuous variables into categories.",
+      "Create cross-tab for each variable vs target.",
+      "Report group sizes, anomaly rates, and lift.",
+      "Interpret which dimensions matter most."
+    ],
+    "common_failure_prevented": "Overlooking the requirement to analyze categorical distributions, resulting in missing insights and failing to demonstrate whether a new dimension improves segmentation.",
+    "keywords": [
+      "groups",
+      "categories",
+      "dimensions",
+      "segmentation",
+      "introduce",
+      "cross-tab",
+      "distribution"
+    ],
+    "tags": [
+      "categorical-analysis",
+      "contingency-table",
+      "thresholding",
+      "lift-analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-076"
+  },
+  {
+    "title": "Validate Model Design Against Rubric's Comparative Structure",
+    "when_to_use": "When tasked with comparative model evaluation (e.g., 'explore whether new dimensions should be introduced', 'improve segmentation precision').",
+    "experience": "If the task implies comparing models with and without certain features or evaluating the contribution of new dimensions, structure your analysis as a controlled experiment.\n- **Step 1**: Identify the baseline model (e.g., segmentation using only existing dimensions) and the enhanced model (e.g., adding proposed new dimensions).\n- **Step 2**: For each model, compute the same evaluation metrics (e.g., accuracy, silhouette score, anomaly detection rate) on the same data split.\n- **Step 3**: Explicitly compare the metrics between baseline and enhanced, quantifying the improvement or degradation.\n- **Step 4**: For feature importance, report importance ranks for both models side-by-side to show which new features entered the top list.\n- **Step 5**: Conclude by stating whether the new dimensions provide a meaningful lift and, if so, how much.",
+    "checklist": [
+      "Define a clear baseline model.",
+      "Define an enhanced model with new dimensions.",
+      "Compute identical evaluation metrics for both.",
+      "Report side-by-side comparison.",
+      "Quantify lift or improvement."
+    ],
+    "common_failure_prevented": "Building only one model without a baseline comparison, making it impossible to assess the incremental value of new dimensions.",
+    "keywords": [
+      "improve",
+      "precision",
+      "compare",
+      "explore",
+      "new dimensions",
+      "predictive accuracy",
+      "should be introduced"
+    ],
+    "tags": [
+      "model-comparison",
+      "baseline",
+      "incremental-value",
+      "experiment-design"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-076"
+  }
+]

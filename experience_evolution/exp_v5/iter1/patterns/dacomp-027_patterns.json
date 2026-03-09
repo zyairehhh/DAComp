@@ -1,0 +1,94 @@
+[
+  {
+    "title": "Formalize hypothesis testing for comparative analyses",
+    "when_to_use": "The task requires comparing differences across categories or groups (like levels, types, or periods).",
+    "experience": "- **Define the test upfront:** Before running any analysis, write down the null hypothesis (e.g., 'mean carbon emissions do not differ across disaster levels') and the alternative.\n- **Select the correct statistical test:** For comparing means of ≥2 independent groups, plan to use ANOVA (if data meets assumptions) or its non-parametric equivalent (Kruskal-Wallis). For post-hoc comparisons, plan Tukey's HSD or Dunn's test with Bonferroni correction.\n- **Check assumptions:** Before running the main test, check for normality (e.g., Shapiro-Wilk test) and homogeneity of variances (e.g., Levene's test). Document results.\n- **Report full results:** In your output, include the test statistic (F, H), degrees of freedom, p-value, and effect size (e.g., η²). State whether the null hypothesis is rejected.\n- **Conduct robustness checks:** Compare results using means and medians to see if rankings are consistent, and note any discrepancies.\n- **Annotate findings:** When stating a conclusion (e.g., 'Level 4 has the highest carbon emissions'), explicitly link it to the test result (p-value, confidence interval).",
+    "checklist": [
+      "State the null and alternative hypotheses for each comparative question",
+      "Select and justify the use of ANOVA or Kruskal-Wallis",
+      "Report the test statistic, df, p-value, and effect size",
+      "Perform post-hoc tests if the omnibus test is significant",
+      "Check and report consistency between mean and median rankings",
+      "Annotate every comparative claim with statistical evidence"
+    ],
+    "common_failure_prevented": "Making comparative claims (e.g., 'Level 5 has the highest disease risk') without statistical significance testing, leading to rubric failure on analysis depth.",
+    "keywords": [
+      "compare",
+      "across",
+      "groups",
+      "levels",
+      "difference",
+      "significant",
+      "trend",
+      "variation"
+    ],
+    "tags": [
+      "statistical testing",
+      "hypothesis",
+      "comparative analysis",
+      "ANOVA"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Operationalize analysis outputs into actionable recommendation matrices",
+    "when_to_use": "The task asks for 'targeted recommendations', 'action plan', or 'priority actions' based on analysis.",
+    "experience": "- **Map findings to a structured framework:** Create a matrix (e.g., RACI or action table) with rows as scenarios (e.g., disaster type and level combinations) and columns as action components (e.g., action, responsible party, deadline, resources).\n- **Define explicit trigger thresholds:** For each recommended action, specify the exact metric value (e.g., 'Water Quality Index < 50') that should trigger it, derived from your analysis (e.g., 25th percentile).\n- **Include a priority rule:** Develop a simple, transparent rule for ranking or allocating limited resources (e.g., 'Prioritize areas where Disease Risk = High AND power outage > 70%'). Provide a concrete example of applying this rule.\n- **Link recommendations directly to evidence:** For each row in your matrix, cite the specific analysis result (e.g., 'ANOVA showed Level 4 carbon emissions are significantly higher, p<0.05') that justifies the action.\n- **Check for completeness:** Ensure your matrix covers all required scenario dimensions (e.g., all disaster levels and types mentioned in the task) and includes both population-focused and environment-focused actions.",
+    "checklist": [
+      "Build a scenario × action matrix (e.g., 5x6 table)",
+      "Define numeric thresholds that trigger each action",
+      "Create a clear priority rule with an allocation example",
+      "Cite analysis evidence for each recommended action",
+      "Include actions for both people and environment",
+      "Specify responsible entities and deadlines where possible"
+    ],
+    "common_failure_prevented": "Providing vague, non-operational recommendations without explicit triggers or a structured format, failing to meet rubric requirements for actionable output.",
+    "keywords": [
+      "recommendations",
+      "targeted",
+      "action plan",
+      "priority",
+      "mitigation",
+      "response"
+    ],
+    "tags": [
+      "recommendation framework",
+      "operationalization",
+      "decision matrix",
+      "RACI"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-027"
+  },
+  {
+    "title": "Pre-define and document the full analysis specification",
+    "when_to_use": "The task involves calculating metrics, shares, or averages across categories with specific definitions.",
+    "experience": "- **Explicitly write formulas before coding:** For each required metric (e.g., 'share_high_disease'), define the precise formula in text, including the numerator, denominator, and any conditional logic (e.g., '= COUNT(Disease Risk = 'High') / COUNT(*), per Disaster Level').\n- **Specify units and thresholds:** Annotate each metric with its unit (e.g., tons, percentage points) and, if applicable, the 'red' threshold (e.g., '>40% is considered critical').\n- **Plan data cleaning steps:** Decide and document how you will handle missing values, outliers (e.g., Winsorization at 5th/95th percentiles), and exclusions. Record the exclusion ratio (records removed / total).\n- **Create a summary table blueprint:** Sketch the final summary table (rows = groups, columns = metrics) with all required metrics, including those easily forgotten (e.g., mean displaced, mental health access rate).\n- **Verify sample sizes:** Report the final N (and N_k per group) after all cleaning steps, ensuring it meets any task minimums (e.g., N≥10).",
+    "checklist": [
+      "Write the exact algebraic formula for every derived metric",
+      "Annotate each metric with its unit and critical threshold",
+      "Document data cleaning (missing, outliers) and exclusion ratio",
+      "Sketch the final summary table with all required columns",
+      "Report final sample sizes (N and N_k) after processing"
+    ],
+    "common_failure_prevented": "Delivering incomplete metric calculations (missing formulas, units, or thresholds) and failing to provide a complete, reproducible summary table.",
+    "keywords": [
+      "calculate",
+      "metric",
+      "share",
+      "average",
+      "formula",
+      "threshold",
+      "summary table"
+    ],
+    "tags": [
+      "specification",
+      "metric definition",
+      "reproducibility",
+      "documentation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-027"
+  }
+]

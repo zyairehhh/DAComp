@@ -15,6 +15,7 @@ from da_agent.agent.prompts_baseline import (
     DACOMP_SYSTEM_DESIGN_IMAGE as DACOMP_SYSTEM_DESIGN_IMAGE_BASELINE,
     DACOMP_SYSTEM_DESIGN_IMAGE_EN as DACOMP_SYSTEM_DESIGN_IMAGE_EN_BASELINE,
 )
+from da_agent.agent.context_compressor import CompressionConfig, compress_history_messages
 from da_agent.agent.experience import build_experience_snippet
 from da_agent.agent.action import (
     Action,
@@ -48,8 +49,9 @@ class PromptAgent:
         use_skills: bool = False,
         use_experience: bool = False,
         experience_dir: str = "",
+        compression_config: Optional[CompressionConfig] = None,
     ):
-        
+
         self.model = model
         self.max_tokens = max_tokens
         self.top_p = top_p
@@ -72,6 +74,7 @@ class PromptAgent:
         self.use_skills = use_skills
         self.use_experience = use_experience
         self.experience_dir = experience_dir
+        self.compression_config = compression_config or CompressionConfig()
         self._last_repetition_signature = None
         
     def set_env_and_task(self, env: DAAgentEnv):
@@ -182,6 +185,8 @@ class PromptAgent:
         status = False
         while not status:
             messages = self.history_messages.copy()
+            if self.compression_config.enabled:
+                messages = compress_history_messages(messages, self.compression_config)
             messages.append({
                 "role": "user",
                 "content": [

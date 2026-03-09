@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Confirm Calculation Anchors Before Analyzing Trends",
+    "when_to_use": "When a task requires analyzing a temporal trend and calculating a cumulative change.",
+    "experience": "- Before calculating month-over-month changes, identify the correct baseline (e.g., the value at the start of the period) and endpoint.\n- Verify the definition of 'deterioration' or 'decline'—is it the sum of negative changes, the net change from first to last, or the number of consecutive down periods?\n- Reconcile the final calculated metric (e.g., 'magnitude of decline') with a simple check: manually compute the overall change from the first month to the last month to ensure internal consistency.\n- When reporting, explicitly state the method used for cumulative calculation to avoid misinterpretation.",
+    "checklist": [
+      "Define the 'decline' metric clearly from the task instructions",
+      "Compute the overall change from start to end of the period as a sanity check",
+      "Compare your method of cumulative calculation against alternative interpretations"
+    ],
+    "common_failure_prevented": "Producing an inconsistent or misinterpreted measure of trend deterioration (e.g., sum of negative changes vs. total net change).",
+    "keywords": [
+      "month-over-month trend",
+      "consecutive months of deterioration",
+      "magnitude of decline",
+      "trend analysis",
+      "cumulative change"
+    ],
+    "tags": [
+      "trend_analysis",
+      "metrics_calculation",
+      "data_consistency"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.A.2",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Map Model-Building Instructions to Predefined Methodologies",
+    "when_to_use": "When a task asks to 'build a model' or 'assess potential loss scale' with forecast data.",
+    "experience": "- Read the task instructions carefully and list all key verbs and nouns related to the model (e.g., 'assess potential loss scale,' 'forecast data,' 'risk warning model').\n- Search for any specific, named methodologies or calculation paths mentioned in the data schema or context.\n- If no explicit methodology is given, propose 2-3 common, reasonable approaches (e.g., scenario analysis, cash flow conversion, receivables balance conversion) and justify your chosen one.\n- Explicitly state your chosen methodology and how it connects the forecast inputs to the requested output (loss scale).\n- Cross-check your model's logic: does it use the forecast table data as intended, and does the output make sense as a 'loss scale' estimate?",
+    "checklist": [
+      "Identify key modeling verbs/nouns in the task",
+      "Search for named methodologies in data or context",
+      "Propose and justify a specific approach if unclear",
+      "Explicitly state the methodology used"
+    ],
+    "common_failure_prevented": "Creating an ad-hoc, poorly-justified model that fails to align with expected analytical paths.",
+    "keywords": [
+      "build a model",
+      "risk warning model",
+      "assess potential loss scale",
+      "forecast data",
+      "potential loss"
+    ],
+    "tags": [
+      "modeling",
+      "forecast_analysis",
+      "methodology_selection"
+    ],
+    "source_criterion": "Requirement 5/Criterion 5.1",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Explicitly Segment and Bin Distributions for Comparative Analysis",
+    "when_to_use": "When a task asks to 'analyze distribution characteristics' or 'explore differential patterns across dimensions.'",
+    "experience": "- For each specified dimension (e.g., `customer_lifespan_days`, `total_invoices`), define meaningful bins (e.g., quartiles, deciles, business-defined ranges).\n- Calculate and compare the proportion of problem customers vs. normal customers within each bin.\n- For categorical dimensions (e.g., `profitability_tier`), calculate and compare the percentage composition of each group.\n- Identify where problem customers are concentrated (e.g., 'top 10% of avg_invoice_amount' or 'lowest quartile of customer_lifespan').\n- Report findings with clear comparative statements (e.g., 'High-risk customers are 3x more likely to fall in the lowest profitability tier').",
+    "checklist": [
+      "Define bins for each continuous dimension",
+      "Calculate proportion of each group within bins",
+      "Compare composition across categorical dimensions",
+      "Identify concentrations (e.g., top/bottom deciles)",
+      "Report comparative metrics explicitly"
+    ],
+    "common_failure_prevented": "Providing only summary statistics (e.g., medians) without showing the actual distribution shape and concentration points.",
+    "keywords": [
+      "distribution characteristics",
+      "differential patterns",
+      "across dimensions",
+      "compared to normal",
+      "explore patterns"
+    ],
+    "tags": [
+      "distribution_analysis",
+      "segmentation",
+      "comparative_statistics"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.2/best_path_analysis/Criterion 4.2.notfound.1",
+    "source_case": "dacomp-090"
+  }
+]

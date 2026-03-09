@@ -1,4 +1,5 @@
 import json
+import os
 import re
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple
@@ -7,6 +8,12 @@ from typing import Dict, List, Optional, Tuple
 DEFAULT_EXPERIENCE_DIR = "/workspace/_aux/experience_cards"
 DEFAULT_TOP_K = 4
 MIN_RETRIEVAL_SCORE = 3.0
+
+# Hybrid scoring: weight for semantic score vs keyword score
+SEMANTIC_ALPHA = 0.7
+_EMBEDDING_MODEL = "text-embedding-v3"
+_EMBEDDING_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings"
+_EMBEDDING_DIM = 1024
 
 
 def _tokenize(text: str) -> List[str]:
@@ -107,10 +114,61 @@ def _score_card(task_text: str, task_tokens: set, task_token_string: str, card: 
     if keyword_hits >= 3 and tag_hits >= 1:
         score += 2.0
 
-    # Overlap bonus: when_to_use/title overlap with task (semantic-style, no embeddings)
     score += _overlap_score(task_tokens, card)
-
     return score
+
+
+def _get_task_embedding(task_text: str) -> List[float]:
+    """Fetch embedding for a single task instruction via DashScope API.
+
+    Returns an empty list on failure so the caller can fall back to
+    keyword-only scoring without crashing.
+    """
+    api_key = os.environ.get("BAILIAN_API_KEY", "")
+    if not api_key:
+        return []
+    try:
+        import requests
+        resp = requests.post(
+            _EMBEDDING_URL,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": _EMBEDDING_MODEL, "input": [task_text], "dimensions": _EMBEDDING_DIM},
+            timeout=30,
+        )
+        resp.raise_for_status()
+        return resp.json()["data"][0]["embedding"]
+    except Exception:
+        return []
+
+
+def _cosine_sim(a: List[float], b: List[float]) -> float:
+    if not a or not b:
+        return 0.0
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = sum(x * x for x in a) ** 0.5
+    norm_b = sum(x * x for x in b) ** 0.5
+    if norm_a == 0.0 or norm_b == 0.0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def _hybrid_score(
+    keyword_score: float,
+    task_emb: List[float],
+    card_emb: List[float],
+    alpha: float = SEMANTIC_ALPHA,
+    max_keyword_score: float = 10.0,
+) -> float:
+    """Blend keyword score with semantic cosine similarity.
+
+    Falls back to pure keyword score when either embedding is absent.
+    """
+    if not card_emb or not task_emb:
+        return keyword_score
+    sem_sim = _cosine_sim(task_emb, card_emb)
+    sem_score = max(0.0, sem_sim) * 5.0
+    kw_score_norm = min(keyword_score, max_keyword_score) / max_keyword_score * 5.0
+    return alpha * sem_score + (1.0 - alpha) * kw_score_norm
 
 
 def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[Dict]:
@@ -120,11 +178,18 @@ def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[
     task_tokens_list = _tokenize(task_text)
     task_tokens = set(task_tokens_list)
     task_token_string = f" {' '.join(task_tokens_list)} " if task_tokens_list else " "
+
+    # Fetch task embedding once; used for all cards (falls back gracefully)
+    task_emb = _get_task_embedding(task_text)
+
     scored = []
     for card in cards:
-        card_score = _score_card(task_text, task_tokens, task_token_string, card)
-        if card_score > 0:
-            scored.append((card_score, card))
+        kw_s = _score_card(task_text, task_tokens, task_token_string, card)
+        card_emb = card.get("embedding") or []
+        s = _hybrid_score(kw_s, task_emb, card_emb)
+        if s > 0:
+            scored.append((s, card))
+
     if not scored:
         return []
     scored.sort(key=lambda x: (x[0], float(x[1].get("priority", 0))), reverse=True)

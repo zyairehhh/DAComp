@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Validate data granularity before designing analysis",
+    "when_to_use": "When a task asks for cohort-level insights (e.g., by time window and theme) that require event-level data.",
+    "experience": "- **Audit event-level availability**: Before planning cohort splits, query for distinct events, timestamps, and content fields (e.g., `campaign_subject_line`, `occurred_at`). Check row counts per event type and ensure they support the required segmentation.\n- **Confirm join paths**: Map how aggregated metrics (e.g., open_rate) link to granular attributes. Identify primary keys and foreign keys between tables. If direct links are missing, assess if proxy aggregations are possible.\n- **Assess segmentation feasibility**: Calculate distinct values for segmentation dimensions (e.g., unique subject lines, sending hours). If counts are insufficient (e.g., only 4 events), flag the limitation early and adjust the analysis plan.\n- **Document data constraints**: Explicitly state in your analysis plan which required dimensions cannot be constructed from the available data and propose alternative approaches (e.g., person-level aggregates instead of event-level cohorts).",
+    "checklist": [
+      "Check row counts per event type",
+      "Verify join keys exist between granular and aggregated tables",
+      "Calculate distinct values for each segmentation dimension",
+      "Document data constraints before proceeding with detailed analysis"
+    ],
+    "common_failure_prevented": "Prevents designing an analysis that requires event-level segmentation when only aggregated data is available, leading to incomplete or misaligned results.",
+    "keywords": [
+      "cohort",
+      "segmentation",
+      "event-level",
+      "time window",
+      "theme",
+      "granular"
+    ],
+    "tags": [
+      "data-validation",
+      "schema-exploration",
+      "analysis-planning"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2, Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Map analysis requirements to specific SQL calculations early",
+    "when_to_use": "When the rubric specifies exact metrics (e.g., open_rate per time window × theme, retention averages, speed metrics) that must be computed.",
+    "experience": "- **Decompose rubric metrics into SQL logic**: For each required output metric (e.g., `active_retention_rate_week`), write the exact SQL expression using available columns before any exploration.\n- **Create a metric mapping table**: List each required metric, its definition, source table, aggregation level, and any filters (e.g., `AVG(active_retention_rate_week) WHERE ...`).\n- **Verify metric feasibility**: Test a sample calculation for one cohort to ensure the SQL works and returns plausible values. If a metric cannot be constructed (e.g., `days_span from email_open to order` is missing), note this immediately.\n- **Prioritize missing metrics**: If a required metric cannot be built, explicitly state the gap and propose a proxy or alternative before proceeding with other analyses.",
+    "checklist": [
+      "Write SQL expressions for each rubric metric before exploration",
+      "Create a table mapping metrics to source columns and aggregations",
+      "Test a sample calculation for one cohort",
+      "Flag any unfeasible metrics and propose alternatives"
+    ],
+    "common_failure_prevented": "Prevents missing core required calculations (e.g., speed metrics, cohort-specific rates) because the agent focused on exploratory correlations instead of rubric-aligned metrics.",
+    "keywords": [
+      "metric",
+      "calculation",
+      "SQL",
+      "rubric",
+      "required output",
+      "aggregation"
+    ],
+    "tags": [
+      "rubric-adherence",
+      "metric-definition",
+      "sql-planning"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1, Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-094"
+  },
+  {
+    "title": "Design cohort analysis with explicit segmentation and anchor checks",
+    "when_to_use": "When the task asks for comparisons across multiple dimensions (e.g., time window × theme) or segmentations (e.g., high vs low engagement).",
+    "experience": "- **Define segmentation logic clearly**: Write exact SQL `CASE WHEN` statements or `GROUP BY` clauses for each cohort dimension (e.g., weekday vs weekend, discount vs new product).\n- **Generate cohort sample sizes**: After defining cohorts, count distinct persons/events per cohort to ensure sufficient sample size for analysis. Report these counts.\n- **Compute anchor values**: For key baseline metrics (e.g., overall open rate, overall retention), calculate them separately and verify they match expected ranges or known benchmarks.\n- **Compare cohorts against anchors**: For each cohort, compute the metric and compare it to the overall anchor, calculating absolute and relative differences. Include these differences in the final output.",
+    "checklist": [
+      "Write explicit SQL for cohort segmentation",
+      "Report sample sizes per cohort",
+      "Calculate overall anchor metrics for key outputs",
+      "Compute and report cohort differences from anchors"
+    ],
+    "common_failure_prevented": "Prevents reporting only overall averages or quartile summaries without the required cohort-level breakdowns and comparisons.",
+    "keywords": [
+      "cohort",
+      "segmentation",
+      "anchor",
+      "comparison",
+      "sample size",
+      "dimension"
+    ],
+    "tags": [
+      "cohort-analysis",
+      "segmentation",
+      "benchmarking"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 3/Criterion 3.1, Requirement 4/Criterion 4.1",
+    "source_case": "dacomp-094"
+  }
+]

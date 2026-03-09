@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly verify and map data granularity and time dimensions",
+    "when_to_use": "When a task requires analysis across multiple tables with different time aggregation levels (e.g., month, quarter).",
+    "experience": "* **Verify time dimensions:** Immediately inspect distinct date/period columns in each relevant table. \n* **Map granularity:** If reports use different time grains (e.g., `year_month` vs `year_quarter`), determine and implement a formula to map them (e.g., month to quarter).\n* **Handle missing temporal data:** For metrics missing at a certain grain, decide on an imputation method (e.g., backfill with global median) and document the rationale.\n* **Check coverage:** Confirm the time range is consistent across tables for the analysis period.\n* **Join correctly:** When joining tables, ensure the join includes the correct time-mapped keys.",
+    "checklist": [
+      "List all distinct time periods per table",
+      "Define mapping rule if grains differ",
+      "Impute missing values for mapped periods",
+      "Verify join keys include time dimension"
+    ],
+    "common_failure_prevented": "Prevents missing required data (e.g., `avg_position`) and incorrect aggregation due to mismatched time periods.",
+    "keywords": [
+      "multiple tables",
+      "time series",
+      "join",
+      "quarter",
+      "month",
+      "granularity"
+    ],
+    "tags": [
+      "data validation",
+      "time aggregation",
+      "data mapping"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Anchor high-level analysis to specific, verifiable data points",
+    "when_to_use": "When the task requires identifying problematic items (campaigns, segments, geos) or reporting performance differences.",
+    "experience": "* **Define clear selection criteria:** Operationalize fuzzy terms like 'high cost, low conversion' into exact thresholds (e.g., cost > X, ROAS < Y) for the specific period. \n* **Present anchor data:** When listing items (campaigns, geos) or summarizing a dimension's performance, include the exact metric values that drove the conclusion (e.g., ROAS=0.5, cost share=30%).\n* **Compare against baseline:** When contrasting groups (problematic vs. non-problematic), calculate and present the aggregated metrics for both groups.\n* **Use explicit filtering:** In scripts or queries, filter data to the specific scope (e.g., latest month, only high-risk campaigns) before performing dimensional analysis.",
+    "checklist": [
+      "Translate qualitative criteria to quantitative filters",
+      "Output raw metric values for key items",
+      "Calculate and show comparison group metrics",
+      "Filter data to the correct scope before analysis"
+    ],
+    "common_failure_prevented": "Prevents analysis that lacks specific evidence, making conclusions unverifiable and leading to rubric failures on accuracy.",
+    "keywords": [
+      "identify",
+      "compare",
+      "risk",
+      "high-cost",
+      "differences",
+      "performance"
+    ],
+    "tags": [
+      "analysis rigor",
+      "evidence-based",
+      "reporting"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/A.2 and Requirement 3/Criterion 3.4",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Calculate derived metrics at the required level of granularity",
+    "when_to_use": "When the task requires trend analysis (YoY, seasonal) or risk identification for specific entities.",
+    "experience": "* **Determine the unit of analysis:** Clarify whether metrics (e.g., YoY growth, seasonal index) should be calculated for the overall dataset, for each segment, or for each individual entity (e.g., per campaign).\n* **Implement entity-level loops:** If per-entity analysis is needed, structure code to loop through each entity (campaign ID) to compute its own time-series metrics.\n* **Handle missing periods:** Design logic to deal with entities missing data for certain periods (e.g., a campaign not active in the prior year) when calculating YoY changes.\n* **Output entity-level results:** Ensure the final report or data structure includes the derived metric (e.g., YoY cost change, seasonal CV) for each entity.",
+    "checklist": [
+      "Define the unit for the derived metric",
+      "Loop over entities if needed",
+      "Plan for missing comparative data",
+      "Store and output results per entity"
+    ],
+    "common_failure_prevented": "Prevents incorrectly aggregated results (e.g., overall trend instead of per-campaign trend) that fail to meet task requirements.",
+    "keywords": [
+      "trend",
+      "year-over-year",
+      "seasonal",
+      "per campaign",
+      "growth rate",
+      "fluctuation"
+    ],
+    "tags": [
+      "time series analysis",
+      "aggregation level",
+      "data transformation"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1 and Requirement 4/Criterion 4.2",
+    "source_case": "dacomp-058"
+  }
+]

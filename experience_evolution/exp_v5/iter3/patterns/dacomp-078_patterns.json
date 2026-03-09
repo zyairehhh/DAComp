@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Define target variable before building model",
+    "when_to_use": "When the task asks for a predictive or classification model but does not explicitly specify the target variable.",
+    "experience": "- **Clarify the target with stakeholders or business context:** If a label like 'high-value customer' is ambiguous, search for business documentation or define it based on expert knowledge.\n- **Operationalize the target with measurable data:** Explicitly write the SQL or formula to calculate the target variable from available data (e.g., top 20% of total engagement, future revenue > threshold).\n- **Validate target definition aligns with the goal:** Ensure the defined target directly addresses the business question (e.g., identifying high-value customers for retention).\n- **Document the target definition rationale:** Keep a record of why this definition was chosen to ensure reproducibility and alignment with stakeholders.\n- **Test target variable distribution:** Check the class balance or distribution of the target to ensure it is suitable for modeling.",
+    "checklist": [
+      "Identify the business concept that needs to be predicted",
+      "Define a measurable formula for the target variable",
+      "Verify target variable is present or can be derived from the data",
+      "Check target distribution for potential modeling issues"
+    ],
+    "common_failure_prevented": "Building a model without a clear, measurable target variable, leading to irrelevant features and invalid accuracy metrics.",
+    "keywords": [
+      "predict",
+      "identify",
+      "classify",
+      "target",
+      "label",
+      "high-value"
+    ],
+    "tags": [
+      "modeling",
+      "target definition",
+      "business understanding"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Systematically explore data relationships before feature engineering",
+    "when_to_use": "When tasked with improving a model's accuracy by adding new dimensions or features.",
+    "experience": "- **Conduct exploratory data analysis (EDA) on potential predictors:** Calculate correlations, distributions, and missingness for all candidate variables.\n- **Generate hypotheses about feature importance:** Use domain knowledge or initial tests to hypothesize which new dimensions (e.g., feature usage, NPS trends) might predict the target.\n- **Validate hypotheses with simple models:** Test each new dimension individually with a baseline model (e.g., logistic regression) to see if it improves predictive power.\n- **Check for multicollinearity and redundancy:** Ensure new features are not highly correlated with existing ones, adding unique explanatory value.\n- **Create a feature roadmap:** Prioritize which new dimensions to engineer and test based on EDA and hypothesis testing.",
+    "checklist": [
+      "Perform EDA on all available data tables",
+      "Formulate hypotheses for new predictive dimensions",
+      "Test individual feature significance",
+      "Assess feature redundancy and multicollinearity"
+    ],
+    "common_failure_prevented": "Randomly adding new dimensions without understanding their relationship to the target, resulting in a bloated and ineffective model.",
+    "keywords": [
+      "multi-dimensional",
+      "improve accuracy",
+      "new features",
+      "feature engineering",
+      "predictive factors"
+    ],
+    "tags": [
+      "feature engineering",
+      "exploratory data analysis",
+      "model improvement"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Design a temporal validation strategy for time-series predictions",
+    "when_to_use": "When the task requires predicting future trends or values over a specific time horizon.",
+    "experience": "- **Determine the prediction horizon and necessary history:** Clearly define the future window (e.g., next 3-6 months) and the historical period needed to create features.\n- **Split data temporally, not randomly:** Partition data into training (past) and validation (future) sets respecting time order to avoid data leakage.\n- **Create time-based features:** Engineer features like rolling averages, seasonality indicators, and growth trends from the historical period.\n- **Validate model on out-of-time samples:** Test the model's performance on the held-out future period to simulate real-world prediction.\n- **Assess trend prediction separately:** For trend prediction, define the target as a change metric (e.g., slope) and ensure the model is trained to predict that change.",
+    "checklist": [
+      "Define the prediction horizon and cutoff date",
+      "Split data temporally to prevent leakage",
+      "Engineer time-based features from history",
+      "Validate model on out-of-time data"
+    ],
+    "common_failure_prevented": "Using random train-test splits for time-series data, leading to over-optimistic performance and poor future prediction.",
+    "keywords": [
+      "predict trend",
+      "next 3 months",
+      "future value",
+      "time-series",
+      "forecast"
+    ],
+    "tags": [
+      "time-series",
+      "validation",
+      "forecasting"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-078"
+  }
+]

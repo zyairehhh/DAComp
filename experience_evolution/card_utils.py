@@ -154,6 +154,68 @@ def add_card_to_index(
     return {**index, "cards": [*index.get("cards", []), new_entry]}
 
 
+def prune_zero_hit_cards(
+    index: Dict,
+    cards_dir: Path,
+    all_instructions: Dict[str, str],
+) -> Tuple[Dict, List[str]]:
+    """Remove auto-generated cards that match zero tasks in the corpus.
+
+    A card with zero retrieval hits is never seen by any agent, making it pure
+    dead weight.  Only auto-generated cards (confidence < CONFIDENCE_HANDCRAFTED)
+    are pruned; handcrafted cards are never removed automatically.
+
+    Returns:
+        (updated_index, pruned_ids)
+    """
+    from retrieval import simulate_retrieval_map  # local import to avoid circular dep
+
+    generated = [
+        c for c in index.get("cards", [])
+        if float(c.get("confidence", CONFIDENCE_HANDCRAFTED)) < CONFIDENCE_HANDCRAFTED
+    ]
+    if not generated:
+        return index, []
+
+    rmap = simulate_retrieval_map(generated, all_instructions)
+    hit_cards: set = {cid for hits in rmap.values() for cid in hits}
+    zero_hit_ids = [c["id"] for c in generated if c["id"] not in hit_cards]
+
+    if not zero_hit_ids:
+        return index, []
+
+    updated_index, actually_removed = rollback_specific_cards(zero_hit_ids, index, cards_dir)
+    return updated_index, actually_removed
+
+
+def prune_disabled_cards(index: Dict, cards_dir: Path) -> Tuple[Dict, List[str]]:
+    """Remove cards with priority=0 (confidence-decayed) from index and disk.
+
+    These cards are no longer retrieved (priority=0) but still occupy disk
+    space and index entries.  Pruning them keeps the index clean and ensures
+    future iterations don't accidentally re-enable them.
+
+    Only auto-generated cards (confidence < CONFIDENCE_HANDCRAFTED) are pruned;
+    handcrafted cards are never removed automatically.
+
+    Returns:
+        (updated_index, pruned_ids)
+    """
+    kept = []
+    pruned: List[str] = []
+    for card in index.get("cards", []):
+        is_disabled = card.get("priority", 1) == 0
+        is_generated = float(card.get("confidence", CONFIDENCE_HANDCRAFTED)) < CONFIDENCE_HANDCRAFTED
+        if is_disabled and is_generated:
+            card_path = cards_dir / card.get("path", "")
+            if card_path.exists():
+                card_path.unlink()
+            pruned.append(card["id"])
+        else:
+            kept.append(card)
+    return {**index, "cards": kept}, pruned
+
+
 def rollback_cards(added_ids: List[str], index: Dict, cards_dir: Path) -> Dict:
     """Remove newly added cards from index and disk. Returns updated index."""
     remove_set = set(added_ids)

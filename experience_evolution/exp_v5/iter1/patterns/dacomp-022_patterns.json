@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Define and expand the analysis dimensions early",
+    "when_to_use": "When the task asks for strategies or factors affecting a target metric (e.g., earnings).",
+    "experience": "When asked to identify strategies (like increasing per‑km fare), immediately brainstorm all potential influencing dimensions beyond the most obvious ones listed in the query.\n- **Step 1:** Extract the target metric (e.g., fare per kilometer) and the explicitly mentioned dimensions (e.g., vehicle type, service rating).\n- **Step 2:** Systematically list all other relevant dimensions present in the data that could logically affect the target (e.g., time of day, day of week, geographic location, ride distance category, payment method, weather if available).\n- **Step 3:** Prioritize dimensions that allow for segmenting demand (peak/off‑peak), pricing (surge zones), or operational efficiency (short vs. long trips).\n- **Step 4:** Plan analyses that test combinations of dimensions (e.g., fare per km by vehicle type AND hour of day) to uncover interaction effects.\n- **Step 5:** Explicitly note in your analysis plan that you will examine these multi‑dimensional relationships before diving into code.",
+    "checklist": [
+      "List all data columns that could influence the target",
+      "Plan joint analyses (e.g., vehicle x time, rating x location)",
+      "Schedule time-based and location-based segmentation"
+    ],
+    "common_failure_prevented": "Missing crucial strategy insights by only analyzing the one or two dimensions directly mentioned in the user request.",
+    "keywords": [
+      "strategy",
+      "factors",
+      "improve",
+      "increase",
+      "optimize",
+      "earnings",
+      "performance"
+    ],
+    "tags": [
+      "planning",
+      "dimensionality",
+      "segmentation",
+      "exploratory data analysis"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1 and its sub-criteria",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Structure analysis around user goals, not just data columns",
+    "when_to_use": "When the user's request implicitly requires translating a business goal into measurable data queries.",
+    "experience": "Avoid jumping directly to SQL queries on the most obvious columns. First, map the user's goal to specific, actionable analytical questions.\n- **Step 1:** Paraphrase the user's goal in your own words (e.g., 'The driver wants to maximize annual earnings per kilometer driven.').\n- **Step 2:** Break this goal down into its direct components: **Earnings per km = (Total Earnings) / (Total Distance)**. This reveals you need to analyze both the numerator (booking value) and denominator (ride distance), and their drivers.\n- **Step 3:** For each component, list the levers a driver can control (vehicle choice, service quality) and external factors (time, location, trip characteristics).\n- **Step 4:** Design analysis to quantify the impact of each lever and factor on the components. For example, 'peak hour' analysis affects both fare (surge pricing) and distance (traffic).\n- **Step 5:** Ensure your final report answers the 'so what?' by translating findings into concrete, prioritized actions for the user.",
+    "checklist": [
+      "Decompose the user's goal into a formula or key metrics",
+      "Identify controllable levers and external factors",
+      "Design analyses to measure each lever's impact on the key metrics"
+    ],
+    "common_failure_prevented": "Producing a narrow, incomplete answer because the analysis was limited to surface-level correlations without connecting to the underlying goal mechanics.",
+    "keywords": [
+      "goal",
+      "maximize",
+      "improve",
+      "strategy",
+      "actionable",
+      "recommendation"
+    ],
+    "tags": [
+      "problem framing",
+      "business understanding",
+      "metric decomposition"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1/best_path_analysis/Criterion 3.1.notfound.1-4",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Validate data scope and completeness before analysis",
+    "when_to_use": "When beginning any analysis on a new or unfamiliar dataset.",
+    "experience": "Before computing key metrics (like fare per km), explicitly check for data quality issues that could invalidate your aggregates.\n- **Step 1:** After filtering data (e.g., 'Completed' rides), verify the filter worked correctly by checking counts and a sample of the filtered rows.\n- **Step 2:** For any derived metric (e.g., fare per km), check for division‑by‑zero errors, negative/zero distances, or implausible values (e.g., fare per km of 0.01 or 1000).\n- **Step 3:** Examine the distribution of the metric across your analysis dimensions (e.g., vehicle type) to spot outliers or skewed groups with very low sample sizes that could distort averages.\n- **Step 4:** Confirm that the dataset contains sufficient data for all planned dimensions (e.g., enough rides per time‑of‑day bin per vehicle type).\n- **Step 5:** Document any data limitations (e.g., missing ratings, incomplete location data) and how they might affect your conclusions.",
+    "checklist": [
+      "Verify filter logic with a sample check",
+      "Sanity-check derived metrics for extreme values",
+      "Check sample sizes per segment before aggregating"
+    ],
+    "common_failure_prevented": "Drawing conclusions from incomplete or erroneous calculations due to uncaught data quality issues or filtering mistakes.",
+    "keywords": [
+      "data quality",
+      "validate",
+      "check",
+      "distribution",
+      "sample size",
+      "outlier"
+    ],
+    "tags": [
+      "data validation",
+      "sanity check",
+      "pre-analysis"
+    ],
+    "source_criterion": "General observation from the agent's truncated analysis and potential for error in fare per km calculation without validation",
+    "source_case": "dacomp-022"
+  }
+]

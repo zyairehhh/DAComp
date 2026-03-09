@@ -1,0 +1,204 @@
+{
+  "version": "2.0",
+  "cards": [
+    {
+      "id": "exp-da-001",
+      "title": "Decompose goals into formulas and controllable levers",
+      "path": "cards/exp-da-001-decompose-goals-into-formulas-and-controllable-levers.md",
+      "when_to_use": "When the user's request implicitly requires translating a business goal into measurable data queries.",
+      "tags": [
+        "problem framing",
+        "business understanding",
+        "metric decomposition"
+      ],
+      "keywords": [
+        "goal",
+        "maximize",
+        "improve",
+        "strategy",
+        "actionable",
+        "recommendation",
+        "levers"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-027",
+        "dacomp-029"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-002",
+      "title": "Validate data scope, quality, and calculations before analysis",
+      "path": "cards/exp-da-002-validate-data-scope-quality-and-calculations-before-analysis.md",
+      "when_to_use": "When beginning any analysis on a new or unfamiliar dataset or before computing key metrics.",
+      "tags": [
+        "data validation",
+        "sanity check",
+        "pre-analysis"
+      ],
+      "keywords": [
+        "data quality",
+        "validate",
+        "check",
+        "scope",
+        "aggregate",
+        "calculate",
+        "metric"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-027",
+        "dacomp-058",
+        "dacomp-060"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-003",
+      "title": "Define and expand analysis dimensions systematically",
+      "path": "cards/exp-da-003-define-and-expand-analysis-dimensions-systematically.md",
+      "when_to_use": "When the task asks for strategies, factors, or a multidimensional analysis affecting a target metric.",
+      "tags": [
+        "planning",
+        "dimensionality",
+        "exploratory data analysis",
+        "feature extraction"
+      ],
+      "keywords": [
+        "strategy",
+        "factors",
+        "dimensions",
+        "multivariate",
+        "segmentation",
+        "characteristics"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-048"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-004",
+      "title": "Formalize hypothesis testing for comparative analyses",
+      "path": "cards/exp-da-004-formalize-hypothesis-testing-for-comparative-analyses.md",
+      "when_to_use": "The task requires comparing differences across categories, groups, levels, or time periods.",
+      "tags": [
+        "statistical testing",
+        "hypothesis",
+        "comparative analysis",
+        "ANOVA"
+      ],
+      "keywords": [
+        "compare",
+        "across",
+        "groups",
+        "levels",
+        "difference",
+        "significant",
+        "variation"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-027"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-005",
+      "title": "Operationalize findings into actionable, quantified recommendations",
+      "path": "cards/exp-da-005-operationalize-findings-into-actionable-quantified-recommendations.md",
+      "when_to_use": "The task asks for 'targeted recommendations', 'action plans', or 'priority actions' based on analysis.",
+      "tags": [
+        "recommendation framework",
+        "operationalization",
+        "decision matrix",
+        "SMART goals"
+      ],
+      "keywords": [
+        "recommendations",
+        "targeted",
+        "action plan",
+        "priority",
+        "mitigation",
+        "response",
+        "operational"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-027",
+        "dacomp-029",
+        "dacomp-035"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-006",
+      "title": "Standardize entity identifiers and aggregate text features before analysis",
+      "path": "cards/exp-da-006-standardize-entity-identifiers-and-aggregate-text-features-before-analysis.md",
+      "when_to_use": "Grouping entities from free-text fields or analyzing distributions of comma-separated features.",
+      "tags": [
+        "data cleaning",
+        "entity resolution",
+        "text analysis",
+        "data aggregation"
+      ],
+      "keywords": [
+        "model",
+        "brand",
+        "group by",
+        "aggregate",
+        "category",
+        "distribution",
+        "features",
+        "deduplicate"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-029",
+        "dacomp-048"
+      ],
+      "added_in_iteration": 1
+    },
+    {
+      "id": "exp-da-007",
+      "title": "Explicitly map task verbs and rubric indicators to analysis methods",
+      "path": "cards/exp-da-007-explicitly-map-task-verbs-and-rubric-indicators-to-analysis-methods.md",
+      "when_to_use": "When the task asks to 'analyze contributing factors', 'identify drivers', or uses specific indicator names from a rubric.",
+      "tags": [
+        "task interpretation",
+        "multivariate analysis",
+        "rubric compliance",
+        "statistical modeling"
+      ],
+      "keywords": [
+        "contribute",
+        "drivers",
+        "factors",
+        "indicators",
+        "ranking",
+        "scoring",
+        "metrics",
+        "regression"
+      ],
+      "priority": 4,
+      "confidence": 0.5,
+      "source_cases": [
+        "dacomp-027",
+        "dacomp-029",
+        "dacomp-035"
+      ],
+      "added_in_iteration": 1
+    }
+  ]
+}

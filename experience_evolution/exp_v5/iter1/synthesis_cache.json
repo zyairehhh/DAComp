@@ -1,0 +1,272 @@
+{
+  "schema_version": 1,
+  "iteration": 1,
+  "case_ids": [
+    "dacomp-058",
+    "dacomp-060",
+    "dacomp-048",
+    "dacomp-069",
+    "dacomp-022",
+    "dacomp-035",
+    "dacomp-070",
+    "dacomp-098",
+    "dacomp-078",
+    "dacomp-029",
+    "dacomp-076",
+    "dacomp-094",
+    "dacomp-066",
+    "dacomp-027",
+    "dacomp-090"
+  ],
+  "synthesized_cards": [
+    {
+      "title": "Define and expand analysis dimensions early",
+      "when_to_use": "When the task asks for strategies, factors, or drivers affecting a target metric.",
+      "experience": "Before writing code, systematically identify all relevant analytical dimensions beyond the most obvious ones listed in the query.\n- **Step 1:** Extract the target metric (e.g., fare per kilometer) and any explicitly mentioned dimensions.\n- **Step 2:** List all other data columns and logical dimensions (e.g., time, location, customer segment) that could influence the target.\n- **Step 3:** Plan joint analyses (e.g., vehicle type × time of day) to uncover interaction effects.\n- **Step 4:** Ensure the analysis covers both controllable levers and external factors.\n- **Step 5:** Schedule segmentation analyses (e.g., peak vs. off-peak) based on these dimensions.",
+      "checklist": [
+        "List all data columns that could influence the target metric",
+        "Plan joint analyses across multiple dimensions",
+        "Decompose the goal into a formula (numerator/denominator) to identify levers"
+      ],
+      "common_failure_prevented": "Missing crucial insights by only analyzing the one or two dimensions directly mentioned in the user request.",
+      "keywords": [
+        "factors",
+        "drivers",
+        "strategies",
+        "improve",
+        "increase",
+        "optimize",
+        "influence"
+      ],
+      "tags": [
+        "planning",
+        "dimensionality",
+        "segmentation",
+        "problem framing"
+      ],
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-048"
+      ]
+    },
+    {
+      "title": "Formalize hypothesis testing for comparative analyses",
+      "when_to_use": "When the task requires comparing differences across categories, groups, levels, or time periods.",
+      "experience": "Avoid making claims based on descriptive statistics alone; use formal statistical tests to support conclusions.\n- **Step 1:** Define the null and alternative hypotheses for each comparative question before analysis.\n- **Step 2:** Select the appropriate statistical test (e.g., ANOVA, Kruskal-Wallis, t-test) based on data assumptions and group count.\n- **Step 3:** Check test assumptions (normality, homogeneity of variance) and document results.\n- **Step 4:** Report full test results including test statistic, degrees of freedom, p-value, and effect size.\n- **Step 5:** If the omnibus test is significant, conduct post-hoc pairwise comparisons with appropriate correction.\n- **Step 6:** Annotate every comparative claim (e.g., 'Group A is higher than Group B') with the statistical evidence.",
+      "checklist": [
+        "State the null and alternative hypotheses for each comparison",
+        "Select and justify the use of a specific statistical test",
+        "Report the test statistic, p-value, and effect size",
+        "Perform and report post-hoc tests if needed",
+        "Link all comparative conclusions to test results"
+      ],
+      "common_failure_prevented": "Making comparative claims (e.g., 'this group has the highest value') without statistical significance testing.",
+      "keywords": [
+        "compare",
+        "across",
+        "groups",
+        "levels",
+        "difference",
+        "significant",
+        "variation",
+        "trend"
+      ],
+      "tags": [
+        "statistical testing",
+        "hypothesis",
+        "comparative analysis",
+        "rigor"
+      ],
+      "source_cases": [
+        "dacomp-027"
+      ]
+    },
+    {
+      "title": "Operationalize findings into actionable recommendation matrices",
+      "when_to_use": "When the task asks for 'targeted recommendations', 'action plans', or 'priority actions'.",
+      "experience": "Transform analysis results into a structured, executable plan with clear ownership and triggers.\n- **Step 1:** Create a matrix with rows as scenarios (e.g., risk categories) and columns as action components (action, responsible party, deadline, resources).\n- **Step 2:** Define explicit, numeric trigger thresholds for each action (e.g., 'activate if metric X > Y'), derived from your analysis.\n- **Step 3:** Develop a simple, transparent priority rule for resource allocation and provide a concrete application example.\n- **Step 4:** Link every recommendation directly to a specific analytical finding (e.g., cite the p-value or metric value).\n- **Step 5:** Ensure recommendations are S.M.A.R.T. (Specific, Measurable, Achievable, Relevant, Time-bound) and cover all required dimensions.",
+      "checklist": [
+        "Build a scenario × action matrix (e.g., table)",
+        "Define numeric thresholds that trigger each action",
+        "Create a clear priority rule with an allocation example",
+        "Cite analysis evidence for each recommended action",
+        "Make recommendations S.M.A.R.T."
+      ],
+      "common_failure_prevented": "Providing vague, non-operational recommendations without explicit triggers or a structured format.",
+      "keywords": [
+        "recommendations",
+        "targeted",
+        "action plan",
+        "priority",
+        "mitigation",
+        "response",
+        "guidance"
+      ],
+      "tags": [
+        "recommendation framework",
+        "operationalization",
+        "decision matrix",
+        "actionable insights"
+      ],
+      "source_cases": [
+        "dacomp-027",
+        "dacomp-035"
+      ]
+    },
+    {
+      "title": "Pre-define and document the full analysis specification",
+      "when_to_use": "When the task involves calculating metrics, shares, or averages with specific definitions.",
+      "experience": "Before any data manipulation, formally define all metrics, cleaning steps, and expected outputs to ensure reproducibility and completeness.\n- **Step 1:** Write the exact algebraic formula for every derived metric, specifying numerator, denominator, and conditional logic.\n- **Step 2:** Annotate each metric with its unit and any critical threshold (e.g., '>40% is critical').\n- **Step 3:** Document data cleaning steps (handling missing values, outliers, exclusions) and report the exclusion ratio.\n- **Step 4:** Sketch the blueprint of the final summary table (rows and columns) with all required metrics.\n- **Step 5:** Report final sample sizes (N and per-group N_k) after all cleaning steps.",
+      "checklist": [
+        "Write the exact formula for every derived metric",
+        "Annotate each metric with its unit and critical threshold",
+        "Document data cleaning steps and exclusion ratio",
+        "Sketch the final summary table with all required columns",
+        "Report final sample sizes after processing"
+      ],
+      "common_failure_prevented": "Delivering incomplete or irreproducible metric calculations and missing required outputs.",
+      "keywords": [
+        "calculate",
+        "metric",
+        "share",
+        "average",
+        "formula",
+        "threshold",
+        "summary table"
+      ],
+      "tags": [
+        "specification",
+        "metric definition",
+        "reproducibility",
+        "documentation"
+      ],
+      "source_cases": [
+        "dacomp-027"
+      ]
+    },
+    {
+      "title": "Standardize and deduplicate entity identifiers before grouping",
+      "when_to_use": "When grouping entities from free-text or categorical fields for aggregate analysis.",
+      "experience": "Raw text fields often contain spelling, formatting, or abbreviation inconsistencies that must be resolved for accurate aggregation.\n- **Step 1:** Inspect raw variations by running a frequency count on the text field before grouping.\n- **Step 2:** Create a mapping dictionary to standardize synonyms, spelling variants, and abbreviations to a single canonical name.\n- **Step 3:** Apply the mapping to create a new, standardized column for grouping.\n- **Step 4:** Validate the grouping by checking the count of unique groups and sampling records within each.\n- **Step 5:** Document the standardization logic for reproducibility.",
+      "checklist": [
+        "Identify key entity column (e.g., model name, product title)",
+        "List unique values and spot inconsistencies",
+        "Create and apply a canonical name mapping dictionary",
+        "Verify group counts are sensible after standardization"
+      ],
+      "common_failure_prevented": "Incorrect grouping and aggregate statistics due to variations in raw text labels.",
+      "keywords": [
+        "model",
+        "brand",
+        "product",
+        "group by",
+        "aggregate",
+        "category",
+        "deduplicate",
+        "standardize"
+      ],
+      "tags": [
+        "data cleaning",
+        "entity resolution",
+        "text analysis",
+        "group analysis"
+      ],
+      "source_cases": [
+        "dacomp-029",
+        "dacomp-048"
+      ]
+    },
+    {
+      "title": "Explicitly map task verbs to analysis methods",
+      "when_to_use": "When the task asks to 'analyze which factors contribute', 'identify drivers', or 'explain variation'.",
+      "experience": "Recognize that certain task verbs imply multivariate statistical analysis beyond simple group-by summaries.\n- **Step 1:** Translate verbs like 'analyze contributing factors' or 'identify drivers' into a requirement for modeling (e.g., regression, correlation).\n- **Step 2:** Do not rely solely on reporting average outcomes per category (univariate analysis).\n- **Step 3:** Select an appropriate multivariate method (e.g., linear regression, logistic regression) and justify its use.\n- **Step 4:** Report key model outputs (coefficients, p-values, confidence intervals, R-squared).\n- **Step 5:** Rank factors by their model-derived influence (e.g., using standardized coefficients) to answer the question.",
+      "checklist": [
+        "Confirm multivariate analysis is needed based on task verbs",
+        "Choose and justify an appropriate modeling method",
+        "Report model coefficients and significance metrics",
+        "Rank factors by their model-derived influence"
+      ],
+      "common_failure_prevented": "Performing only single-factor group-by analysis when the task requires understanding the combined and independent effects of multiple variables.",
+      "keywords": [
+        "contribute",
+        "drivers",
+        "factors",
+        "influence",
+        "multivariate",
+        "regression",
+        "explain"
+      ],
+      "tags": [
+        "task interpretation",
+        "multivariate analysis",
+        "statistical modeling"
+      ],
+      "source_cases": [
+        "dacomp-029"
+      ]
+    },
+    {
+      "title": "Verify data scope and completeness before analysis",
+      "when_to_use": "When beginning any analysis on a new dataset or after applying significant filters.",
+      "experience": "Proactively check for data quality issues that could invalidate your aggregates or derived metrics.\n- **Step 1:** After filtering data, verify the filter worked correctly by checking record counts and sampling filtered rows.\n- **Step 2:** For derived metrics (e.g., ratios), check for division-by-zero errors and implausible values (e.g., negative distances).\n- **Step 3:** Examine the distribution of key metrics across analysis dimensions to spot outliers or skewed groups with very low sample sizes.\n- **Step 4:** Confirm the dataset contains sufficient data for all planned segments and time periods.\n- **Step 5:** Document any data limitations (missing fields, sparse data) and state their potential impact on conclusions.",
+      "checklist": [
+        "Verify filter logic with a sample check and count validation",
+        "Sanity-check derived metrics for extreme or invalid values",
+        "Check sample sizes per segment before aggregating",
+        "Document data limitations and their implications"
+      ],
+      "common_failure_prevented": "Drawing conclusions from incomplete, filtered, or erroneous calculations due to uncaught data quality issues.",
+      "keywords": [
+        "data quality",
+        "validate",
+        "check",
+        "distribution",
+        "sample size",
+        "outlier",
+        "completeness"
+      ],
+      "tags": [
+        "data validation",
+        "sanity check",
+        "pre-analysis",
+        "robustness"
+      ],
+      "source_cases": [
+        "dacomp-022"
+      ]
+    },
+    {
+      "title": "Anchor high-level conclusions to specific, verifiable data points",
+      "when_to_use": "When providing risk explanations, priority justifications, or identifying problematic items.",
+      "experience": "Ensure every conclusion is explicitly linked to a concrete, calculated data point from the analysis.\n- **Step 1:** For identification tasks, operationalize qualitative criteria (e.g., 'high-cost, low-conversion') into exact numeric thresholds.\n- **Step 2:** When listing problematic items or summarizing performance, include the exact metric values that drove the conclusion (e.g., 'ROAS=0.5, cost share=30%').\n- **Step 3:** For comparisons, calculate and present the aggregated metrics for both the target group and a baseline group.\n- **Step 4:** Filter data to the correct analytical scope (e.g., latest month, high-risk segment) before performing dimensional analysis.\n- **Step 5:** Avoid general interpretations; ground every claim in the specific numbers your analysis produced.",
+      "checklist": [
+        "Translate qualitative criteria into quantitative filters",
+        "Output raw metric values for key items or groups",
+        "Calculate and show comparison group metrics",
+        "Filter data to the correct scope before analysis"
+      ],
+      "common_failure_prevented": "Providing unverifiable conclusions or reasonable-sounding but ungrounded explanations that lack specific evidence.",
+      "keywords": [
+        "identify",
+        "explain",
+        "justify",
+        "because",
+        "risk",
+        "compare",
+        "performance",
+        "evidence"
+      ],
+      "tags": [
+        "analysis rigor",
+        "evidence-based",
+        "reporting",
+        "conclusions"
+      ],
+      "source_cases": [
+        "dacomp-035",
+        "dacomp-058"
+      ]
+    }
+  ],
+  "timestamp": "2026-03-06T19:40:03"
+}

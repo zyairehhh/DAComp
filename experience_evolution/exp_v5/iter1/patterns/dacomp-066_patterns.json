@@ -1,0 +1,96 @@
+[
+  {
+    "title": "Decompose aggregate trends into rate and mix effects",
+    "when_to_use": "The task asks to explain a change in a department or group level metric over time.",
+    "experience": "1. Before attributing a change to specific subcategories (roles), calculate the overall change in the weighted average metric.\n2. Decompose this total change into two parts: the **rate effect** (changes in performance within each subcategory, holding the mix constant) and the **mix effect** (changes in the volume or weight of each subcategory, holding the performance constant).\n3. Use a standard decomposition method (e.g., shift-share analysis, simple weighted average formula).\n4. Quantify the contribution of each effect to the total change.\n5. If the mix effect is dominant, the primary driver is a shift in hiring toward roles with inherently different performance, not a change in role-specific performance.\n6. Report both effects to give a complete structural explanation.",
+    "checklist": [
+      "Calculate the total weighted average for each time period.",
+      "Compute the change (Δ) in the overall metric.",
+      "Calculate the rate effect: hold the initial weights constant and apply the new rates.",
+      "Calculate the mix effect: hold the initial rates constant and apply the new weights.",
+      "Sum the rate and mix effects; they should approximate the total Δ.",
+      "Present results and interpret which effect is larger."
+    ],
+    "common_failure_prevented": "Missing the underlying cause of a departmental KPI change by only looking at subcategory performance without accounting for shifts in volume or composition.",
+    "keywords": [
+      "decline",
+      "change over time",
+      "decompose",
+      "rate vs mix",
+      "contribution",
+      "shift",
+      "explain"
+    ],
+    "tags": [
+      "decomposition",
+      "trend analysis",
+      "KPI",
+      "shift-share"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Isolate manager effects by controlling for job context",
+    "when_to_use": "The task requires identifying underperforming managers or individuals.",
+    "experience": "1. **Never** compare raw average performance across managers directly. Their assigned jobs (e.g., role, seniority, location, time period) differ systematically and confound the comparison.\n2. First, define a baseline performance level for each relevant job context (e.g., role × quarter). This is the expected conversion rate given the type of job.\n3. For each manager, calculate their actual performance for the jobs they handled within each context.\n4. Compute the **residual** for each manager-job combination: actual rate minus the baseline rate for that context.\n5. Aggregate manager residuals (weighted by volume) to get an overall manager effect score, isolated from the job mix they were assigned.\n6. Rank managers based on this adjusted score to identify true under/over-performers.",
+    "checklist": [
+      "Define a baseline for each job context (e.g., role-family x time-period).",
+      "Calculate the baseline performance (e.g., department average) for each context.",
+      "For each manager, compute performance for each of their jobs within a context.",
+      "Calculate the residual (actual - baseline) for each manager-job combo.",
+      "Compute a volume-weighted average residual for each manager.",
+      "Rank managers based on their average residual."
+    ],
+    "common_failure_prevented": "Incorrectly attributing poor performance to a manager when they were simply assigned harder-to-fill roles or roles with a market-wide decline.",
+    "keywords": [
+      "hiring manager",
+      "systematically lower",
+      "performance",
+      "control for",
+      "baseline",
+      "residual",
+      "isolate",
+      "compare"
+    ],
+    "tags": [
+      "causal inference",
+      "performance management",
+      "attribution",
+      "statistical control"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-066"
+  },
+  {
+    "title": "Validate regression inputs to avoid leakage and multicollinearity",
+    "when_to_use": "The task asks to quantify the impact of multiple factors on an outcome using regression.",
+    "experience": "1. **Check for Leakage:** Ensure no predictor variable is a direct mathematical derivative of the target variable or is measured *after* the target. For example, `interviews_per_application` is often a component of the conversion rate target; including it creates severe leakage and inflates R².\n2. **Check for Multicollinearity:** Before running the regression, compute a correlation matrix or VIF (Variance Inflation Factor) for all candidate predictors. If predictors are highly correlated (e.g., `total_interviews` and `interviews_per_application`), they provide redundant information and make coefficient estimates unstable.\n3. **Use Logically Independent Predictors:** Select variables that are causal or descriptive inputs (e.g., `number_of_interviewers`, `manager_experience`, `application_volume`), not intermediate outputs.\n4. **Interpret with Caution:** If multicollinearity is high, consider dropping one of the correlated variables or using regularization. Report that the coefficients for correlated variables are unreliable.\n5. **Sanity-check Coefficients:** After running the model, check if coefficient signs and magnitudes are plausible given the business context (e.g., a +99 pp impact for a 1-unit change in a rate is unrealistic).",
+    "checklist": [
+      "List all candidate predictor variables and the target variable.",
+      "For each predictor, confirm it is not a component or derivative of the target.",
+      "Calculate correlation matrix/VIF for predictors.",
+      "Remove or combine highly correlated predictors (|r| > 0.8 or VIF > 5).",
+      "Run regression with the clean set.",
+      "Review coefficients for logical plausibility."
+    ],
+    "common_failure_prevented": "Producing a regression model with inflated, unreliable, or nonsensical coefficients due to predictor-target leakage or severe multicollinearity.",
+    "keywords": [
+      "quantify impact",
+      "regression",
+      "factors",
+      "correlation",
+      "multicollinearity",
+      "leakage",
+      "coefficient"
+    ],
+    "tags": [
+      "regression",
+      "model validation",
+      "feature engineering",
+      "causality"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.3",
+    "source_case": "dacomp-066"
+  }
+]

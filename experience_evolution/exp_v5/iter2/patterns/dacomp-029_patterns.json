@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Parse inconsistent string formats before numeric conversion",
+    "when_to_use": "When a dataset contains price, mileage, or other numeric fields stored as inconsistent text (e.g., 'ten thousand km', 'km', 'yuan', 'yuan (variant)')",
+    "experience": "- **Inspect raw string patterns**: Use SQL `SELECT DISTINCT column, COUNT(*) FROM table GROUP BY column` to see all variations.\n- **Extract numeric part systematically**: Use regex to capture digits and optional decimal points, ignoring currency units, parentheses, or trailing text.\n- **Handle unit conversions**: Identify unit keywords (e.g., 'ten thousand', 'km') and apply appropriate multipliers.\n- **Validate parsed values**: Check for outliers or missing values after conversion and trace back to unhandled patterns.",
+    "checklist": [
+      "List all distinct string patterns in the column",
+      "Design a single parsing function that covers all patterns",
+      "Test conversion on a sample of each pattern",
+      "Report count of unparseable entries"
+    ],
+    "common_failure_prevented": "Prevents missing numeric values (e.g., 312 missing NewPrice) due to unhandled string variations like '(variant)' or missing 'yuan'.",
+    "keywords": [
+      "price",
+      "mileage",
+      "convert",
+      "parse",
+      "string",
+      "yuan",
+      "km"
+    ],
+    "tags": [
+      "data-cleaning",
+      "parsing",
+      "unit-conversion",
+      "robustness"
+    ],
+    "source_criterion": "Step 24-26: Many NewPrice values missing because parser didn't handle '84,800 (with space)' or 'yuan (variant)'.",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Compute derived metrics with explicit assumptions and validation",
+    "when_to_use": "When the analysis requires calculated metrics like depreciation ratio, retention value, or age from dates",
+    "experience": "- **Define formula precisely**: Write the mathematical formula with clear units (e.g., DepreciationRatio = UsedPriceYuan / NewPrice).\n- **State assumptions explicitly**: Note assumptions (e.g., 'Price' is in ten thousand yuan, current date is 2026-03-07).\n- **Validate intermediate calculations**: Compute summary statistics (min, max, mean) for each derived metric to spot errors.\n- **Check for division by zero or invalid values**: Filter or handle missing/zero NewPrice before ratio calculation.",
+    "checklist": [
+      "Document the formula and units",
+      "List all assumptions",
+      "Compute descriptive stats for each derived column",
+      "Handle missing/zero denominators"
+    ],
+    "common_failure_prevented": "Prevents incorrect depreciation ratios due to unit mismatches (e.g., treating Price as yuan instead of ten thousand yuan) or missing NewPrice.",
+    "keywords": [
+      "ratio",
+      "depreciation",
+      "calculate",
+      "metric",
+      "derive",
+      "assumption"
+    ],
+    "tags": [
+      "metric-definition",
+      "validation",
+      "unit-consistency"
+    ],
+    "source_criterion": "Step 10: Assumed Price is in ten thousand yuan without validation; Step 24: Depreciation ratio computation failed due to missing NewPrice.",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Verify data completeness before aggregating or modeling",
+    "when_to_use": "Before grouping by brand/model or performing statistical summaries to ensure representative results",
+    "experience": "- **Assess missingness per group**: Count missing values for key columns (NewPrice, MileageKm) within each brand/category.\n- **Decide on handling strategy**: Choose to exclude, impute, or flag incomplete groups based on business context.\n- **Report coverage**: Show percentage of complete records per group to qualify recommendations.\n- **Limit analysis to well-represented groups**: Focus on brands/models with sufficient complete data to avoid biased insights.",
+    "checklist": [
+      "Calculate missing rate per analysis dimension",
+      "Set a completeness threshold (e.g., >80%) for inclusion",
+      "Document which groups are excluded due to missing data",
+      "Summarize data coverage in findings"
+    ],
+    "common_failure_prevented": "Prevents giving buyback recommendations based on brands with mostly missing price data, leading to unreliable conclusions.",
+    "keywords": [
+      "missing",
+      "complete",
+      "coverage",
+      "group",
+      "aggregate",
+      "sufficient"
+    ],
+    "tags": [
+      "data-quality",
+      "missing-data",
+      "sampling-bias"
+    ],
+    "source_criterion": "Step 24: 312 out of 675 rows missing NewPrice; analysis proceeded without addressing impact on brand-level comparisons.",
+    "source_case": "dacomp-029"
+  }
+]

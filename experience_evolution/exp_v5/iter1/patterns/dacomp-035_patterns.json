@@ -1,0 +1,86 @@
+[
+  {
+    "title": "Extract and implement exact indicator formulas before analysis",
+    "when_to_use": "When the task requires ranking or scoring based on specific, pre-defined dimensions or metrics.",
+    "experience": "- **Scrutinize the task description** for any explicit definitions of metrics, such as 'abnormal frequency', 'risk intensity', or named indicators like 'Two-Factor Authentication Not Enabled Rate'.\n- **Create a checklist** of required indicators from the rubric or task before querying data. Do not substitute your own derived metrics unless explicitly allowed.\n- **Verify data availability** for each required indicator by exploring all relevant tables; if a required data source is missing, note it as a limitation upfront.\n- **Calculate each indicator exactly** as defined, using the specified formulas, and present them in your analysis.\n- **Anchor your conclusion** (e.g., department ranking) primarily on these pre-defined indicators, not on alternative composite scores.",
+    "checklist": [
+      "List required indicators from task/rubric",
+      "Confirm data tables contain needed fields",
+      "Calculate each indicator using exact formula",
+      "Use these indicators as primary analysis inputs"
+    ],
+    "common_failure_prevented": "Creating a valid but irrelevant analysis that misses required scoring dimensions, leading to a zero score.",
+    "keywords": [
+      "indicators",
+      "dimensions",
+      "ranking",
+      "scoring",
+      "metrics",
+      "rate"
+    ],
+    "tags": [
+      "requirements",
+      "metrics",
+      "rubric compliance",
+      "data analysis"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Map analysis conclusions back to specific, prescribed data points",
+    "when_to_use": "When providing risk explanations or justifications for a recommended action (e.g., 'prioritize department X because...').",
+    "experience": "- **Extract key data points** from the rubric's reference answer or standard path that are used to justify conclusions (e.g., 'Marketing's Severe Anomalies Proportion is 39.5%').\n- **Ensure every conclusion** about risk or priority is explicitly linked to one of these specific, calculated data points.\n- **Avoid general interpretations** of your own derived metrics unless they directly correspond to the required ones.\n- **Structure your report** to state the conclusion (e.g., 'Marketing needs priority guidance') and immediately follow it with the supporting data point from the required analysis.",
+    "checklist": [
+      "Identify rubric's justification data points",
+      "Calculate those exact points",
+      "Link each recommendation to a specific point",
+      "Avoid substituting with alternative metrics"
+    ],
+    "common_failure_prevented": "Providing reasonable-sounding but ungrounded risk explanations that do not align with the rubric's expected evidence.",
+    "keywords": [
+      "explain",
+      "justify",
+      "because",
+      "risk",
+      "reason",
+      "evidence"
+    ],
+    "tags": [
+      "reporting",
+      "conclusions",
+      "rubric compliance",
+      "justification"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-035"
+  },
+  {
+    "title": "Specify measurable targets and timelines for action recommendations",
+    "when_to_use": "When the task asks for 'recommendations', 'guidance', or 'action plans' to address identified issues.",
+    "experience": "- **For each recommended action**, define a **quantitative target** (e.g., 'reduce rate to below 10%', 'increase enablement to over 90%').\n- **Assign a clear timeframe** for each action (e.g., 'within 1 month', 'by end of Q2').\n- **Make targets S.M.A.R.T.**: Specific, Measurable, Achievable, Relevant, and Time-bound.\n- **Avoid vague suggestions** like 'improve monitoring' or 'conduct training' without concrete success criteria.\n- **If targets cannot be inferred from data**, propose reasonable benchmarks based on company averages or industry standards and state this assumption.",
+    "checklist": [
+      "Turn each action into a S.M.A.R.T. goal",
+      "Specify a numeric target",
+      "Specify a deadline",
+      "State assumptions if needed"
+    ],
+    "common_failure_prevented": "Providing generic, qualitative recommendations that lack concrete implementation value.",
+    "keywords": [
+      "recommendations",
+      "action plan",
+      "guidance",
+      "measures",
+      "target",
+      "timeline"
+    ],
+    "tags": [
+      "recommendations",
+      "actionable",
+      "planning",
+      "SMART goals"
+    ],
+    "source_criterion": "Requirement 3/Criterion 3.2/best_path_analysis/Criterion 3.2.2",
+    "source_case": "dacomp-035"
+  }
+]

@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Validate data before analysis using explicit anchors",
+    "when_to_use": "When a task mentions specific metrics, timeframes, or thresholds to verify.",
+    "experience": "- **Explicitly list anchors**: Extract all numeric thresholds, date ranges, and key values from the problem statement (e.g., 'overall_performance_score dropped from 85 to 72', '$2M research_budget_usd').\n- **Query for direct verification**: Run queries to confirm these anchor values exist in the dataset (e.g., SELECT SUM(research_budget_usd), MIN(overall_performance_score), MAX(overall_performance_score)).\n- **Document verification in the report**: State in the report's methodology that you have verified the key inputs against the source data.\n- **Flag discrepancies early**: If anchor values don't match (e.g., duplicate rows, missing months), diagnose and clean before proceeding.\n- **Do not assume**: Even if data seems plausible, explicitly check each anchor point.\n- **Include source table names**: Reference the specific tables used in verification statements.",
+    "checklist": [
+      "List all anchor metrics and thresholds from task",
+      "Write SQL/Python to verify each anchor",
+      "Document matches/discrepancies in report",
+      "Clean data if verification fails"
+    ],
+    "common_failure_prevented": "Missing verification of key task constraints leads to incomplete or inaccurate analysis (e.g., not confirming the exact 12-month window or budget amount).",
+    "keywords": [
+      "verify",
+      "anchor",
+      "confirm",
+      "data validation",
+      "baseline"
+    ],
+    "tags": [
+      "data validation",
+      "requirements",
+      "anchoring"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Strictly follow defined segmentation thresholds from problem",
+    "when_to_use": "When a task defines specific cut‑offs for groups (e.g., 'over $7', 'under $3').",
+    "experience": "- **Highlight segmentation thresholds in the task**: Copy the exact thresholds from the problem statement into your analysis notes.\n- **Create segmentation variables exactly as defined**: Use the exact thresholds (e.g., `> 7`, `< 3`) in your code, not approximations or intuitive groupings.\n- **Report group membership explicitly**: List which regions/entities belong to each defined group in your findings.\n- **If thresholds are ambiguous, state your interpretation**: If multiple metrics could be the 'key revenue metric', test each and justify your choice.\n- **Do not substitute arbitrary thresholds**: Even if the data suggests natural breaks (e.g., quantiles), use the problem's stated thresholds unless explicitly allowed.\n- **Cross‑validate group sizes**: Ensure groups are not empty or too small; if they are, note this as a limitation but still use the defined thresholds.",
+    "checklist": [
+      "Copy exact thresholds from problem",
+      "Code filters using exact thresholds",
+      "List group members",
+      "Handle edge cases transparently"
+    ],
+    "common_failure_prevented": "Using self‑defined segmentation (e.g., >30, <10) instead of the problem's thresholds (>7, <3) leads to irrelevant analysis.",
+    "keywords": [
+      "segmentation",
+      "threshold",
+      "cut‑off",
+      "group",
+      "market",
+      "tier"
+    ],
+    "tags": [
+      "segmentation",
+      "requirements",
+      "clarity"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-069"
+  },
+  {
+    "title": "Always calculate weighted averages for regional aggregates",
+    "when_to_use": "When aggregating metrics across regions with different population sizes (e.g., active devices, revenue, users).",
+    "experience": "- **Identify weighting variable**: Determine which metric best represents 'size' or 'importance' (e.g., active_devices, total_revenue, paid_users).\n- **Compute weighted aggregates**: For any average (e.g., average crash rate, average ARPU), compute the weighted mean using the weighting variable (e.g., `SUM(metric * weight) / SUM(weight)`).\n- **Compare weighted vs. unweighted**: Show both unweighted (simple average across regions) and weighted results to highlight scale effects.\n- **Justify weighting choice**: In the report, explain why weighting is necessary (e.g., 'a crash in a large market affects more users').\n- **Apply weighting consistently**: Use the same weighting variable for all aggregated KPIs unless a different weight is more appropriate for a specific metric.\n- **Include weighting in methodology**: Explicitly state the weighting variable in your analysis description.",
+    "checklist": [
+      "Identify appropriate weight column",
+      "Compute weighted averages for all KPIs",
+      "Compare weighted vs unweighted",
+      "Explain weighting in report"
+    ],
+    "common_failure_prevented": "Reporting simple averages across regions without accounting for market size leads to misleading conclusions.",
+    "keywords": [
+      "weighted",
+      "aggregate",
+      "average",
+      "scale",
+      "population"
+    ],
+    "tags": [
+      "aggregation",
+      "statistics",
+      "scale"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-069"
+  }
+]

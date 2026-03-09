@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Explicitly map task verbs to analysis methods",
+    "when_to_use": "The task asks to 'analyze which factors contribute' or 'identify drivers' of an outcome.",
+    "experience": "Markdown bullets:\n- **Interpret task verbs**: Translate verbs like 'analyze contributing factors' into a multivariate statistical analysis requirement (e.g., regression, correlation analysis).\n- **Go beyond group-by means**: Recognize that reporting average outcomes per category is univariate; use modeling to isolate the independent effect of each factor.\n- **Document method selection**: State the chosen method (e.g., linear regression, logistic regression) and its justification in your notes before executing code.\n- **Report model outputs**: Always include key model outputs such as coefficient values, p-values (or confidence intervals), and model fit metrics (e.g., R-squared) to support conclusions.\n- **Rank factors by influence**: Use standardized coefficients or feature importance scores from the model to rank which factors matter most, explaining the ranking in the final answer.",
+    "checklist": [
+      "Confirm multivariate analysis is needed.",
+      "Choose appropriate model (e.g., regression).",
+      "Report coefficients and significance.",
+      "Rank factors by model importance."
+    ],
+    "common_failure_prevented": "Performing only single-factor group-by analysis when the task requires understanding the combined and independent effects of multiple variables.",
+    "keywords": [
+      "contribute",
+      "drivers",
+      "factors",
+      "influence",
+      "multivariate",
+      "regression"
+    ],
+    "tags": [
+      "task_interpretation",
+      "multivariate_analysis",
+      "statistical_modeling"
+    ],
+    "source_criterion": "root/Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Standardize entity identifiers before grouping",
+    "when_to_use": "Grouping entities (e.g., car models, product SKUs) from free-text fields for aggregate analysis.",
+    "experience": "Markdown bullets:\n- **Inspect raw variations**: Before grouping, run a frequency count on the raw text field to spot spelling, formatting, or abbreviation inconsistencies.\n- **Create a mapping dictionary**: Manually define or use fuzzy matching to create a canonical name for each entity (e.g., 'Hongguang MINI EV', 'Wuling Hongguang MINIEV' → 'Wuling Hongguang MINI EV').\n- **Clean before analysis**: Apply the mapping to create a new, standardized column for grouping. This ensures all records for the same entity are aggregated correctly.\n- **Validate grouping**: After grouping, check the count of unique groups and sample records within each to ensure consistency.\n- **Document the standardization rule**: Note the cleaning logic used, as it impacts the reproducibility of rankings and results.",
+    "checklist": [
+      "Identify key entity column (e.g., Title).",
+      "List unique values and spot inconsistencies.",
+      "Create and apply canonical name mapping.",
+      "Verify group counts are sensible."
+    ],
+    "common_failure_prevented": "Incorrect or inconsistent grouping due to variations in raw text labels, leading to inaccurate aggregate statistics (e.g., mean value retention).",
+    "keywords": [
+      "model",
+      "brand",
+      "product",
+      "group by",
+      "aggregate",
+      "category"
+    ],
+    "tags": [
+      "data_cleaning",
+      "entity_resolution",
+      "group_analysis"
+    ],
+    "source_criterion": "root/Requirement 2/Criterion 2.1/best_path_analysis/Criterion 2.1.A.1",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Convert implicit requirements into explicit recommendation directives",
+    "when_to_use": "Task asks for 'recommendations' in a business or operational context.",
+    "experience": "Markdown bullets:\n- **Identify the actor and action**: Clarify who the recommendation is for (e.g., the dealer) and what action they should take (e.g., buy, avoid, prioritize).\n- **Translate findings into imperatives**: For each key finding, formulate a clear, actionable directive using verbs like 'prioritize', 'avoid', 'favor', 'shorten', 'extend'.\n- **Structure recommendations separately**: Present recommendations in a distinct list or section, not buried within analysis narrative.\n- **Include risk/operational advice**: Beyond 'what' to choose, consider 'how' to operate (e.g., inventory turnover speed, pricing strategy) based on the data patterns.\n- **Justify with data**: Link each recommendation directly to a specific analytical result (e.g., 'Because Model X shows the highest retention, prioritize acquiring it.').",
+    "checklist": [
+      "State who should act and what they should do.",
+      "Use directive verbs (prioritize/avoid).",
+      "Include operational or risk advice.",
+      "Link each recommendation to a data point."
+    ],
+    "common_failure_prevented": "Providing only descriptive findings (e.g., 'Model X has high value') without translating them into clear, actionable business instructions for the client.",
+    "keywords": [
+      "recommend",
+      "advise",
+      "strategy",
+      "operational",
+      "risk",
+      "action"
+    ],
+    "tags": [
+      "business_insights",
+      "communication",
+      "actionable_recommendations"
+    ],
+    "source_criterion": "root/Requirement 3/Criterion 3.2",
+    "source_case": "dacomp-029"
+  }
+]

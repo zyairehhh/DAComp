@@ -1,0 +1,81 @@
+[
+  {
+    "title": "Define and standardize messy text fields before computation",
+    "when_to_use": "When analysis requires extracting numerical values or categories from free-text strings like salary ranges or benefit descriptions.",
+    "experience": "- **Audit raw field values**: First query distinct values of the target text fields to identify all formats, units, and delimiters.\n- **Define parsing logic**: Write a function to handle all observed patterns (e.g., ranges, base+commission, currencies) and test it on a sample.\n- **Validate coverage**: After parsing, check the proportion of non-null results and manually inspect a sample of failed parses to refine the logic.\n- **Create derived fields**: Add parsed numerical (e.g., min_salary, max_salary) and categorical (e.g., benefit_type) columns to the dataset for analysis.\n- **Document assumptions**: Note any assumptions made (e.g., using lower bound as 'starting salary') to ensure reproducibility.",
+    "checklist": [
+      "Audit distinct text patterns",
+      "Create and test a parsing function",
+      "Validate parsing coverage",
+      "Create derived analysis columns",
+      "Document parsing assumptions"
+    ],
+    "common_failure_prevented": "Prevents computing distributions or correlations on unparsed text, which leads to incomplete or incorrect metrics.",
+    "keywords": [
+      "parse",
+      "extract",
+      "string",
+      "text field",
+      "distribution"
+    ],
+    "tags": [
+      "data-wrangling",
+      "text-parsing",
+      "feature-engineering"
+    ],
+    "source_criterion": "Requirement to compute starting salary distribution from 'Salary Range' text field.",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Explicitly scope the population before comparative analysis",
+    "when_to_use": "When the task asks to analyze a specific subgroup (e.g., vocational school graduates) and its characteristics.",
+    "experience": "- **Identify the filter criterion**: Determine the exact database column and values that define the subgroup.\n- **Validate filter logic**: Query to see the count and a sample of filtered records to ensure they match the intended subgroup.\n- **Check for subgroup homogeneity**: Examine if the subgroup has internal variations (e.g., 'Vocational school or above' vs. 'Vocational school only') that could skew analysis.\n- **Document the final filter**: Clearly state the SQL WHERE clause or pandas filter used to create the analysis dataset.",
+    "checklist": [
+      "Identify filtering column and values",
+      "Validate filtered record count and sample",
+      "Assess subgroup homogeneity",
+      "Document the final filter logic"
+    ],
+    "common_failure_prevented": "Prevents analyzing an incorrectly or overly broad population, which invalidates findings about that group.",
+    "keywords": [
+      "subgroup",
+      "filter",
+      "population",
+      "graduates",
+      "category"
+    ],
+    "tags": [
+      "data-scoping",
+      "subgroup-analysis",
+      "query-validation"
+    ],
+    "source_criterion": "Requirement to analyze 'vocational school graduates' based on 'Education Requirement' field.",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Map analysis objectives to complete output before coding",
+    "when_to_use": "When the task requires multiple distinct outputs (e.g., compute distribution A and distribution B, then identify factors for C).",
+    "experience": "- **List required outputs**: Break the task into explicit, deliverable results (e.g., a salary distribution table, a benefits frequency table, a list of significant qualities).\n- **Define metrics and formats**: For each output, specify the exact metric (e.g., frequency count, average), grouping levels, and desired format (e.g., table, chart).\n- **Plan the analysis pipeline**: Outline the data processing steps needed to produce each output, ensuring dependencies are handled in order.\n- **Validate output completeness**: Before finalizing, check that each required output from the task list has been generated and is clearly presented.",
+    "checklist": [
+      "List all distinct required outputs",
+      "Define metric and format for each",
+      "Plan the analysis pipeline sequence",
+      "Validate all outputs are produced"
+    ],
+    "common_failure_prevented": "Prevents getting lost in data exploration and failing to deliver all requested analyses.",
+    "keywords": [
+      "distribution",
+      "compute",
+      "identify",
+      "qualities",
+      "output"
+    ],
+    "tags": [
+      "task-decomposition",
+      "output-planning",
+      "requirements-mapping"
+    ],
+    "source_criterion": "Task requiring separate computation of salary distribution, benefits distribution, and significant qualities.",
+    "source_case": "dacomp-048"
+  }
+]

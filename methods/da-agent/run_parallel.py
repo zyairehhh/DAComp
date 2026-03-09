@@ -25,6 +25,7 @@ from typing import Dict, List, Tuple
 
 from da_agent.envs import DAAgentEnv
 from da_agent.agent.agents import PromptAgent
+from da_agent.agent.context_compressor import CompressionConfig
 from da_agent.agent.models import call_llm
 from da_agent.agent.prompts_baseline import (
     DACOMP_STAGE3_SYSTEM_PROMPT_EN as DACOMP_STAGE3_SYSTEM_PROMPT_EN_BASELINE,
@@ -128,6 +129,26 @@ def config() -> argparse.Namespace:
 
     # kept for CLI parity, stage2 always uses multimodal prompts
     parser.add_argument("--image_prompt", action="store_true", help=argparse.SUPPRESS)
+
+    # Context compression -----------------------------------------------
+    parser.add_argument(
+        "--compress_context",
+        action="store_true",
+        default=False,
+        help="Compress old observations and strip code blocks to reduce token usage.",
+    )
+    parser.add_argument(
+        "--compress_recent_window",
+        type=int,
+        default=5,
+        help="Number of recent step-pairs kept fully intact (default: 5).",
+    )
+    parser.add_argument(
+        "--no_strip_code",
+        action="store_true",
+        default=False,
+        help="Disable code-block stripping (only compress observations).",
+    )
 
     return parser.parse_args()
 
@@ -274,6 +295,12 @@ def run_stage(
         args.experience_dir,
     )
 
+    compression_config = CompressionConfig(
+        enabled=args.compress_context,
+        recent_full_window=args.compress_recent_window,
+        strip_code_blocks=not args.no_strip_code,
+    )
+
     agent = PromptAgent(
         model=args.model,
         max_tokens=args.max_tokens,
@@ -287,6 +314,7 @@ def run_stage(
         use_skills=args.use_skill,
         use_experience=args.use_experience,
         experience_dir=experience_dir,
+        compression_config=compression_config,
     )
     agent.set_env_and_task(env)
     logger.info("[%s] Starting stage %s", task_config["instance_id"], stage_label)
@@ -393,11 +421,21 @@ def synthesize_final_report(
         fallback_stage1 = stage1_path.parent / "stage1_env" / "stage1.md"
         if fallback_stage1.exists():
             stage1_text = fallback_stage1.read_text(encoding="utf-8")
-    if not stage1_text.strip() and stage1_fallback.strip():
+    # Only use the runtime fallback (Terminate output) if it looks like real content.
+    # A short Terminate confirmation ("stage1 report saved") must NOT be used as the
+    # stage1 body, as it would produce a degenerate synthesis.
+    _fallback_looks_real = len(stage1_fallback.strip()) > 200 and "#" in stage1_fallback
+    if not stage1_text.strip() and _fallback_looks_real:
         logger.warning(
             "Stage1 markdown missing on disk; using fallback content from runtime output."
         )
         stage1_text = stage1_fallback.strip()
+    elif not stage1_text.strip() and stage1_fallback.strip():
+        logger.warning(
+            "Stage1 markdown missing and runtime fallback looks like a confirmation "
+            "message (len=%d) — not using it. Stage1 will be treated as missing.",
+            len(stage1_fallback.strip()),
+        )
     stage2_text = stage2_path.read_text(encoding="utf-8") if stage2_path.exists() else ""
     if not stage2_text.strip():
         fallback_stage2 = stage2_path.parent / "stage2_env" / "stage2.md"
@@ -540,11 +578,26 @@ def run_single_task(
         )
         stage1_md = instance_root / "stage1.md"
         stage1_md_source = stage1_dir / "stage1.md"
-        if stage1_md_source.exists():
+        if stage1_md_source.exists() and stage1_md_source.stat().st_size > 200:
             stage1_md.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(stage1_md_source, stage1_md)
         else:
-            write_text_file(stage1_md, stage1_text)
+            # stage1_text is the Terminate(output=...) string, NOT the actual report.
+            # Only write it to disk if it looks like real content (>200 chars with a
+            # markdown header), so synthesize_final_report can detect a missing report
+            # and avoid silently using a one-line confirmation message as stage1 content.
+            _stage1_looks_real = len(stage1_text.strip()) > 200 and "#" in stage1_text
+            if _stage1_looks_real:
+                write_text_file(stage1_md, stage1_text)
+            else:
+                logger.warning(
+                    "[%s] stage1.md missing or trivial (len=%d); "
+                    "stage1_text does not look like a real report — leaving stage1.md empty.",
+                    task_config.get("instance_id", "?"),
+                    len(stage1_text),
+                )
+                stage1_md.parent.mkdir(parents=True, exist_ok=True)
+                stage1_md.write_text("", encoding="utf-8")
         stage1_result_file = stage1_dir / "da_agent" / "result.json"
         da_dir = instance_root / "da_agent"
         da_dir.mkdir(parents=True, exist_ok=True)

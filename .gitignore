@@ -37,6 +37,8 @@ dacomp-da/evaluation_suite/agent_results/*
 !dacomp-da/evaluation_suite/agent_results/.gitkeep
 
 dacomp-da/evaluation_suite/model_scores/*
+!dacomp-da/evaluation_suite/model_scores/shared
+!dacomp-da/evaluation_suite/model_scores/shared/*
 !dacomp-da/evaluation_suite/model_scores/.gitkeep
 
 dacomp-da/evaluation_suite/model_scores_zh/*

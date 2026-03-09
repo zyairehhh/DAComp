@@ -1,0 +1,76 @@
+[
+  {
+    "title": "Model time-based trends before using them for prediction",
+    "when_to_use": "When the task requires forecasting future behavior or value trends using historical data.",
+    "experience": "1. **Identify temporal features**: Examine dataset for date columns and confirm their format and range.\n2. **Define time windows**: Explicitly define the training period (past) and the prediction window (future) based on the task's required horizon.\n3. **Construct a lagged target**: Create a target variable that represents the future outcome (e.g., value in 3-6 months) from the latest data point.\n4. **Validate time series assumptions**: Ensure there are no data leaks by preventing overlap between feature calculation periods and target periods.\n5. **Test trend stability**: Compute a simple baseline trend (e.g., growth rate) on a hold-out period to validate predictability.\n6. **Document the time split logic**: Explicitly state the date thresholds used for constructing the future target.",
+    "checklist": [
+      "Define clear past vs. future time windows",
+      "Create future target from lagged data",
+      "Prevent data leakage by separating time periods"
+    ],
+    "common_failure_prevented": "Attempting to predict a future trend using an undefined or incorrectly constructed time target, leading to invalid predictions.",
+    "keywords": [
+      "predict trend",
+      "future value",
+      "next 3 months",
+      "forecast",
+      "growth rate"
+    ],
+    "tags": [
+      "time-series",
+      "forecasting",
+      "data-splitting"
+    ],
+    "source_criterion": "Requirement: Predict value trend over next 3-6 months",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Confirm library dependencies and version compatibility before coding",
+    "when_to_use": "When starting to write code that relies on external libraries (e.g., scikit-learn, pandas).",
+    "experience": "1. **List required libraries**: Before writing the script, note all needed imports (e.g., sklearn, numpy, pandas).\n2. **Test import in a minimal script**: Create a short test script to import each library and print its version.\n3. **Check for known incompatibilities**: Verify Python version compatibility with library versions in the environment.\n4. **Plan fallbacks**: Design alternative methods (e.g., manual calculations, simpler libraries) if primary libraries are unavailable.\n5. **Run the test script** in the same environment as the main analysis.\n6. **Document library requirements** at the top of the analysis script.",
+    "checklist": [
+      "List all required imports",
+      "Run minimal import test",
+      "Have a library-free fallback ready"
+    ],
+    "common_failure_prevented": "Wasting time writing code that fails due to missing or incompatible libraries, causing runtime errors.",
+    "keywords": [
+      "model",
+      "machine learning",
+      "sklearn",
+      "prediction",
+      "import"
+    ],
+    "tags": [
+      "environment-setup",
+      "dependency-management",
+      "robust-coding"
+    ],
+    "source_criterion": "Step 44: Script fails due to scikit-learn import error",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Start with a simple baseline model before adding complexity",
+    "when_to_use": "When building a new model to improve upon an existing metric.",
+    "experience": "1. **Reproduce the existing model first**: If an existing model's performance is given (e.g., 68% accuracy), replicate its logic using available data to verify the baseline.\n2. **Calculate baseline performance**: Compute accuracy, precision, recall on the same ground truth.\n3. **Document feature differences**: Note which features the old model uses versus what's available.\n4. **Create a simple new baseline**: Build a model using only one additional, promising feature (not all at once) and evaluate its incremental benefit.\n5. **Test each feature addition** individually to isolate its contribution to performance improvement.\n6. **Only then combine features** into the final multidimensional model.",
+    "checklist": [
+      "Reproduce existing model logic",
+      "Validate baseline performance",
+      "Add features one at a time and measure impact"
+    ],
+    "common_failure_prevented": "Jumping directly to a complex model without verifying the starting point, making it impossible to measure true improvement.",
+    "keywords": [
+      "improve accuracy",
+      "rebuild model",
+      "multi-dimensional",
+      "baseline"
+    ],
+    "tags": [
+      "model-development",
+      "evaluation",
+      "incremental-improvement"
+    ],
+    "source_criterion": "Task: Increase identification accuracy from 68% to over 85%",
+    "source_case": "dacomp-078"
+  }
+]

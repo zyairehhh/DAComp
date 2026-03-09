@@ -1,0 +1,85 @@
+[
+  {
+    "title": "Align analysis output with rubric's required metrics and definitions",
+    "when_to_use": "The task asks for specific performance metrics (e.g., conversion rate, retention) with precise definitions.",
+    "experience": "*   **Map Task Verbs to Rubric**: When the task uses verbs like 'define conversion rate', 'segment', or 'measure impact', explicitly map them to the rubric's sub-criteria.\n*   **Extract Metric Definitions**: Carefully parse the instruction for explicit definitions (e.g., '72-hour feature usage conversion', 'weekly retention') and ensure your calculations match them, even if the data has similar proxies.\n*   **Validate Metric Completeness**: Before finalizing analysis, cross-check your outputs against the list of required metrics in the rubric. Ensure every metric requested is calculated and reported, not just similar ones.\n*   **Use Rubric Anchor Points**: When the rubric requires analysis by specific dimensions (e.g., Segment × Seat × ARR), structure your output tables explicitly using these anchor points, not just any available dimensions.\n*   **Document Definition Gaps**: If the required metric cannot be calculated exactly from available data, explicitly state the gap and justify your proxy, but still provide the proxy result labeled correctly.",
+    "checklist": [
+      "Have I defined each metric exactly as specified in the task?",
+      "Does my analysis output include every single metric mentioned in the rubric?",
+      "Are my segmentations and anchor points the ones explicitly required?",
+      "If using a proxy, is it clearly labeled and justified?"
+    ],
+    "common_failure_prevented": "Calculating the wrong metric (e.g., general conversion rate vs. 72-hour post-conversation activation rate) and failing the core analysis requirement.",
+    "keywords": [
+      "define",
+      "metric",
+      "conversion rate",
+      "retention",
+      "segment by",
+      "measure impact"
+    ],
+    "tags": [
+      "metric-definition",
+      "rubric-alignment",
+      "specification-parsing"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Establish a clear, auditable analysis window and population",
+    "when_to_use": "The task involves analyzing time-series data, cohorts, or customer journeys.",
+    "experience": "*   **Declare Time Window Upfront**: Before any calculations, explicitly define the time period (e.g., rolling 12 months, last quarter, specific calendar window). State it at the top of your analysis.\n*   **Anchor on a Consistent Event**: Base your window on a specific event (e.g., first response date) and filter all subsequent analysis (conversions, retention) to customers within that window.\n*   **Verify Population Counts**: After defining your window and segmentation criteria (e.g., 'paying customers'), output the count of customers/conversations included. Use this to verify data quality and filter logic.\n*   **Handle Time Zones Consistently**: If timestamps have time zones, convert them to a single reference (e.g., UTC) before calculations to avoid date boundary errors.\n*   **Document Filtering Logic**: In your code or analysis notes, comment or log the SQL WHERE clauses or filtering steps used to create the final analysis population.",
+    "checklist": [
+      "Have I explicitly stated the analysis time window and timezone?",
+      "Have I reported the count of records in my final analysis population?",
+      "Are all my metrics calculated based on the same anchored cohort?",
+      "Are my time-based filters (e.g., `WHERE date > ...`) consistent across all queries?"
+    ],
+    "common_failure_prevented": "Analyzing data from an undefined or inconsistent time period, making results incomparable and irreproducible.",
+    "keywords": [
+      "time interval",
+      "cohort",
+      "stages",
+      "duration",
+      "customer journey",
+      "within a window"
+    ],
+    "tags": [
+      "cohort-definition",
+      "time-window",
+      "population-filtering",
+      "reproducibility"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-098"
+  },
+  {
+    "title": "Validate data mappings and coverage before aggregating",
+    "when_to_use": "The task requires joining datasets or aggregating data at a specific entity level (e.g., company-level from conversations).",
+    "experience": "*   **Map Key Relationships First**: Before aggregating metrics, write a query that maps the core relationship (e.g., conversation → contact → company) and shows the count of matches, misses, and duplicates.\n*   **Assess Mapping Coverage**: Calculate the percentage of target entities (e.g., conversations) successfully linked to the required dimension (e.g., paying companies). Document any significant gaps.\n*   **Explicitly Choose a Deduplication Strategy**: If a one-to-many mapping exists, decide and document how you handle it (e.g., first conversation, latest, aggregation).\n*   **Compare Alternative Mappings**: If multiple linking keys exist, test them and report which one provides the best coverage or is most appropriate for the analysis goal.\n*   **Output a Sanity Check**: Provide a simple table showing the final unique entity counts after mapping and deduplication to ensure the aggregation base is sound.",
+    "checklist": [
+      "Have I written a query that counts successful and unsuccessful mapping links?",
+      "What percentage of my base data is successfully mapped to the target entity?",
+      "How have I handled duplicate links (one-to-many)?",
+      "Does my final aggregated count make sense given the original data volume?"
+    ],
+    "common_failure_prevented": "Aggregating metrics at the wrong entity level or on an incomplete dataset due to unverified joins, leading to inaccurate results.",
+    "keywords": [
+      "segment customers",
+      "map",
+      "aggregate",
+      "join",
+      "company-level",
+      "lead source"
+    ],
+    "tags": [
+      "data-joins",
+      "entity-resolution",
+      "coverage-analysis",
+      "deduplication"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3",
+    "source_case": "dacomp-098"
+  }
+]

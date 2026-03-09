@@ -1,0 +1,77 @@
+[
+  {
+    "title": "Define and Document Metric Formulas Before Analysis",
+    "when_to_use": "When the task mentions a metric (e.g., ROI, health score) without an explicit calculation method.",
+    "experience": "Markdown bullets:\n- **Clarify the formula:** Before writing code, explicitly define the metric's calculation in writing. Cross-reference the dataset's available fields and any implied business logic.\n- **Test the formula on sample data:** Apply the formula to a few rows to ensure it produces reasonable values and matches business intuition (e.g., verify that a high ROI indicates good performance).\n- **Document assumptions:** Note any assumptions made (e.g., \"ROI is defined as ROAS = conversion_value / cost\") and justify them if possible.\n- **Validate against known thresholds:** Check if calculated values for filtered records (e.g., ROI < 0.8) align with the intended screening logic (e.g., confirm they represent poor performance).",
+    "checklist": [
+      "Explicitly write the formula for all key metrics before coding.",
+      "Test the formula on 3-5 raw data rows.",
+      "Ensure the formula's output direction (high=good) matches the intended use (e.g., scoring)."
+    ],
+    "common_failure_prevented": "Prevents misinterpreting business metrics (e.g., confusing ROI and ROAS) which leads to incorrect filtering and scoring.",
+    "keywords": [
+      "metric",
+      "formula",
+      "calculate",
+      "score",
+      "threshold"
+    ],
+    "tags": [
+      "metric definition",
+      "business logic",
+      "validation"
+    ],
+    "source_criterion": "Rubric evaluation indicated poor score; failure root cause was likely misinterpreting ROI.",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Construct Analysis Data Model Before Querying",
+    "when_to_use": "When the analysis requires joining multiple tables or aggregating across different granularities (e.g., campaign, geo, device).",
+    "experience": "Markdown bullets:\n- **Identify the target analysis grain:** Determine the primary unit of analysis (e.g., campaign-month) and note which dimensions (e.g., geo_target) belong to separate breakdown tables.\n- **Map required metrics to source tables:** List each metric needed for the final output and document which table(s) contain it. Note where metrics need to be aggregated (e.g., sum of cost across geo targets).\n- **Sketch the join strategy:** Outline the necessary joins, aggregation levels, and potential duplication issues. Consider if a star-schema approach (one central fact table) is possible.\n- **Verify data availability:** Run preliminary queries to confirm that key fields exist and contain non-null values for the relevant records.",
+    "checklist": [
+      "Define the primary grain of the analysis (e.g., campaign per month).",
+      "List all metrics needed and their source tables.",
+      "Draft a SQL query skeleton with necessary joins and aggregations."
+    ],
+    "common_failure_prevented": "Prevents haphazard querying and incorrect aggregations that lead to invalid comparisons across dimensions (e.g., mixing campaign-level and geo-level metrics).",
+    "keywords": [
+      "join",
+      "aggregate",
+      "granularity",
+      "tables",
+      "multidimensional"
+    ],
+    "tags": [
+      "data modeling",
+      "SQL planning",
+      "schema understanding"
+    ],
+    "source_criterion": "Rubric evaluation indicated poor score; failure root cause was likely unplanned exploration without a clear analysis model.",
+    "source_case": "dacomp-058"
+  },
+  {
+    "title": "Frame the Final Output Before Starting Calculations",
+    "when_to_use": "When the task requires a structured final report with specific sections (e.g., health score, risk level, recommendations).",
+    "experience": "Markdown bullets:\n- **Extract required report components:** From the task description, list every required element for the final output (e.g., health score, risk level, core problem diagnosis, optimization recommendations).\n- **Map components to data or logic:** For each component, note whether it is a direct calculation, a classification based on rules, or a narrative insight derived from patterns.\n- **Design the calculation pipeline:** Outline the sequence of steps needed to produce each component, ensuring earlier steps feed into later ones (e.g., filtered campaigns → health scores → risk levels → recommendations).\n- **Check for completeness:** Verify that all requested comparisons (e.g., across campaign_type, bidding_strategy) and trend analyses (e.g., 18-month trends) are accounted for in the pipeline.",
+    "checklist": [
+      "List all required elements of the final report from the task description.",
+      "For each element, specify the data source or calculation method.",
+      "Sketch the order of operations to generate the final output."
+    ],
+    "common_failure_prevented": "Prevents delivering an incomplete or misaligned report by ensuring all task requirements are systematically addressed from the outset.",
+    "keywords": [
+      "report",
+      "output",
+      "recommendations",
+      "score",
+      "diagnosis"
+    ],
+    "tags": [
+      "requirements mapping",
+      "report design",
+      "delivery planning"
+    ],
+    "source_criterion": "Rubric evaluation indicated poor score; failure root cause was likely proceeding without a clear plan for the final deliverable.",
+    "source_case": "dacomp-058"
+  }
+]

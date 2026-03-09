@@ -4,20 +4,30 @@ Mirrors the scoring logic from methods/da-agent/da_agent/agent/experience.py
 without the agent-runtime dependencies (no /workspace/ paths, no snippet rendering).
 
 Public API:
-  simulate_retrieval_map(cards, tasks, top_k) -> {case_id: [card_id, ...]}
+  simulate_retrieval_map(cards, tasks, top_k, use_embeddings) -> {case_id: [card_id, ...]}
   validate_new_cards(new_card_ids, test_case_ids, cards_dir, instructions) -> {card_id: [case_id, ...]}
+  get_embeddings(texts) -> List[List[float]]
 """
 
 from __future__ import annotations
 
 import json
+import os
 import re
 from pathlib import Path
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 MIN_RETRIEVAL_SCORE = 3.0
 DEFAULT_TOP_K = 4
+
+# Hybrid scoring: weight for semantic score vs keyword score (0 = keyword only, 1 = semantic only)
+SEMANTIC_ALPHA = 0.7
+
+# DashScope embedding API (OpenAI-compatible endpoint)
+_EMBEDDING_MODEL = "text-embedding-v3"
+_EMBEDDING_URL = "https://dashscope.aliyuncs.com/compatible-mode/v1/embeddings"
+_EMBEDDING_DIM = 1024  # text-embedding-v3 default dimension
 
 
 # ---------------------------------------------------------------------------
@@ -82,7 +92,79 @@ def _score_card(task_text: str, task_tokens: set, task_token_string: str, card: 
     return score
 
 
-def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[Dict]:
+# ---------------------------------------------------------------------------
+# Embedding helpers
+# ---------------------------------------------------------------------------
+
+def get_embeddings(texts: List[str]) -> List[List[float]]:
+    """Batch-embed texts using DashScope text-embedding-v3 (OpenAI-compatible).
+
+    Falls back to empty vectors on API failure so the pipeline degrades
+    gracefully to keyword-only retrieval rather than crashing.
+    """
+    import requests  # stdlib-level; always available in the dacomp env
+
+    api_key = os.environ.get("BAILIAN_API_KEY", "")
+    if not api_key:
+        return [[] for _ in texts]
+
+    try:
+        resp = requests.post(
+            _EMBEDDING_URL,
+            headers={"Authorization": f"Bearer {api_key}", "Content-Type": "application/json"},
+            json={"model": _EMBEDDING_MODEL, "input": texts, "dimensions": _EMBEDDING_DIM},
+            timeout=60,
+        )
+        resp.raise_for_status()
+        data = resp.json()
+        # OpenAI-compatible format: {"data": [{"embedding": [...], "index": N}, ...]}
+        items = sorted(data["data"], key=lambda x: x["index"])
+        return [item["embedding"] for item in items]
+    except Exception as exc:
+        import sys
+        print(f"  [retrieval] embedding API error: {exc}; falling back to keyword-only", file=sys.stderr)
+        return [[] for _ in texts]
+
+
+def _cosine_sim(a: List[float], b: List[float]) -> float:
+    """Cosine similarity between two vectors. Returns 0.0 if either is empty."""
+    if not a or not b:
+        return 0.0
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = sum(x * x for x in a) ** 0.5
+    norm_b = sum(x * x for x in b) ** 0.5
+    if norm_a == 0.0 or norm_b == 0.0:
+        return 0.0
+    return dot / (norm_a * norm_b)
+
+
+def _hybrid_score(
+    keyword_score: float,
+    task_emb: List[float],
+    card_emb: List[float],
+    alpha: float = SEMANTIC_ALPHA,
+    max_keyword_score: float = 10.0,
+) -> float:
+    """Combine keyword score and semantic cosine similarity.
+
+    Both are normalised to [0, 5] before blending so neither dominates.
+    Falls back to pure keyword score when card has no embedding.
+    """
+    if not card_emb or not task_emb:
+        return keyword_score  # fallback: keyword only
+
+    sem_sim = _cosine_sim(task_emb, card_emb)        # [-1, 1]
+    sem_score = max(0.0, sem_sim) * 5.0              # map [0, 1] → [0, 5]
+    kw_score_norm = min(keyword_score, max_keyword_score) / max_keyword_score * 5.0
+    return alpha * sem_score + (1.0 - alpha) * kw_score_norm
+
+
+def _select_cards(
+    task_instruction: str,
+    cards: List[Dict],
+    top_k: int,
+    task_embedding: Optional[List[float]] = None,
+) -> List[Dict]:
     eligible = [c for c in cards if c.get("priority", 0) != 0]
     task_text = task_instruction or ""
     task_tokens_list = _tokenize(task_text)
@@ -91,7 +173,12 @@ def _select_cards(task_instruction: str, cards: List[Dict], top_k: int) -> List[
 
     scored = []
     for card in eligible:
-        s = _score_card(task_text, task_tokens, task_token_string, card)
+        kw_s = _score_card(task_text, task_tokens, task_token_string, card)
+        if task_embedding is not None:
+            card_emb = card.get("embedding") or []
+            s = _hybrid_score(kw_s, task_embedding, card_emb)
+        else:
+            s = kw_s
         if s > 0:
             scored.append((s, card))
 
@@ -121,20 +208,32 @@ def simulate_retrieval_map(
     cards: List[Dict],
     tasks: Dict[str, str],
     top_k: int = DEFAULT_TOP_K,
+    use_embeddings: bool = False,
 ) -> Dict[str, List[str]]:
     """For every task, simulate which card IDs would be retrieved.
 
     Args:
-        cards: List of card dicts from index.json (must have 'id', 'keywords', etc.)
-        tasks: {instance_id: instruction_text}
-        top_k: Max cards to retrieve per task.
+        cards:          List of card dicts from index.json.
+        tasks:          {instance_id: instruction_text}
+        top_k:          Max cards to retrieve per task.
+        use_embeddings: If True, embed tasks + cards and use hybrid scoring.
+                        Cards without an "embedding" field fall back to keyword-only.
+                        Requires BAILIAN_API_KEY env var.
 
     Returns:
         {instance_id: [retrieved_card_id, ...]}  (empty list if nothing qualifies)
     """
+    task_embeddings: Dict[str, List[float]] = {}
+    if use_embeddings:
+        ids = list(tasks.keys())
+        texts = [tasks[i] for i in ids]
+        vecs = get_embeddings(texts)
+        task_embeddings = dict(zip(ids, vecs))
+
     result: Dict[str, List[str]] = {}
     for case_id, instruction in tasks.items():
-        selected = _select_cards(instruction, cards, top_k=top_k)
+        task_emb = task_embeddings.get(case_id) if use_embeddings else None
+        selected = _select_cards(instruction, cards, top_k=top_k, task_embedding=task_emb)
         result[case_id] = [c["id"] for c in selected]
     return result
 
@@ -173,3 +272,4 @@ def validate_new_cards(
             if card_id in new_id_set:
                 hits[card_id].append(case_id)
     return hits
+

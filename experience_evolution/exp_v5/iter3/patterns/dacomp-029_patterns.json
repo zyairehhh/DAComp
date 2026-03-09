@@ -1,0 +1,89 @@
+[
+  {
+    "title": "Verify unit consistency and convert before metric calculation",
+    "when_to_use": "When the dataset contains multiple numeric columns likely used in a ratio or derived metric.",
+    "experience": "1. Explicitly examine the units of each numeric column used in a calculation by printing value ranges and sample entries.\n2. Cross-check the scale of a computed ratio against an expected reasonable range (e.g., a price ratio should be between 0 and 1).\n3. Identify column name conventions that imply a scale (e.g., 'Price' in Chinese datasets often means ten thousand yuan).\n4. Create a standard conversion function to transform all relevant columns to a common base unit (e.g., yuan).\n5. Sanity-check the final computed metric using domain knowledge (e.g., a used car typically retains 30–80% of its new price).\n6. Document the unit assumptions and conversion logic in the code.",
+    "checklist": [
+      "List all columns used in target metric",
+      "Print min, max, and sample values for each",
+      "Compare the raw ratio to a plausible range",
+      "Convert columns to common unit",
+      "Validate metric after conversion"
+    ],
+    "common_failure_prevented": "Producing nonsensical results (e.g., a price retention ratio of 0.00006) due to hidden unit mismatches.",
+    "keywords": [
+      "ratio",
+      "depreciation",
+      "retention",
+      "value",
+      "metric",
+      "calculate"
+    ],
+    "tags": [
+      "data cleaning",
+      "unit conversion",
+      "metric validation",
+      "sanity check"
+    ],
+    "source_criterion": "Failure to detect unit inconsistency in price columns leads to incorrect ratio analysis",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Assess data completeness before dropping records",
+    "when_to_use": "When a key variable for analysis has a significant amount of missing values.",
+    "experience": "1. Quantify missing values for every column planned for the analysis before any filtering.\n2. Investigate the nature of missingness: are missing values random or systematic (e.g., only for certain brands)?\n3. Consider imputation strategies (mean, median, model-based) if appropriate and document assumptions.\n4. If dropping records, calculate the remaining sample size and representativeness of each analysis group.\n5. Report the impact of missing data handling on the conclusions (e.g., 'Analysis based on N complete cases').\n6. Where possible, perform sensitivity analysis to see if results change with different missing-data treatments.",
+    "checklist": [
+      "Count missing values per key column",
+      "Check patterns of missingness across subgroups",
+      "Evaluate imputation vs. deletion",
+      "Document final sample size",
+      "Note limitations"
+    ],
+    "common_failure_prevented": "Uncritically dropping a large fraction of data (e.g., 46% of rows) without assessing bias or exploring alternatives.",
+    "keywords": [
+      "missing",
+      "incomplete",
+      "drop",
+      "clean",
+      "impute",
+      "sample"
+    ],
+    "tags": [
+      "data quality",
+      "missing data",
+      "sample bias",
+      "preprocessing"
+    ],
+    "source_criterion": "Immediately dropping many rows with missing new price without investigating patterns or impact",
+    "source_case": "dacomp-029"
+  },
+  {
+    "title": "Anchor analysis on a clear operational definition",
+    "when_to_use": "When the task requires evaluating a business concept like 'buyback value' or 'retention'.",
+    "experience": "1. Before coding, explicitly define the target metric in a formula using available data fields.\n2. Validate that the formula aligns with the business context (e.g., buyback value might consider age, mileage, and market price).\n3. Create a prototype calculation for a few sample rows and review with domain sense.\n4. If multiple definitions are possible (e.g., simple ratio vs. age‑adjusted residual), state your chosen definition and justification.\n5. Ensure the metric can be computed reliably for a sufficient subset of the data.\n6. Communicate the definition clearly in the final answer, including any assumptions.",
+    "checklist": [
+      "Write down the metric formula",
+      "Test on sample data",
+      "Check against domain expectations",
+      "Document assumptions",
+      "Confirm computability"
+    ],
+    "common_failure_prevented": "Jumping into coding without a clear, validated definition of the core analytical metric.",
+    "keywords": [
+      "define",
+      "metric",
+      "measure",
+      "value",
+      "concept",
+      "operationalize"
+    ],
+    "tags": [
+      "metric definition",
+      "business alignment",
+      "assumptions",
+      "clarity"
+    ],
+    "source_criterion": "Assuming 'price/new price' is the correct buyback metric without verifying its business meaning or unit consistency",
+    "source_case": "dacomp-029"
+  }
+]

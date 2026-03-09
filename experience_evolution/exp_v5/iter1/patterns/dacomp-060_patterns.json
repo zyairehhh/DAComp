@@ -1,0 +1,80 @@
+[
+  {
+    "title": "Verify Data Availability Before Assuming Calculations",
+    "when_to_use": "When a task requires computing a metric using data fields not explicitly present in the schema.",
+    "experience": "When a metric like 'Expected CVR' or 'Intent Match Ratio' is mentioned, follow these steps:\n1.  First, explicitly list all required input fields for the requested metric (e.g., for `Intent Match Ratio = Actual CVR / Expected CVR`, you need `conversions`, `clicks`, and some source for `Expected CVR`).\n2.  Inspect the schema of the primary table and any related tables to confirm the presence of each required field.\n3.  If a required field is missing (like `expected_cvr`), do not assume it can be derived. Proactively check the task description for a definition or ask for clarification on how to compute or source the missing data.\n4.  If the field must be derived (e.g., from an average), state this assumption clearly in your analysis and note it as a limitation before proceeding with calculations.\n5.  Ensure your final calculation logic references real, verified columns from the data.",
+    "checklist": [
+      "List all explicit and implied fields needed for target metrics",
+      "Validate field existence against the actual database schema",
+      "Articulate assumptions if data is missing and decide on a proxy or stop"
+    ],
+    "common_failure_prevented": "Prevents building analysis on non-existent or misinterpreted data fields, which leads to incorrect or impossible calculations.",
+    "keywords": [
+      "expected",
+      "ratio",
+      "calculate",
+      "metric",
+      "schema",
+      "verify"
+    ],
+    "tags": [
+      "data-validation",
+      "metric-definition",
+      "assumption-checking"
+    ],
+    "source_criterion": "Analysis execution failure due to missing 'Expected CVR' field",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Define Clear Aggregation Logic Before Computing Metrics",
+    "when_to_use": "When analyzing performance data (e.g., ad groups, campaigns) that is recorded over time.",
+    "experience": "Before calculating aggregate metrics like CTR or CVR:\n1.  Determine the correct level of aggregation (e.g., per ad_group_id across all dates, or per campaign per day). The task often implies the final entity (e.g., 'identify problematic ad groups').\n2.  Write a preliminary SQL query to aggregate the necessary sums (clicks, impressions, conversions) at the chosen level.\n3.  Handle edge cases explicitly: filter out records where denominator is zero (e.g., `impressions > 0` for CTR, `clicks > 0` for CVR) to avoid division errors.\n4.  Compute the derived metrics (CTR, CVR) on the aggregated totals, not by averaging pre-calculated daily rates, to ensure accuracy.\n5.  Verify the aggregation by checking row counts and sample results before proceeding to percentile calculations.",
+    "checklist": [
+      "Identify the primary analysis entity (e.g., ad_group, campaign)",
+      "Write aggregation query summing core metrics for that entity",
+      "Apply filters for valid denominators before division",
+      "Compute final metrics from aggregated sums"
+    ],
+    "common_failure_prevented": "Prevents incorrect metric calculations due to improper data aggregation or mishandling of zero denominators.",
+    "keywords": [
+      "aggregate",
+      "CTR",
+      "CVR",
+      "percentile",
+      "performance",
+      "ad group"
+    ],
+    "tags": [
+      "aggregation",
+      "metric-calculation",
+      "data-preprocessing"
+    ],
+    "source_criterion": "Potential for incorrect CTR/CVR calculation without proper aggregation logic",
+    "source_case": "dacomp-060"
+  },
+  {
+    "title": "Explicitly Map Analysis Steps to Available Data Artifacts",
+    "when_to_use": "When the task involves multiple analytical stages (identify, analyze, recommend) and uses specific tables.",
+    "experience": "To maintain a structured and traceable analysis:\n1.  After exploring schemas, create a mental or explicit map linking each analytical step to the specific table and column that will supply the necessary data.\n2.  For the identification step (e.g., 'identify problematic ad groups'), write the precise filtering logic using percentiles computed from the correct aggregated dataset.\n3.  For the analysis step (e.g., 'analyze common characteristics'), plan which related tables (e.g., `keyword_report`, `search_term_report`) to join to the problematic ad groups to extract features like match type, keyword text, etc.\n4.  Before executing complex joins, verify the join keys exist and the relationship is valid (e.g., `ad_group_id` is present in both tables).\n5.  Sequence your queries logically: create temporary aggregated datasets for thresholds, then use them to filter and enrich the main analysis.",
+    "checklist": [
+      "Link each task requirement to a specific data source and column",
+      "Plan the sequence of queries to build intermediate datasets",
+      "Verify join keys and relationships between tables before use"
+    ],
+    "common_failure_prevented": "Prevents disjointed analysis where later steps (characteristics analysis) are not correctly connected to the initial filtered set, leading to irrelevant or incorrect insights.",
+    "keywords": [
+      "characteristics",
+      "analyze",
+      "join",
+      "related tables",
+      "common features"
+    ],
+    "tags": [
+      "analysis-planning",
+      "data-relationships",
+      "query-structure"
+    ],
+    "source_criterion": "Failure to connect 'analyze common characteristics' step to appropriate data tables after identification",
+    "source_case": "dacomp-060"
+  }
+]

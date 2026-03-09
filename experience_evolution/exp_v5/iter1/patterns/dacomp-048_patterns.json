@@ -1,0 +1,84 @@
+[
+  {
+    "title": "Define exact data inclusion criteria using task keywords",
+    "when_to_use": "Task requires filtering a dataset based on a specific category (e.g., a type of graduate, user, or product).",
+    "experience": "1. **Map Task Terms to Data Columns**: List all terms (including synonyms, abbreviations, and translations) related to the target category from the task.\n2. **Search Across All Text Fields**: Identify not just the obvious column (e.g., 'Education Requirement'), but also any descriptive or free-text fields (e.g., 'Job Description') where the category might be mentioned.\n3. **Verify Filter Criteria**: Do not assume a single column is exhaustive. Construct an inclusive filter by checking for keyword patterns across relevant text columns.\n4. **Count and Validate Sample Size**: After applying the filter, check the resulting row count against initial expectations or the total dataset size. A very low count may indicate a flawed filter.\n5. **Document Assumptions**: Explicitly state which columns and keywords were used to identify the target population.",
+    "checklist": [
+      "List all synonyms and related terms",
+      "Check both categorical and text columns",
+      "Construct an OR-based filter across columns",
+      "Validate the filtered count"
+    ],
+    "common_failure_prevented": "Failing to include all relevant data points by only looking at a single obvious column, leading to incomplete and incorrect analyses.",
+    "keywords": [
+      "filter",
+      "graduate",
+      "category",
+      "identify",
+      "search",
+      "criteria"
+    ],
+    "tags": [
+      "Data Cleaning",
+      "Filtering",
+      "Population Definition"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Aggregate and deduplicate text-based features before analysis",
+    "when_to_use": "Task requires analyzing distribution of features expressed as comma-separated lists or free-text entries.",
+    "experience": "1. **Pre-Process Text Entries**: Split entries by common delimiters (commas, semicolons, spaces). Strip whitespace and convert to a standard case.\n2. **Create a Standardization Dictionary**: Before counting, map synonyms, spelling variants, and abbreviations to a single canonical term (e.g., 'high-temperature allowance' and 'high temperature allowance').\n3. **Perform the Count After Standardization**: Aggregate counts using the canonical terms.\n4. **Report Standardization Steps**: Document which terms were merged and any assumptions made about the data.",
+    "checklist": [
+      "Split entries on delimiters and clean",
+      "Build a synonym mapping dictionary",
+      "Standardize all terms before counting",
+      "Report the mapping used"
+    ],
+    "common_failure_prevented": "Reporting inflated or fragmented categories because the same underlying feature is represented by multiple text strings, skewing distribution results.",
+    "keywords": [
+      "distribution",
+      "benefits",
+      "features",
+      "count",
+      "deduplicate",
+      "standardize"
+    ],
+    "tags": [
+      "Data Cleaning",
+      "Text Analysis",
+      "Data Aggregation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3/best_path_analysis/Criterion 1.3.A.3",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Extract multidimensional qualities from job descriptions using keyword categories",
+    "when_to_use": "Task asks for qualities, skills, or factors that influence an outcome (e.g., salary) in a job or user dataset.",
+    "experience": "1. **Define Quality Dimensions**: Before analyzing, brainstorm categories of qualities beyond obvious structured fields (e.g., skills, certificates, soft skills, technical expertise).\n2. **Build a Keyword Dictionary per Dimension**: For each dimension (e.g., 'Certificates'), list relevant keywords and phrases to search for in text fields like 'Job Description'.\n3. **Extract Mentions with Context**: Systematically scan the target text column for keyword matches and tag each record accordingly.\n4. **Analyze by Dimension**: Compare the target outcome (e.g., salary) across records tagged with each quality dimension.\n5. **Filter for Statistical Relevance**: When reporting, prioritize dimensions with sufficient sample size (e.g., number of mentions > a threshold like 30) to avoid spurious conclusions.",
+    "checklist": [
+      "Define quality dimensions beforehand",
+      "Create keyword list per dimension",
+      "Extract mentions from text fields",
+      "Analyze impact per dimension",
+      "Apply a sample-size filter"
+    ],
+    "common_failure_prevented": "Missing major influencing factors by analyzing only structured columns and ignoring the rich information in free-text descriptions.",
+    "keywords": [
+      "skills",
+      "qualities",
+      "factors",
+      "influence",
+      "extract",
+      "job description"
+    ],
+    "tags": [
+      "Feature Extraction",
+      "Text Mining",
+      "Causal Analysis"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.1",
+    "source_case": "dacomp-048"
+  }
+]

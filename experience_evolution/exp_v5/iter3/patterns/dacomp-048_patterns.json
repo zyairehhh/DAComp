@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Interpret salary ranges and textual benefits before distribution analysis",
+    "when_to_use": "The task requires computing a distribution for numeric data stored as text ranges or for categorical lists.",
+    "experience": "- **Explicitly handle complex text patterns**: Before grouping or binning, manually inspect unique values and common patterns (e.g., '5,000-10,000 yuan/month', 'Base salary: 3000+commission').\n- **Define a robust parsing function**: Create a function that can extract the target numeric value (e.g., lower bound, upper bound, average) using regex and handle edge cases (commas, multiple currencies, extra text).\n- **Validate parsed data**: After extraction, check for missing values, impossible outliers, and logical consistency (e.g., lower bound > upper bound).\n- **For multi-value text fields (benefits)**: Identify and standardize delimiters (commas, semicolons, slashes) before splitting and counting; deduplicate near-identical terms (e.g., 'Insurance' vs 'Social Insurance').",
+    "checklist": [
+      "Inspect unique raw values of the target column",
+      "Write and test a parsing function on a sample",
+      "Report the percentage of successfully parsed records",
+      "Standardize delimiters and clean text for list-type columns"
+    ],
+    "common_failure_prevented": "Producing an incorrect distribution due to misinterpreting the raw text format of salary ranges or benefits lists.",
+    "keywords": [
+      "distribution",
+      "salary range",
+      "benefits",
+      "extract",
+      "parse",
+      "text data"
+    ],
+    "tags": [
+      "data-cleaning",
+      "text-parsing",
+      "distribution-analysis"
+    ],
+    "source_criterion": "Rubric evaluation (specific criterion not provided, but failure relates to computing salary/benefit distributions from textual data)",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Identify and validate core analysis columns before exploration",
+    "when_to_use": "Starting any analysis where the required data columns are not explicitly named in the task.",
+    "experience": "- **Map task requirements to column names**: After inspecting the schema, list which columns directly answer each part of the task (e.g., 'starting salary' -> 'Salary Range', 'benefits' -> 'Benefits', 'qualities' -> columns like 'Work Experience Requirement').\n- **Check data quality for key columns**: For each identified column, assess missing value rate, unique value count, and sample values to confirm suitability.\n- **Confirm the filter logic**: If the analysis requires a subset (e.g., 'vocational school graduates'), verify the filter condition (e.g., `LIKE '%Vocational school%'`) correctly isolates the intended records by checking a sample of filtered rows.",
+    "checklist": [
+      "List the exact column names needed for each sub-task",
+      "Sample unique values for categorical filter columns",
+      "Count records after applying filters to confirm scope",
+      "Check for NULLs in key numeric/text columns"
+    ],
+    "common_failure_prevented": "Wasting time on irrelevant columns or misinterpreting which data corresponds to the target population.",
+    "keywords": [
+      "columns",
+      "schema",
+      "filter",
+      "subset",
+      "validate",
+      "data quality"
+    ],
+    "tags": [
+      "data-understanding",
+      "validation",
+      "exploratory-data-analysis"
+    ],
+    "source_criterion": "Rubric evaluation (specific criterion not provided, but failure relates to correctly identifying relevant data for vocational graduates)",
+    "source_case": "dacomp-048"
+  },
+  {
+    "title": "Derive actionable qualities from categorical variables before reporting",
+    "when_to_use": "When asked to identify which factors or qualities significantly increase a target metric (like salary).",
+    "experience": "- **Operationalize 'qualities' into analyzable features**: Transform raw categorical columns (e.g., 'Work Experience Requirement') into ordinal (years) or binary (requirement present/absent) features.\n- **Compare group means and effect sizes**: For each derived feature, calculate the average target metric per category and the difference from the baseline.\n- **Prioritize by impact and prevalence**: Rank qualities by both the salary uplift and the number of job postings exhibiting that quality to avoid recommending rare edge cases.\n- **Report clear, interpretable findings**: Instead of dumping all group-by outputs, summarize the top 3-5 qualities with the largest positive association and state the magnitude of increase.",
+    "checklist": [
+      "Create derived numeric/binary features from text categories",
+      "Compute average target metric per feature level",
+      "Sort by difference from baseline and count of records",
+      "Summarize top drivers with concrete examples"
+    ],
+    "common_failure_prevented": "Providing an unfiltered list of group-by averages without highlighting which qualities are most significant for increasing the target metric.",
+    "keywords": [
+      "qualities",
+      "factors",
+      "increase",
+      "drivers",
+      "significant",
+      "impact"
+    ],
+    "tags": [
+      "feature-engineering",
+      "comparative-analysis",
+      "insight-generation"
+    ],
+    "source_criterion": "Rubric evaluation (specific criterion not provided, but failure relates to identifying qualities that increase starting salary)",
+    "source_case": "dacomp-048"
+  }
+]

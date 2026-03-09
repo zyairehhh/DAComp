@@ -1,0 +1,82 @@
+[
+  {
+    "title": "Define and Validate Analysis Windows for Temporal Tasks",
+    "when_to_use": "When the task involves analyzing trends, decay, or changes over a specified time period.",
+    "experience": "- **Explicitly Extract Date Bounds**: Immediately query the MIN(date) and MAX(date) for relevant tables to understand the full data range.\n- **Define and Apply the Time Filter**: Explicitly create a `WHERE` clause or a derived column (e.g., `period_flag`) for the exact requested window (e.g., 'past 6 months'). Don't assume the data range matches the task window.\n- **Verify Window Coverage**: Check that the defined period has sufficient data points across all key entities (regions, products) after filtering. If not, document the limitation.\n- **Use a Consistent Window Variable**: Store the cutoff date (e.g., `MAX(date) - 180 days`) in a variable at the start to ensure all subsequent queries and joins apply the same filter.\n- **Double-check Joins**: When joining tables with different date granularities, ensure the time filter is applied *before* the join or correctly accounted for in `ON` clauses.",
+    "checklist": [
+      "Query MIN/MAX dates from source tables",
+      "Define explicit date cutoff variable",
+      "Apply the same date filter to all relevant tables",
+      "Verify record counts after filtering"
+    ],
+    "common_failure_prevented": "Incomplete or inconsistent application of a required time window, leading to incorrect trend conclusions.",
+    "keywords": [
+      "past N months",
+      "over time",
+      "decay",
+      "trend",
+      "temporal",
+      "window"
+    ],
+    "tags": [
+      "data-prep",
+      "time-series",
+      "filtering"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.1",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Construct and Validate Combined Metrics Before Analysis",
+    "when_to_use": "When the task requires analyzing a combination of dimensions (e.g., region-device) or creating a composite metric.",
+    "experience": "- **Map the Requirement to a Concrete Formula**: Before coding, write down the exact mathematical definition for the required combined metric (e.g., `efficiency = region_conversion_rate * device_install_share`).\n- **Check Data Joinability**: Verify that the necessary tables share join keys that produce meaningful combinations at the desired granularity. Avoid Cartesian products that inflate data.\n- **Validate with Sample Data**: After joining, manually inspect a few rows to confirm the combined metric is calculated correctly and varies meaningfully across dimension pairs.\n- **Test for Sensibility**: Compute summary statistics (mean, min, max) for the new metric and check for outliers or nonsensical values that indicate a flawed construction.\n- **Document the Formula**: Include the formula in comments and final outputs to ensure clarity and reproducibility.",
+    "checklist": [
+      "Define a precise formula for the combined metric",
+      "Verify join logic on a small sample",
+      "Inspect calculated metric values for plausibility",
+      "Document the metric construction"
+    ],
+    "common_failure_prevented": "Creating a combined metric that is mathematically flawed or does not vary across dimension combinations, leading to meaningless results.",
+    "keywords": [
+      "combination",
+      "per region and device",
+      "multi-dimensional",
+      "composite",
+      "efficiency"
+    ],
+    "tags": [
+      "metric-design",
+      "data-joining",
+      "validation"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-070"
+  },
+  {
+    "title": "Benchmark Model Outputs Against Known Patterns or Priors",
+    "when_to_use": "When building predictive or explanatory models (regression, correlation) to identify non-linear relationships or effects.",
+    "experience": "- **Establish Priors**: Before modeling, note the expected direction of key relationships based on business logic (e.g., higher crash rates should negatively correlate with conversion).\n- **Compare Initial Results to Priors**: After obtaining model coefficients or correlation values, immediately check if the sign (positive/negative) aligns with expectations.\n- **Perform a Sanity Check with Aggregates**: For complex models, validate by grouping data into bins (e.g., high/medium/low quality score) and calculating the target metric mean to see if the trend matches the model's prediction.\n- **Document Deviations**: If results contradict strong priors (e.g., a positive correlation between crash rate and conversion), investigate potential data issues (outliers, confounding) or model misspecification before proceeding to conclusions.\n- **Use Simple Models as a Baseline**: Before complex non-linear models, run a simple linear regression to establish a baseline relationship and check for gross errors.",
+    "checklist": [
+      "State expected relationship directions before modeling",
+      "Compare model coefficient signs to expectations",
+      "Validate with binned aggregate analysis",
+      "Investigate and explain contradictory results"
+    ],
+    "common_failure_prevented": "Reporting model results (e.g., positive correlation between crashes and conversion) that contradict business logic without investigation.",
+    "keywords": [
+      "non-linear relationship",
+      "interaction effect",
+      "model",
+      "correlation",
+      "regression",
+      "predict"
+    ],
+    "tags": [
+      "model-validation",
+      "sanity-check",
+      "interpretation"
+    ],
+    "source_criterion": "Requirement 4/Criterion 4.1/best_path_analysis/Criterion 4.1.fallback.2",
+    "source_case": "dacomp-070"
+  }
+]

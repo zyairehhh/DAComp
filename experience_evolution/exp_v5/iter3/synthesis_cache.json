@@ -1,0 +1,228 @@
+{
+  "schema_version": 1,
+  "iteration": 3,
+  "case_ids": [
+    "dacomp-058",
+    "dacomp-060",
+    "dacomp-048",
+    "dacomp-069",
+    "dacomp-022",
+    "dacomp-035",
+    "dacomp-070",
+    "dacomp-098",
+    "dacomp-078",
+    "dacomp-029",
+    "dacomp-076",
+    "dacomp-094",
+    "dacomp-066",
+    "dacomp-027",
+    "dacomp-090"
+  ],
+  "synthesized_cards": [
+    {
+      "title": "Verify unit consistency and convert before metric calculation",
+      "when_to_use": "When the dataset contains multiple numeric columns likely used in a ratio or derived metric.",
+      "experience": "- **Explicitly examine the units of each numeric column used in a calculation** by printing value ranges and sample entries.\n- **Cross-check the scale of a computed ratio** against an expected reasonable range (e.g., a price ratio should be between 0 and 1).\n- **Identify column name conventions that imply a scale** (e.g., 'Price' in Chinese datasets often means ten thousand yuan).\n- **Create a standard conversion function** to transform all relevant columns to a common base unit (e.g., yuan).\n- **Sanity-check the final computed metric** using domain knowledge (e.g., a used car typically retains 30–80% of its new price).\n- **Document the unit assumptions and conversion logic** in the code.",
+      "checklist": [
+        "List all columns used in target metric",
+        "Print min, max, and sample values for each",
+        "Compare the raw ratio to a plausible range",
+        "Convert columns to common unit",
+        "Validate metric after conversion"
+      ],
+      "common_failure_prevented": "Producing nonsensical results (e.g., a price retention ratio of 0.00006) due to hidden unit mismatches.",
+      "keywords": [
+        "ratio",
+        "depreciation",
+        "retention",
+        "value",
+        "metric",
+        "calculate"
+      ],
+      "tags": [
+        "data cleaning",
+        "unit conversion",
+        "metric validation",
+        "sanity check"
+      ],
+      "source_cases": [
+        "dacomp-029"
+      ]
+    },
+    {
+      "title": "Assess data completeness before dropping records",
+      "when_to_use": "When a key variable for analysis has a significant amount of missing values.",
+      "experience": "- **Quantify missing values for every column planned for the analysis** before any filtering.\n- **Investigate the nature of missingness:** are missing values random or systematic (e.g., only for certain brands)?\n- **Consider imputation strategies** (mean, median, model-based) if appropriate and document assumptions.\n- **If dropping records, calculate the remaining sample size and representativeness** of each analysis group.\n- **Report the impact of missing data handling on the conclusions** (e.g., 'Analysis based on N complete cases').\n- **Where possible, perform sensitivity analysis** to see if results change with different missing-data treatments.",
+      "checklist": [
+        "Count missing values per key column",
+        "Check patterns of missingness across subgroups",
+        "Evaluate imputation vs. deletion",
+        "Document final sample size",
+        "Note limitations"
+      ],
+      "common_failure_prevented": "Uncritically dropping a large fraction of data (e.g., 46% of rows) without assessing bias or exploring alternatives.",
+      "keywords": [
+        "missing",
+        "incomplete",
+        "drop",
+        "clean",
+        "impute",
+        "sample"
+      ],
+      "tags": [
+        "data quality",
+        "missing data",
+        "sample bias",
+        "preprocessing"
+      ],
+      "source_cases": [
+        "dacomp-029"
+      ]
+    },
+    {
+      "title": "Anchor analysis on a clear operational definition",
+      "when_to_use": "When the task requires evaluating a business concept like 'buyback value', 'retention', or 'health score'.",
+      "experience": "- **Before coding, explicitly define the target metric in a formula** using available data fields.\n- **Validate that the formula aligns with the business context** (e.g., health score might combine ROI, cost, and trends).\n- **Create a prototype calculation for a few sample rows and review with domain sense**.\n- **If multiple definitions are possible, state your chosen definition and justification**.\n- **Ensure the metric can be computed reliably for a sufficient subset of the data**.\n- **Communicate the definition clearly in the final answer, including any assumptions.**",
+      "checklist": [
+        "Write down the metric formula",
+        "Test on sample data",
+        "Check against domain expectations",
+        "Document assumptions",
+        "Confirm computability"
+      ],
+      "common_failure_prevented": "Jumping into coding without a clear, validated definition of the core analytical metric, leading to misinterpretation (e.g., confusing ROI and ROAS).",
+      "keywords": [
+        "define",
+        "metric",
+        "formula",
+        "score",
+        "operationalize",
+        "concept"
+      ],
+      "tags": [
+        "metric definition",
+        "business alignment",
+        "assumptions",
+        "clarity"
+      ],
+      "source_cases": [
+        "dacomp-029",
+        "dacomp-058"
+      ]
+    },
+    {
+      "title": "Interpret text ranges and multi-value fields before distribution analysis",
+      "when_to_use": "When the task requires computing a distribution for numeric data stored as text ranges (e.g., salaries) or categorical lists (e.g., benefits).",
+      "experience": "- **Manually inspect unique raw values** to identify patterns (e.g., '5,000-10,000 yuan/month', 'Base salary: 3000+commission').\n- **Define a robust parsing function** using regex to extract target numeric values (e.g., lower bound, average) and handle edge cases.\n- **Validate parsed data** for missing values, impossible outliers, and logical consistency (e.g., lower bound > upper bound).\n- **For multi-value text fields, standardize delimiters and deduplicate near-identical terms** (e.g., 'Insurance' vs 'Social Insurance') before splitting and counting.",
+      "checklist": [
+        "Inspect unique raw values of the target column",
+        "Write and test a parsing function on a sample",
+        "Report the percentage of successfully parsed records",
+        "Standardize delimiters and clean text for list-type columns"
+      ],
+      "common_failure_prevented": "Producing an incorrect distribution due to misinterpreting the raw text format of ranges or lists.",
+      "keywords": [
+        "distribution",
+        "salary range",
+        "benefits",
+        "extract",
+        "parse",
+        "text data"
+      ],
+      "tags": [
+        "data cleaning",
+        "text parsing",
+        "distribution analysis"
+      ],
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "title": "Map data columns and filters to task requirements before exploration",
+      "when_to_use": "Starting any analysis where the required data columns or target population are not explicitly named in the task.",
+      "experience": "- **List which columns directly answer each part of the task** after inspecting the schema (e.g., 'starting salary' -> 'Salary Range').\n- **For each identified column, assess missing value rate, unique values, and sample data** to confirm suitability.\n- **If the analysis requires a subset, verify the filter condition** (e.g., `LIKE '%Vocational school%'`) by checking a sample of filtered rows.\n- **Count records after applying filters to confirm the analysis scope** and ensure it's not too small or mis-specified.",
+      "checklist": [
+        "List the exact column names needed for each sub-task",
+        "Sample unique values for categorical filter columns",
+        "Count records after applying filters to confirm scope",
+        "Check for NULLs in key numeric/text columns"
+      ],
+      "common_failure_prevented": "Wasting time on irrelevant columns or misinterpreting which data corresponds to the target population.",
+      "keywords": [
+        "columns",
+        "schema",
+        "filter",
+        "subset",
+        "validate",
+        "data quality"
+      ],
+      "tags": [
+        "data understanding",
+        "validation",
+        "exploratory data analysis"
+      ],
+      "source_cases": [
+        "dacomp-048"
+      ]
+    },
+    {
+      "title": "Construct analysis data model before querying or modeling",
+      "when_to_use": "When the analysis requires joining multiple tables, aggregating across granularities, or building a predictive model.",
+      "experience": "- **Identify the target analysis grain** (e.g., campaign-month, customer) and the dimensions belonging to separate tables.\n- **Map required metrics and the target variable to source tables**, documenting which need aggregation or derivation.\n- **Sketch the join strategy and feature engineering pipeline**, outlining necessary steps to avoid duplication and data leakage.\n- **Run preliminary queries to verify data availability** for key fields and the intended analysis subset.",
+      "checklist": [
+        "Define the primary grain of the analysis",
+        "List all metrics/targets and their source tables",
+        "Draft a query or pipeline skeleton with necessary joins and aggregations",
+        "Verify data availability for key fields"
+      ],
+      "common_failure_prevented": "Haphazard querying or modeling leading to incorrect aggregations, invalid comparisons, or irrelevant features.",
+      "keywords": [
+        "join",
+        "aggregate",
+        "granularity",
+        "tables",
+        "model",
+        "predict"
+      ],
+      "tags": [
+        "data modeling",
+        "SQL planning",
+        "schema understanding",
+        "feature engineering"
+      ],
+      "source_cases": [
+        "dacomp-058",
+        "dacomp-078"
+      ]
+    },
+    {
+      "title": "Design temporal validation for time-series predictions",
+      "when_to_use": "When the task requires predicting future trends or values over a specific time horizon.",
+      "experience": "- **Define the prediction horizon and the historical period needed** to create features (e.g., next 3 months vs. past 12 months).\n- **Split data temporally, not randomly**, respecting time order to prevent data leakage.\n- **Engineer time-based features** from the historical period (e.g., rolling averages, seasonality indicators).\n- **Validate model performance on out-of-time samples** to simulate real-world prediction accuracy.\n- **For trend prediction, define the target as a change metric** (e.g., slope) and ensure the model is trained to predict change.",
+      "checklist": [
+        "Define the prediction horizon and cutoff date",
+        "Split data temporally to prevent leakage",
+        "Engineer time-based features from history",
+        "Validate model on out-of-time data"
+      ],
+      "common_failure_prevented": "Using random train-test splits for time-series data, leading to over-optimistic performance and poor future predictions.",
+      "keywords": [
+        "predict trend",
+        "next 3 months",
+        "future value",
+        "time-series",
+        "forecast"
+      ],
+      "tags": [
+        "time-series",
+        "validation",
+        "forecasting"
+      ],
+      "source_cases": [
+        "dacomp-078"
+      ]
+    }
+  ],
+  "timestamp": "2026-03-07T15:12:26"
+}

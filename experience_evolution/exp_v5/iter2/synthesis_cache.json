@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "iteration": 2,
+  "case_ids": [
+    "dacomp-058",
+    "dacomp-060",
+    "dacomp-048",
+    "dacomp-069",
+    "dacomp-022",
+    "dacomp-035",
+    "dacomp-070",
+    "dacomp-098",
+    "dacomp-078",
+    "dacomp-029",
+    "dacomp-076",
+    "dacomp-094",
+    "dacomp-066",
+    "dacomp-027",
+    "dacomp-090"
+  ],
+  "synthesized_cards": [
+    {
+      "title": "Validate derived metrics by testing aggregation methods",
+      "when_to_use": "When the task asks to improve, compare, or analyze a derived metric like a ratio, rate, or efficiency score.",
+      "experience": "- **Define the metric formula explicitly** (e.g., `rate = numerator / denominator`).\n- **Calculate the metric both as a ratio of aggregates and an average of ratios** across the dataset to check for consistency.\n- **Investigate significant discrepancies**; they indicate a skewed distribution (e.g., outliers) that can distort segment-level comparisons.\n- **Decide on the correct aggregation method** based on the business logic (e.g., a company-wide conversion rate is a ratio of totals, not an average of per-user rates).\n- **Use the chosen consistent aggregation method** for all subsequent comparative analyses (e.g., by segment, category, or time period).",
+      "checklist": [
+        "Explicitly state the metric formula and units",
+        "Compute metric as ratio-of-aggregates and average-of-ratios",
+        "Resolve any major discrepancy before proceeding",
+        "Apply the chosen aggregation method consistently in all analyses"
+      ],
+      "common_failure_prevented": "Recommending suboptimal strategies based on an incorrectly aggregated primary metric (e.g., comparing average-of-ratios when the business goal depends on ratio-of-totals).",
+      "keywords": [
+        "per-unit",
+        "rate",
+        "efficiency",
+        "metric",
+        "compare",
+        "improve",
+        "ratio"
+      ],
+      "tags": [
+        "metric_definition",
+        "aggregation_logic",
+        "data_validation"
+      ],
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-029"
+      ]
+    },
+    {
+      "title": "Compare groups using normalized rates and composite business impact",
+      "when_to_use": "When the task asks to compare, prioritize, or find the 'best/worst' groups, categories, or segments.",
+      "experience": "- **Calculate normalized rates (e.g., per capita)** before comparing raw counts to control for group size differences.\n- **Report segment size and volume metrics** alongside average performance metrics.\n- **Flag small-sample segments** as potentially unreliable for generalization.\n- **When multiple metrics exist (e.g., frequency, severity), synthesize them into a single priority score** using business-informed weights.\n- **Rank segments by business impact**, considering both the metric difference and the segment's scale/volume.",
+      "checklist": [
+        "Compute normalized rate for each group if denominators differ",
+        "Report group size and volume alongside averages",
+        "Create a composite score if multiple ranking dimensions conflict",
+        "Prioritize findings with high practical impact (volume * delta)"
+      ],
+      "common_failure_prevented": "Prioritizing a large group with many events simply because it's large, or over-emphasizing a tiny segment with a high average but negligible overall impact.",
+      "keywords": [
+        "compare",
+        "which is better",
+        "prioritized",
+        "relatively weak",
+        "across groups",
+        "differences",
+        "categories"
+      ],
+      "tags": [
+        "comparative_analysis",
+        "normalization",
+        "business_impact",
+        "segment_analysis",
+        "prioritization"
+      ],
+      "source_cases": [
+        "dacomp-022",
+        "dacomp-035"
+      ]
+    },
+    {
+      "title": "Clean and parse inconsistent text formats systematically",
+      "when_to_use": "When analysis requires extracting numerical values or categories from free-text fields like prices, salaries, or mileage.",
+      "experience": "- **Audit distinct raw string patterns** in the column to identify all variations, units, and delimiters.\n- **Design a single parsing function** (e.g., using regex) to capture digits and handle unit keywords and conversions.\n- **Test the parsing function** on a sample of each distinct pattern to ensure full coverage.\n- **Create new, clean analysis columns** (e.g., numeric_min, numeric_max, category) from the parsed results.\n- **Document parsing assumptions and limitations** (e.g., 'assumed salary in thousands').",
+      "checklist": [
+        "Query distinct raw values and their frequencies",
+        "Design and test a parsing function covering all patterns",
+        "Create validated derived columns for analysis",
+        "Document assumptions and note unparseable entries"
+      ],
+      "common_failure_prevented": "Prevents computing distributions or correlations on unparsed text, leading to missing values, incorrect metrics, or failed analyses.",
+      "keywords": [
+        "parse",
+        "extract",
+        "string",
+        "text field",
+        "price",
+        "mileage",
+        "convert",
+        "yuan",
+        "km"
+      ],
+      "tags": [
+        "data_wrangling",
+        "text_parsing",
+        "feature_engineering",
+        "robustness"
+      ],
+      "source_cases": [
+        "dacomp-029",
+        "dacomp-048"
+      ]
+    },
+    {
+      "title": "Assess data completeness and validity before aggregating or modeling",
+      "when_to_use": "Before grouping data, performing statistical summaries, or building models to ensure representative results.",
+      "experience": "- **Check for missing values in key analysis columns** and calculate the missing rate per important group (e.g., per brand).\n- **Verify join logic and handle nulls** when combining tables; confirm expected row counts and that key fields are populated.\n- **Set a completeness threshold** for groups to be included in the analysis to avoid biased insights.\n- **Explicitly document** which groups are excluded due to insufficient data and summarize overall data coverage in findings.",
+      "checklist": [
+        "Calculate missing rate for key columns per analysis dimension",
+        "Test join logic on a sample to verify row counts and null handling",
+        "Define and apply a completeness threshold for group inclusion",
+        "Document data coverage limitations in the final analysis"
+      ],
+      "common_failure_prevented": "Prevents giving recommendations based on groups with mostly missing data, leading to unreliable or biased conclusions.",
+      "keywords": [
+        "missing",
+        "complete",
+        "coverage",
+        "group by",
+        "aggregate",
+        "join",
+        "based on historical data"
+      ],
+      "tags": [
+        "data_quality",
+        "missing_data",
+        "sampling_bias",
+        "data_validation",
+        "data_integrity"
+      ],
+      "source_cases": [
+        "dacomp-029",
+        "dacomp-035"
+      ]
+    },
+    {
+      "title": "Decompose complex analysis into sequential, validated phases",
+      "when_to_use": "When the task requires multiple interconnected steps like filtering, scoring, trend analysis, and comparative distribution.",
+      "experience": "- **Break the task into discrete, sequential phases** (e.g., 1. Data Filtering & Scoring, 2. Proportional Calculation, 3. Trend Detection).\n- **For each phase, define the input dataset, the specific operation, and the expected output**.\n- **Use the output of one phase as the confirmed input for the next**.\n- **Explicitly define logic for ambiguous steps** (e.g., what constitutes a 'deteriorating trend', how to calculate a 'proportion of').\n- **Validate each phase's output** (e.g., check calculations, review sample rows) before proceeding to the next.",
+      "checklist": [
+        "List all required analysis phases in logical order",
+        "Define input, operation, and output for each phase",
+        "Clarify ambiguous calculations (e.g., proportion denominator) in each phase",
+        "Validate phase output before moving to the next step"
+      ],
+      "common_failure_prevented": "Prevents conflating or omitting analysis steps, ensuring each part of a complex, multi-faceted request is fully and correctly addressed.",
+      "keywords": [
+        "simultaneously",
+        "further analyze",
+        "in conjunction with",
+        "trend",
+        "distribution characteristics",
+        "compared to",
+        "composite score",
+        "proportion of"
+      ],
+      "tags": [
+        "task_decomposition",
+        "pipeline",
+        "multi_step",
+        "workflow",
+        "validation"
+      ],
+      "source_cases": [
+        "dacomp-048",
+        "dacomp-090"
+      ]
+    },
+    {
+      "title": "Verify library dependencies and establish a testable baseline before modeling",
+      "when_to_use": "When starting to build or improve a predictive model using external libraries like scikit-learn.",
+      "experience": "- **Test library imports in the target environment** before writing extensive modeling code.\n- **Reproduce the existing model's performance** as a baseline to verify the starting point and data pipeline.\n- **Start with a simple model** (e.g., using one key new feature) and measure its incremental performance improvement.\n- **Add complexity gradually**, testing the impact of each new feature or hyperparameter change against the baseline.\n- **Document the modeling environment and assumptions** for reproducibility.",
+      "checklist": [
+        "Run a minimal script to test all required library imports",
+        "Reproduce and validate the baseline model's performance",
+        "Build and evaluate a simple model with one new component",
+        "Add complexity incrementally, measuring improvement at each step"
+      ],
+      "common_failure_prevented": "Wasting time building a complex model that fails due to environment issues or provides no measurable improvement over a simple baseline.",
+      "keywords": [
+        "improve accuracy",
+        "rebuild model",
+        "multi-dimensional",
+        "predict",
+        "machine learning",
+        "forecast",
+        "baseline"
+      ],
+      "tags": [
+        "model_development",
+        "environment_setup",
+        "dependency_management",
+        "evaluation",
+        "incremental_improvement"
+      ],
+      "source_cases": [
+        "dacomp-078"
+      ]
+    }
+  ],
+  "timestamp": "2026-03-07T12:49:28"
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Validate metric calculations before segment comparisons",
+    "when_to_use": "When the task asks for strategies to improve a derived metric like 'per-kilometer fare' or 'conversion rate'.",
+    "experience": "- **Explicitly define the primary metric** using a formula (e.g., `earnings_per_km = total_earnings / total_distance`).\n- **Check for mathematical consistency** by calculating the metric both as an average of ratios and as a ratio of averages/aggregates across your dataset.\n- **Investigate significant discrepancies**; a large difference signals a skewed distribution (e.g., outliers) that can distort segment-level comparisons.\n- **Decide on the correct aggregation method** for business logic (e.g., a driver's annual earnings is a ratio of totals, not an average of per-ride rates).\n- **Use the chosen consistent method** for all subsequent comparative analyses (e.g., by vehicle type or rating).",
+    "checklist": [
+      "Define metric formula clearly",
+      "Calculate metric as average-of-ratios and ratio-of-aggregates",
+      "Resolve discrepancies before proceeding",
+      "Use consistent aggregation in segment analysis"
+    ],
+    "common_failure_prevented": "Recommending suboptimal strategies based on an incorrectly aggregated primary metric (e.g., comparing average-of-ratios when the business goal depends on ratio-of-totals).",
+    "keywords": [
+      "per-unit",
+      "rate",
+      "efficiency",
+      "metric",
+      "compare",
+      "strategies"
+    ],
+    "tags": [
+      "metric_definition",
+      "aggregation_logic",
+      "data_validation"
+    ],
+    "source_criterion": "Calculation validity / Metric aggregation error",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Distinguish statistical significance from practical impact",
+    "when_to_use": "When comparing categories (e.g., vehicle types, rating groups) to inform a business decision.",
+    "experience": "- **Calculate both central tendency AND volume/scale** for each segment (e.g., avg fare per km AND total rides/earnings).\n- **Check segment sample sizes**; small-sample segments often have volatile averages that are not reliable for generalization.\n- **Prioritize findings with high volume and meaningful differences** for actionable recommendations. A tiny difference in average metric with large volume may be more impactful than a large difference in a tiny segment.\n- **Contextualize differences** (e.g., a 0.5% higher fare per km may be negligible versus operational costs or availability).",
+    "checklist": [
+      "Report segment size alongside averages",
+      "Flag small-sample segments as unreliable",
+      "Rank segments by business impact (volume * metric)",
+      "Comment on practical vs. statistical significance"
+    ],
+    "common_failure_prevented": "Over-emphasizing a segment with a high average but negligible contribution to the overall goal due to small sample size.",
+    "keywords": [
+      "compare",
+      "which is better",
+      "strategies",
+      "categories",
+      "groups",
+      "differences"
+    ],
+    "tags": [
+      "statistical_significance",
+      "business_impact",
+      "segment_analysis"
+    ],
+    "source_criterion": "Analysis depth / Ignoring segment volume and practical impact",
+    "source_case": "dacomp-022"
+  },
+  {
+    "title": "Anchor exploratory analysis to the operational goal",
+    "when_to_use": "When the analysis involves exploring multiple dimensions (e.g., vehicle type, rating, time, payment method) without clear priority.",
+    "experience": "- **Explicitly state the operational lever** the user can control (e.g., 'choose Vehicle Type', 'maintain a rating').\n- **For each lever, quantify its potential impact** on the final goal (e.g., switching from the worst to best vehicle type increases annual earnings by X%).\n- **Disqualify non-actionable or unchangeable factors** from final recommendations after initial exploration (e.g., time of day is not a 'strategy' a driver can reliably choose).\n- **Structure the final recommendation** around the controllable levers, presenting the optimal choice(s) and the expected benefit.",
+    "checklist": [
+      "List user's controllable levers from the task",
+      "For each lever, compute its impact on goal",
+      "Filter out non-actionable insights from final advice",
+      "Present recommendation as: do X to achieve Y improvement"
+    ],
+    "common_failure_prevented": "Wandering into exploratory dimensions irrelevant to the user's actionable decisions, failing to deliver a clear, lever-based recommendation.",
+    "keywords": [
+      "strategies",
+      "achieve",
+      "how to",
+      "improve",
+      "recommend",
+      "actionable"
+    ],
+    "tags": [
+      "actionable_insights",
+      "business_question",
+      "recommendation_structure"
+    ],
+    "source_criterion": "Recommendations relevance / Lack of actionable, lever-based advice",
+    "source_case": "dacomp-022"
+  }
+]

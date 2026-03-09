@@ -1,0 +1,88 @@
+[
+  {
+    "title": "Decompose abstract scoring formulas into executable calculation steps",
+    "when_to_use": "When the task requests calculating a composite index, score, or weighted metric.",
+    "experience": "- **Isolate and validate each component metric** before applying weights. \n- **Explicitly define the handling of missing or invalid data** for each component (e.g., fill, drop). \n- **Map formula variables to exact database column names or derived sub-queries**. \n- **Calculate and sanity-check intermediate values** before final aggregation. \n- **Test the final calculation on a small, known sample** to verify logical correctness.",
+    "checklist": [
+      "List all variables in the formula",
+      "Map each variable to a data source column",
+      "Validate the data range/domain for each variable",
+      "Calculate and review intermediate results",
+      "Test final score on a control group"
+    ],
+    "common_failure_prevented": "Prevents miscalculating key metrics due to incorrect variable mapping or aggregation logic.",
+    "keywords": [
+      "composite score",
+      "risk score",
+      "weighted metric",
+      "index",
+      "calculate a formula"
+    ],
+    "tags": [
+      "calculation",
+      "formula",
+      "validation",
+      "data-mapping"
+    ],
+    "source_criterion": "Failure to correctly compute the specified risk score formula.",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Clarify ambiguous proportional calculations before execution",
+    "when_to_use": "When the task asks to calculate a 'proportion of' one group relative to a total.",
+    "experience": "- **Explicitly define the numerator group** using precise filtering logic. \n- **Explicitly define the denominator population** (e.g., 'all customers' may mean all in a table, all in a period, all ever). \n- **Ensure the metrics being summed (e.g., profit) are comparable** and on the same basis for both groups. \n- **Verify the join or linking logic between tables** is correct for the proportion's context. \n- **State the assumed scope** (e.g., 'for the current fiscal year') in the calculation notes.",
+    "checklist": [
+      "Define numerator filter logic",
+      "Define denominator scope",
+      "Confirm metric comparability",
+      "Check table join conditions",
+      "Document scope assumptions"
+    ],
+    "common_failure_prevented": "Prevents calculating proportions with misaligned scopes, leading to meaningless or incorrect percentages.",
+    "keywords": [
+      "proportion of",
+      "percentage of",
+      "share of total",
+      "relative to all",
+      "contribution to"
+    ],
+    "tags": [
+      "aggregation",
+      "scope",
+      "definition",
+      "comparison"
+    ],
+    "source_criterion": "Failure to correctly calculate the proportion of high-risk customers' gross profit to total profit.",
+    "source_case": "dacomp-090"
+  },
+  {
+    "title": "Formalize multi-step analysis by separating data retrieval, calculation, and trend detection",
+    "when_to_use": "When a task combines filtering, scoring, trend analysis, and comparative distribution analysis in one request.",
+    "experience": "- **Break the task into discrete, sequential analysis phases** (e.g., 1. Filter & Score, 2. Proportional Calculation, 3. Trend Analysis, 4. Comparative Distribution). \n- **For each phase, define the input dataset, the operation, and the output**. \n- **Use the output of one phase as the confirmed input for the next**. \n- **For trend analysis, explicitly define the time series variable, the period, and the method for identifying 'deterioration'** (e.g., consecutive months of decline). \n- **For comparative distribution analysis, define the 'problem' group and the 'normal' baseline group before calculating statistics.**",
+    "checklist": [
+      "List required analysis phases",
+      "Define input/output for each phase",
+      "Specify trend detection logic",
+      "Define comparison groups",
+      "Document the analysis pipeline"
+    ],
+    "common_failure_prevented": "Prevents conflating or omitting analysis steps, ensuring each part of a complex request is fully addressed.",
+    "keywords": [
+      "simultaneously",
+      "further analyze",
+      "in conjunction with",
+      "trend",
+      "distribution characteristics",
+      "compared to"
+    ],
+    "tags": [
+      "pipeline",
+      "multi-step",
+      "workflow",
+      "trend-analysis",
+      "comparison"
+    ],
+    "source_criterion": "Failure to properly execute the interconnected steps for trend analysis and comparative distribution.",
+    "source_case": "dacomp-090"
+  }
+]

@@ -1,0 +1,83 @@
+[
+  {
+    "title": "Define Past and Future Windows Before Feature Engineering",
+    "when_to_use": "Tasks requiring predictive modeling or time-based trend analysis from historical data.",
+    "experience": "- **Explicitly set reference dates**: For each entity (e.g., account, visitor), define a `prediction_date`. For model training, ensure this date is consistent across the dataset (e.g., use a fixed date or the last date in the dataset).\n- **Create a past window**: Define the period (e.g., the 6 months prior to the `prediction_date`) used to calculate input features. Ensure all feature calculations are strictly limited to data within this past window.\n- **Create a future window**: Define the period (e.g., the 3 months following the `prediction_date`) used to define target labels for prediction. Use this future window to calculate outcomes like future engagement or value changes.\n- **Implement window logic in data pipeline**: Write SQL or Python code that joins tables and filters data based on these date windows for every entity. Do not use aggregate lifetime metrics that span beyond the past window.\n- **Audit for leakage**: After building features, write a verification script to confirm no future-window data (after `prediction_date`) is included in the feature calculation.",
+    "checklist": [
+      "Define a clear `prediction_date` for each record.",
+      "Calculate features using data only before the `prediction_date`.",
+      "Calculate labels using data only after the `prediction_date`.",
+      "Write and run a script to validate no label data appears in features."
+    ],
+    "common_failure_prevented": "Prevents data leakage by ensuring features are not contaminated with future information, a core failure observed in Requirement 1/Criterion 1.2.",
+    "keywords": [
+      "predict",
+      "future",
+      "trend",
+      "historical",
+      "window",
+      "leakage"
+    ],
+    "tags": [
+      "time-series",
+      "data-leakage",
+      "feature-engineering"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.2",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Ground Truth Labels Must Be Derived from Future Outcomes",
+    "when_to_use": "Tasks requiring identification or classification of future high-value, churn, or risky entities.",
+    "experience": "- **Avoid static or heuristic labels**: Do not define target labels (e.g., 'high-value') based solely on historical aggregates or business rules.\n- **Define label based on future-window activity**: For example, a 'high-value' label could be assigned if an account's total minutes in the future window exceeds a threshold (e.g., top 25% percentile).\n- **Use future-to-past ratios for trend labels**: For predicting improvement or decline, calculate a metric (e.g., engagement minutes) in the future window and compare it to the same metric in the past window to define categories (e.g., 'upward' if ratio > 1.1).\n- **Make labels window-specific**: The label (e.g., threshold for 'high-value') should be calculated separately for different time cohorts or windows if applicable.\n- **Validate label definition**: Ensure the label aligns with the business objective (e.g., predicting *future* value) and is reproducible from the defined future window.",
+    "checklist": [
+      "Define target variable using data from the future window only.",
+      "Use quantitative future metrics (sum, percentile) to create labels.",
+      "For trends, compute a ratio of future/past activity.",
+      "Ensure label logic is applied consistently across all entities."
+    ],
+    "common_failure_prevented": "Prevents creating a non-predictive target variable that is not based on future performance, a failure observed in Requirement 1/Criterion 1.3 and Requirement 3/Criterion 3.1.",
+    "keywords": [
+      "label",
+      "target",
+      "high-value",
+      "churn",
+      "outcome",
+      "future"
+    ],
+    "tags": [
+      "supervised-learning",
+      "label-construction",
+      "prediction"
+    ],
+    "source_criterion": "Requirement 1/Criterion 1.3, Requirement 3/Criterion 3.1",
+    "source_case": "dacomp-078"
+  },
+  {
+    "title": "Build and Validate a Trained Model, Not Just a Heuristic Score",
+    "when_to_use": "Tasks requiring identification or classification with a target performance metric (e.g., 'accuracy over 85%').",
+    "experience": "- **Never stop at a heuristic score**: A weighted sum of normalized features is not a predictive model. Use supervised learning (classification/regression) when a target label exists.\n- **Split data temporally**: Reserve the most recent period as a hold-out test set to evaluate performance on unseen future data. Never test on the same data used for training.\n- **Train and evaluate a model**: Use algorithms (e.g., Random Forest, XGBoost) to learn the relationship between past-window features and the future-window label. Report standard metrics (Precision, Recall, AUC) on the test set.\n- **Compare against a baseline**: Compare the model's performance against a simple rule or the existing model to demonstrate improvement.\n- **Tune to achieve target metrics**: Adjust model hyperparameters or decision thresholds to meet the specified performance target (e.g., precision > 0.85).",
+    "checklist": [
+      "Split data into training and test sets based on time.",
+      "Train at least one supervised learning model.",
+      "Evaluate model on test set using precision, recall, and AUC.",
+      "Adjust model or threshold to meet the business's target metric."
+    ],
+    "common_failure_prevented": "Prevents delivering an unvalidated, non-predictive scoring system that fails to meet accuracy targets, a failure observed in Requirement 2/Criterion 2.2 and Criterion 2.3.",
+    "keywords": [
+      "model",
+      "accuracy",
+      "AUC",
+      "precision",
+      "train",
+      "validate"
+    ],
+    "tags": [
+      "model-validation",
+      "supervised-learning",
+      "performance-metrics"
+    ],
+    "source_criterion": "Requirement 2/Criterion 2.2, Requirement 2/Criterion 2.3",
+    "source_case": "dacomp-078"
+  }
+]
